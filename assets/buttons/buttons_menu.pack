@@ -1,0 +1,47 @@
+
+buttons_menu.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+bPlay_down
+  rotate: false
+  xy: 1, 93
+  size: 190, 90
+  orig: 190, 90
+  offset: 0, 0
+  index: -1
+bPlay_up
+  rotate: false
+  xy: 1, 1
+  size: 190, 90
+  orig: 190, 90
+  offset: 0, 0
+  index: -1
+bSettings_down
+  rotate: false
+  xy: 193, 93
+  size: 190, 90
+  orig: 190, 90
+  offset: 0, 0
+  index: -1
+bSettings_up
+  rotate: false
+  xy: 193, 1
+  size: 190, 90
+  orig: 190, 90
+  offset: 0, 0
+  index: -1
+bExit_down
+  rotate: false
+  xy: 385, 93
+  size: 170, 90
+  orig: 170, 90
+  offset: 0, 0
+  index: -1
+bExit_up
+  rotate: false
+  xy: 385, 1
+  size: 170, 90
+  orig: 170, 90
+  offset: 0, 0
+  index: -1
