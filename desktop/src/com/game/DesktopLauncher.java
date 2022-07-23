@@ -11,15 +11,10 @@ import org.lwjgl.system.windows.RECT;
 import java.awt.*;
 
 import static com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration.getDisplayMode;
-import static org.lwjgl.system.windows.User32.GetSystemMetrics;
-import static org.lwjgl.system.windows.User32.SM_CYSCREEN;
+
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-		//Dimension scrnSize = Toolkit.getDefaultToolkit().getScreenSize();
-		//Rectangle winSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-		//int taskBarHeight = scrnSize.height - winSize.height;
-
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setResizable(false);

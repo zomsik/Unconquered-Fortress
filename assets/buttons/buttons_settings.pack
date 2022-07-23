@@ -1,0 +1,26 @@
+
+buttons_settings.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+resolutionTextBar
+  rotate: false
+  xy: 1, 1
+  size: 128, 32
+  orig: 128, 32
+  offset: 0, 0
+  index: -1
+resolutionButtonLeft
+  rotate: false
+  xy: 131, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+resolutionButtonRight
+  rotate: false
+  xy: 165, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
