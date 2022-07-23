@@ -150,7 +150,7 @@ public class SettingsScreen implements Screen {
         table_resolution.add(bRight);
         table_default.add(bBack);
         table_default.add(bSave);
-        //table_resolution.debug();
+        table_resolution.debug();
         table_default.debug();
         stage.addActor(table_resolution);
         stage.addActor(table_default);
