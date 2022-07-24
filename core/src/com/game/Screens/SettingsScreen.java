@@ -1,7 +1,6 @@
 package com.game.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -20,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.game.Main;
-import jdk.internal.org.jline.utils.Display;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -30,7 +27,7 @@ public class SettingsScreen implements Screen {
     private Stage stage;
     private Texture background;
     private BitmapFont font;
-    private TextureAtlas buttons, buttons_default;
+    private TextureAtlas buttons_settings, buttons_default;
     private Skin images, images_default;
     private TextButton bLeft, bRight, bBack, bSave;
     private Table table_resolution, table_default;
@@ -57,12 +54,12 @@ public class SettingsScreen implements Screen {
         font = generator.generateFont(parameter);
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        buttons = new TextureAtlas("assets/buttons/buttons_settings.pack");
+        buttons_settings = new TextureAtlas("assets/buttons/buttons_settings.pack");
         buttons_default = new TextureAtlas("assets/buttons/buttons_default.pack");
-        images = new Skin(buttons);
+        images = new Skin(buttons_settings);
         images_default = new Skin(buttons_default);
         table_resolution = new Table(images);
-        table_resolution.setBounds(200,800, 208,32);
+        table_resolution.setBounds(800,800, 500,32);
         table_default = new Table(images_default);
         table_default.setBounds(700, 100, 500,200);
         TextButton.TextButtonStyle textButtonStyle_bLeft = new TextButton.TextButtonStyle();
@@ -133,13 +130,20 @@ public class SettingsScreen implements Screen {
         bSave.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
+                //Problem z ustawieniem właściwego displaymode-a, tablica mode-ów jest zależna od monitora
+                //1920x1080 tylko w fullscreenie, reszta rozdzielczoci windowed
+                //Graphics.DisplayMode[] displayModes = Gdx.graphics.getDisplayModes();
+
                 if(resolution_field.getText().equals(resolutions.get(0)))
                 {
                     Gdx.graphics.setWindowedMode(1920,1000);
+                    //Gdx.graphics.setFullscreenMode(displayModes[44]);
                 } else if (resolution_field.getText().equals(resolutions.get(2))) {
-                    Gdx.graphics.setWindowedMode(1600,900);
+                    Gdx.graphics.setWindowedMode(1280,720);
+                    //Gdx.graphics.setFullscreenMode(displayModes[19]);
                 }else if (Objects.equals(resolution_field.getText(), resolutions.get(1))) {
                     Gdx.graphics.setWindowedMode(1600,900);
+                    //Gdx.graphics.setFullscreenMode(displayModes[30]);
                 }
             }
         });
