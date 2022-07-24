@@ -10,16 +10,30 @@ resolutionTextBar
   orig: 320, 32
   offset: 0, 0
   index: -1
-resolutionButtonLeft
+resolutionButtonLeft_down
   rotate: false
   xy: 323, 1
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-resolutionButtonRight
+resolutionButtonLeft_up
   rotate: false
   xy: 357, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+resolutionButtonRight_down
+  rotate: false
+  xy: 391, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+resolutionButtonRight_up
+  rotate: false
+  xy: 425, 1
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

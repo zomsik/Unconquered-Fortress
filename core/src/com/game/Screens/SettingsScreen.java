@@ -43,9 +43,9 @@ public class SettingsScreen implements Screen {
     @Override
     public void show() {
         resolutions = new ArrayList<String>();
-        resolutions.add("1920x1080");
-        resolutions.add("1600x900");
-        resolutions.add("1280x720");
+        resolutions.add("1920x1080 Fullscreen");
+        resolutions.add("1600x900 Windowed");
+        resolutions.add("1280x720 Windowed");
         generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 15;
@@ -64,13 +64,13 @@ public class SettingsScreen implements Screen {
         table_default.setBounds(700, 100, 500,200);
         TextButton.TextButtonStyle textButtonStyle_bLeft = new TextButton.TextButtonStyle();
         TextButton.TextButtonStyle textButtonStyle_bRight = new TextButton.TextButtonStyle();
-        textButtonStyle_bLeft.up = images.getDrawable("resolutionButtonLeft");
-        textButtonStyle_bLeft.down = images.getDrawable("resolutionButtonLeft"); //TODO add pressed buttons
+        textButtonStyle_bLeft.up = images.getDrawable("resolutionButtonLeft_up");
+        textButtonStyle_bLeft.down = images.getDrawable("resolutionButtonLeft_down");
         textButtonStyle_bLeft.pressedOffsetX = 1;
         textButtonStyle_bLeft.pressedOffsetY = -1;
         textButtonStyle_bLeft.font = font;
-        textButtonStyle_bRight.up = images.getDrawable("resolutionButtonRight");
-        textButtonStyle_bRight.down = images.getDrawable("resolutionButtonRight"); //TODO add pressed buttons
+        textButtonStyle_bRight.up = images.getDrawable("resolutionButtonRight_up");
+        textButtonStyle_bRight.down = images.getDrawable("resolutionButtonRight_down");
         textButtonStyle_bRight.pressedOffsetX = 1;
         textButtonStyle_bRight.pressedOffsetY = -1;
         textButtonStyle_bRight.font = font;
@@ -150,7 +150,7 @@ public class SettingsScreen implements Screen {
         resolution_field = new TextField(resolutions.get(0),textFieldStyle);
         resolution_field.setAlignment(Align.center);
         table_resolution.add(bLeft);
-        table_resolution.add(resolution_field);
+        table_resolution.add(resolution_field).width(320);
         table_resolution.add(bRight);
         table_default.add(bBack);
         table_default.add(bSave);
