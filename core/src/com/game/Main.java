@@ -2,12 +2,8 @@ package com.game;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.game.Manager.Resolutions;
 import com.game.Screens.MenuScreen;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 
 public class Main extends Game {
 	public SpriteBatch batch;

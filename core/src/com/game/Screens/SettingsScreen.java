@@ -21,7 +21,6 @@ import com.game.Main;
 import com.game.Manager.Resolutions;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Objects;
 
 public class SettingsScreen implements Screen {
@@ -186,7 +185,7 @@ public class SettingsScreen implements Screen {
     public void initSettingsUI(){
         background = new Texture("background.png");
         resolutions = new ArrayList<>();
-        resolutions = resolutionsClass.getResolutions();
+        resolutions = resolutionsClass.getResolutionsArrayList();
         generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         stage = new Stage();

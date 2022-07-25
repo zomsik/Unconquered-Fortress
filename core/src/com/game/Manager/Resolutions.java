@@ -5,19 +5,24 @@ import com.badlogic.gdx.Graphics;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+
 public class Resolutions {
-    private ArrayList<String> resolutions;
+    private HashSet<String> resolutions;
+    private ArrayList<String> resolutionsArrayList;
     public Resolutions(){
-        resolutions = new ArrayList<>();
+        resolutions = new HashSet<>();
         setResolutions(resolutions);
+        hashToArray(resolutions);
     }
 
-    private ArrayList<String> setResolutions(ArrayList<String> resolutions){
+    private HashSet<String> setResolutions(HashSet<String> resolutions){
         //Utworzenie tablicy wszystkich możliwych konfiguracji
         Graphics.DisplayMode[] modes = Gdx.graphics.getDisplayModes();
         //Utworzenie zmiennej przechowującej aktualną konfigurację
         Graphics.DisplayMode currentMode = Gdx.graphics.getDisplayMode();
-        //Utworzenie ArrayListy konfiguracji o maxymalnie trzech wartościach (1280x720, 1600x900, 1920x1080)
+        //Utworzenie Hashsetu konfiguracji o maxymalnie trzech wartościach (1280x720, 1600x900, 1920x1080)
+        //Eliminacja duplikatów jeżeli jedna z konfiguracji jest konfiguracją domyślną
         for(int i=0; i<modes.length; i++){
             if(modes[i].width == 1280 && modes[i].height == 720 && modes[i].bitsPerPixel == currentMode.bitsPerPixel && modes[i].refreshRate == currentMode.refreshRate)
             {
@@ -43,11 +48,14 @@ public class Resolutions {
                 resolutions.add(modes[i].width + " X " + modes[i].height + " Fullscreen");
             }
         }
-        //Odwrócenie ArrayListy aby zawsze była pokazywana aktualna rozdzielczość jako pierwsza
-        Collections.reverse(resolutions);
         return resolutions;
     }
-    public ArrayList<String> getResolutions() {
-        return resolutions;
+    private ArrayList<String> hashToArray(HashSet<String> resolutions){
+        //Utworzenie ArrayListy z HashSetu
+        resolutionsArrayList = new ArrayList<>(resolutions);
+        return resolutionsArrayList;
+    }
+    public ArrayList<String> getResolutionsArrayList() {
+        return resolutionsArrayList;
     }
 }
