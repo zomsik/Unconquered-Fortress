@@ -18,8 +18,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.game.Main;
+import com.game.Manager.Resolutions;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class SettingsScreen implements Screen {
@@ -31,39 +33,29 @@ public class SettingsScreen implements Screen {
     private Skin images, images_default;
     private TextButton bLeft, bRight, bBack, bSave;
     private Table table_resolution, table_default;
-    private TextField resolution_field;
+    private TextField resolution_field, resolution_field_text;
     private ArrayList<String> resolutions;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+    private TextButton.TextButtonStyle textButtonStyle_bLeft, textButtonStyle_bRight, textButtonStyle_bBack, textButtonStyle_bSave;
+    private TextField.TextFieldStyle textFieldStyle;
+
+    private Resolutions resolutionsClass;
+
     public SettingsScreen(Main game){
         this.game = game;
-        background = new Texture("background.png");
+        resolutionsClass = new Resolutions();
+        initSettingsUI();
     }
 
     @Override
     public void show() {
-        resolutions = new ArrayList<String>();
-        resolutions.add("1920x1080 Fullscreen");
-        resolutions.add("1600x900 Windowed");
-        resolutions.add("1280x720 Windowed");
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
-        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        Gdx.input.setInputProcessor(stage);
         parameter.size = 15;
         parameter.color = Color.WHITE;
-        font = new BitmapFont();
         font = generator.generateFont(parameter);
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
-        buttons_settings = new TextureAtlas("assets/buttons/buttons_settings.pack");
-        buttons_default = new TextureAtlas("assets/buttons/buttons_default.pack");
-        images = new Skin(buttons_settings);
-        images_default = new Skin(buttons_default);
-        table_resolution = new Table(images);
         table_resolution.setBounds(800,800, 500,32);
-        table_default = new Table(images_default);
         table_default.setBounds(700, 100, 500,200);
-        TextButton.TextButtonStyle textButtonStyle_bLeft = new TextButton.TextButtonStyle();
-        TextButton.TextButtonStyle textButtonStyle_bRight = new TextButton.TextButtonStyle();
         textButtonStyle_bLeft.up = images.getDrawable("resolutionButtonLeft_up");
         textButtonStyle_bLeft.down = images.getDrawable("resolutionButtonLeft_down");
         textButtonStyle_bLeft.pressedOffsetX = 1;
@@ -74,8 +66,6 @@ public class SettingsScreen implements Screen {
         textButtonStyle_bRight.pressedOffsetX = 1;
         textButtonStyle_bRight.pressedOffsetY = -1;
         textButtonStyle_bRight.font = font;
-        TextButton.TextButtonStyle textButtonStyle_bBack = new TextButton.TextButtonStyle();
-        TextButton.TextButtonStyle textButtonStyle_bSave = new TextButton.TextButtonStyle();
         textButtonStyle_bBack.up = images_default.getDrawable("defaultButton");
         textButtonStyle_bBack.down = images_default.getDrawable("defaultButton"); //TODO add pressed buttons
         textButtonStyle_bBack.pressedOffsetX = 1;
@@ -86,7 +76,6 @@ public class SettingsScreen implements Screen {
         textButtonStyle_bSave.pressedOffsetX = 1;
         textButtonStyle_bSave.pressedOffsetY = -1;
         textButtonStyle_bSave.font = font;
-        TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
         textFieldStyle.background = images.getDrawable("resolutionTextBar");
         textFieldStyle.font = font;
         textFieldStyle.fontColor = Color.WHITE;
@@ -137,24 +126,24 @@ public class SettingsScreen implements Screen {
                 if(resolution_field.getText().equals(resolutions.get(0)))
                 {
                     Gdx.graphics.setWindowedMode(1920,1000);
-                    //Gdx.graphics.setFullscreenMode(displayModes[44]);
                 } else if (resolution_field.getText().equals(resolutions.get(2))) {
                     Gdx.graphics.setWindowedMode(1280,720);
-                    //Gdx.graphics.setFullscreenMode(displayModes[19]);
                 }else if (Objects.equals(resolution_field.getText(), resolutions.get(1))) {
                     Gdx.graphics.setWindowedMode(1600,900);
-                    //Gdx.graphics.setFullscreenMode(displayModes[30]);
                 }
             }
         });
         resolution_field = new TextField(resolutions.get(0),textFieldStyle);
+        resolution_field_text = new TextField("Resolution", textFieldStyle);
+        resolution_field_text.setAlignment(Align.center);
         resolution_field.setAlignment(Align.center);
+        table_resolution.add(resolution_field_text).padRight(100);
         table_resolution.add(bLeft);
         table_resolution.add(resolution_field).width(320);
         table_resolution.add(bRight);
         table_default.add(bBack);
         table_default.add(bSave);
-        table_resolution.debug();
+        //table_resolution.debug();
         table_default.debug();
         stage.addActor(table_resolution);
         stage.addActor(table_default);
@@ -194,5 +183,24 @@ public class SettingsScreen implements Screen {
     public void dispose() {
 
     }
-
+    public void initSettingsUI(){
+        background = new Texture("background.png");
+        resolutions = new ArrayList<>();
+        resolutions = resolutionsClass.getResolutions();
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        stage = new Stage();
+        font = new BitmapFont();
+        buttons_settings = new TextureAtlas("assets/buttons/buttons_settings.pack");
+        buttons_default = new TextureAtlas("assets/buttons/buttons_default.pack");
+        images = new Skin(buttons_settings);
+        images_default = new Skin(buttons_default);
+        table_resolution = new Table(images);
+        table_default = new Table(images_default);
+        textButtonStyle_bLeft = new TextButton.TextButtonStyle();
+        textButtonStyle_bRight = new TextButton.TextButtonStyle();
+        textButtonStyle_bBack = new TextButton.TextButtonStyle();
+        textButtonStyle_bSave = new TextButton.TextButtonStyle();
+        textFieldStyle = new TextField.TextFieldStyle();
+    }
 }

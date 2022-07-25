@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.Main;
+import com.game.Manager.Resolutions;
 
 public class MenuScreen implements Screen  {
     private Main game;
@@ -27,10 +28,12 @@ public class MenuScreen implements Screen  {
     public Stage stage;
     public Table table_bExit, table_bPlay, table_bSettings;
     private SettingsScreen settingsScreen;
+
     public MenuScreen(Main game){
         this.game = game;
         background = new Texture("background_menu.png");
         settingsScreen = new SettingsScreen(game);
+
     }
     @Override
     public void show() {
