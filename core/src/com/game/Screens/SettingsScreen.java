@@ -26,6 +26,8 @@ import jdk.internal.org.jline.utils.Display;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SettingsScreen implements Screen {
     private Main game;
@@ -173,7 +175,27 @@ public class SettingsScreen implements Screen {
                 dispose();
             }
         });
-        resolution_field = new TextField(resolutions.get(0),textFieldStyle);
+        if(Gdx.graphics.getWidth() == 1920){
+            if(resolutions.contains("1920 X 1080 Fullscreen")){
+                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Fullscreen")),textFieldStyle);
+            }else if(resolutions.contains("1920 X 1080 Windowed")){
+                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Windowed")),textFieldStyle);
+            }
+
+        }else if(Gdx.graphics.getWidth() == 1280){
+            if(resolutions.contains("1280 X 720 Fullscreen")){
+                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1280 X 720 Fullscreen")),textFieldStyle);
+            }else if(resolutions.contains("1280 X 720 Windowed")){
+                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1280 X 720 Windowed")),textFieldStyle);
+            }
+        }else{
+            if(resolutions.contains("1600 X 900 Fullscreen")){
+                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Fullscreen")),textFieldStyle);
+            }else if(resolutions.contains("1600 X 900 Windowed")){
+                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Windowed")),textFieldStyle);
+            }
+        }
+        //resolution_field = new TextField(resolutions.get(0),textFieldStyle);
         resolution_field_text = new TextField("Resolution", textFieldStyle);
         resolution_field_text.setAlignment(Align.center);
         resolution_field.setAlignment(Align.center);
