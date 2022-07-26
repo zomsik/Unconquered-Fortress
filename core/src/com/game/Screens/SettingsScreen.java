@@ -1,6 +1,7 @@
 package com.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.game.Main;
 import com.game.Manager.Resolutions;
+import jdk.internal.org.jline.utils.Display;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -83,27 +85,57 @@ public class SettingsScreen implements Screen {
         bRight.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                if(resolution_field.getText().equals(resolutions.get(0)))
-                {
-                    resolution_field.setText(resolutions.get(1));
-                } else if (resolution_field.getText().equals(resolutions.get(1))) {
-                    resolution_field.setText(resolutions.get(2));
-                }else if (Objects.equals(resolution_field.getText(), resolutions.get(2))) {
-                    resolution_field.setText(resolutions.get(0));
+                if(resolutions.size() == 3){
+                    if(resolution_field.getText().equals(resolutions.get(0)))
+                    {
+                        resolution_field.setText(resolutions.get(1));
+                    } else if (resolution_field.getText().equals(resolutions.get(1))) {
+                        resolution_field.setText(resolutions.get(2));
+                    }else if (Objects.equals(resolution_field.getText(), resolutions.get(2))) {
+                        resolution_field.setText(resolutions.get(0));
+                    }
+                }else if(resolutions.size() == 2){
+                    if(resolution_field.getText().equals(resolutions.get(0)))
+                    {
+                        resolution_field.setText(resolutions.get(1));
+                    } else if (resolution_field.getText().equals(resolutions.get(1))) {
+                        resolution_field.setText(resolutions.get(0));
+                    }
                 }
+                else if(resolutions.size() == 1){
+                    if(resolution_field.getText().equals(resolutions.get(0))) {
+                        resolution_field.setText(resolutions.get(0));
+                    }
+                }
+
             }
         });
         bLeft.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                if(resolution_field.getText().equals(resolutions.get(0)))
-                {
-                    resolution_field.setText(resolutions.get(2));
-                } else if (resolution_field.getText().equals(resolutions.get(2))) {
-                    resolution_field.setText(resolutions.get(1));
-                }else if (Objects.equals(resolution_field.getText(), resolutions.get(1))) {
-                    resolution_field.setText(resolutions.get(0));
+                if(resolutions.size() == 3){
+                    if(resolution_field.getText().equals(resolutions.get(0)))
+                    {
+                        resolution_field.setText(resolutions.get(2));
+                    } else if (resolution_field.getText().equals(resolutions.get(2))) {
+                        resolution_field.setText(resolutions.get(1));
+                    }else if (Objects.equals(resolution_field.getText(), resolutions.get(1))) {
+                        resolution_field.setText(resolutions.get(0));
+                    }
+                }else if(resolutions.size() == 2){
+                    if(resolution_field.getText().equals(resolutions.get(0)))
+                    {
+                        resolution_field.setText(resolutions.get(1));
+                    }else if (Objects.equals(resolution_field.getText(), resolutions.get(1))) {
+                        resolution_field.setText(resolutions.get(0));
+                    }
+                }else if(resolutions.size() == 1){
+                    if(resolution_field.getText().equals(resolutions.get(0)))
+                    {
+                        resolution_field.setText(resolutions.get(0));
+                    }
                 }
+
             }
         });
         bBack = new TextButton("Back", textButtonStyle_bBack);
@@ -115,6 +147,7 @@ public class SettingsScreen implements Screen {
                 dispose();
             }
         });
+        System.out.println(resolutions);
         bSave.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -122,12 +155,14 @@ public class SettingsScreen implements Screen {
                 //1920x1080 tylko w fullscreenie, reszta rozdzielczoci windowed
                 //Graphics.DisplayMode[] displayModes = Gdx.graphics.getDisplayModes();
 
-                if(resolution_field.getText().equals(resolutions.get(0)))
+                if(resolution_field.getText().equals("1920 X 1080 Fullscreen") || resolution_field.getText().equals("1280 X 720 Fullscreen") || resolution_field.getText().equals("1600 X 900 Fullscreen"))
                 {
-                    Gdx.graphics.setWindowedMode(1920,1000);
-                } else if (resolution_field.getText().equals(resolutions.get(2))) {
+                    Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+                } else if (resolution_field.getText().equals("1920 X 1080 Windowed")) {
+                    Gdx.graphics.setWindowedMode(1920,1080);
+                }else if (resolution_field.getText().equals("1280 X 720 Windowed")) {
                     Gdx.graphics.setWindowedMode(1280,720);
-                }else if (Objects.equals(resolution_field.getText(), resolutions.get(1))) {
+                }else if (resolution_field.getText().equals("1600 X 900 Windowed")) {
                     Gdx.graphics.setWindowedMode(1600,900);
                 }
             }

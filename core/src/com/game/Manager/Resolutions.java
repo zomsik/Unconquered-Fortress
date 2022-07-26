@@ -43,9 +43,13 @@ public class Resolutions {
                 }
             }
             //Jeśli aktualna konfiguracja jest konfiguracją domyślną ustaw Fullscreen, brak obsługi dla większych rozdzielczości, może powinna być i wtedy 1920x1080 w oknie
-            if(modes[i].width == currentMode.width && modes[i].height == currentMode.height && modes[i].bitsPerPixel == currentMode.bitsPerPixel && modes[i].refreshRate == currentMode.refreshRate)
+            if(modes[i].width == 1920 && modes[i].height == 1080 && modes[i].bitsPerPixel == currentMode.bitsPerPixel && modes[i].refreshRate == currentMode.refreshRate)
             {
                 resolutions.add(modes[i].width + " X " + modes[i].height + " Fullscreen");
+            }
+            if(modes[i].width > 1920 && modes[i].height > 1080 && modes[i].bitsPerPixel == currentMode.bitsPerPixel && modes[i].refreshRate == currentMode.refreshRate)
+            {
+                resolutions.add(modes[i].width + " X " + modes[i].height + " Windowed");
             }
         }
         return resolutions;
