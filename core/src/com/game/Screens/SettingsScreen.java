@@ -5,6 +5,7 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.game.Main;
 import com.game.Manager.Resolutions;
 import jdk.internal.org.jline.utils.Display;
@@ -47,6 +49,7 @@ public class SettingsScreen implements Screen {
         this.game = game;
         resolutionsClass = new Resolutions();
         initSettingsUI();
+
     }
 
     @Override
@@ -55,7 +58,7 @@ public class SettingsScreen implements Screen {
         parameter.size = 15;
         parameter.color = Color.WHITE;
         font = generator.generateFont(parameter);
-        table_resolution.setBounds(800,800, 500,32);
+        table_resolution.setBounds(Gdx.graphics.getWidth()/10*3,Gdx.graphics.getHeight()/10*8, Gdx.graphics.getWidth()/10*4,32);
         table_default.setBounds(700, 100, 500,200);
         textButtonStyle_bLeft.up = images.getDrawable("resolutionButtonLeft_up");
         textButtonStyle_bLeft.down = images.getDrawable("resolutionButtonLeft_down");
@@ -165,6 +168,9 @@ public class SettingsScreen implements Screen {
                 }else if (resolution_field.getText().equals("1600 X 900 Windowed")) {
                     Gdx.graphics.setWindowedMode(1600,900);
                 }
+                //Ponowne wywołanie tego samego screena, żeby załadował nowe wymiary
+                game.setScreen(new SettingsScreen(game));
+                dispose();
             }
         });
         resolution_field = new TextField(resolutions.get(0),textFieldStyle);
@@ -172,9 +178,9 @@ public class SettingsScreen implements Screen {
         resolution_field_text.setAlignment(Align.center);
         resolution_field.setAlignment(Align.center);
         table_resolution.add(resolution_field_text).padRight(100);
-        table_resolution.add(bLeft);
-        table_resolution.add(resolution_field).width(320);
-        table_resolution.add(bRight);
+        table_resolution.add(bLeft).width(32).height(32);
+        table_resolution.add(resolution_field).width(320).height(32);
+        table_resolution.add(bRight).width(32).height(32);
         table_default.add(bBack);
         table_default.add(bSave);
         //table_resolution.debug();

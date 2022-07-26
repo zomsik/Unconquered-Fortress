@@ -20,7 +20,7 @@ public class DesktopLauncher {
 		config.setResizable(false);
 		config.setTitle("TowerDefense");
 		config.setFullscreenMode(getDisplayMode());
-		config.setWindowedMode(1920,1080);
+		//config.setWindowedMode(1920,1080);
 		new Lwjgl3Application(new Main(), config);
 	}
 }

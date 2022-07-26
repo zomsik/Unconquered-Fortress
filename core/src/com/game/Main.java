@@ -13,6 +13,7 @@ public class Main extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		displayMode = Gdx.graphics.getDisplayMode();
+
 		setScreen(new MenuScreen(this));
 
 	}

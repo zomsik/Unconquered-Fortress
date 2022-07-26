@@ -68,7 +68,7 @@ public class MenuScreen implements Screen  {
         bExit.addListener(new ClickListener(){
            @Override
            public void clicked(InputEvent event, float x, float y){
-               System.exit(0);
+               Gdx.app.exit();
            }
         });
         bPlay = new TextButton("", textButtonStyle_bPlay);
