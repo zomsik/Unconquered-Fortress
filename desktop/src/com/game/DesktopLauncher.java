@@ -18,8 +18,13 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setResizable(false);
-		config.setTitle("TowerDefense");
-		config.setFullscreenMode(getDisplayMode());
+		config.setTitle("Tower Defense");
+		if(getDisplayMode().width > 1920 && getDisplayMode().height > 1080)
+		{
+			config.setWindowedMode(1920,1080);
+		}else{
+			config.setFullscreenMode(getDisplayMode());
+		}
 		//config.setWindowedMode(1920,1080);
 		new Lwjgl3Application(new Main(), config);
 	}

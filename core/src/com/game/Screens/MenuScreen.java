@@ -24,7 +24,7 @@ public class MenuScreen implements Screen  {
     public TextureAtlas buttons;
     public Skin images;
     public Stage stage;
-    public Table table_bExit, table_bPlay, table_bSettings;
+    public Table table_bExit, table_bPlay, table_bSettings, table_bLogin, table_bCredits;
     private SettingsScreen settingsScreen;
 
     public MenuScreen(Main game){
@@ -42,10 +42,15 @@ public class MenuScreen implements Screen  {
         images = new Skin(buttons);
         table_bExit = new Table(images);
         table_bPlay = new Table(images);
+        table_bLogin = new Table(images);
+        table_bCredits = new Table(images);
         table_bSettings = new Table(images);
-        table_bExit.setBounds(290,280,170, 90);
-        table_bPlay.setBounds(280,530,190,90);
-        table_bSettings.setBounds(280,420,190,90);
+        //Ustawienie pozycji przycisków, skalowane z wymiarami okna
+        table_bLogin.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*2+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/100*16, Gdx.graphics.getHeight()/100*7+8);
+        table_bCredits.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*7+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/10*2, Gdx.graphics.getHeight()/100*7+8);
+        table_bExit.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*8+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/10*2, Gdx.graphics.getHeight()/100*7+8);
+        table_bPlay.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*5+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/10*2, Gdx.graphics.getHeight()/100*7+8);
+        table_bSettings.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*6+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/10*2, Gdx.graphics.getHeight()/100*7+8);
         TextButton.TextButtonStyle textButtonStyle_bExit = new TextButton.TextButtonStyle();
         textButtonStyle_bExit.up = images.getDrawable("bExit_up");
         textButtonStyle_bExit.down = images.getDrawable("bExit_down"); //TODO add pressed buttons
@@ -86,6 +91,10 @@ public class MenuScreen implements Screen  {
         table_bExit.debug();
         table_bPlay.debug();
         table_bSettings.debug();
+        table_bCredits.debug();
+        table_bLogin.debug();
+        stage.addActor(table_bCredits);
+        stage.addActor(table_bLogin);
         stage.addActor(table_bExit);
         stage.addActor(table_bSettings);
         stage.addActor(table_bPlay);
