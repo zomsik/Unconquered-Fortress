@@ -2,10 +2,12 @@ package com.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -13,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.Main;
+import com.game.Manager.Buttons;
 
 public class MenuScreen implements Screen  {
     private Main game;
@@ -21,63 +24,49 @@ public class MenuScreen implements Screen  {
     public TextButton bPlay;
     public TextButton bSettings;
     public BitmapFont font;
-    public TextureAtlas buttons;
+
+    private FreeTypeFontGenerator generator;
+
+    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+    public TextureAtlas buttonsAtlas;
     public Skin images;
     public Stage stage;
     public Table table_bExit, table_bPlay, table_bSettings, table_bLogin, table_bCredits;
     private SettingsScreen settingsScreen;
+    private TextButton.TextButtonStyle textButtonStyle_bExit, textButtonStyle_bPlay, textButtonStyle_bSettings, textButtonStyle_bCredits, textButtonStyle_bLogin;
 
+    private Buttons buttons;
     public MenuScreen(Main game){
         this.game = game;
-        background = new Texture("background_menu.png");
+        initSettingsUI();
+        buttons = new Buttons();
+        buttons.setTextButtonStyle(textButtonStyle_bExit, images, font, "bExit_up", "bExit_down");
+        bExit = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bExit));
+        buttons.setTextButtonStyle(textButtonStyle_bLogin, images, font, "bPlay_up", "bPlay_down");
+        bPlay = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bLogin));
+        buttons.setTextButtonStyle(textButtonStyle_bSettings, images, font, "bSettings_up", "bSettings_down");
+        bSettings = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bSettings));
         settingsScreen = new SettingsScreen(game);
 
     }
     @Override
     public void show() {
-        font = new BitmapFont();
-        stage = new Stage();
+
         Gdx.input.setInputProcessor(stage);
-        buttons = new TextureAtlas("assets/buttons/buttons_menu.pack");
-        images = new Skin(buttons);
-        table_bExit = new Table(images);
-        table_bPlay = new Table(images);
-        table_bLogin = new Table(images);
-        table_bCredits = new Table(images);
-        table_bSettings = new Table(images);
         //Ustawienie pozycji przycisków, skalowane z wymiarami okna
         table_bLogin.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*2+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/100*16, Gdx.graphics.getHeight()/100*7+8);
         table_bCredits.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*7+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/10*2, Gdx.graphics.getHeight()/100*7+8);
         table_bExit.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*8+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/10*2, Gdx.graphics.getHeight()/100*7+8);
         table_bPlay.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*5+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/10*2, Gdx.graphics.getHeight()/100*7+8);
         table_bSettings.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*6+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/10*2, Gdx.graphics.getHeight()/100*7+8);
-        TextButton.TextButtonStyle textButtonStyle_bExit = new TextButton.TextButtonStyle();
-        textButtonStyle_bExit.up = images.getDrawable("bExit_up");
-        textButtonStyle_bExit.down = images.getDrawable("bExit_down"); //TODO add pressed buttons
-        textButtonStyle_bExit.pressedOffsetX = 1;
-        textButtonStyle_bExit.pressedOffsetY = -1;
-        textButtonStyle_bExit.font = font;
-        TextButton.TextButtonStyle textButtonStyle_bPlay = new TextButton.TextButtonStyle();
-        textButtonStyle_bPlay.up = images.getDrawable("bPlay_up");
-        textButtonStyle_bPlay.down = images.getDrawable("bPlay_down"); //TODO add pressed buttons
-        textButtonStyle_bPlay.pressedOffsetX = 1;
-        textButtonStyle_bPlay.pressedOffsetY = -1;
-        textButtonStyle_bPlay.font = font;
-        TextButton.TextButtonStyle textButtonStyle_bSettings = new TextButton.TextButtonStyle();
-        textButtonStyle_bSettings.up = images.getDrawable("bSettings_up");
-        textButtonStyle_bSettings.down = images.getDrawable("bSettings_down"); //TODO add pressed buttons
-        textButtonStyle_bSettings.pressedOffsetX = 1;
-        textButtonStyle_bSettings.pressedOffsetY = -1;
-        textButtonStyle_bSettings.font = font;
-        bExit = new TextButton("", textButtonStyle_bExit);
+
         bExit.addListener(new ClickListener(){
            @Override
            public void clicked(InputEvent event, float x, float y){
                Gdx.app.exit();
            }
         });
-        bPlay = new TextButton("", textButtonStyle_bPlay);
-        bSettings = new TextButton("", textButtonStyle_bSettings);
+
         bSettings.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -85,6 +74,7 @@ public class MenuScreen implements Screen  {
                 dispose();
             }
         });
+
         table_bExit.add(bExit);
         table_bPlay.add(bPlay);
         table_bSettings.add(bSettings);
@@ -98,25 +88,7 @@ public class MenuScreen implements Screen  {
         stage.addActor(table_bExit);
         stage.addActor(table_bSettings);
         stage.addActor(table_bPlay);
-        /*
-        initButton(font, stage, images, table_bPlay, 280, 530, 190, 90, "bPlay_up", "bPlay_down", bPlay);
-        initButton(font, stage, images, table_bSettings, 280, 420, 190, 90, "bSettings_up", "bSettings_down", bSettings);
-        initButton(font, stage, images, table_bExit, 290, 280, 170, 90, "bExit_up", "bExit_down", bExit);
-        */
     }
-    /*public void initButton(BitmapFont font, Stage stage, Skin images, Table table, int x, int y, int w, int h, String button_up, String button_down, TextButton button){
-        table.setBounds(x,y,w,h);
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = images.getDrawable(button_up);
-        textButtonStyle.down = images.getDrawable(button_down);
-        textButtonStyle.pressedOffsetX = 1;
-        textButtonStyle.pressedOffsetY = -1;
-        textButtonStyle.font = font;
-        button = new TextButton("", textButtonStyle);
-        table.add(button);
-        stage.addActor(table);
-
-    }*/
     @Override
     public void render(float delta) {
             Gdx.gl.glClearColor(1,0,0,1);
@@ -151,5 +123,28 @@ public class MenuScreen implements Screen  {
     @Override
     public void dispose() {
 
+    }
+
+    private void initSettingsUI(){
+        background = new Texture("background_menu.png");
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        stage = new Stage();
+        parameter.size = 15;
+        parameter.color = Color.WHITE;
+        font = new BitmapFont();
+        font = generator.generateFont(parameter);
+        buttonsAtlas = new TextureAtlas("assets/buttons/buttons_menu.pack");
+        images = new Skin(buttonsAtlas);
+        table_bExit = new Table(images);
+        table_bPlay = new Table(images);
+        table_bLogin = new Table(images);
+        table_bCredits = new Table(images);
+        table_bSettings = new Table(images);
+        textButtonStyle_bExit = new TextButton.TextButtonStyle();
+        textButtonStyle_bPlay = new TextButton.TextButtonStyle();
+        textButtonStyle_bSettings = new TextButton.TextButtonStyle();
+        textButtonStyle_bCredits = new TextButton.TextButtonStyle();
+        textButtonStyle_bLogin = new TextButton.TextButtonStyle();
     }
 }

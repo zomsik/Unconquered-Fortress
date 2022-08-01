@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.game.Main;
+import com.game.Manager.Buttons;
 import com.game.Manager.Resolutions;
 import jdk.internal.org.jline.utils.Display;
 
@@ -46,47 +47,31 @@ public class SettingsScreen implements Screen {
     private TextField.TextFieldStyle textFieldStyle;
 
     private Resolutions resolutionsClass;
-
+    private Buttons buttons;
     public SettingsScreen(Main game){
         this.game = game;
         resolutionsClass = new Resolutions();
         initSettingsUI();
-
+        buttons = new Buttons();
+        buttons.setTextButtonStyle(textButtonStyle_bLeft, images, font, "resolutionButtonLeft_up", "resolutionButtonLeft_down");
+        bLeft = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bLeft));
+        buttons.setTextButtonStyle(textButtonStyle_bRight, images, font, "resolutionButtonRight_up","resolutionButtonRight_down" );
+        bRight = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bRight));
+        buttons.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
+        bBack = new TextButton("Back", buttons.returnTextButtonStyle(textButtonStyle_bBack));
+        buttons.setTextButtonStyle(textButtonStyle_bSave, images_default, font, "defaultButton", "defaultButton");
+        bSave = new TextButton("Save", buttons.returnTextButtonStyle(textButtonStyle_bSave));
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        parameter.size = 15;
-        parameter.color = Color.WHITE;
-        font = generator.generateFont(parameter);
+
         table_resolution.setBounds(Gdx.graphics.getWidth()/10*3,Gdx.graphics.getHeight()/10*8, Gdx.graphics.getWidth()/10*4,32);
         table_default.setBounds(700, 100, 500,200);
-        textButtonStyle_bLeft.up = images.getDrawable("resolutionButtonLeft_up");
-        textButtonStyle_bLeft.down = images.getDrawable("resolutionButtonLeft_down");
-        textButtonStyle_bLeft.pressedOffsetX = 1;
-        textButtonStyle_bLeft.pressedOffsetY = -1;
-        textButtonStyle_bLeft.font = font;
-        textButtonStyle_bRight.up = images.getDrawable("resolutionButtonRight_up");
-        textButtonStyle_bRight.down = images.getDrawable("resolutionButtonRight_down");
-        textButtonStyle_bRight.pressedOffsetX = 1;
-        textButtonStyle_bRight.pressedOffsetY = -1;
-        textButtonStyle_bRight.font = font;
-        textButtonStyle_bBack.up = images_default.getDrawable("defaultButton");
-        textButtonStyle_bBack.down = images_default.getDrawable("defaultButton"); //TODO add pressed buttons
-        textButtonStyle_bBack.pressedOffsetX = 1;
-        textButtonStyle_bBack.pressedOffsetY = -1;
-        textButtonStyle_bBack.font = font;
-        textButtonStyle_bSave.up = images_default.getDrawable("defaultButton");
-        textButtonStyle_bSave.down = images_default.getDrawable("defaultButton"); //TODO add pressed buttons
-        textButtonStyle_bSave.pressedOffsetX = 1;
-        textButtonStyle_bSave.pressedOffsetY = -1;
-        textButtonStyle_bSave.font = font;
         textFieldStyle.background = images.getDrawable("resolutionTextBar");
         textFieldStyle.font = font;
         textFieldStyle.fontColor = Color.WHITE;
-        bLeft = new TextButton("", textButtonStyle_bLeft);
-        bRight = new TextButton("", textButtonStyle_bRight);
         bRight.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -143,8 +128,6 @@ public class SettingsScreen implements Screen {
 
             }
         });
-        bBack = new TextButton("Back", textButtonStyle_bBack);
-        bSave = new TextButton("Save", textButtonStyle_bSave);
         bBack.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -195,7 +178,6 @@ public class SettingsScreen implements Screen {
                 resolution_field = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Windowed")),textFieldStyle);
             }
         }
-        //resolution_field = new TextField(resolutions.get(0),textFieldStyle);
         resolution_field_text = new TextField("Resolution", textFieldStyle);
         resolution_field_text.setAlignment(Align.center);
         resolution_field.setAlignment(Align.center);
@@ -245,14 +227,17 @@ public class SettingsScreen implements Screen {
     public void dispose() {
 
     }
-    public void initSettingsUI(){
+    private void initSettingsUI(){
         background = new Texture("background.png");
         resolutions = new ArrayList<>();
         resolutions = resolutionsClass.getResolutionsArrayList();
         generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         stage = new Stage();
+        parameter.size = 15;
+        parameter.color = Color.WHITE;
         font = new BitmapFont();
+        font = generator.generateFont(parameter);
         buttons_settings = new TextureAtlas("assets/buttons/buttons_settings.pack");
         buttons_default = new TextureAtlas("assets/buttons/buttons_default.pack");
         images = new Skin(buttons_settings);
