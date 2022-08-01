@@ -23,12 +23,15 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.game.Main;
 import com.game.Manager.Buttons;
 import com.game.Manager.Resolutions;
+import com.game.Manager.TextFields;
 import jdk.internal.org.jline.utils.Display;
 
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.awt.Color.WHITE;
 
 public class SettingsScreen implements Screen {
     private Main game;
@@ -48,11 +51,14 @@ public class SettingsScreen implements Screen {
 
     private Resolutions resolutionsClass;
     private Buttons buttons;
+    private TextFields textFields;
     public SettingsScreen(Main game){
         this.game = game;
         resolutionsClass = new Resolutions();
         initSettingsUI();
         buttons = new Buttons();
+        textFields = new TextFields();
+
         buttons.setTextButtonStyle(textButtonStyle_bLeft, images, font, "resolutionButtonLeft_up", "resolutionButtonLeft_down");
         bLeft = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bLeft));
         buttons.setTextButtonStyle(textButtonStyle_bRight, images, font, "resolutionButtonRight_up","resolutionButtonRight_down" );
@@ -61,6 +67,9 @@ public class SettingsScreen implements Screen {
         bBack = new TextButton("Back", buttons.returnTextButtonStyle(textButtonStyle_bBack));
         buttons.setTextButtonStyle(textButtonStyle_bSave, images_default, font, "defaultButton", "defaultButton");
         bSave = new TextButton("Save", buttons.returnTextButtonStyle(textButtonStyle_bSave));
+
+        textFields.setTextField(textFieldStyle, images, font, "resolutionTextBar", Color.WHITE);
+        resolution_field_text = new TextField("Resolution", textFields.returnTextField(textFieldStyle));
     }
 
     @Override
@@ -69,9 +78,7 @@ public class SettingsScreen implements Screen {
 
         table_resolution.setBounds(Gdx.graphics.getWidth()/10*3,Gdx.graphics.getHeight()/10*8, Gdx.graphics.getWidth()/10*4,32);
         table_default.setBounds(700, 100, 500,200);
-        textFieldStyle.background = images.getDrawable("resolutionTextBar");
-        textFieldStyle.font = font;
-        textFieldStyle.fontColor = Color.WHITE;
+
         bRight.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -160,25 +167,24 @@ public class SettingsScreen implements Screen {
         });
         if(Gdx.graphics.getWidth() == 1920){
             if(resolutions.contains("1920 X 1080 Fullscreen")){
-                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Fullscreen")),textFieldStyle);
+                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Fullscreen")),textFields.returnTextField(textFieldStyle));
             }else if(resolutions.contains("1920 X 1080 Windowed")){
-                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Windowed")),textFieldStyle);
+                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Windowed")),textFields.returnTextField(textFieldStyle));
             }
 
         }else if(Gdx.graphics.getWidth() == 1280){
             if(resolutions.contains("1280 X 720 Fullscreen")){
-                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1280 X 720 Fullscreen")),textFieldStyle);
+                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1280 X 720 Fullscreen")),textFields.returnTextField(textFieldStyle));
             }else if(resolutions.contains("1280 X 720 Windowed")){
-                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1280 X 720 Windowed")),textFieldStyle);
+                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1280 X 720 Windowed")),textFields.returnTextField(textFieldStyle));
             }
         }else{
             if(resolutions.contains("1600 X 900 Fullscreen")){
-                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Fullscreen")),textFieldStyle);
+                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Fullscreen")),textFields.returnTextField(textFieldStyle));
             }else if(resolutions.contains("1600 X 900 Windowed")){
-                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Windowed")),textFieldStyle);
+                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Windowed")),textFields.returnTextField(textFieldStyle));
             }
         }
-        resolution_field_text = new TextField("Resolution", textFieldStyle);
         resolution_field_text.setAlignment(Align.center);
         resolution_field.setAlignment(Align.center);
         table_resolution.add(resolution_field_text).padRight(100);
