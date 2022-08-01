@@ -32,7 +32,6 @@ public class MenuScreen implements Screen  {
     public Skin images;
     public Stage stage;
     public Table table_bExit, table_bPlay, table_bSettings, table_bLogin, table_bCredits;
-    private SettingsScreen settingsScreen;
     private TextButton.TextButtonStyle textButtonStyle_bExit, textButtonStyle_bPlay, textButtonStyle_bSettings, textButtonStyle_bCredits, textButtonStyle_bLogin;
 
     private Buttons buttons;
@@ -46,7 +45,6 @@ public class MenuScreen implements Screen  {
         bPlay = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bLogin));
         buttons.setTextButtonStyle(textButtonStyle_bSettings, images, font, "bSettings_up", "bSettings_down");
         bSettings = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bSettings));
-        settingsScreen = new SettingsScreen(game);
 
     }
     @Override
