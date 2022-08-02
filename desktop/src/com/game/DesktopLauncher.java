@@ -25,7 +25,6 @@ public class DesktopLauncher {
 		}else{
 			config.setFullscreenMode(getDisplayMode());
 		}
-		//config.setWindowedMode(1920,1080);
 		new Lwjgl3Application(new Main(), config);
 	}
 }
