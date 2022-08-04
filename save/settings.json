@@ -1,0 +1,13 @@
+{   
+    "user_settings":[
+        {
+            "resolution": {
+                "x": 1920,
+                "y": 1080,
+                "mode": "Fullscreen"
+            },
+            "volume": 20,
+            "language": "English"
+        }
+    ]
+}
