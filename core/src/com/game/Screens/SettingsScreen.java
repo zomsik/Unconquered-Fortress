@@ -1,11 +1,9 @@
 package com.game.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -13,25 +11,17 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.game.Main;
 import com.game.Manager.Buttons;
 import com.game.Manager.Resolutions;
 import com.game.Manager.TextFields;
-import jdk.internal.org.jline.utils.Display;
 
+import java.lang.annotation.Inherited;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static java.awt.Color.WHITE;
 
 public class SettingsScreen implements Screen {
     private Main game;
@@ -40,15 +30,17 @@ public class SettingsScreen implements Screen {
     private BitmapFont font;
     private TextureAtlas buttons_settings, buttons_default;
     private Skin images, images_default;
-    private TextButton bLeft, bRight, bBack, bSave;
-    private Table table_resolution, table_default;
-    private TextField resolution_field, resolution_field_text;
+    private TextButton bLeftResolution, bRightResolution, bBack, bSave, bLeftLanguage, bRightLanguage;
+    private Table table_resolution, table_default, table_volume, table_language;
+    private TextField resolution_field, resolution_field_text, volume_field_text, language_field_text, language_field;
     private ArrayList<String> resolutions;
+    private ArrayList<String> languages;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private TextButton.TextButtonStyle textButtonStyle_bLeft, textButtonStyle_bRight, textButtonStyle_bBack, textButtonStyle_bSave;
     private TextField.TextFieldStyle textFieldStyle;
-
+    private Slider volumeSlider;
+    private Slider.SliderStyle sliderStyle;
     private Resolutions resolutionsClass;
     private Buttons buttons;
     private TextFields textFields;
@@ -60,9 +52,9 @@ public class SettingsScreen implements Screen {
         textFields = new TextFields();
 
         buttons.setTextButtonStyle(textButtonStyle_bLeft, images, font, "resolutionButtonLeft_up", "resolutionButtonLeft_down");
-        bLeft = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bLeft));
+        bLeftResolution = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bLeft));
         buttons.setTextButtonStyle(textButtonStyle_bRight, images, font, "resolutionButtonRight_up","resolutionButtonRight_down" );
-        bRight = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bRight));
+        bRightResolution = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bRight));
         buttons.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
         bBack = new TextButton("Back", buttons.returnTextButtonStyle(textButtonStyle_bBack));
         buttons.setTextButtonStyle(textButtonStyle_bSave, images_default, font, "defaultButton", "defaultButton");
@@ -70,6 +62,17 @@ public class SettingsScreen implements Screen {
 
         textFields.setTextField(textFieldStyle, images, font, "resolutionTextBar", Color.WHITE);
         resolution_field_text = new TextField("Resolution", textFields.returnTextField(textFieldStyle));
+
+        volume_field_text = new TextField("Volume", textFields.returnTextField(textFieldStyle));
+        sliderStyle.disabledBackground = images.getDrawable("slider_background");
+        sliderStyle.disabledKnob = images.getDrawable("slider_knob");
+        sliderStyle.background = images.getDrawable("slider_background");
+        sliderStyle.knob = images.getDrawable("slider_knob");
+        volumeSlider = new Slider(0,100,1,false, sliderStyle);
+
+        language_field_text = new TextField("Language", textFields.returnTextField(textFieldStyle));
+        bLeftLanguage = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bLeft));
+        bRightLanguage = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bRight));
     }
 
     @Override
@@ -78,8 +81,9 @@ public class SettingsScreen implements Screen {
 
         table_resolution.setBounds(Gdx.graphics.getWidth()/10*3,Gdx.graphics.getHeight()/10*8, Gdx.graphics.getWidth()/10*4,32);
         table_default.setBounds(700, 100, 500,200);
-
-        bRight.addListener(new ClickListener(){
+        table_volume.setBounds(Gdx.graphics.getWidth()/10*3, Gdx.graphics.getHeight()/10*7, Gdx.graphics.getWidth()/10*4, 32);
+        table_language.setBounds(Gdx.graphics.getWidth()/10*3,Gdx.graphics.getHeight()/10*6, Gdx.graphics.getWidth()/10*4,32);
+        bRightResolution.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 if(resolutions.size() == 3){
@@ -107,7 +111,7 @@ public class SettingsScreen implements Screen {
 
             }
         });
-        bLeft.addListener(new ClickListener(){
+        bLeftResolution.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 if(resolutions.size() == 3){
@@ -133,6 +137,26 @@ public class SettingsScreen implements Screen {
                     }
                 }
 
+            }
+        });
+        bRightLanguage.addListener(new ClickListener(){
+            @Override
+            public  void clicked(InputEvent event, float x, float y){
+                if(language_field.getText().equals(languages.get(0))){
+                    language_field.setText(languages.get(1));
+                }else{
+                    language_field.setText(languages.get(0));
+                }
+            }
+        });
+        bLeftLanguage.addListener(new ClickListener(){
+            @Override
+            public  void clicked(InputEvent event, float x, float y){
+                if(language_field.getText().equals(languages.get(1))){
+                    language_field.setText(languages.get(0));
+                }else{
+                    language_field.setText(languages.get(1));
+                }
             }
         });
         bBack.addListener(new ClickListener(){
@@ -185,18 +209,36 @@ public class SettingsScreen implements Screen {
                 resolution_field = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Windowed")),textFields.returnTextField(textFieldStyle));
             }
         }
+
+        //to po lewo
         resolution_field_text.setAlignment(Align.center);
+        volume_field_text.setAlignment(Align.center);
+        language_field_text.setAlignment(Align.center);
+        //to po prawo
         resolution_field.setAlignment(Align.center);
-        table_resolution.add(resolution_field_text).padRight(100);
-        table_resolution.add(bLeft).width(32).height(32);
+        table_resolution.add(resolution_field_text).padRight(100).width(320);
+        table_resolution.add(bLeftResolution).width(32).height(32);
         table_resolution.add(resolution_field).width(320).height(32);
-        table_resolution.add(bRight).width(32).height(32);
+        table_resolution.add(bRightResolution).width(32).height(32);
+
         table_default.add(bBack);
         table_default.add(bSave);
+
+        table_volume.add(volume_field_text).padRight(100).width(320);
+        table_volume.add(volumeSlider).width(384).height(32);
+
+        language_field = new TextField(languages.get(0), textFields.returnTextField(textFieldStyle));
+        language_field.setAlignment(Align.center);
+        table_language.add(language_field_text).padRight(100).width(320);
+        table_language.add(bLeftLanguage).width(32).height(32);
+        table_language.add(language_field).width(320).height(32);
+        table_language.add(bRightLanguage).width(32).height(32);
         //table_resolution.debug();
         table_default.debug();
         stage.addActor(table_resolution);
         stage.addActor(table_default);
+        stage.addActor(table_volume);
+        stage.addActor(table_language);
     }
 
     @Override
@@ -206,6 +248,7 @@ public class SettingsScreen implements Screen {
         game.batch.begin();
         game.batch.draw(background, 0,0);
         game.batch.end();
+        volume_field_text.setText("Volume: " + Math.round(volumeSlider.getValue()));
         stage.act(delta);
         stage.draw();
     }
@@ -237,6 +280,9 @@ public class SettingsScreen implements Screen {
         background = new Texture("background.png");
         resolutions = new ArrayList<>();
         resolutions = resolutionsClass.getResolutionsArrayList();
+        languages = new ArrayList<>();
+        languages.add("English");
+        languages.add("Polish");
         generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         stage = new Stage();
@@ -250,10 +296,13 @@ public class SettingsScreen implements Screen {
         images_default = new Skin(buttons_default);
         table_resolution = new Table(images);
         table_default = new Table(images_default);
+        table_volume = new Table(images);
+        table_language = new Table(images);
         textButtonStyle_bLeft = new TextButton.TextButtonStyle();
         textButtonStyle_bRight = new TextButton.TextButtonStyle();
         textButtonStyle_bBack = new TextButton.TextButtonStyle();
         textButtonStyle_bSave = new TextButton.TextButtonStyle();
         textFieldStyle = new TextField.TextFieldStyle();
+        sliderStyle = new Slider.SliderStyle();
     }
 }
