@@ -14,9 +14,7 @@ public class FileReader {
         printResolution();
     }
 
-    public String getResolutionValue() {
-        return resolutionValue;
-    }
+    public String getResolutionValue() {return resolutionValue;}
 
     public int getVolumeValue() {
         return volumeValue;
@@ -35,9 +33,11 @@ public class FileReader {
             //System.out.println(component.get("resolution").getString("x"));
             //System.out.println(component.get("resolution").getString("y"));
             //System.out.println(component.get("resolution").getString("mode"));
-            resolutionValue = (component.get("resolution").getString("x") + " X " + component.get("resolution").getString("y") + component.get("resolution").getString("mode"));
+            //resolutionValue = (component.get("resolution").getString("x") + " X " + component.get("resolution").getString("y") +" "+ component.get("resolution").getString("mode"));
+            resolutionValue = component.getString("resolution");
             volumeValue = Integer.valueOf(component.getString("volume"));
             languageValue = (component.getString("language"));
         }
     }
+
 }
