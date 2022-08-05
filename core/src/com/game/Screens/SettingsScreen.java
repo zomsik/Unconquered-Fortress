@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.game.Main;
 import com.game.Manager.Buttons;
+import com.game.Manager.FileReader;
 import com.game.Manager.Resolutions;
 import com.game.Manager.TextFields;
 
@@ -44,9 +45,12 @@ public class SettingsScreen implements Screen {
     private Resolutions resolutionsClass;
     private Buttons buttons;
     private TextFields textFields;
+    private FileReader fileReader;
     public SettingsScreen(Main game){
         this.game = game;
         resolutionsClass = new Resolutions();
+        fileReader = new FileReader();
+        fileReader.downloadSettings();
         initSettingsUI();
         buttons = new Buttons();
         textFields = new TextFields();
@@ -69,7 +73,7 @@ public class SettingsScreen implements Screen {
         sliderStyle.background = images.getDrawable("slider_background");
         sliderStyle.knob = images.getDrawable("slider_knob");
         volumeSlider = new Slider(0,100,1,false, sliderStyle);
-
+        volumeSlider.setValue(fileReader.getVolumeValue());
         language_field_text = new TextField("Language", textFields.returnTextField(textFieldStyle));
         bLeftLanguage = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bLeft));
         bRightLanguage = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bRight));
@@ -184,30 +188,41 @@ public class SettingsScreen implements Screen {
                 }else if (resolution_field.getText().equals("1600 X 900 Windowed")) {
                     Gdx.graphics.setWindowedMode(1600,900);
                 }
+                fileReader.setSettings(resolution_field.getText(), Math.round(volumeSlider.getValue()), language_field.getText());
                 //Ponowne wywołanie tego samego screena, żeby załadował nowe wymiary
                 game.setScreen(new SettingsScreen(game));
                 dispose();
             }
         });
-        if(Gdx.graphics.getWidth() == 1920){
-            if(resolutions.contains("1920 X 1080 Fullscreen")){
-                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Fullscreen")),textFields.returnTextField(textFieldStyle));
-            }else if(resolutions.contains("1920 X 1080 Windowed")){
+        if(fileReader.getResolutionValue() != null){
+            resolution_field = new TextField(fileReader.getResolutionValue(), textFields.returnTextField(textFieldStyle));
+        }else
+        {
+            if(Gdx.graphics.getWidth() == 1920){
+                if(resolutions.contains("1920 X 1080 Fullscreen")){
+                    resolution_field = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Fullscreen")),textFields.returnTextField(textFieldStyle));
+                }else if(resolutions.contains("1920 X 1080 Windowed")){
                 resolution_field = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Windowed")),textFields.returnTextField(textFieldStyle));
-            }
+                }
 
-        }else if(Gdx.graphics.getWidth() == 1280){
-            if(resolutions.contains("1280 X 720 Fullscreen")){
-                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1280 X 720 Fullscreen")),textFields.returnTextField(textFieldStyle));
-            }else if(resolutions.contains("1280 X 720 Windowed")){
-                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1280 X 720 Windowed")),textFields.returnTextField(textFieldStyle));
+            }else if(Gdx.graphics.getWidth() == 1280){
+                if(resolutions.contains("1280 X 720 Fullscreen")){
+                    resolution_field = new TextField(resolutions.get(resolutions.indexOf("1280 X 720 Fullscreen")),textFields.returnTextField(textFieldStyle));
+                }else if(resolutions.contains("1280 X 720 Windowed")){
+                    resolution_field = new TextField(resolutions.get(resolutions.indexOf("1280 X 720 Windowed")),textFields.returnTextField(textFieldStyle));
+                }
+            }else{
+                if(resolutions.contains("1600 X 900 Fullscreen")){
+                    resolution_field = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Fullscreen")),textFields.returnTextField(textFieldStyle));
+                }else if(resolutions.contains("1600 X 900 Windowed")){
+                    resolution_field = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Windowed")),textFields.returnTextField(textFieldStyle));
+                }
             }
+        }
+        if(fileReader.getLanguageValue() != null){
+            language_field  = new TextField(fileReader.getLanguageValue(), textFields.returnTextField(textFieldStyle));
         }else{
-            if(resolutions.contains("1600 X 900 Fullscreen")){
-                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Fullscreen")),textFields.returnTextField(textFieldStyle));
-            }else if(resolutions.contains("1600 X 900 Windowed")){
-                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Windowed")),textFields.returnTextField(textFieldStyle));
-            }
+            language_field = new TextField(languages.get(0), textFields.returnTextField(textFieldStyle));
         }
 
         //to po lewo
@@ -227,7 +242,7 @@ public class SettingsScreen implements Screen {
         table_volume.add(volume_field_text).padRight(100).width(320);
         table_volume.add(volumeSlider).width(384).height(32);
 
-        language_field = new TextField(languages.get(0), textFields.returnTextField(textFieldStyle));
+
         language_field.setAlignment(Align.center);
         table_language.add(language_field_text).padRight(100).width(320);
         table_language.add(bLeftLanguage).width(32).height(32);
@@ -282,7 +297,7 @@ public class SettingsScreen implements Screen {
         resolutions = resolutionsClass.getResolutionsArrayList();
         languages = new ArrayList<>();
         languages.add("English");
-        languages.add("Polish");
+        languages.add("Polski");
         generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         stage = new Stage();

@@ -12,17 +12,31 @@ import java.util.Arrays;
 
 public class Main extends Game {
 	public SpriteBatch batch;
-	public Graphics.DisplayMode displayMode;
 	private FileReader fileReader;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		displayMode = Gdx.graphics.getDisplayMode();
-		setScreen(new MenuScreen(this));
 		fileReader = new FileReader();
-		System.out.println(fileReader.getResolutionValue());
-		System.out.println(fileReader.getVolumeValue());
-		System.out.println(fileReader.getLanguageValue());
+		fileReader.downloadSettings();
+		if(fileReader.getResolutionValue() != null){
+			switch(fileReader.getResolutionValue()){
+				case "1600 X 900 Fullscreen":
+				case "1280 X 720 Fullscreen":
+				case "1920 X 1080 Fullscreen":{
+					Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+				}break;
+				case "1920 X 1080 Windowed":{
+					Gdx.graphics.setWindowedMode(1920,1080);
+				}break;
+				case "1280 X 720 Windowed":{
+					Gdx.graphics.setWindowedMode(1280,720);
+				}break;
+				case "1600 X 900 Windowed":{
+					Gdx.graphics.setWindowedMode(1600,900);
+				}break;
+			}
+		}
+		setScreen(new MenuScreen(this));
 	}
 	@Override
 	public void render () {
