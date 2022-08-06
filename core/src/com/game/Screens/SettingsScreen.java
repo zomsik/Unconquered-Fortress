@@ -296,11 +296,12 @@ public class SettingsScreen implements Screen {
         languages = new ArrayList<>();
         languages.add("English");
         languages.add("Polski");
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         stage = new Stage();
         parameter.size = 15;
         parameter.color = Color.WHITE;
+        parameter.characters = "ąćęłóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
         font = new BitmapFont();
         font = generator.generateFont(parameter);
         buttons_settings = new TextureAtlas("assets/buttons/buttons_settings.pack");

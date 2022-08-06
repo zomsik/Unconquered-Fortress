@@ -131,11 +131,12 @@ public class MenuScreen implements Screen  {
 
     private void initSettingsUI(){
         background = new Texture("background_menu.png");
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         stage = new Stage();
         parameter.size = 15;
         parameter.color = Color.GREEN;
+        parameter.characters = "ąćęłóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
         font = new BitmapFont();
         font = generator.generateFont(parameter);
         buttonsAtlas = new TextureAtlas("assets/buttons/buttons_menu.pack");

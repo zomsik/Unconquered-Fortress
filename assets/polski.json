@@ -3,11 +3,11 @@
   "bLogout" : "Wyloguj",
   "bPlay" : "Graj",
   "bSettings" : "Ustawienia",
-  "bCredits" : "Tworcy",
-  "bExit" : "Wyjscie",
+  "bCredits" : "Twórcy",
+  "bExit" : "Wyjście",
   "bBack" : "Cofnij",
   "bSave": "Zapisz",
-  "resolution_field_text" : "Rozdzielczosc",
-  "volume_field_text" : "Glosnosc: ",
-  "language_field_text" : "Jezyk"
+  "resolution_field_text" : "Rozdzielczość",
+  "volume_field_text" : "Głosność: ",
+  "language_field_text" : "Język"
 }
