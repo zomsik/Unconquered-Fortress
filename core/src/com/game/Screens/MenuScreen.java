@@ -45,11 +45,11 @@ public class MenuScreen implements Screen  {
         fileReader = new FileReader();
         fileReader.downloadSettings();
         languageManager = new LanguageManager(fileReader.getLanguageValue());
-        buttonStyleManager.setTextButtonStyle(textButtonStyle_bExit, images, font, "bExit_up", "bExit_down");
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bExit, images, font, "tempmain", "tempmain");
         bExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bExit));
-        buttonStyleManager.setTextButtonStyle(textButtonStyle_bLogin, images, font, "bPlay_up", "bPlay_down");
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bLogin, images, font, "tempmain", "tempmain");
         bPlay = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bPlay"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLogin));
-        buttonStyleManager.setTextButtonStyle(textButtonStyle_bSettings, images, font, "bSettings_up", "bSettings_down");
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bSettings, images, font, "tempmain", "tempmain");
         bSettings = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSettings"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSettings));
 
     }
@@ -134,8 +134,8 @@ public class MenuScreen implements Screen  {
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         stage = new Stage();
-        parameter.size = 15;
-        parameter.color = Color.GREEN;
+        parameter.size = 32;
+        parameter.color = Color.BLACK;
         parameter.characters = "ąćęłóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
         font = new BitmapFont();
         font = generator.generateFont(parameter);

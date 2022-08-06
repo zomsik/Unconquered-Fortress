@@ -3,45 +3,17 @@ buttons_menu.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-bPlay_down
-  rotate: false
-  xy: 1, 93
-  size: 190, 90
-  orig: 190, 90
-  offset: 0, 0
-  index: -1
-bPlay_up
+tempmain
   rotate: false
   xy: 1, 1
-  size: 190, 90
-  orig: 190, 90
+  size: 385, 80
+  orig: 385, 80
   offset: 0, 0
   index: -1
-bSettings_down
+tempmainlog
   rotate: false
-  xy: 193, 93
-  size: 190, 90
-  orig: 190, 90
-  offset: 0, 0
-  index: -1
-bSettings_up
-  rotate: false
-  xy: 193, 1
-  size: 190, 90
-  orig: 190, 90
-  offset: 0, 0
-  index: -1
-bExit_down
-  rotate: false
-  xy: 385, 93
-  size: 170, 90
-  orig: 170, 90
-  offset: 0, 0
-  index: -1
-bExit_up
-  rotate: false
-  xy: 385, 1
-  size: 170, 90
-  orig: 170, 90
+  xy: 388, 1
+  size: 297, 80
+  orig: 297, 80
   offset: 0, 0
   index: -1
