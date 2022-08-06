@@ -1,0 +1,13 @@
+{
+  "bLogin" : "Login",
+  "bLogout" : "Logout",
+  "bPlay" : "Play",
+  "bSettings" : "Settings",
+  "bCredits" : "Credits",
+  "bExit" : "Exit",
+  "bBack" : "Back",
+  "bSave": "Save",
+  "resolution_field_text" : "Resolution",
+  "volume_field_text" : "Volume: ",
+  "language_field_text" : "Language"
+}

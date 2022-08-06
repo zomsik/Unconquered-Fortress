@@ -7,6 +7,8 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Files;
 import com.game.Manager.FileReader;
 
 
+import java.util.Locale;
+
 import static com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration.getDisplayMode;
 
 
@@ -22,7 +24,6 @@ public class DesktopLauncher {
 		}else{
 			config.setFullscreenMode(getDisplayMode());
 		}
-
 		new Lwjgl3Application(new Main(), config);
 	}
 }

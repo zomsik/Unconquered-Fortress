@@ -16,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.Main;
 import com.game.Manager.ButtonStyleManager;
+import com.game.Manager.FileReader;
+import com.game.Manager.LanguageManager;
 
 public class MenuScreen implements Screen  {
     private Main game;
@@ -33,16 +35,22 @@ public class MenuScreen implements Screen  {
     private TextButton.TextButtonStyle textButtonStyle_bExit, textButtonStyle_bPlay, textButtonStyle_bSettings, textButtonStyle_bCredits, textButtonStyle_bLogin;
 
     private ButtonStyleManager buttonStyleManager;
+    private LanguageManager languageManager;
+    private FileReader fileReader;
+
     public MenuScreen(Main game){
         this.game = game;
         initSettingsUI();
         buttonStyleManager = new ButtonStyleManager();
+        fileReader = new FileReader();
+        fileReader.downloadSettings();
+        languageManager = new LanguageManager(fileReader.getLanguageValue());
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bExit, images, font, "bExit_up", "bExit_down");
-        bExit = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bExit));
+        bExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bExit));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bLogin, images, font, "bPlay_up", "bPlay_down");
-        bPlay = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLogin));
+        bPlay = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bPlay"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLogin));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bSettings, images, font, "bSettings_up", "bSettings_down");
-        bSettings = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSettings));
+        bSettings = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSettings"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSettings));
 
     }
     @Override
@@ -127,7 +135,7 @@ public class MenuScreen implements Screen  {
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         stage = new Stage();
         parameter.size = 15;
-        parameter.color = Color.WHITE;
+        parameter.color = Color.GREEN;
         font = new BitmapFont();
         font = generator.generateFont(parameter);
         buttonsAtlas = new TextureAtlas("assets/buttons/buttons_menu.pack");

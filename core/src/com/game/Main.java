@@ -4,6 +4,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.Manager.FileReader;
+import com.game.Manager.LanguageManager;
 import com.game.Screens.MenuScreen;
 
 import java.awt.*;

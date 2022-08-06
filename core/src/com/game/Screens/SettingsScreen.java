@@ -15,10 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.game.Main;
-import com.game.Manager.ButtonStyleManager;
-import com.game.Manager.FileReader;
-import com.game.Manager.Resolutions;
-import com.game.Manager.TextFieldStyleManager;
+import com.game.Manager.*;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -45,11 +42,13 @@ public class SettingsScreen implements Screen {
     private ButtonStyleManager buttonStyleManager;
     private TextFieldStyleManager textFieldStyleManager;
     private FileReader fileReader;
+    private LanguageManager languageManager;
     public SettingsScreen(Main game){
         this.game = game;
         resolutionsClass = new Resolutions();
         fileReader = new FileReader();
         fileReader.downloadSettings();
+        languageManager = new LanguageManager(fileReader.getLanguageValue());
         initSettingsUI();
         buttonStyleManager = new ButtonStyleManager();
         textFieldStyleManager = new TextFieldStyleManager();
@@ -59,21 +58,21 @@ public class SettingsScreen implements Screen {
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bRight, images, font, "resolutionButtonRight_up","resolutionButtonRight_down" );
         bRightResolution = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bRight));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
-        bBack = new TextButton("Back", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bSave, images_default, font, "defaultButton", "defaultButton");
-        bSave = new TextButton("Save", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        bSave = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
 
         textFieldStyleManager.setTextFieldStyle(textFieldStyle, images, font, "resolutionTextBar", Color.WHITE);
-        resolution_field_text = new TextField("Resolution", textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        resolution_field_text = new TextField(languageManager.getValue(languageManager.getLanguage(), "resolution_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
 
-        volume_field_text = new TextField("Volume", textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        volume_field_text = new TextField(languageManager.getValue(languageManager.getLanguage(), "volume_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         sliderStyle.disabledBackground = images.getDrawable("slider_background");
         sliderStyle.disabledKnob = images.getDrawable("slider_knob");
         sliderStyle.background = images.getDrawable("slider_background");
         sliderStyle.knob = images.getDrawable("slider_knob");
         volumeSlider = new Slider(0,100,1,false, sliderStyle);
         volumeSlider.setValue(fileReader.getVolumeValue());
-        language_field_text = new TextField("Language", textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        language_field_text = new TextField(languageManager.getValue(languageManager.getLanguage(), "language_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         bLeftLanguage = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLeft));
         bRightLanguage = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bRight));
     }
@@ -262,7 +261,7 @@ public class SettingsScreen implements Screen {
         game.batch.begin();
         game.batch.draw(background, 0,0);
         game.batch.end();
-        volume_field_text.setText("Volume: " + Math.round(volumeSlider.getValue()));
+        volume_field_text.setText(languageManager.getValue(languageManager.getLanguage(), "volume_field_text") + Math.round(volumeSlider.getValue()));
         stage.act(delta);
         stage.draw();
     }

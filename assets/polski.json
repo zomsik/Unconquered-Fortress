@@ -1,0 +1,13 @@
+{
+  "bLogin" : "Zaloguj",
+  "bLogout" : "Wyloguj",
+  "bPlay" : "Graj",
+  "bSettings" : "Ustawienia",
+  "bCredits" : "Tworcy",
+  "bExit" : "Wyjscie",
+  "bBack" : "Cofnij",
+  "bSave": "Zapisz",
+  "resolution_field_text" : "Rozdzielczosc",
+  "volume_field_text" : "Glosnosc: ",
+  "language_field_text" : "Jezyk"
+}
