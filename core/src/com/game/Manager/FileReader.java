@@ -10,19 +10,14 @@ import com.badlogic.gdx.utils.JsonWriter;
 public class FileReader {
     private String resolutionValue;
     private int volumeValue;
-
-
     private String languageValue;
     public FileReader(){
 
     }
-
     public String getResolutionValue() {return resolutionValue;}
-
     public int getVolumeValue() {
         return volumeValue;
     }
-
     public String getLanguageValue() {
         return languageValue;
     }
@@ -33,7 +28,7 @@ public class FileReader {
         JsonValue base  = json.parse(Gdx.files.internal(jsonPath));
 
         resolutionValue = base.getString("resolution");
-        volumeValue = Integer.valueOf(base.getString("volume"));
+        volumeValue = Integer.parseInt(base.getString("volume"));
         languageValue = (base.getString("language"));
 
     }

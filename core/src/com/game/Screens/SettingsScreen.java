@@ -15,12 +15,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.game.Main;
-import com.game.Manager.Buttons;
+import com.game.Manager.ButtonStyleManager;
 import com.game.Manager.FileReader;
 import com.game.Manager.Resolutions;
-import com.game.Manager.TextFields;
+import com.game.Manager.TextFieldStyleManager;
 
-import java.lang.annotation.Inherited;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -43,8 +42,8 @@ public class SettingsScreen implements Screen {
     private Slider volumeSlider;
     private Slider.SliderStyle sliderStyle;
     private Resolutions resolutionsClass;
-    private Buttons buttons;
-    private TextFields textFields;
+    private ButtonStyleManager buttonStyleManager;
+    private TextFieldStyleManager textFieldStyleManager;
     private FileReader fileReader;
     public SettingsScreen(Main game){
         this.game = game;
@@ -52,31 +51,31 @@ public class SettingsScreen implements Screen {
         fileReader = new FileReader();
         fileReader.downloadSettings();
         initSettingsUI();
-        buttons = new Buttons();
-        textFields = new TextFields();
+        buttonStyleManager = new ButtonStyleManager();
+        textFieldStyleManager = new TextFieldStyleManager();
 
-        buttons.setTextButtonStyle(textButtonStyle_bLeft, images, font, "resolutionButtonLeft_up", "resolutionButtonLeft_down");
-        bLeftResolution = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bLeft));
-        buttons.setTextButtonStyle(textButtonStyle_bRight, images, font, "resolutionButtonRight_up","resolutionButtonRight_down" );
-        bRightResolution = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bRight));
-        buttons.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
-        bBack = new TextButton("Back", buttons.returnTextButtonStyle(textButtonStyle_bBack));
-        buttons.setTextButtonStyle(textButtonStyle_bSave, images_default, font, "defaultButton", "defaultButton");
-        bSave = new TextButton("Save", buttons.returnTextButtonStyle(textButtonStyle_bSave));
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bLeft, images, font, "resolutionButtonLeft_up", "resolutionButtonLeft_down");
+        bLeftResolution = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLeft));
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bRight, images, font, "resolutionButtonRight_up","resolutionButtonRight_down" );
+        bRightResolution = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bRight));
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
+        bBack = new TextButton("Back", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bSave, images_default, font, "defaultButton", "defaultButton");
+        bSave = new TextButton("Save", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
 
-        textFields.setTextField(textFieldStyle, images, font, "resolutionTextBar", Color.WHITE);
-        resolution_field_text = new TextField("Resolution", textFields.returnTextField(textFieldStyle));
+        textFieldStyleManager.setTextFieldStyle(textFieldStyle, images, font, "resolutionTextBar", Color.WHITE);
+        resolution_field_text = new TextField("Resolution", textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
 
-        volume_field_text = new TextField("Volume", textFields.returnTextField(textFieldStyle));
+        volume_field_text = new TextField("Volume", textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         sliderStyle.disabledBackground = images.getDrawable("slider_background");
         sliderStyle.disabledKnob = images.getDrawable("slider_knob");
         sliderStyle.background = images.getDrawable("slider_background");
         sliderStyle.knob = images.getDrawable("slider_knob");
         volumeSlider = new Slider(0,100,1,false, sliderStyle);
         volumeSlider.setValue(fileReader.getVolumeValue());
-        language_field_text = new TextField("Language", textFields.returnTextField(textFieldStyle));
-        bLeftLanguage = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bLeft));
-        bRightLanguage = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bRight));
+        language_field_text = new TextField("Language", textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        bLeftLanguage = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLeft));
+        bRightLanguage = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bRight));
     }
 
     @Override
@@ -195,34 +194,34 @@ public class SettingsScreen implements Screen {
             }
         });
         if(fileReader.getResolutionValue() != null){
-            resolution_field = new TextField(fileReader.getResolutionValue(), textFields.returnTextField(textFieldStyle));
+            resolution_field = new TextField(fileReader.getResolutionValue(), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         }else
         {
             if(Gdx.graphics.getWidth() == 1920){
                 if(resolutions.contains("1920 X 1080 Fullscreen")){
-                    resolution_field = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Fullscreen")),textFields.returnTextField(textFieldStyle));
+                    resolution_field = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Fullscreen")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
                 }else if(resolutions.contains("1920 X 1080 Windowed")){
-                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Windowed")),textFields.returnTextField(textFieldStyle));
+                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Windowed")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
                 }
 
             }else if(Gdx.graphics.getWidth() == 1280){
                 if(resolutions.contains("1280 X 720 Fullscreen")){
-                    resolution_field = new TextField(resolutions.get(resolutions.indexOf("1280 X 720 Fullscreen")),textFields.returnTextField(textFieldStyle));
+                    resolution_field = new TextField(resolutions.get(resolutions.indexOf("1280 X 720 Fullscreen")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
                 }else if(resolutions.contains("1280 X 720 Windowed")){
-                    resolution_field = new TextField(resolutions.get(resolutions.indexOf("1280 X 720 Windowed")),textFields.returnTextField(textFieldStyle));
+                    resolution_field = new TextField(resolutions.get(resolutions.indexOf("1280 X 720 Windowed")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
                 }
             }else{
                 if(resolutions.contains("1600 X 900 Fullscreen")){
-                    resolution_field = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Fullscreen")),textFields.returnTextField(textFieldStyle));
+                    resolution_field = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Fullscreen")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
                 }else if(resolutions.contains("1600 X 900 Windowed")){
-                    resolution_field = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Windowed")),textFields.returnTextField(textFieldStyle));
+                    resolution_field = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Windowed")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
                 }
             }
         }
         if(fileReader.getLanguageValue() != null){
-            language_field  = new TextField(fileReader.getLanguageValue(), textFields.returnTextField(textFieldStyle));
+            language_field  = new TextField(fileReader.getLanguageValue(), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         }else{
-            language_field = new TextField(languages.get(0), textFields.returnTextField(textFieldStyle));
+            language_field = new TextField(languages.get(0), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         }
 
         //to po lewo

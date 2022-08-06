@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.Main;
-import com.game.Manager.Buttons;
+import com.game.Manager.ButtonStyleManager;
 
 public class MenuScreen implements Screen  {
     private Main game;
@@ -24,9 +24,7 @@ public class MenuScreen implements Screen  {
     public TextButton bPlay;
     public TextButton bSettings;
     public BitmapFont font;
-
     private FreeTypeFontGenerator generator;
-
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     public TextureAtlas buttonsAtlas;
     public Skin images;
@@ -34,17 +32,17 @@ public class MenuScreen implements Screen  {
     public Table table_bExit, table_bPlay, table_bSettings, table_bLogin, table_bCredits;
     private TextButton.TextButtonStyle textButtonStyle_bExit, textButtonStyle_bPlay, textButtonStyle_bSettings, textButtonStyle_bCredits, textButtonStyle_bLogin;
 
-    private Buttons buttons;
+    private ButtonStyleManager buttonStyleManager;
     public MenuScreen(Main game){
         this.game = game;
         initSettingsUI();
-        buttons = new Buttons();
-        buttons.setTextButtonStyle(textButtonStyle_bExit, images, font, "bExit_up", "bExit_down");
-        bExit = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bExit));
-        buttons.setTextButtonStyle(textButtonStyle_bLogin, images, font, "bPlay_up", "bPlay_down");
-        bPlay = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bLogin));
-        buttons.setTextButtonStyle(textButtonStyle_bSettings, images, font, "bSettings_up", "bSettings_down");
-        bSettings = new TextButton("", buttons.returnTextButtonStyle(textButtonStyle_bSettings));
+        buttonStyleManager = new ButtonStyleManager();
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bExit, images, font, "bExit_up", "bExit_down");
+        bExit = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bExit));
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bLogin, images, font, "bPlay_up", "bPlay_down");
+        bPlay = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLogin));
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bSettings, images, font, "bSettings_up", "bSettings_down");
+        bSettings = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSettings));
 
     }
     @Override
