@@ -44,7 +44,8 @@ public class MenuScreen implements Screen  {
         buttonStyleManager = new ButtonStyleManager();
         fileReader = new FileReader();
         fileReader.downloadSettings();
-        languageManager = new LanguageManager(fileReader.getLanguageValue());
+        if(fileReader.getLanguageValue() != null){languageManager = new LanguageManager(fileReader.getLanguageValue());}else{languageManager = new LanguageManager("English");}
+
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bExit, images, font, "tempmain", "tempmain");
         bExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bExit));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bLogin, images, font, "tempmain", "tempmain");

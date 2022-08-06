@@ -48,7 +48,7 @@ public class SettingsScreen implements Screen {
         resolutionsClass = new Resolutions();
         fileReader = new FileReader();
         fileReader.downloadSettings();
-        languageManager = new LanguageManager(fileReader.getLanguageValue());
+        if(fileReader.getLanguageValue() != null){languageManager = new LanguageManager(fileReader.getLanguageValue());}else{languageManager = new LanguageManager("English");}
         initSettingsUI();
         buttonStyleManager = new ButtonStyleManager();
         textFieldStyleManager = new TextFieldStyleManager();
@@ -82,7 +82,7 @@ public class SettingsScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         table_resolution.setBounds(Gdx.graphics.getWidth()/10*3,Gdx.graphics.getHeight()/10*8, Gdx.graphics.getWidth()/10*4,32);
-        table_default.setBounds(700, 100, 500,200);
+        table_default.setBounds(Gdx.graphics.getWidth()/10*3, Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*4,50);
         table_volume.setBounds(Gdx.graphics.getWidth()/10*3, Gdx.graphics.getHeight()/10*7, Gdx.graphics.getWidth()/10*4, 32);
         table_language.setBounds(Gdx.graphics.getWidth()/10*3,Gdx.graphics.getHeight()/10*6, Gdx.graphics.getWidth()/10*4,32);
         bRightResolution.addListener(new ClickListener(){
@@ -233,9 +233,8 @@ public class SettingsScreen implements Screen {
         table_resolution.add(bLeftResolution).width(32).height(32);
         table_resolution.add(resolution_field).width(320).height(32);
         table_resolution.add(bRightResolution).width(32).height(32);
-
-        table_default.add(bBack);
-        table_default.add(bSave);
+        table_default.add(bBack).padRight(200);
+        table_default.add(bSave).padLeft(90);
 
         table_volume.add(volume_field_text).padRight(100).width(320);
         table_volume.add(volumeSlider).width(384).height(32);
@@ -247,7 +246,7 @@ public class SettingsScreen implements Screen {
         table_language.add(language_field).width(320).height(32);
         table_language.add(bRightLanguage).width(32).height(32);
         //table_resolution.debug();
-        table_default.debug();
+        //table_default.debug();
         stage.addActor(table_resolution);
         stage.addActor(table_default);
         stage.addActor(table_volume);
