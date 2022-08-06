@@ -11,7 +11,8 @@ import java.util.Locale;
 
 import static com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration.getDisplayMode;
 
-
+//https://kottke.org/plus/type/silkscreen/index.html
+//Link to font licence
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
