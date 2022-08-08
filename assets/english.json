@@ -9,5 +9,7 @@
   "bSave": "Save",
   "resolution_field_text" : "Resolution",
   "volume_field_text" : "Volume: ",
-  "language_field_text" : "Language"
+  "language_field_text" : "Language",
+  "dialog_field_text" : "Do you want exit without saving?",
+  "bBackDialog" : "Yes"
 }

@@ -15,13 +15,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Timer;
 import com.game.Main;
 import com.game.Manager.*;
+import org.w3c.dom.Text;
 
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -32,7 +32,7 @@ public class SettingsScreen implements Screen {
     private BitmapFont font;
     private TextureAtlas buttons_settings, buttons_default, dialog_back;
     private Skin images, images_default, dialog;
-    private TextButton bLeftResolution, bRightResolution, bBack, bSave, bLeftLanguage, bRightLanguage;
+    private TextButton bLeftResolution, bRightResolution, bBack, bSave, bLeftLanguage, bRightLanguage, bBackDialog;
     private Table table_resolution, table_default, table_volume, table_language;
     private TextField resolution_field, resolution_field_text, volume_field_text, language_field_text, language_field;
     private ArrayList<String> resolutions;
@@ -68,8 +68,13 @@ public class SettingsScreen implements Screen {
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bSave, images_default, font, "defaultButton", "defaultButton");
         bSave = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
 
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
+        bBackDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBackDialog"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+
         textFieldStyleManager.setTextFieldStyle(textFieldStyle, images, font, "resolutionTextBar", Color.WHITE);
         resolution_field_text = new TextField(languageManager.getValue(languageManager.getLanguage(), "resolution_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+
+        //dialog_field = new TextField(languageManager.getValue(languageManager.getLanguage(), "dialog_field_text"),textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
 
         volume_field_text = new TextField(languageManager.getValue(languageManager.getLanguage(), "volume_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         sliderStyle.disabledBackground = images.getDrawable("slider_background");
@@ -173,19 +178,32 @@ public class SettingsScreen implements Screen {
                 //Cos jest ale trochę trzeba poogarniać
                 //TODO second back button with setScreenem i disposem dodać, wyrownać, zrobić ramkę i ogarnąć tekst
                 Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
-                backDialog = new Dialog("Do you want leave without saving?", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))){
+                backDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))){
                     public void result(Object obj) {
                         System.out.println("result "+obj);
                     }
                 };
-                //backDialog.text("Do you want to back without saving?");
-                backDialog.button(bBack);
-                backDialog.button(bSave);
+                //backDialog.text(String.valueOf(dialog_field));
+                //backDialog.row();
+                Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+                backDialog.text(languageManager.getValue(languageManager.getLanguage(), "dialog_field_text"), labelStyle);
+                backDialog.button(bBackDialog).padBottom(10);
+                backDialog.button(bSave).padBottom(10);
+                //dialog_field.setPosition(backDialog.getX()+5, backDialog.getY()+5);
+
+
                 backDialog.show(stage);
-                //game.setScreen(new MenuScreen(game));
-                //dispose();
+                table_default.remove();
             }
         });
+        bBackDialog.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                game.setScreen(new MenuScreen(game));
+                dispose();
+        }
+        });
+
         System.out.println(resolutions);
         bSave.addListener(new ClickListener(){
             @Override
@@ -206,6 +224,7 @@ public class SettingsScreen implements Screen {
                 }
                 fileReader.setSettings(resolution_field.getText(), Math.round(volumeSlider.getValue()), language_field.getText());
                 //Ponowne wywołanie tego samego screena, żeby załadował nowe wymiary
+                //TODO Można załadować ostatni screen
                 game.setScreen(new SettingsScreen(game));
                 dispose();
             }
@@ -321,6 +340,7 @@ public class SettingsScreen implements Screen {
         parameter.characters = "ąćęłóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
         font = new BitmapFont();
         font = generator.generateFont(parameter);
+
         buttons_settings = new TextureAtlas("assets/buttons/buttons_settings.pack");
         buttons_default = new TextureAtlas("assets/buttons/buttons_default.pack");
         dialog_back = new TextureAtlas("assets/dialog/skin_dialog.pack");

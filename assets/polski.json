@@ -9,5 +9,7 @@
   "bSave": "Zapisz",
   "resolution_field_text" : "Rozdzielczość",
   "volume_field_text" : "Głosność: ",
-  "language_field_text" : "Język"
+  "language_field_text" : "Język",
+  "dialog_field_text" : "Chcesz wyjść bez zapisywania?",
+  "bBackDialog" : "Tak"
 }
