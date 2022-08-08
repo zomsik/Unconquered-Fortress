@@ -2,18 +2,23 @@ package com.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
 import com.game.Main;
 import com.game.Manager.*;
 
@@ -25,8 +30,8 @@ public class SettingsScreen implements Screen {
     private Stage stage;
     private Texture background;
     private BitmapFont font;
-    private TextureAtlas buttons_settings, buttons_default;
-    private Skin images, images_default;
+    private TextureAtlas buttons_settings, buttons_default, dialog_back;
+    private Skin images, images_default, dialog;
     private TextButton bLeftResolution, bRightResolution, bBack, bSave, bLeftLanguage, bRightLanguage;
     private Table table_resolution, table_default, table_volume, table_language;
     private TextField resolution_field, resolution_field_text, volume_field_text, language_field_text, language_field;
@@ -43,6 +48,7 @@ public class SettingsScreen implements Screen {
     private TextFieldStyleManager textFieldStyleManager;
     private FileReader fileReader;
     private LanguageManager languageManager;
+    private Dialog backDialog;
     public SettingsScreen(Main game){
         this.game = game;
         resolutionsClass = new Resolutions();
@@ -164,8 +170,20 @@ public class SettingsScreen implements Screen {
         bBack.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(new MenuScreen(game));
-                dispose();
+                //Cos jest ale trochę trzeba poogarniać
+                //TODO second back button with setScreenem i disposem dodać, wyrownać, zrobić ramkę i ogarnąć tekst
+                Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
+                backDialog = new Dialog("Do you want leave without saving?", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))){
+                    public void result(Object obj) {
+                        System.out.println("result "+obj);
+                    }
+                };
+                //backDialog.text("Do you want to back without saving?");
+                backDialog.button(bBack);
+                backDialog.button(bSave);
+                backDialog.show(stage);
+                //game.setScreen(new MenuScreen(game));
+                //dispose();
             }
         });
         System.out.println(resolutions);
@@ -305,8 +323,10 @@ public class SettingsScreen implements Screen {
         font = generator.generateFont(parameter);
         buttons_settings = new TextureAtlas("assets/buttons/buttons_settings.pack");
         buttons_default = new TextureAtlas("assets/buttons/buttons_default.pack");
+        dialog_back = new TextureAtlas("assets/dialog/skin_dialog.pack");
         images = new Skin(buttons_settings);
         images_default = new Skin(buttons_default);
+        dialog = new Skin(dialog_back);
         table_resolution = new Table(images);
         table_default = new Table(images_default);
         table_volume = new Table(images);
