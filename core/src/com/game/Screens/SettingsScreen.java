@@ -173,27 +173,36 @@ public class SettingsScreen implements Screen {
             }
         });
         bBack.addListener(new ClickListener(){
+
             @Override
             public void clicked(InputEvent event, float x, float y){
-                //Cos jest ale trochę trzeba poogarniać
-                //TODO second back button with setScreenem i disposem dodać, wyrownać, zrobić ramkę i ogarnąć tekst
-                Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
-                backDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))){
-                    public void result(Object obj) {
-                        System.out.println("result "+obj);
-                    }
-                };
-                //backDialog.text(String.valueOf(dialog_field));
-                //backDialog.row();
-                Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
-                backDialog.text(languageManager.getValue(languageManager.getLanguage(), "dialog_field_text"), labelStyle);
-                backDialog.button(bBackDialog).padBottom(10);
-                backDialog.button(bSave).padBottom(10);
-                //dialog_field.setPosition(backDialog.getX()+5, backDialog.getY()+5);
+                System.out.println(language_field.getText() + " " + fileReader.getLanguageValue());
+                System.out.println(resolution_field.getText() + " " + fileReader.getResolutionValue());
+                System.out.println(Math.round(volumeSlider.getValue()) + " " + fileReader.getVolumeValue());
+                if(language_field.getText().equals(fileReader.getLanguageValue()) && resolution_field.getText().equals(fileReader.getResolutionValue()) && Math.round(volumeSlider.getValue()) == fileReader.getVolumeValue()){
+                    game.setScreen(new MenuScreen(game));
+                    dispose();
+                }else {
+                    //Cos jest ale trochę trzeba poogarniać
+                    //TODO second back button with setScreenem i disposem dodać, wyrownać, zrobić ramkę i ogarnąć tekst
+                    Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
+                    backDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
+                        public void result(Object obj) {
+                            System.out.println("result " + obj);
+                        }
+                    };
+                    //backDialog.text(String.valueOf(dialog_field));
+                    //backDialog.row();
+                    Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+                    backDialog.text(languageManager.getValue(languageManager.getLanguage(), "dialog_field_text"), labelStyle);
+                    backDialog.button(bBackDialog).padBottom(10);
+                    backDialog.button(bSave).padBottom(10);
+                    //dialog_field.setPosition(backDialog.getX()+5, backDialog.getY()+5);
 
 
-                backDialog.show(stage);
-                table_default.remove();
+                    backDialog.show(stage);
+                    table_default.remove();
+                }
             }
         });
         bBackDialog.addListener(new ClickListener(){
