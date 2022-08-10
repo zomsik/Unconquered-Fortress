@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.game.Main;
 import com.game.Manager.*;
+import com.game.State.GameState;
 import org.w3c.dom.Text;
 
 import java.time.format.TextStyle;
@@ -180,8 +181,16 @@ public class SettingsScreen implements Screen {
                 System.out.println(resolution_field.getText() + " " + fileReader.getResolutionValue());
                 System.out.println(Math.round(volumeSlider.getValue()) + " " + fileReader.getVolumeValue());
                 if(language_field.getText().equals(fileReader.getLanguageValue()) && resolution_field.getText().equals(fileReader.getResolutionValue()) && Math.round(volumeSlider.getValue()) == fileReader.getVolumeValue()){
-                    game.setScreen(new MenuScreen(game));
-                    dispose();
+                    switch(GameState.previousGameState){
+                        case MENU:{
+                            game.setScreen(new MenuScreen(game));
+                            dispose();
+                        }break;
+                        case PLAYING: {
+                            //TODO
+                        }break;
+                    }
+
                 }else {
                     //Cos jest ale trochę trzeba poogarniać
                     //TODO second back button with setScreenem i disposem dodać, wyrownać, zrobić ramkę i ogarnąć tekst
@@ -208,8 +217,15 @@ public class SettingsScreen implements Screen {
         bBackDialog.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(new MenuScreen(game));
-                dispose();
+                switch(GameState.gameState){
+                    case MENU:{
+                        game.setScreen(new MenuScreen(game));
+                        dispose();
+                    }break;
+                    case PLAYING: {
+                        //TODO
+                    }break;
+                }
         }
         });
 
@@ -232,10 +248,15 @@ public class SettingsScreen implements Screen {
                     Gdx.graphics.setWindowedMode(1600,900);
                 }
                 fileReader.setSettings(resolution_field.getText(), volumeSlider.getValue(), language_field.getText());
-                //Ponowne wywołanie tego samego screena, żeby załadował nowe wymiary
-                //TODO Można załadować ostatni screen
-                game.setScreen(new SettingsScreen(game));
-                dispose();
+                switch(GameState.previousGameState){
+                    case MENU:{
+                        game.setScreen(new MenuScreen(game));
+                        dispose();
+                    }break;
+                    case PLAYING: {
+                        //TODO
+                    }break;
+                }
             }
         });
         if(fileReader.getResolutionValue() != null){

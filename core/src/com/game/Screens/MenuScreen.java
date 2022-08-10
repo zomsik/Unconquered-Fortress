@@ -20,6 +20,7 @@ import com.game.Main;
 import com.game.Manager.ButtonStyleManager;
 import com.game.Manager.FileReader;
 import com.game.Manager.LanguageManager;
+import com.game.State.GameState;
 
 public class MenuScreen implements Screen  {
     private Main game;
@@ -52,7 +53,6 @@ public class MenuScreen implements Screen  {
         }else{
             languageManager = new LanguageManager("English");
         }
-
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bExit, images, font, "tempmain", "tempmain");
         bExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bExit));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bLogin, images, font, "tempmain", "tempmain");
@@ -84,6 +84,7 @@ public class MenuScreen implements Screen  {
         bSettings.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
+                GameState.SetPreviousGameState(GameState.MENU);
                 game.setScreen(new SettingsScreen(game));
                 backgroundMusic.dispose();
                 dispose();
