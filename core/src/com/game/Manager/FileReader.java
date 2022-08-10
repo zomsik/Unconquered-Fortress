@@ -15,7 +15,7 @@ public class FileReader {
 
     }
     public String getResolutionValue() {return resolutionValue;}
-    public int getVolumeValue() {
+    public float getVolumeValue() {
         return volumeValue;
     }
     public String getLanguageValue() {
@@ -33,7 +33,7 @@ public class FileReader {
 
     }
 
-    public void setSettings(String resolution, int volume, String language){
+    public void setSettings(String resolution, float volume, String language){
         String jsonPath = "save/settings.json";
         User_settings user_settings = new User_settings();
         FileHandle file = Gdx.files.local(jsonPath);

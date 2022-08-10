@@ -2,6 +2,7 @@ package com.game;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.Manager.FileReader;
 import com.game.Manager.LanguageManager;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 public class Main extends Game {
 	public SpriteBatch batch;
 	private FileReader fileReader;
+	private Music music;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -37,6 +39,7 @@ public class Main extends Game {
 				}break;
 			}
 		}
+		music = Gdx.audio.newMusic(Gdx.files.internal("assets/sound/backgroundMusic.ogg"));
 		setScreen(new MenuScreen(this));
 	}
 	@Override
@@ -49,4 +52,7 @@ public class Main extends Game {
 		batch.dispose();
 	}
 
+	public Music getMusic() {
+		return music;
+	}
 }

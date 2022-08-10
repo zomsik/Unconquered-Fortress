@@ -2,6 +2,8 @@ package com.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -37,6 +39,7 @@ public class MenuScreen implements Screen  {
     private ButtonStyleManager buttonStyleManager;
     private LanguageManager languageManager;
     private FileReader fileReader;
+    private Music backgroundMusic;
 
     public MenuScreen(Main game){
         this.game = game;
@@ -44,7 +47,11 @@ public class MenuScreen implements Screen  {
         buttonStyleManager = new ButtonStyleManager();
         fileReader = new FileReader();
         fileReader.downloadSettings();
-        if(fileReader.getLanguageValue() != null){languageManager = new LanguageManager(fileReader.getLanguageValue());}else{languageManager = new LanguageManager("English");}
+        if(fileReader.getLanguageValue() != null){
+            languageManager = new LanguageManager(fileReader.getLanguageValue());
+        }else{
+            languageManager = new LanguageManager("English");
+        }
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bExit, images, font, "tempmain", "tempmain");
         bExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bExit));
@@ -52,7 +59,9 @@ public class MenuScreen implements Screen  {
         bPlay = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bPlay"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLogin));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bSettings, images, font, "tempmain", "tempmain");
         bSettings = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSettings"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSettings));
-
+        backgroundMusic.setVolume(fileReader.getVolumeValue()/100);
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
     }
     @Override
     public void show() {
@@ -76,6 +85,7 @@ public class MenuScreen implements Screen  {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 game.setScreen(new SettingsScreen(game));
+                backgroundMusic.dispose();
                 dispose();
             }
         });
@@ -152,5 +162,8 @@ public class MenuScreen implements Screen  {
         textButtonStyle_bSettings = new TextButton.TextButtonStyle();
         textButtonStyle_bCredits = new TextButton.TextButtonStyle();
         textButtonStyle_bLogin = new TextButton.TextButtonStyle();
+
+        backgroundMusic = game.getMusic();
+
     }
 }

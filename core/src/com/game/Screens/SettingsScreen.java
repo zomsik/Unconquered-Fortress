@@ -231,7 +231,7 @@ public class SettingsScreen implements Screen {
                 }else if (resolution_field.getText().equals("1600 X 900 Windowed")) {
                     Gdx.graphics.setWindowedMode(1600,900);
                 }
-                fileReader.setSettings(resolution_field.getText(), Math.round(volumeSlider.getValue()), language_field.getText());
+                fileReader.setSettings(resolution_field.getText(), volumeSlider.getValue(), language_field.getText());
                 //Ponowne wywołanie tego samego screena, żeby załadował nowe wymiary
                 //TODO Można załadować ostatni screen
                 game.setScreen(new SettingsScreen(game));
