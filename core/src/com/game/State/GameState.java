@@ -4,6 +4,7 @@ public enum GameState {
     PLAYING,
     MENU,
     SETTINGS,
+    CREDITS,
     LOGIN,
     REGISTER;
     public static GameState gameState = MENU;

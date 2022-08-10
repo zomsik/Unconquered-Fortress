@@ -26,8 +26,10 @@ public class MenuScreen implements Screen  {
     private Main game;
     private Texture background;
     public TextButton bExit;
+    public TextButton bLogin;
     public TextButton bPlay;
     public TextButton bSettings;
+    public TextButton bCredits;
     public BitmapFont font;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
@@ -53,12 +55,18 @@ public class MenuScreen implements Screen  {
         }else{
             languageManager = new LanguageManager("English");
         }
+
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bLogin, images, font, "tempmainlog", "tempmainlog");
+        bLogin = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bLogin"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLogin));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bExit, images, font, "tempmain", "tempmain");
         bExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bExit));
-        buttonStyleManager.setTextButtonStyle(textButtonStyle_bLogin, images, font, "tempmain", "tempmain");
-        bPlay = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bPlay"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLogin));
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bPlay, images, font, "tempmain", "tempmain");
+        bPlay = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bPlay"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bPlay));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bSettings, images, font, "tempmain", "tempmain");
         bSettings = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSettings"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSettings));
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bCredits, images, font, "tempmain", "tempmain");
+        bCredits = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bCredits"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bCredits));
+
         backgroundMusic.setVolume(fileReader.getVolumeValue()/100);
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
@@ -67,6 +75,7 @@ public class MenuScreen implements Screen  {
     public void show() {
 
         Gdx.input.setInputProcessor(stage);
+        bExit.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*8+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/10*2, Gdx.graphics.getHeight()/100*7+8);
         //Ustawienie pozycji przycisków, skalowane z wymiarami okna
         table_bLogin.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*2+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/100*16, Gdx.graphics.getHeight()/100*7+8);
         table_bCredits.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*7+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/10*2, Gdx.graphics.getHeight()/100*7+8);
@@ -81,29 +90,55 @@ public class MenuScreen implements Screen  {
            }
         });
 
+        bLogin.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                GameState.SetPreviousGameState(GameState.LOGIN);
+                game.setScreen(new LoginScreen(game));
+                dispose();
+            }
+        });
+
+
         bSettings.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 GameState.SetPreviousGameState(GameState.MENU);
                 game.setScreen(new SettingsScreen(game));
+                dispose();
+            }
+        });
+
+
+        bCredits.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                GameState.SetPreviousGameState(GameState.CREDITS);
+                game.setScreen(new CreditsScreen(game));
                 backgroundMusic.dispose();
                 dispose();
             }
         });
 
-        table_bExit.add(bExit);
-        table_bPlay.add(bPlay);
-        table_bSettings.add(bSettings);
+        table_bExit.add(bExit).width(Gdx.graphics.getWidth()/10*2).height(Gdx.graphics.getHeight()/100*7+8);
+        table_bPlay.add(bPlay).width(Gdx.graphics.getWidth()/10*2).height(Gdx.graphics.getHeight()/100*7+8);
+        table_bLogin.add(bLogin).width(Gdx.graphics.getWidth()/100*16).height(Gdx.graphics.getHeight()/100*7+8);
+        table_bSettings.add(bSettings).width(Gdx.graphics.getWidth()/10*2).height(Gdx.graphics.getHeight()/100*7+8);
+        table_bCredits.add(bCredits).width(Gdx.graphics.getWidth()/10*2).height(Gdx.graphics.getHeight()/100*7+8);
+
         table_bExit.debug();
         table_bPlay.debug();
+        //table_bLogin.debug();
         table_bSettings.debug();
         table_bCredits.debug();
-        table_bLogin.debug();
+
         stage.addActor(table_bCredits);
         stage.addActor(table_bLogin);
         stage.addActor(table_bExit);
+        stage.addActor(table_bLogin);
         stage.addActor(table_bSettings);
         stage.addActor(table_bPlay);
+
     }
     @Override
     public void render(float delta) {

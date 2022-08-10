@@ -2,6 +2,7 @@ package com.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,10 +11,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -42,6 +45,7 @@ public class SettingsScreen implements Screen {
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private TextButton.TextButtonStyle textButtonStyle_bLeft, textButtonStyle_bRight, textButtonStyle_bBack, textButtonStyle_bSave;
     private TextField.TextFieldStyle textFieldStyle;
+    private Music backgroundMusic;
     private Slider volumeSlider;
     private Slider.SliderStyle sliderStyle;
     private Resolutions resolutionsClass;
@@ -125,6 +129,15 @@ public class SettingsScreen implements Screen {
 
             }
         });
+
+        volumeSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+               backgroundMusic.setVolume(volumeSlider.getValue()/100);
+
+            }
+               });
+
         bLeftResolution.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -387,5 +400,8 @@ public class SettingsScreen implements Screen {
         textButtonStyle_bSave = new TextButton.TextButtonStyle();
         textFieldStyle = new TextField.TextFieldStyle();
         sliderStyle = new Slider.SliderStyle();
+
+        backgroundMusic = game.getMusic();
+
     }
 }
