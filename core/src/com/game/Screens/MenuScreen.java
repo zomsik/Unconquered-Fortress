@@ -91,9 +91,9 @@ public class MenuScreen implements Screen  {
             }
         });
 
-        table_bExit.add(bExit);
-        table_bPlay.add(bPlay);
-        table_bSettings.add(bSettings);
+        table_bExit.add(bExit).width(Gdx.graphics.getWidth()/10*2).height(Gdx.graphics.getHeight()/100*7+8);
+        table_bPlay.add(bPlay).width(Gdx.graphics.getWidth()/10*2).height(Gdx.graphics.getHeight()/100*7+8);
+        table_bSettings.add(bSettings).width(Gdx.graphics.getWidth()/10*2).height(Gdx.graphics.getHeight()/100*7+8);
         table_bExit.debug();
         table_bPlay.debug();
         table_bSettings.debug();
