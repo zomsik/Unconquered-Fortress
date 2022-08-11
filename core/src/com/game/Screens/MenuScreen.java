@@ -4,18 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.game.Main;
 import com.game.Manager.ButtonStyleManager;
 import com.game.Manager.FileReader;
@@ -30,19 +31,23 @@ public class MenuScreen implements Screen  {
     public TextButton bPlay;
     public TextButton bSettings;
     public TextButton bCredits;
-    public BitmapFont font;
+    public TextButton bDialogLogin;
+    public TextButton bDialogExit;
+    public TextButton bDialogRegister;
+    public BitmapFont font, font2;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    public TextureAtlas buttonsAtlas;
-    public Skin images;
+    public TextureAtlas buttonsAtlas, buttons_default, dialog_back;
+    public Skin images, images_default;
     public Stage stage;
     public Table table_bExit, table_bPlay, table_bSettings, table_bLogin, table_bCredits;
-    private TextButton.TextButtonStyle textButtonStyle_bExit, textButtonStyle_bPlay, textButtonStyle_bSettings, textButtonStyle_bCredits, textButtonStyle_bLogin;
+    private TextButton.TextButtonStyle textButtonStyle_bExit, textButtonStyle_bPlay, textButtonStyle_bSettings, textButtonStyle_bCredits, textButtonStyle_bLogin, textButtonStyle_bDialogLogin;
 
     private ButtonStyleManager buttonStyleManager;
     private LanguageManager languageManager;
     private FileReader fileReader;
     private Music backgroundMusic;
+    private Dialog backDialog;
 
     public MenuScreen(Main game){
         this.game = game;
@@ -67,6 +72,11 @@ public class MenuScreen implements Screen  {
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bCredits, images, font, "tempmain", "tempmain");
         bCredits = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bCredits"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bCredits));
 
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bDialogLogin, images_default, font2, "defaultButton", "defaultButton");
+        bDialogLogin = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bLogin"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogLogin));
+
+
+
         backgroundMusic.setVolume(fileReader.getVolumeValue()/100);
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
@@ -90,12 +100,42 @@ public class MenuScreen implements Screen  {
            }
         });
 
+
+
+        // Dialog chyba imo lepiej jednak
         bLogin.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
+                /*
                 GameState.SetPreviousGameState(GameState.LOGIN);
                 game.setScreen(new LoginScreen(game));
                 dispose();
+                */
+
+                Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
+                backDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
+                    public void result(Object obj) {
+                        System.out.println("result " + obj);
+                    }
+                };
+                //backDialog.text(String.valueOf(dialog_field));
+                //backDialog.row();
+                Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+                //backDialog.text(languageManager.getValue(languageManager.getLanguage(), "dialog_field_text"), labelStyle);
+                backDialog.text("Okno logowania",labelStyle);
+
+                //backDialog.button(bBackDialog).padBottom(10);
+                backDialog.button(bDialogLogin).padBottom(10);
+                //dialog_field.setPosition(backDialog.getX()+5, backDialog.getY()+5);
+
+
+                backDialog.show(stage);
+                //table_default.remove();
+
+
+
+
+
             }
         });
 
@@ -186,8 +226,18 @@ public class MenuScreen implements Screen  {
         parameter.characters = "ąćęłóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
         font = new BitmapFont();
         font = generator.generateFont(parameter);
+
+        parameter.size = 15;
+        parameter.color = Color.WHITE;
+        font2 = new BitmapFont();
+        font2 = generator.generateFont(parameter);
+
+
         buttonsAtlas = new TextureAtlas("assets/buttons/buttons_menu.pack");
+        buttons_default = new TextureAtlas("assets/buttons/buttons_default.pack");
+        dialog_back = new TextureAtlas("assets/dialog/skin_dialog.pack");
         images = new Skin(buttonsAtlas);
+        images_default = new Skin(buttons_default);
         table_bExit = new Table(images);
         table_bPlay = new Table(images);
         table_bLogin = new Table(images);
@@ -198,7 +248,7 @@ public class MenuScreen implements Screen  {
         textButtonStyle_bSettings = new TextButton.TextButtonStyle();
         textButtonStyle_bCredits = new TextButton.TextButtonStyle();
         textButtonStyle_bLogin = new TextButton.TextButtonStyle();
-
+        textButtonStyle_bDialogLogin = new TextButton.TextButtonStyle();
         backgroundMusic = game.getMusic();
 
     }
