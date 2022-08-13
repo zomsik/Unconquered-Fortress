@@ -1,5 +1,6 @@
 {
   "bLogin" : "Zaloguj",
+  "bRegister": "Zarejestruj",
   "bLogout" : "Wyloguj",
   "bPlay" : "Graj",
   "bSettings" : "Ustawienia",
@@ -11,5 +12,14 @@
   "volume_field_text" : "Głosność: ",
   "language_field_text" : "Język",
   "dialog_field_text" : "Chcesz wyjść bez zapisywania?",
-  "bBackDialog" : "Wyjdź"
+  "bBackDialog" : "Wyjdź",
+  "cDialogStayLogged" : "Zapamiętaj mnie",
+  "ResponseWrongPassword": "Błędne hasło",
+  "ResponseNoUserWithThisLogin": "Brak użytkownika o takim loginie",
+  "ResponseLoggedSuccessfully": "Zalogowano pomyślnie",
+  "ResponseInternalServerError": "Wewnętrzny błąd serwera",
+  "ErrorEmptyFields": "Wypełnij wszystkie pola",
+  "ErrorLengthOfLogin":"Login powinien mieć od 5 do 20 znaków",
+  "ErrorLengthOfPassword": "Hasło powinno mieć od 5 do 20 znaków"
+
 }

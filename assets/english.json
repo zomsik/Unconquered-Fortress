@@ -1,5 +1,6 @@
 {
   "bLogin" : "Login",
+  "bRegister": "Register",
   "bLogout" : "Logout",
   "bPlay" : "Play",
   "bSettings" : "Settings",
@@ -11,5 +12,13 @@
   "volume_field_text" : "Volume: ",
   "language_field_text" : "Language",
   "dialog_field_text" : "Do you want exit without saving?",
-  "bBackDialog" : "Exit"
+  "bBackDialog" : "Exit",
+  "cDialogStayLogged" : "Stay Logged",
+  "ResponseWrongPassword": "Wrong password",
+  "ResponseNoUserWithThisLogin": "No user with this login",
+  "ResponseLoggedSuccessfully": "Logged successfully",
+  "ResponseInternalServerError": "Internal server error",
+  "ErrorEmptyFields": "Fill all fields",
+  "ErrorLengthOfLogin":"Login should have between 5 and 20 characters",
+  "ErrorLengthOfPassword": "Password should have between 5 and 20 characters"
 }

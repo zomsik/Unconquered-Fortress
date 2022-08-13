@@ -3,6 +3,13 @@ buttons_settings.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+empty_background
+  rotate: false
+  xy: 150, 1
+  size: 150, 32
+  orig: 150, 32
+  offset: 0, 0
+  index: -1
 slider_background
   rotate: false
   xy: 1, 69

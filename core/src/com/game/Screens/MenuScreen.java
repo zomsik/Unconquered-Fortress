@@ -3,7 +3,6 @@ package com.game.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -14,14 +13,20 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.game.Main;
 import com.game.Manager.ButtonStyleManager;
+import com.game.Manager.ConnectionManager;
 import com.game.Manager.FileReader;
 import com.game.Manager.LanguageManager;
 import com.game.State.GameState;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class MenuScreen implements Screen  {
     private Main game;
@@ -31,23 +36,32 @@ public class MenuScreen implements Screen  {
     public TextButton bPlay;
     public TextButton bSettings;
     public TextButton bCredits;
-    public TextButton bDialogLogin;
+    public TextButton bDialogLogin, bDialogLoginRegister;
+    public TextButton cDialogStayLogged, tDialogStayLogged;
+    public TextField fDialogLoginLogin, fDialogLoginPassowrd, tDialogErrors;
     public TextButton bDialogExit;
     public TextButton bDialogRegister;
     public BitmapFont font, font2;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    public TextureAtlas buttonsAtlas, buttons_default, dialog_back;
-    public Skin images, images_default;
+    public TextureAtlas buttonsAtlas, buttons_settings, buttons_default, dialog_back;
+    public Skin images, images_settings, images_default;
     public Stage stage;
-    public Table table_bExit, table_bPlay, table_bSettings, table_bLogin, table_bCredits;
-    private TextButton.TextButtonStyle textButtonStyle_bExit, textButtonStyle_bPlay, textButtonStyle_bSettings, textButtonStyle_bCredits, textButtonStyle_bLogin, textButtonStyle_bDialogLogin;
+    public Table table_bExit, table_bPlay, table_bSettings, table_bLogin, table_bCredits, table_dialogLogin;
+    private TextButton.TextButtonStyle textButtonStyle_tDialogStayLogged, textButtonStyle_bExit, textButtonStyle_bPlay, textButtonStyle_bSettings, textButtonStyle_bCredits, textButtonStyle_bLogin, textButtonStyle_bDialogLogin, textButtonStyle_cDialogStayLogged;
 
+    private ConnectionManager connectionManager;
     private ButtonStyleManager buttonStyleManager;
     private LanguageManager languageManager;
     private FileReader fileReader;
     private Music backgroundMusic;
-    private Dialog backDialog;
+    private Dialog loginDialog;
+
+    public boolean stayLogged = false;
+    public boolean isLogged = false;
+
+
+
 
     public MenuScreen(Main game){
         this.game = game;
@@ -71,9 +85,6 @@ public class MenuScreen implements Screen  {
         bSettings = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSettings"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSettings));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bCredits, images, font, "tempmain", "tempmain");
         bCredits = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bCredits"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bCredits));
-
-        buttonStyleManager.setTextButtonStyle(textButtonStyle_bDialogLogin, images_default, font2, "defaultButton", "defaultButton");
-        bDialogLogin = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bLogin"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogLogin));
 
 
 
@@ -102,42 +113,174 @@ public class MenuScreen implements Screen  {
 
 
 
-        // Dialog chyba imo lepiej jednak
+
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bDialogLogin, images_default, font2, "defaultButton", "defaultButton");
+        bDialogLogin = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bLogin"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogLogin));
+        bDialogLoginRegister = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bRegister"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogLogin));
+
+
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_tDialogStayLogged, images_settings, font2, "empty_background", "empty_background");
+        tDialogStayLogged = new TextButton(languageManager.getValue(languageManager.getLanguage(), "cDialogStayLogged"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_tDialogStayLogged));
+        tDialogStayLogged.setTouchable(Touchable.disabled);
+
+
+
+
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogStayLogged, images_settings, font2, "checkbox_off", "checkbox_off");
+        cDialogStayLogged = new TextButton(null, buttonStyleManager.returnTextButtonStyle(textButtonStyle_cDialogStayLogged));
+
+        TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
+        textFieldStyle.fontColor = Color.BLACK;
+        textFieldStyle.font = font;
+
+
+        TextField tLoginDialogTitle = new TextField("Okno logowania", textFieldStyle);
+        tLoginDialogTitle.setDisabled(true);
+        tLoginDialogTitle.setAlignment(Align.right);
+        tLoginDialogTitle.setSize(150,30);
+
+        TextField.TextFieldStyle textFieldStyle2 = new TextField.TextFieldStyle();
+        textFieldStyle2.fontColor = Color.WHITE;
+        textFieldStyle2.font = font2;
+        fDialogLoginLogin = new TextField(null, textFieldStyle2);
+        fDialogLoginPassowrd = new TextField(null, textFieldStyle2);
+        fDialogLoginPassowrd.setPasswordMode(true);
+        fDialogLoginPassowrd.setPasswordCharacter('*');
+
+
+        TextField.TextFieldStyle textFieldStyle3 = new TextField.TextFieldStyle();
+        textFieldStyle3.fontColor = Color.RED;
+        textFieldStyle3.font = font2;
+        tDialogErrors = new TextField(null,textFieldStyle3);
+        tDialogErrors.setDisabled(true);
+
+        Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
+        loginDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
+            public void result(Object obj) {
+                loginDialog.cancel();
+            }
+        };
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
+
+
+
+        //loginDialog.text("Okno logowania\n",labelStyle).align(Align.top);
+
+        labelStyle = new Label.LabelStyle(font2, Color.WHITE);
+
+
+        loginDialog.getButtonTable().debug();
+
+        table_dialogLogin.setWidth(350);
+        table_dialogLogin.setX(200);
+        table_dialogLogin.setY(300);
+        table_dialogLogin.row().colspan(2);
+        table_dialogLogin.add(tLoginDialogTitle).expand().fillX().align(Align.top);
+
+        table_dialogLogin.row().colspan(2);;
+
+        table_dialogLogin.add(fDialogLoginLogin).pad(10).align(Align.center);
+        table_dialogLogin.row().colspan(2);
+        table_dialogLogin.add(fDialogLoginPassowrd).pad(10).align(Align.center);
+        table_dialogLogin.row();
+        table_dialogLogin.add(cDialogStayLogged);
+        table_dialogLogin.add(tDialogStayLogged);
+        table_dialogLogin.row().colspan(2);
+        table_dialogLogin.add(tDialogErrors);
+        //table_dialogLogin.row();
+        //table_dialogLogin.add(bDialogLogin);
+
+        loginDialog.button(bDialogLogin);
+        loginDialog.button(bDialogLoginRegister);
+        table_dialogLogin.debug();
+
+        loginDialog.addActor(table_dialogLogin);
+
+
         bLogin.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                /*
-                GameState.SetPreviousGameState(GameState.LOGIN);
-                game.setScreen(new LoginScreen(game));
-                dispose();
-                */
+                if (isLogged) {
+                    bLogin.setText(languageManager.getValue(languageManager.getLanguage(), "bLogin"));
+                    isLogged = false;
+                    return;
+                }
 
-                Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
-                backDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
-                    public void result(Object obj) {
-                        System.out.println("result " + obj);
-                    }
-                };
-                //backDialog.text(String.valueOf(dialog_field));
-                //backDialog.row();
-                Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
-                //backDialog.text(languageManager.getValue(languageManager.getLanguage(), "dialog_field_text"), labelStyle);
-                backDialog.text("Okno logowania",labelStyle);
+                loginDialog.show(stage);
 
-                //backDialog.button(bBackDialog).padBottom(10);
-                backDialog.button(bDialogLogin).padBottom(10);
-                //dialog_field.setPosition(backDialog.getX()+5, backDialog.getY()+5);
+            }
+        });
 
+        cDialogStayLogged.addListener(new ClickListener(){
 
-                backDialog.show(stage);
-                //table_default.remove();
-
-
+            @Override
+            //public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y){
+                stayLogged = !stayLogged;
+                if (!stayLogged)
+                {
+                    buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogStayLogged, images_settings, font2, "checkbox_off", "checkbox_off");
+                    cDialogStayLogged = new TextButton(languageManager.getValue(languageManager.getLanguage(), "cDialogStayLogged"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_cDialogStayLogged));
+                }
+                else
+                {
+                    buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogStayLogged, images_settings, font2, "checkbox_on", "checkbox_on");
+                    cDialogStayLogged = new TextButton(languageManager.getValue(languageManager.getLanguage(), "cDialogStayLogged"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_cDialogStayLogged));
+                }
 
 
 
             }
         });
+
+
+        bDialogLogin.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+
+                if (fDialogLoginLogin.getText().isEmpty() || fDialogLoginPassowrd.getText().isEmpty())
+                {
+                    tDialogErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorEmptyFields"));
+                    return;
+                }
+                if (fDialogLoginLogin.getText().length() < 5 || fDialogLoginLogin.getText().length() > 20 )
+                {
+                    tDialogErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfLogin"));
+                    return;
+                }
+                if (fDialogLoginPassowrd.getText().length() < 5 || fDialogLoginPassowrd.getText().length() > 20 )
+                {
+                    tDialogErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfPassword"));
+                    return;
+                }
+
+                JSONObject loginData = new JSONObject();
+
+                loginData.put("login",fDialogLoginLogin.getText());
+                loginData.put("password",fDialogLoginPassowrd.getText());
+                JSONObject response = new JSONObject();
+                try {
+                    response = connectionManager.requestSend(loginData);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (response.getInt("status") == 200)
+                {
+                    bLogin.setText(languageManager.getValue(languageManager.getLanguage(), "bLogout"));
+                    isLogged = true;
+                    loginDialog.hide();
+                }
+                else
+                {
+                    tDialogErrors.setText(languageManager.getValue(languageManager.getLanguage(), response.getString("message")));
+                }
+
+
+            }
+        });
+
+
+
 
 
         bSettings.addListener(new ClickListener(){
@@ -232,23 +375,28 @@ public class MenuScreen implements Screen  {
         font2 = new BitmapFont();
         font2 = generator.generateFont(parameter);
 
-
+        connectionManager = new ConnectionManager();
         buttonsAtlas = new TextureAtlas("assets/buttons/buttons_menu.pack");
         buttons_default = new TextureAtlas("assets/buttons/buttons_default.pack");
+        buttons_settings = new TextureAtlas("assets/buttons/buttons_settings.pack");
         dialog_back = new TextureAtlas("assets/dialog/skin_dialog.pack");
         images = new Skin(buttonsAtlas);
+        images_settings = new Skin(buttons_settings);
         images_default = new Skin(buttons_default);
         table_bExit = new Table(images);
         table_bPlay = new Table(images);
         table_bLogin = new Table(images);
         table_bCredits = new Table(images);
         table_bSettings = new Table(images);
+        table_dialogLogin = new Table(images_settings);
         textButtonStyle_bExit = new TextButton.TextButtonStyle();
         textButtonStyle_bPlay = new TextButton.TextButtonStyle();
         textButtonStyle_bSettings = new TextButton.TextButtonStyle();
         textButtonStyle_bCredits = new TextButton.TextButtonStyle();
         textButtonStyle_bLogin = new TextButton.TextButtonStyle();
         textButtonStyle_bDialogLogin = new TextButton.TextButtonStyle();
+        textButtonStyle_cDialogStayLogged = new TextButton.TextButtonStyle();
+        textButtonStyle_tDialogStayLogged = new TextButton.TextButtonStyle();
         backgroundMusic = game.getMusic();
 
     }
