@@ -27,6 +27,7 @@ import com.game.State.GameState;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Base64;
 
 public class MenuScreen implements Screen  {
     private Main game;
@@ -58,7 +59,7 @@ public class MenuScreen implements Screen  {
     private Dialog loginDialog;
 
     public boolean stayLogged = false;
-    public boolean isLogged = false;
+
 
 
 
@@ -75,8 +76,26 @@ public class MenuScreen implements Screen  {
             languageManager = new LanguageManager("English");
         }
 
+        fileReader.downloadUserInfo();
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bLogin, images, font, "tempmainlog", "tempmainlog");
-        bLogin = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bLogin"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLogin));
+        if (fileReader.getTokenValue()!=null || game.getIsLogged())
+        {
+            game.setIsLogged(true);
+            System.out.println(fileReader.getTokenValue());
+            System.out.println("zalogowany");
+            bLogin = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bLogout"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLogin));
+
+        }
+        else
+        {
+            System.out.println(fileReader.getTokenValue());
+            System.out.println("wylogowany");
+            bLogin = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bLogin"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLogin));
+
+        }
+
+
+
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bExit, images, font, "tempmain", "tempmain");
         bExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bExit));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bPlay, images, font, "tempmain", "tempmain");
@@ -201,11 +220,19 @@ public class MenuScreen implements Screen  {
         bLogin.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                if (isLogged) {
+                if (game.getIsLogged()) {
+                    if (fileReader.getTokenValue()!=null){
+                        String[] chunks = fileReader.getTokenValue().split("\\.");
+                        Base64.Decoder decoder = Base64.getUrlDecoder();
+                        fDialogLoginLogin.setText(new JSONObject(new String(decoder.decode(chunks[1]))).getString("login"));
+                    }
+
+                    fileReader.setUserInfo(null);
                     bLogin.setText(languageManager.getValue(languageManager.getLanguage(), "bLogin"));
-                    isLogged = false;
+                    game.setIsLogged(false);
                     return;
                 }
+
 
                 loginDialog.show(stage);
 
@@ -266,8 +293,17 @@ public class MenuScreen implements Screen  {
                 }
                 if (response.getInt("status") == 200)
                 {
+                    if (stayLogged)
+                    {
+                        fileReader.setUserInfo(response.getString("token"));
+                    }
+                    else {
+                        fDialogLoginPassowrd.setText(null);
+                    }
+
+
                     bLogin.setText(languageManager.getValue(languageManager.getLanguage(), "bLogout"));
-                    isLogged = true;
+                    game.setIsLogged(true);
                     loginDialog.hide();
                 }
                 else

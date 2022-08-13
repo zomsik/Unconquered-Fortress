@@ -8,18 +8,48 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 
 public class FileReader {
+
+    private String tokenValue;
+
+
     private String resolutionValue;
     private int volumeValue;
     private String languageValue;
     public FileReader(){
 
     }
+    public String getTokenValue() {return tokenValue;}
+
     public String getResolutionValue() {return resolutionValue;}
     public float getVolumeValue() {
         return volumeValue;
     }
     public String getLanguageValue() {
         return languageValue;
+    }
+
+    public void downloadUserInfo(){
+        String jsonPath = "save/user.json";
+        JsonReader json = new JsonReader();
+        JsonValue base  = json.parse(Gdx.files.internal(jsonPath));
+
+        tokenValue = base.getString("token");
+
+    }
+
+    public void setUserInfo(String token){
+        String jsonPath = "save/user.json";
+        User_info user_info = new User_info();
+        FileHandle file = Gdx.files.local(jsonPath);
+        Json json = new Json();
+        json.setTypeName(null);
+        json.setUsePrototypes(false);
+        json.setIgnoreUnknownFields(true);
+        json.setOutputType(JsonWriter.OutputType.json);
+        user_info.token = token;
+
+        String txt = json.toJson(user_info);
+        file.writeString(json.prettyPrint(txt), false);
     }
 
     public void downloadSettings(){

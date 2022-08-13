@@ -1,26 +1,35 @@
 package com.game;
 
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.Manager.FileReader;
-import com.game.Manager.LanguageManager;
 import com.game.Screens.MenuScreen;
-
-import java.awt.*;
-import java.util.Arrays;
 
 
 public class Main extends Game {
 	public SpriteBatch batch;
 	private FileReader fileReader;
 	private Music music;
+	public boolean isLogged;
+
+	public void setIsLogged(boolean newValue)
+	{
+		isLogged = newValue;
+	}
+	public boolean getIsLogged()
+	{
+		return isLogged;
+	}
+
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		fileReader = new FileReader();
 		fileReader.downloadSettings();
+		isLogged = false;
 		if(fileReader.getResolutionValue() != null){
 			switch(fileReader.getResolutionValue()){
 				case "1600 X 900 Fullscreen":
