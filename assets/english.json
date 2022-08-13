@@ -20,5 +20,7 @@
   "ResponseInternalServerError": "Internal server error",
   "ErrorEmptyFields": "Fill all fields",
   "ErrorLengthOfLogin":"Login should have between 5 and 20 characters",
-  "ErrorLengthOfPassword": "Password should have between 5 and 20 characters"
+  "ErrorLengthOfPassword": "Password should have between 5 and 20 characters",
+  "tLoginDialogTitle": "Login window",
+  "tRegisterDialogTitle": "Register window"
 }

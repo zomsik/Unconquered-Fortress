@@ -20,6 +20,7 @@
   "ResponseInternalServerError": "Wewnętrzny błąd serwera",
   "ErrorEmptyFields": "Wypełnij wszystkie pola",
   "ErrorLengthOfLogin":"Login powinien mieć od 5 do 20 znaków",
-  "ErrorLengthOfPassword": "Hasło powinno mieć od 5 do 20 znaków"
-
+  "ErrorLengthOfPassword": "Hasło powinno mieć od 5 do 20 znaków",
+  "tLoginDialogTitle": "Okno logowania",
+  "tRegisterDialogTitle": "Okno rejestracji"
 }
