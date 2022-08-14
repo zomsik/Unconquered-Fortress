@@ -22,5 +22,11 @@
   "ErrorLengthOfLogin":"Login powinien mieć od 5 do 20 znaków",
   "ErrorLengthOfPassword": "Hasło powinno mieć od 5 do 20 znaków",
   "tLoginDialogTitle": "Okno logowania",
-  "tRegisterDialogTitle": "Okno rejestracji"
+  "tRegisterDialogTitle": "Okno rejestracji",
+  "ErrorRepeatPasswordDifferent": "Powtórzone hasła różnią się",
+  "ErrorInvalidMail": "Mail nieprawidłowy",
+  "ResponseLoginTaken": "Login jest już zajęty",
+  "ResponseMailTaken": "Mail jest już zajęty",
+  "ResponseUserCreated": "Użytkownik zarejestrowany"
+
 }

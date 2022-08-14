@@ -22,5 +22,10 @@
   "ErrorLengthOfLogin":"Login should have between 5 and 20 characters",
   "ErrorLengthOfPassword": "Password should have between 5 and 20 characters",
   "tLoginDialogTitle": "Login window",
-  "tRegisterDialogTitle": "Register window"
+  "tRegisterDialogTitle": "Register window",
+  "ErrorRepeatPasswordDifferent": "Repeat password is different",
+  "ErrorInvalidEmail": "Invalid mail",
+  "ResponseLoginTaken": "Login already taken",
+  "ResponseMailTaken": "Mail already taken",
+  "ResponseUserCreated": "User created"
 }

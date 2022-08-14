@@ -6,6 +6,9 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
+import org.json.JSONObject;
+
+import java.util.Base64;
 
 public class FileReader {
 
@@ -27,6 +30,13 @@ public class FileReader {
     public String getLanguageValue() {
         return languageValue;
     }
+
+    public String getLoginFromToken(){
+        String[] chunks = this.getTokenValue().split("\\.");
+        Base64.Decoder decoder = Base64.getUrlDecoder();
+        return (new JSONObject(new String(decoder.decode(chunks[1]))).getString("login"));
+    }
+
 
     public void downloadUserInfo(){
         String jsonPath = "save/user.json";

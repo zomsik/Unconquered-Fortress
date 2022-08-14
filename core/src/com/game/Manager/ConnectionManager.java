@@ -18,10 +18,11 @@ public class ConnectionManager {
     }
 
 
-    public JSONObject requestSend(JSONObject dataToSend) throws IOException {
+    public JSONObject requestSend(JSONObject dataToSend, String Url) throws IOException {
 
         try {
-            URL url = new URL("http://localhost:9000/api/login");
+
+            URL url = new URL(Url);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
 

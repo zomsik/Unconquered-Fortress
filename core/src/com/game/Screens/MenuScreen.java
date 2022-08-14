@@ -27,7 +27,7 @@ import com.game.State.GameState;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Base64;
+import java.util.Objects;
 
 public class MenuScreen implements Screen  {
     private Main game;
@@ -39,8 +39,8 @@ public class MenuScreen implements Screen  {
     public TextButton bCredits;
     public TextButton bDialogLogin, bDialogLoginRegister, cDialogStayLogged, tDialogStayLogged, bDialogExit, bDialogExit2;
 
-    public TextField fDialogLoginLogin, fDialogLoginPassowrd, tDialogErrors;
-    public TextField fDialogRegisterLogin, fDialogRegisterEmail, fDialogRegisterPassword, fDialogRegisterRepeatPassword;
+    public TextField fDialogLoginLogin, fDialogLoginPassowrd, tDialogLoginErrors;
+    public TextField fDialogRegisterLogin, fDialogRegisterMail, fDialogRegisterPassword, fDialogRegisterRepeatPassword, tDialogRegisterErrors;
 
     public TextButton bDialogRegister, bDialogRegisterLogin;
     public BitmapFont font, font2;
@@ -177,7 +177,7 @@ public class MenuScreen implements Screen  {
         tLoginDialogTitle.setSize(150,30);
 
         fDialogRegisterLogin = new TextField(null, textFieldStyle2);
-        fDialogRegisterEmail = new TextField(null, textFieldStyle2);
+        fDialogRegisterMail = new TextField(null, textFieldStyle2);
         fDialogRegisterPassword = new TextField(null, textFieldStyle2);
         fDialogRegisterPassword.setPasswordMode(true);
         fDialogRegisterPassword.setPasswordCharacter('*');
@@ -188,8 +188,10 @@ public class MenuScreen implements Screen  {
         TextField.TextFieldStyle textFieldStyle3 = new TextField.TextFieldStyle();
         textFieldStyle3.fontColor = Color.RED;
         textFieldStyle3.font = font2;
-        tDialogErrors = new TextField(null,textFieldStyle3);
-        tDialogErrors.setDisabled(true);
+        tDialogLoginErrors = new TextField(null,textFieldStyle3);
+        tDialogLoginErrors.setDisabled(true);
+        tDialogRegisterErrors =  new TextField(null,textFieldStyle3);
+        tDialogRegisterErrors.setDisabled(true);
 
         Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
         menuDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
@@ -215,7 +217,7 @@ public class MenuScreen implements Screen  {
         table_dialogLogin.add(cDialogStayLogged);
         table_dialogLogin.add(tDialogStayLogged);
         table_dialogLogin.row().colspan(2);
-        table_dialogLogin.add(tDialogErrors);
+        table_dialogLogin.add(tDialogLoginErrors);
 
         // Register Dialog
         table_dialogRegister.setWidth(350);
@@ -228,13 +230,13 @@ public class MenuScreen implements Screen  {
         table_dialogRegister.row().colspan(2);
         table_dialogRegister.add(fDialogRegisterLogin).pad(10).align(Align.center);
         table_dialogRegister.row().colspan(2);
-        table_dialogRegister.add(fDialogRegisterEmail).pad(10).align(Align.center);
+        table_dialogRegister.add(fDialogRegisterMail).pad(10).align(Align.center);
         table_dialogRegister.row().colspan(2);
         table_dialogRegister.add(fDialogRegisterPassword).pad(10).align(Align.center);
         table_dialogRegister.row().colspan(2);
         table_dialogRegister.add(fDialogRegisterRepeatPassword).pad(10).align(Align.center);
         table_dialogRegister.row().colspan(2);
-        table_dialogRegister.add(tDialogErrors);
+        table_dialogRegister.add(tDialogRegisterErrors);
 
         table_dialogLogin.debug();
         table_dialogRegister.debug();
@@ -247,9 +249,7 @@ public class MenuScreen implements Screen  {
             public void clicked(InputEvent event, float x, float y){
                 if (game.getIsLogged()) {
                     if (fileReader.getTokenValue()!=null){
-                        String[] chunks = fileReader.getTokenValue().split("\\.");
-                        Base64.Decoder decoder = Base64.getUrlDecoder();
-                        fDialogLoginLogin.setText(new JSONObject(new String(decoder.decode(chunks[1]))).getString("login"));
+                        fDialogLoginLogin.setText(fileReader.getLoginFromToken());
                     }
 
                     fileReader.setUserInfo(null);
@@ -258,6 +258,7 @@ public class MenuScreen implements Screen  {
                     return;
                 }
 
+                tDialogLoginErrors.setText(null);
                 menuDialog.removeActor(table_dialogRegister);
                 menuDialog.addActor(table_dialogLogin);
                 menuDialog.getButtonTable().clearChildren();
@@ -298,17 +299,17 @@ public class MenuScreen implements Screen  {
 
                 if (fDialogLoginLogin.getText().isEmpty() || fDialogLoginPassowrd.getText().isEmpty())
                 {
-                    tDialogErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorEmptyFields"));
+                    tDialogLoginErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorEmptyFields"));
                     return;
                 }
                 if (fDialogLoginLogin.getText().length() < 5 || fDialogLoginLogin.getText().length() > 20 )
                 {
-                    tDialogErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfLogin"));
+                    tDialogLoginErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfLogin"));
                     return;
                 }
                 if (fDialogLoginPassowrd.getText().length() < 5 || fDialogLoginPassowrd.getText().length() > 20 )
                 {
-                    tDialogErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfPassword"));
+                    tDialogLoginErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfPassword"));
                     return;
                 }
 
@@ -318,7 +319,7 @@ public class MenuScreen implements Screen  {
                 loginData.put("password",fDialogLoginPassowrd.getText());
                 JSONObject response = new JSONObject();
                 try {
-                    response = connectionManager.requestSend(loginData);
+                    response = connectionManager.requestSend(loginData, "http://localhost:9000/api/login");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -332,14 +333,14 @@ public class MenuScreen implements Screen  {
                         fDialogLoginPassowrd.setText(null);
                     }
 
-
+                    tDialogLoginErrors.setText(null);
                     bLogin.setText(languageManager.getValue(languageManager.getLanguage(), "bLogout"));
                     game.setIsLogged(true);
                     menuDialog.hide();
                 }
                 else
                 {
-                    tDialogErrors.setText(languageManager.getValue(languageManager.getLanguage(), response.getString("message")));
+                    tDialogLoginErrors.setText(languageManager.getValue(languageManager.getLanguage(), response.getString("message")));
                 }
 
 
@@ -363,16 +364,92 @@ public class MenuScreen implements Screen  {
         bDialogLoginRegister.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-
+                tDialogLoginErrors.setText(null);
                 menuDialog.removeActor(table_dialogLogin);
                 menuDialog.addActor(table_dialogRegister);
                 menuDialog.getButtonTable().clearChildren();
                 menuDialog.button(bDialogRegister);
                 menuDialog.button(bDialogRegisterLogin);
-               // loginDialog.removeActor(table_dialogLogin);
             }
         });
 
+
+
+        bDialogRegister.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                if (fDialogRegisterLogin.getText().isEmpty() || fDialogRegisterMail.getText().isEmpty() || fDialogRegisterPassword.getText().isEmpty() || fDialogRegisterRepeatPassword.getText().isEmpty())
+                {
+                    tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorEmptyFields"));
+                    return;
+                }
+                if (fDialogRegisterLogin.getText().length() < 5 || fDialogRegisterLogin.getText().length() > 20 )
+                {
+                    tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfLogin"));
+                    return;
+                }
+                if (fDialogRegisterPassword.getText().length() < 5 || fDialogRegisterPassword.getText().length() > 20 )
+                {
+                    tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfPassword"));
+                    return;
+                }
+                if (!Objects.equals(fDialogRegisterPassword.getText(), fDialogRegisterRepeatPassword.getText()))
+                {
+                    System.out.println(fDialogRegisterPassword.getText());
+                    System.out.println(fDialogRegisterRepeatPassword.getText());
+
+                    tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorRepeatPasswordDifferent"));
+                    return;
+                }
+
+                //TODO mail checker
+
+
+
+                JSONObject RegisterData = new JSONObject();
+
+                RegisterData.put("login", fDialogRegisterLogin.getText());
+                RegisterData.put("mail", fDialogRegisterMail.getText());
+                RegisterData.put("password",fDialogRegisterPassword.getText());
+                JSONObject response = new JSONObject();
+
+                try {
+                    response = connectionManager.requestSend(RegisterData, "http://localhost:9000/api/register");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (response.getInt("status") == 200)
+                {
+                    fDialogRegisterLogin.setText(null);
+                    fDialogRegisterMail.setText(null);
+                    fDialogRegisterPassword.setText(null);
+                    fDialogRegisterRepeatPassword.setText(null);
+                    tDialogRegisterErrors.setText(null);
+                    menuDialog.hide();
+
+                }
+                else
+                {
+                    tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), response.getString("message")));
+                }
+
+
+            }
+        });
+
+
+
+        bDialogRegisterLogin.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                tDialogRegisterErrors.setText(null);
+                menuDialog.removeActor(table_dialogRegister);
+                menuDialog.addActor(table_dialogLogin);
+                menuDialog.getButtonTable().clearChildren();
+                menuDialog.button(bDialogLogin);
+                menuDialog.button(bDialogLoginRegister);
+            }
+        });
 
         bSettings.addListener(new ClickListener(){
             @Override

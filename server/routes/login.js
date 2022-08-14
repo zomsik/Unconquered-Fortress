@@ -6,20 +6,18 @@ const Joi = require("joi")
 router.post("/", async (req, res) => {
     try {
         
-        const dataToValidate  = {login: req.headers.login, password: req.headers.password}
+        const dataFromRequest  = {login: req.headers.login, password: req.headers.password}
 
-        const { error } = validate(dataToValidate);
-        if (error)
-            return res.send( error.details[0].message )
+        //const { error } = validate(dataFromRequest);
+        //if (error)
+        //return res.send({status: 400, message: error.details[0].message })
         
-        
-
-        const user = await User.findOne({ login: req.headers.login })
+        const user = await User.findOne({ login: dataFromRequest.login })
         
         if (!user)
             return res.send({ status: 400, message: "ResponseNoUserWithThisLogin" })
         
-        const validPassword = await bcrypt.compare(req.headers.password,user.password)
+        const validPassword = await bcrypt.compare(dataFromRequest.password, user.password)
         
         if (!validPassword)
             return res.send({ status: 401, message: "ResponseWrongPassword" })
@@ -34,7 +32,6 @@ router.post("/", async (req, res) => {
 })
 
 const validate = (data) => {
-    console.log(data)
     const schema = Joi.object({
         login: Joi.string().required().label("Login"),
         password: Joi.string().required().label("Password"),

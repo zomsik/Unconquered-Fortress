@@ -5,7 +5,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const connection = require('./db')
-const userRoutes = require("./routes/users")
+const registerRoutes = require("./routes/register")
 const loginRoutes = require("./routes/login")
 
 app.post('/', function(req, res){
@@ -21,7 +21,7 @@ app.use(cors())
 
 
 // routes
-app.use("/api/users", userRoutes)
+app.use("/api/register", registerRoutes)
 app.use("/api/login", loginRoutes)
 
 const port = process.env.PORT || 9000
