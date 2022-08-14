@@ -27,5 +27,7 @@
   "ErrorInvalidEmail": "Invalid mail",
   "ResponseLoginTaken": "Login already taken",
   "ResponseMailTaken": "Mail already taken",
-  "ResponseUserCreated": "User created"
+  "ResponseUserCreated": "User created",
+  "ResponseErrorConnectionWithServer": "Connection error with the server",
+  "ResponseClientInternalError": "Internal client error"
 }

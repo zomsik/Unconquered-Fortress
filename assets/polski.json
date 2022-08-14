@@ -27,6 +27,7 @@
   "ErrorInvalidMail": "Mail nieprawidłowy",
   "ResponseLoginTaken": "Login jest już zajęty",
   "ResponseMailTaken": "Mail jest już zajęty",
-  "ResponseUserCreated": "Użytkownik zarejestrowany"
-
+  "ResponseUserCreated": "Użytkownik zarejestrowany",
+  "ResponseErrorConnectionWithServer": "Błąd połączenia z serwerem",
+  "ResponseClientInternalError": "Wewnętrzny bład klienta"
 }

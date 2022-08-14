@@ -26,7 +26,6 @@ import com.game.Manager.LanguageManager;
 import com.game.State.GameState;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.Objects;
 
 public class MenuScreen implements Screen  {
@@ -317,12 +316,9 @@ public class MenuScreen implements Screen  {
 
                 loginData.put("login",fDialogLoginLogin.getText());
                 loginData.put("password",fDialogLoginPassowrd.getText());
-                JSONObject response = new JSONObject();
-                try {
-                    response = connectionManager.requestSend(loginData, "http://localhost:9000/api/login");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+                JSONObject response = connectionManager.requestSend(loginData, "http://localhost:9000/api/login");
+
                 if (response.getInt("status") == 200)
                 {
                     if (stayLogged)
@@ -411,13 +407,10 @@ public class MenuScreen implements Screen  {
                 RegisterData.put("login", fDialogRegisterLogin.getText());
                 RegisterData.put("mail", fDialogRegisterMail.getText());
                 RegisterData.put("password",fDialogRegisterPassword.getText());
-                JSONObject response = new JSONObject();
 
-                try {
-                    response = connectionManager.requestSend(RegisterData, "http://localhost:9000/api/register");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+                JSONObject response = connectionManager.requestSend(RegisterData, "http://localhost:9000/api/register");
+
                 if (response.getInt("status") == 200)
                 {
                     fDialogRegisterLogin.setText(null);

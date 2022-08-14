@@ -6,19 +6,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.Socket;
 import java.net.URL;
-public class ConnectionManager {
-    private Socket socket;
+import java.nio.charset.StandardCharsets;
 
-    final private String hostname = "http://localhost";
-    final private int PORT = 9000;
+public class ConnectionManager {
 
     public ConnectionManager()  {
     }
 
 
-    public JSONObject requestSend(JSONObject dataToSend, String Url) throws IOException {
+    public JSONObject requestSend(JSONObject dataToSend, String Url) {
 
         try {
 
@@ -30,8 +27,6 @@ public class ConnectionManager {
             con.setDoInput(true);
             con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             con.setRequestProperty("Accept", "application/json");
-
-            //con.setRequestProperty("Data", dataToSend.toString());
 
             for (String keyStr : dataToSend.keySet()) {
                 Object keyValue = dataToSend.get(keyStr);
@@ -45,23 +40,26 @@ public class ConnectionManager {
                 //    printJsonObject((JSONObject)keyvalue);
             }
 
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
             StringBuilder response = new StringBuilder();
-            String responseLine = null;
-            while ((responseLine = br.readLine()) != null) {
-                response.append(responseLine.trim());
-            }
 
-            //JSONObject responseObject = new JSONObject(response.toString().replaceAll("\"","\\\""));
+
+            try {
+                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
+                String responseLine;
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+            }
+            catch(Exception e) {
+                return new JSONObject().put("status", 110).put("message","ResponseErrorConnectionWithServer");
+            }
 
             return new JSONObject(response.toString().replaceAll("\"","\\\""));
 
         } catch (IOException e) {
             e.printStackTrace();
+            return new JSONObject().put("status", 406).put("message","ResponseClientInternalError");
         }
-
-        return null;
     }
 
 
