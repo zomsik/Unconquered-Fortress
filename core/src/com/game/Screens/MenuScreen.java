@@ -477,11 +477,11 @@ public class MenuScreen implements Screen  {
         table_bSettings.add(bSettings).width(Gdx.graphics.getWidth()/10*2).height(Gdx.graphics.getHeight()/100*7+8);
         table_bCredits.add(bCredits).width(Gdx.graphics.getWidth()/10*2).height(Gdx.graphics.getHeight()/100*7+8);
 
-        table_bExit.debug();
-        table_bPlay.debug();
+        //table_bExit.debug();
+        //table_bPlay.debug();
         //table_bLogin.debug();
-        table_bSettings.debug();
-        table_bCredits.debug();
+        //table_bSettings.debug();
+        //table_bCredits.debug();
 
         stage.addActor(table_bCredits);
         stage.addActor(table_bLogin);
