@@ -24,6 +24,7 @@ import com.badlogic.gdx.utils.Align;
 import com.game.Main;
 import com.game.Manager.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,15 +124,15 @@ public class ProfileLocalScreen implements Screen {
             tGold01.setAlignment(Align.left);
             tDiamonds01 = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") + user_save_01.diamonds, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
             tDiamonds01.setAlignment(Align.left);
-            table_profile_01.add(tDifficulty01).width(table_profile_01.getWidth());
+            table_profile_01.add(tDifficulty01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10);
             table_profile_01.row();
-            table_profile_01.add(tFinishedMaps01).width(table_profile_01.getWidth());
+            table_profile_01.add(tFinishedMaps01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10);
             table_profile_01.row();
-            table_profile_01.add(tWave01).width(table_profile_01.getWidth());
+            table_profile_01.add(tWave01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10);
             table_profile_01.row();
-            table_profile_01.add(tGold01).width(table_profile_01.getWidth());
+            table_profile_01.add(tGold01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10);
             table_profile_01.row();
-            table_profile_01.add(tDiamonds01).width(table_profile_01.getWidth());
+            table_profile_01.add(tDiamonds01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10).padBottom(table_profile_01.getHeight()/2);
             table_profile_01.debug();
             table_profile_01.setTouchable(Touchable.enabled);
             table_profile_01.addListener(new ClickListener(){
@@ -143,7 +144,7 @@ public class ProfileLocalScreen implements Screen {
             });
 
         }else{
-            table_profile_01.add(bNewProfile01);
+            table_profile_01.add(bNewProfile01).height(table_profile_01.getHeight()/4).width(table_profile_01.getHeight()/4).padBottom(table_profile_01.getHeight()/4);;
         }
 
         if(fileReader.fileExists("save/save02l.json")){
@@ -166,15 +167,15 @@ public class ProfileLocalScreen implements Screen {
             tGold02.setAlignment(Align.left);
             tDiamonds02 = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") + user_save_02.diamonds, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
             tDiamonds02.setAlignment(Align.left);
-            table_profile_02.add(tDifficulty02).width(table_profile_02.getWidth());
+            table_profile_02.add(tDifficulty02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10);
             table_profile_02.row();
-            table_profile_02.add(tFinishedMaps02).width(table_profile_02.getWidth());
+            table_profile_02.add(tFinishedMaps02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10);
             table_profile_02.row();
-            table_profile_02.add(tWave02).width(table_profile_02.getWidth());
+            table_profile_02.add(tWave02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10);
             table_profile_02.row();
-            table_profile_02.add(tGold02).width(table_profile_02.getWidth());
+            table_profile_02.add(tGold02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10);
             table_profile_02.row();
-            table_profile_02.add(tDiamonds02).width(table_profile_02.getWidth());
+            table_profile_02.add(tDiamonds02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10).padBottom(table_profile_02.getHeight()/2);
             table_profile_02.debug();
             table_profile_02.setTouchable(Touchable.enabled);
             table_profile_02.addListener(new ClickListener(){
@@ -185,7 +186,7 @@ public class ProfileLocalScreen implements Screen {
                 }
             });
         }else{
-            table_profile_02.add(bNewProfile02);
+            table_profile_02.add(bNewProfile02).height(table_profile_02.getHeight()/4).width(table_profile_02.getHeight()/4).padBottom(table_profile_02.getHeight()/4);;
         }
         if(fileReader.fileExists("save/save03l.json")){
             User_save user_save_03 = new User_save();
@@ -207,15 +208,15 @@ public class ProfileLocalScreen implements Screen {
             tGold03.setAlignment(Align.left);
             tDiamonds03 = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") + user_save_03.diamonds, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
             tDiamonds03.setAlignment(Align.left);
-            table_profile_03.add(tDifficulty01).width(table_profile_03.getWidth());
+            table_profile_03.add(tDifficulty01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10);
             table_profile_03.row();
-            table_profile_03.add(tFinishedMaps01).width(table_profile_03.getWidth());
+            table_profile_03.add(tFinishedMaps01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10);
             table_profile_03.row();
-            table_profile_03.add(tWave01).width(table_profile_03.getWidth());
+            table_profile_03.add(tWave01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10);
             table_profile_03.row();
-            table_profile_03.add(tGold01).width(table_profile_03.getWidth());
+            table_profile_03.add(tGold01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10);
             table_profile_03.row();
-            table_profile_03.add(tDiamonds01).width(table_profile_03.getWidth());
+            table_profile_03.add(tDiamonds01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10).padBottom(table_profile_03.getHeight()/2);;
             table_profile_03.debug();
             table_profile_03.setTouchable(Touchable.enabled);
             table_profile_03.addListener(new ClickListener(){
@@ -226,7 +227,7 @@ public class ProfileLocalScreen implements Screen {
                 }
             });
         }else{
-            table_profile_03.add(bNewProfile03);
+            table_profile_03.add(bNewProfile03).height(table_profile_03.getHeight()/4).width(table_profile_03.getHeight()/4).padBottom(table_profile_03.getHeight()/4);
         }
 
         table_default.add(bBack).padRight(200);
@@ -292,7 +293,11 @@ public class ProfileLocalScreen implements Screen {
         background = new Texture("background.png");
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 15;
+        if(Gdx.graphics.getWidth() < 1281){
+            parameter.size = 12;
+        }else{
+            parameter.size = 15;
+        }
         parameter.color = Color.WHITE;
         parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
         font = new BitmapFont();
