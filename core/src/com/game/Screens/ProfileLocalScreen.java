@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -96,6 +97,10 @@ public class ProfileLocalScreen implements Screen {
         }
         Gdx.input.setInputProcessor(stage);
         Texture bg = new Texture(new FileHandle("assets/profile_banner.png"));
+        Texture icon = new Texture(new FileHandle("assets/icons/local.png"));
+        Image local01 = new Image(icon);
+        Image local02 = new Image(icon);
+        Image local03 = new Image(icon);
         table_profile_01.setBounds(Gdx.graphics.getWidth()/10*2, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
         table_profile_01.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
         table_profile_02.setBounds(Gdx.graphics.getWidth()/10*4, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
@@ -124,6 +129,8 @@ public class ProfileLocalScreen implements Screen {
             tGold01.setAlignment(Align.left);
             tDiamonds01 = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") + user_save_01.diamonds, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
             tDiamonds01.setAlignment(Align.left);
+            table_profile_01.add(local01).width(table_profile_01.getHeight()/20).height(table_profile_01.getHeight()/20).align(Align.right);
+            table_profile_01.row();
             table_profile_01.add(tDifficulty01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10);
             table_profile_01.row();
             table_profile_01.add(tFinishedMaps01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10);
@@ -132,7 +139,7 @@ public class ProfileLocalScreen implements Screen {
             table_profile_01.row();
             table_profile_01.add(tGold01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10);
             table_profile_01.row();
-            table_profile_01.add(tDiamonds01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10).padBottom(table_profile_01.getHeight()/2);
+            table_profile_01.add(tDiamonds01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10).padBottom(table_profile_01.getHeight()/2-table_profile_01.getHeight()/10);
             table_profile_01.debug();
             table_profile_01.setTouchable(Touchable.enabled);
             table_profile_01.addListener(new ClickListener(){
@@ -144,7 +151,7 @@ public class ProfileLocalScreen implements Screen {
             });
 
         }else{
-            table_profile_01.add(bNewProfile01).height(table_profile_01.getHeight()/4).width(table_profile_01.getHeight()/4).padBottom(table_profile_01.getHeight()/4);;
+            table_profile_01.add(bNewProfile01).height(table_profile_01.getHeight()/4).width(table_profile_01.getHeight()/4).padBottom(table_profile_01.getHeight()/4);
         }
 
         if(fileReader.fileExists("save/save02l.json")){
@@ -167,6 +174,8 @@ public class ProfileLocalScreen implements Screen {
             tGold02.setAlignment(Align.left);
             tDiamonds02 = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") + user_save_02.diamonds, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
             tDiamonds02.setAlignment(Align.left);
+            table_profile_02.add(local02).width(table_profile_02.getHeight()/20).height(table_profile_02.getHeight()/20).align(Align.right);
+            table_profile_02.row();
             table_profile_02.add(tDifficulty02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10);
             table_profile_02.row();
             table_profile_02.add(tFinishedMaps02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10);
@@ -175,7 +184,7 @@ public class ProfileLocalScreen implements Screen {
             table_profile_02.row();
             table_profile_02.add(tGold02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10);
             table_profile_02.row();
-            table_profile_02.add(tDiamonds02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10).padBottom(table_profile_02.getHeight()/2);
+            table_profile_02.add(tDiamonds02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10).padBottom(table_profile_02.getHeight()/2-table_profile_02.getHeight()/10);
             table_profile_02.debug();
             table_profile_02.setTouchable(Touchable.enabled);
             table_profile_02.addListener(new ClickListener(){
@@ -208,6 +217,8 @@ public class ProfileLocalScreen implements Screen {
             tGold03.setAlignment(Align.left);
             tDiamonds03 = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") + user_save_03.diamonds, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
             tDiamonds03.setAlignment(Align.left);
+            table_profile_03.add(local03).width(table_profile_03.getHeight()/20).height(table_profile_03.getHeight()/20).align(Align.right);
+            table_profile_03.row();
             table_profile_03.add(tDifficulty01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10);
             table_profile_03.row();
             table_profile_03.add(tFinishedMaps01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10);
@@ -216,7 +227,7 @@ public class ProfileLocalScreen implements Screen {
             table_profile_03.row();
             table_profile_03.add(tGold01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10);
             table_profile_03.row();
-            table_profile_03.add(tDiamonds01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10).padBottom(table_profile_03.getHeight()/2);;
+            table_profile_03.add(tDiamonds01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10).padBottom(table_profile_03.getHeight()/2-table_profile_03.getHeight()/10);
             table_profile_03.debug();
             table_profile_03.setTouchable(Touchable.enabled);
             table_profile_03.addListener(new ClickListener(){
