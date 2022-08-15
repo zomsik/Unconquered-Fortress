@@ -12,12 +12,14 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.game.Main;
@@ -78,6 +80,18 @@ public class ProfileLocalScreen implements Screen {
 
     @Override
     public void show() {
+        if(game.isLogged){
+            table_next.setBounds(Gdx.graphics.getWidth()/10*9, Gdx.graphics.getWidth()/10*2,Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*2);
+            table_next.add(bOtherScreen);
+            table_next.debug();
+            stage.addActor(table_next);
+            bOtherScreen.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    game.setScreen(new ProfileCloudScreen(game));
+                }
+            });
+        }
         Gdx.input.setInputProcessor(stage);
         Texture bg = new Texture(new FileHandle("assets/profile_banner.png"));
         table_profile_01.setBounds(Gdx.graphics.getWidth()/10*2, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
@@ -86,8 +100,8 @@ public class ProfileLocalScreen implements Screen {
         table_profile_02.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
         table_profile_03.setBounds(Gdx.graphics.getWidth()/10*6, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
         table_profile_03.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
-        table_next.setBounds(Gdx.graphics.getWidth()/10*9, Gdx.graphics.getWidth()/10*2,Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*2);
-        table_default.setBounds(Gdx.graphics.getWidth()/10*3, Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*4,50);
+
+        table_default.setBounds(Gdx.graphics.getWidth()/10*3, Gdx.graphics.getHeight()/20, Gdx.graphics.getWidth()/10*4,50);
         if(fileReader.fileExists("save/save01l.json")){
             User_save user_save_01 = new User_save();
             fileReader.downloadSave("save/save01l.json");
@@ -189,27 +203,28 @@ public class ProfileLocalScreen implements Screen {
         }else{
             table_profile_03.add(bNewProfile);
         }
-        table_next.add(bOtherScreen);
-        table_next.debug();
+
         table_default.add(bBack).padRight(200);
         table_default.add(bPlay).padLeft(90);
 
-        stage.addActor(table_next);
+
         stage.addActor(table_profile_01);
         stage.addActor(table_profile_02);
         stage.addActor(table_profile_03);
         stage.addActor(table_default);
 
-        bOtherScreen.addListener(new ChangeListener() {
+
+        bBack.addListener(new ClickListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                    game.setScreen(new ProfileCloudScreen(game));
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new MenuScreen(game));
             }
         });
-        bBack.addListener(new ChangeListener() {
+        table_profile_01.addListener(new ClickListener(){
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new MenuScreen(game));
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("zostałem wybrany");
+                //wyłapuje tylko na textfieldach, a nie na całym table_profile
             }
         });
     }
