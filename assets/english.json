@@ -40,5 +40,9 @@
   "finishedmaps_field": "Finished maps: ",
   "wave_field" : "Wave: ",
   "gold_field" : "Gold: ",
-  "diamonds_field" : "Diamonds: "
+  "diamonds_field" : "Diamonds: ",
+  "creditsGame": "Game",
+  "creditsMusic": "Music",
+  "creditsGraphics": "Graphics",
+  "creditsStack": "Stack"
 }

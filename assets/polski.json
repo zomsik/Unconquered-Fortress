@@ -40,5 +40,11 @@
   "finishedmaps_field": "Ukończone mapy: ",
   "wave_field" : "Fala: ",
   "gold_field" : "Złoto: ",
-  "diamonds_field" : "Diamenty: "
+  "diamonds_field" : "Diamenty: ",
+  "creditsGame": "Gra",
+  "creditsMusic": "Muzyka",
+  "creditsGraphics": "Grafika",
+  "creditsStack": "Technologia"
+
+
 }

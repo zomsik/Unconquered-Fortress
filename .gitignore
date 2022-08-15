@@ -1,6 +1,7 @@
 ## Client
 
-/save/
+/save/settings.json
+/save/user.json
 
 ## Server
 /server/node_modules/
