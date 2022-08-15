@@ -11,14 +11,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -38,9 +37,9 @@ public class ProfileLocalScreen implements Screen {
     private Stage stage;
     private Texture background;
     private BitmapFont font;
-    private TextureAtlas buttons_default, profile_banner, empty_textfield, buttons_profile;
+    private TextureAtlas taButtonsDefault, taProfileBanner, taEmptyTextfield, taButtonsProfile;
     private Skin images_default, images_empty, image_profiles;
-    private TextButton bBack, bPlay, bOtherScreen, bNewProfile;
+    private TextButton bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03;
     private Table table_profile_01, table_profile_02, table_profile_03, table_default, table_next;
     private TextField tDifficulty01, tDifficulty02,tDifficulty03,
                       tFinishedMaps01, tFinishedMaps02, tFinishedMaps03,
@@ -74,8 +73,9 @@ public class ProfileLocalScreen implements Screen {
         bOtherScreen = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bNext));
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bNewProfile, image_profiles, font, "new_profile_button_up", "new_profile_button_down");
-        bNewProfile = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bNewProfile));
-
+        bNewProfile01 = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bNewProfile));
+        bNewProfile02 = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bNewProfile));
+        bNewProfile03 = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bNewProfile));
         textFieldStyleManager.setTextFieldStyle(textFieldStyle, images_empty, font, "empty_background", Color.WHITE);
     }
 
@@ -133,9 +133,17 @@ public class ProfileLocalScreen implements Screen {
             table_profile_01.row();
             table_profile_01.add(tDiamonds01).width(table_profile_01.getWidth());
             table_profile_01.debug();
+            table_profile_01.setTouchable(Touchable.enabled);
+            table_profile_01.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    System.out.println("zostałem wybrany");
+                    //wyłapuje tylko na textfieldach, a nie na całym table_profile
+                }
+            });
 
         }else{
-            table_profile_01.add(bNewProfile);
+            table_profile_01.add(bNewProfile01);
         }
 
         if(fileReader.fileExists("save/save02l.json")){
@@ -168,8 +176,16 @@ public class ProfileLocalScreen implements Screen {
             table_profile_02.row();
             table_profile_02.add(tDiamonds02).width(table_profile_02.getWidth());
             table_profile_02.debug();
+            table_profile_02.setTouchable(Touchable.enabled);
+            table_profile_02.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    System.out.println("zostałem wybrany");
+                    //wyłapuje tylko na textfieldach, a nie na całym table_profile
+                }
+            });
         }else{
-            table_profile_02.add(bNewProfile);
+            table_profile_02.add(bNewProfile02);
         }
         if(fileReader.fileExists("save/save03l.json")){
             User_save user_save_03 = new User_save();
@@ -201,8 +217,16 @@ public class ProfileLocalScreen implements Screen {
             table_profile_03.row();
             table_profile_03.add(tDiamonds01).width(table_profile_03.getWidth());
             table_profile_03.debug();
+            table_profile_03.setTouchable(Touchable.enabled);
+            table_profile_03.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    System.out.println("zostałem wybrany");
+                    //wyłapuje tylko na textfieldach, a nie na całym table_profile
+                }
+            });
         }else{
-            table_profile_03.add(bNewProfile);
+            table_profile_03.add(bNewProfile03);
         }
 
         table_default.add(bBack).padRight(200);
@@ -221,13 +245,10 @@ public class ProfileLocalScreen implements Screen {
                 game.setScreen(new MenuScreen(game));
             }
         });
-        table_profile_01.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("zostałem wybrany");
-                //wyłapuje tylko na textfieldach, a nie na całym table_profile
-            }
-        });
+
+
+
+
     }
 
     @Override
@@ -276,13 +297,13 @@ public class ProfileLocalScreen implements Screen {
         parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
         font = new BitmapFont();
         font = generator.generateFont(parameter);
-        buttons_default = new TextureAtlas("assets/buttons/buttons_default.pack");
+        taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");
         //TODO dodaj jeden więcej przycisk >
-        empty_textfield = new TextureAtlas("assets/buttons/buttons_settings.pack");
-        buttons_profile = new TextureAtlas("assets/buttons/buttons_profile.pack");
-        images_default = new Skin(buttons_default);
-        images_empty = new Skin(empty_textfield);
-        image_profiles = new Skin(buttons_profile);
+        taEmptyTextfield = new TextureAtlas("assets/buttons/buttons_settings.pack");
+        taButtonsProfile = new TextureAtlas("assets/buttons/buttons_profile.pack");
+        images_default = new Skin(taButtonsDefault);
+        images_empty = new Skin(taEmptyTextfield);
+        image_profiles = new Skin(taButtonsProfile);
 
         table_default = new Table(images_default);
         table_next = new Table(images_default);
