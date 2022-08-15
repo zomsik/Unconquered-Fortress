@@ -17,7 +17,7 @@ slider_background
   orig: 500, 32
   offset: 0, 0
   index: -1
-resolutionTextBar
+textBar
   rotate: false
   xy: 1, 35
   size: 320, 32

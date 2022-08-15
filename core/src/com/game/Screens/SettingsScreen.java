@@ -14,7 +14,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -23,9 +22,7 @@ import com.badlogic.gdx.utils.Align;
 import com.game.Main;
 import com.game.Manager.*;
 import com.game.State.GameState;
-import org.w3c.dom.Text;
 
-import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -54,7 +51,7 @@ public class SettingsScreen implements Screen {
     private FileReader fileReader;
     private LanguageManager languageManager;
     private Dialog backDialog;
-    public SettingsScreen(Main game){
+    public SettingsScreen (Main game){
         this.game = game;
         resolutionsClass = new Resolutions();
         fileReader = new FileReader();
@@ -76,7 +73,7 @@ public class SettingsScreen implements Screen {
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
         bBackDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBackDialog"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
 
-        textFieldStyleManager.setTextFieldStyle(textFieldStyle, images, font, "resolutionTextBar", Color.WHITE);
+        textFieldStyleManager.setTextFieldStyle(textFieldStyle, images, font, "textBar", Color.WHITE);
         resolution_field_text = new TextField(languageManager.getValue(languageManager.getLanguage(), "resolution_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
 
         //dialog_field = new TextField(languageManager.getValue(languageManager.getLanguage(), "dialog_field_text"),textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
@@ -133,10 +130,10 @@ public class SettingsScreen implements Screen {
         volumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-               backgroundMusic.setVolume(volumeSlider.getValue()/100);
+                backgroundMusic.setVolume(volumeSlider.getValue()/100);
 
             }
-               });
+        });
 
         bLeftResolution.addListener(new ClickListener(){
             @Override
@@ -239,7 +236,7 @@ public class SettingsScreen implements Screen {
                         //TODO
                     }break;
                 }
-        }
+            }
         });
 
         System.out.println(resolutions);
@@ -280,7 +277,7 @@ public class SettingsScreen implements Screen {
                 if(resolutions.contains("1920 X 1080 Fullscreen")){
                     resolution_field = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Fullscreen")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
                 }else if(resolutions.contains("1920 X 1080 Windowed")){
-                resolution_field = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Windowed")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+                    resolution_field = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Windowed")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
                 }
 
             }else if(Gdx.graphics.getWidth() == 1280){
