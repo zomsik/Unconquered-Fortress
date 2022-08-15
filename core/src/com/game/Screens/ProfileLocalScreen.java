@@ -11,18 +11,21 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.game.Main;
 import com.game.Manager.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,9 +39,9 @@ public class ProfileLocalScreen implements Screen {
     private Stage stage;
     private Texture background;
     private BitmapFont font;
-    private TextureAtlas buttons_default, profile_banner, empty_textfield;
-    private Skin images_default, images_empty;
-    private TextButton bBack, bPlay, bOtherScreen, bNewProfile;
+    private TextureAtlas taButtonsDefault, taProfileBanner, taEmptyTextfield, taButtonsProfile;
+    private Skin images_default, images_empty, image_profiles;
+    private TextButton bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03;
     private Table table_profile_01, table_profile_02, table_profile_03, table_default, table_next;
     private TextField tDifficulty01, tDifficulty02,tDifficulty03,
                       tFinishedMaps01, tFinishedMaps02, tFinishedMaps03,
@@ -47,7 +50,7 @@ public class ProfileLocalScreen implements Screen {
                       tDiamonds01, tDiamonds02, tDiamonds03;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    private TextButton.TextButtonStyle textButtonStyle_bBack,textButtonStyle_bSave, textButtonStyle_bNext;
+    private TextButton.TextButtonStyle textButtonStyle_bBack,textButtonStyle_bSave, textButtonStyle_bNext, textButtonStyle_bNewProfile;
     private TextField.TextFieldStyle textFieldStyle;
     private Music backgroundMusic;
     private LanguageManager languageManager;
@@ -68,26 +71,44 @@ public class ProfileLocalScreen implements Screen {
         bBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bSave, images_default, font, "defaultButton", "defaultButton");
         bPlay = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bPlay"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
-        buttonStyleManager.setTextButtonStyle(textButtonStyle_bNext, images_default, font, "defaultButton", "defaultButton");
-        bOtherScreen = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
-        buttonStyleManager.setTextButtonStyle(textButtonStyle_bSave, images_default, font, "defaultButton", "defaultButton");
-        bNewProfile = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bNext, image_profiles, font, "next_screen_button", "next_screen_button");
+        bOtherScreen = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bNext));
 
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bNewProfile, image_profiles, font, "new_profile_button_up", "new_profile_button_down");
+        bNewProfile01 = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bNewProfile));
+        bNewProfile02 = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bNewProfile));
+        bNewProfile03 = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bNewProfile));
         textFieldStyleManager.setTextFieldStyle(textFieldStyle, images_empty, font, "empty_background", Color.WHITE);
     }
 
     @Override
     public void show() {
+        if(game.isLogged){
+            table_next.setBounds(Gdx.graphics.getWidth()/10*9, Gdx.graphics.getWidth()/10*2,Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*2);
+            table_next.add(bOtherScreen);
+            table_next.debug();
+            stage.addActor(table_next);
+            bOtherScreen.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    game.setScreen(new ProfileCloudScreen(game));
+                }
+            });
+        }
         Gdx.input.setInputProcessor(stage);
         Texture bg = new Texture(new FileHandle("assets/profile_banner.png"));
+        Texture icon = new Texture(new FileHandle("assets/icons/local.png"));
+        Image local01 = new Image(icon);
+        Image local02 = new Image(icon);
+        Image local03 = new Image(icon);
         table_profile_01.setBounds(Gdx.graphics.getWidth()/10*2, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
         table_profile_01.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
         table_profile_02.setBounds(Gdx.graphics.getWidth()/10*4, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
         table_profile_02.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
         table_profile_03.setBounds(Gdx.graphics.getWidth()/10*6, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
         table_profile_03.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
-        table_next.setBounds(Gdx.graphics.getWidth()/10*9, Gdx.graphics.getWidth()/10*2,Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*2);
-        table_default.setBounds(Gdx.graphics.getWidth()/10*3, Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*4,50);
+
+        table_default.setBounds(Gdx.graphics.getWidth()/10*3, Gdx.graphics.getHeight()/20, Gdx.graphics.getWidth()/10*4,50);
         if(fileReader.fileExists("save/save01l.json")){
             User_save user_save_01 = new User_save();
             fileReader.downloadSave("save/save01l.json");
@@ -108,19 +129,29 @@ public class ProfileLocalScreen implements Screen {
             tGold01.setAlignment(Align.left);
             tDiamonds01 = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") + user_save_01.diamonds, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
             tDiamonds01.setAlignment(Align.left);
-            table_profile_01.add(tDifficulty01).width(table_profile_01.getWidth());
+            table_profile_01.add(local01).width(table_profile_01.getHeight()/20).height(table_profile_01.getHeight()/20).align(Align.right);
             table_profile_01.row();
-            table_profile_01.add(tFinishedMaps01).width(table_profile_01.getWidth());
+            table_profile_01.add(tDifficulty01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10);
             table_profile_01.row();
-            table_profile_01.add(tWave01).width(table_profile_01.getWidth());
+            table_profile_01.add(tFinishedMaps01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10);
             table_profile_01.row();
-            table_profile_01.add(tGold01).width(table_profile_01.getWidth());
+            table_profile_01.add(tWave01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10);
             table_profile_01.row();
-            table_profile_01.add(tDiamonds01).width(table_profile_01.getWidth());
+            table_profile_01.add(tGold01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10);
+            table_profile_01.row();
+            table_profile_01.add(tDiamonds01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10).padBottom(table_profile_01.getHeight()/2-table_profile_01.getHeight()/10);
             table_profile_01.debug();
+            table_profile_01.setTouchable(Touchable.enabled);
+            table_profile_01.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    System.out.println("zostałem wybrany");
+                    //wyłapuje tylko na textfieldach, a nie na całym table_profile
+                }
+            });
 
         }else{
-            table_profile_01.add(bNewProfile);
+            table_profile_01.add(bNewProfile01).height(table_profile_01.getHeight()/4).width(table_profile_01.getHeight()/4).padBottom(table_profile_01.getHeight()/4);
         }
 
         if(fileReader.fileExists("save/save02l.json")){
@@ -143,18 +174,28 @@ public class ProfileLocalScreen implements Screen {
             tGold02.setAlignment(Align.left);
             tDiamonds02 = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") + user_save_02.diamonds, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
             tDiamonds02.setAlignment(Align.left);
-            table_profile_02.add(tDifficulty02).width(table_profile_02.getWidth());
+            table_profile_02.add(local02).width(table_profile_02.getHeight()/20).height(table_profile_02.getHeight()/20).align(Align.right);
             table_profile_02.row();
-            table_profile_02.add(tFinishedMaps02).width(table_profile_02.getWidth());
+            table_profile_02.add(tDifficulty02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10);
             table_profile_02.row();
-            table_profile_02.add(tWave02).width(table_profile_02.getWidth());
+            table_profile_02.add(tFinishedMaps02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10);
             table_profile_02.row();
-            table_profile_02.add(tGold02).width(table_profile_02.getWidth());
+            table_profile_02.add(tWave02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10);
             table_profile_02.row();
-            table_profile_02.add(tDiamonds02).width(table_profile_02.getWidth());
+            table_profile_02.add(tGold02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10);
+            table_profile_02.row();
+            table_profile_02.add(tDiamonds02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10).padBottom(table_profile_02.getHeight()/2-table_profile_02.getHeight()/10);
             table_profile_02.debug();
+            table_profile_02.setTouchable(Touchable.enabled);
+            table_profile_02.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    System.out.println("zostałem wybrany");
+                    //wyłapuje tylko na textfieldach, a nie na całym table_profile
+                }
+            });
         }else{
-            table_profile_02.add(bNewProfile);
+            table_profile_02.add(bNewProfile02).height(table_profile_02.getHeight()/4).width(table_profile_02.getHeight()/4).padBottom(table_profile_02.getHeight()/4);;
         }
         if(fileReader.fileExists("save/save03l.json")){
             User_save user_save_03 = new User_save();
@@ -176,42 +217,50 @@ public class ProfileLocalScreen implements Screen {
             tGold03.setAlignment(Align.left);
             tDiamonds03 = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") + user_save_03.diamonds, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
             tDiamonds03.setAlignment(Align.left);
-            table_profile_03.add(tDifficulty01).width(table_profile_03.getWidth());
+            table_profile_03.add(local03).width(table_profile_03.getHeight()/20).height(table_profile_03.getHeight()/20).align(Align.right);
             table_profile_03.row();
-            table_profile_03.add(tFinishedMaps01).width(table_profile_03.getWidth());
+            table_profile_03.add(tDifficulty01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10);
             table_profile_03.row();
-            table_profile_03.add(tWave01).width(table_profile_03.getWidth());
+            table_profile_03.add(tFinishedMaps01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10);
             table_profile_03.row();
-            table_profile_03.add(tGold01).width(table_profile_03.getWidth());
+            table_profile_03.add(tWave01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10);
             table_profile_03.row();
-            table_profile_03.add(tDiamonds01).width(table_profile_03.getWidth());
+            table_profile_03.add(tGold01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10);
+            table_profile_03.row();
+            table_profile_03.add(tDiamonds01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10).padBottom(table_profile_03.getHeight()/2-table_profile_03.getHeight()/10);
             table_profile_03.debug();
+            table_profile_03.setTouchable(Touchable.enabled);
+            table_profile_03.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    System.out.println("zostałem wybrany");
+                    //wyłapuje tylko na textfieldach, a nie na całym table_profile
+                }
+            });
         }else{
-            table_profile_03.add(bNewProfile);
+            table_profile_03.add(bNewProfile03).height(table_profile_03.getHeight()/4).width(table_profile_03.getHeight()/4).padBottom(table_profile_03.getHeight()/4);
         }
-        table_next.add(bOtherScreen);
-        table_next.debug();
+
         table_default.add(bBack).padRight(200);
         table_default.add(bPlay).padLeft(90);
 
-        stage.addActor(table_next);
+
         stage.addActor(table_profile_01);
         stage.addActor(table_profile_02);
         stage.addActor(table_profile_03);
         stage.addActor(table_default);
 
-        bOtherScreen.addListener(new ChangeListener() {
+
+        bBack.addListener(new ClickListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                    game.setScreen(new ProfileCloudScreen(game));
-            }
-        });
-        bBack.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
+            public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new MenuScreen(game));
             }
         });
+
+
+
+
     }
 
     @Override
@@ -255,16 +304,23 @@ public class ProfileLocalScreen implements Screen {
         background = new Texture("background.png");
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 15;
+        if(Gdx.graphics.getWidth() < 1281){
+            parameter.size = 12;
+        }else{
+            parameter.size = 15;
+        }
         parameter.color = Color.WHITE;
         parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
         font = new BitmapFont();
         font = generator.generateFont(parameter);
-        buttons_default = new TextureAtlas("assets/buttons/buttons_default.pack");
+        taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");
         //TODO dodaj jeden więcej przycisk >
-        empty_textfield = new TextureAtlas("assets/buttons/buttons_settings.pack");
-        images_default = new Skin(buttons_default);
-        images_empty = new Skin(empty_textfield);
+        taEmptyTextfield = new TextureAtlas("assets/buttons/buttons_settings.pack");
+        taButtonsProfile = new TextureAtlas("assets/buttons/buttons_profile.pack");
+        images_default = new Skin(taButtonsDefault);
+        images_empty = new Skin(taEmptyTextfield);
+        image_profiles = new Skin(taButtonsProfile);
+
         table_default = new Table(images_default);
         table_next = new Table(images_default);
 
@@ -275,6 +331,7 @@ public class ProfileLocalScreen implements Screen {
         textButtonStyle_bBack = new TextButton.TextButtonStyle();
         textButtonStyle_bSave = new TextButton.TextButtonStyle();
         textButtonStyle_bNext = new TextButton.TextButtonStyle();
+        textButtonStyle_bNewProfile = new TextButton.TextButtonStyle();
         textFieldStyle = new TextField.TextFieldStyle();
         backgroundMusic = game.getMusic();
     }

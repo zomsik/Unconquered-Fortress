@@ -32,7 +32,6 @@ public class MenuScreen implements Screen  {
     public TextButton bDialogLogin, bDialogLoginRegister, cDialogStayLogged, bDialogExit, bDialogExit2;
     public TextField tDialogLoginTextTitle, tDialogLoginTextLogin, tDialogLoginTextPassword, tDialogLoginStayLogged, tDialogLoginErrors;
     public TextField fDialogLoginLogin, fDialogLoginPassword;
-
     public TextButton bDialogRegister, bDialogRegisterLogin;
     public TextField tDialogRegisterTextTitle, tDialogRegisterTextLogin, tDialogRegisterTextMail, tDialogRegisterTextPassword, tDialogRegisterTextRepeatPassword, tDialogRegisterErrors;
     public TextField fDialogRegisterLogin, fDialogRegisterMail, fDialogRegisterPassword, fDialogRegisterRepeatPassword;
@@ -40,7 +39,7 @@ public class MenuScreen implements Screen  {
     public BitmapFont fontTitle, fontText;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    public TextureAtlas buttonsAtlas, buttons_settings, buttons_default, dialog_back;
+    public TextureAtlas taButtonsAtlas, taButtonsSettings, taButtonsDefault, taDialogBack;
     public Skin images, images_settings, images_default;
     public Stage stage;
     public Table table_bExit, table_bPlay, table_bSettings, table_bLogin, table_bCredits, table_dialogLogin, table_dialogRegister;
@@ -571,13 +570,13 @@ public class MenuScreen implements Screen  {
         fontText = generator.generateFont(parameter);
 
         connectionManager = new ConnectionManager();
-        buttonsAtlas = new TextureAtlas("assets/buttons/buttons_menu.pack");
-        buttons_default = new TextureAtlas("assets/buttons/buttons_default.pack");
-        buttons_settings = new TextureAtlas("assets/buttons/buttons_settings.pack");
-        dialog_back = new TextureAtlas("assets/dialog/skin_dialog.pack");
-        images = new Skin(buttonsAtlas);
-        images_settings = new Skin(buttons_settings);
-        images_default = new Skin(buttons_default);
+        taButtonsAtlas = new TextureAtlas("assets/buttons/buttons_menu.pack");
+        taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");
+        taButtonsSettings = new TextureAtlas("assets/buttons/buttons_settings.pack");
+        taDialogBack = new TextureAtlas("assets/dialog/skin_dialog.pack");
+        images = new Skin(taButtonsAtlas);
+        images_settings = new Skin(taButtonsSettings);
+        images_default = new Skin(taButtonsDefault);
         table_bExit = new Table(images);
         table_bPlay = new Table(images);
         table_bLogin = new Table(images);
