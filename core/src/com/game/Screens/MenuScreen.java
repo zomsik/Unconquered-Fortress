@@ -466,6 +466,14 @@ public class MenuScreen implements Screen  {
                 menuDialog.button(bDialogLoginRegister);
             }
         });
+        bPlay.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                GameState.SetPreviousGameState(GameState.MENU);
+                game.setScreen(new ProfileLocalScreen(game));
+                dispose();
+            }
+        });
 
         bSettings.addListener(new ClickListener(){
             @Override

@@ -202,7 +202,6 @@ public class SettingsScreen implements Screen {
                     }
 
                 }else {
-                    //Cos jest ale trochę trzeba poogarniać
                     //TODO second back button with setScreenem i disposem dodać, wyrownać, zrobić ramkę i ogarnąć tekst
                     Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
                     backDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
@@ -210,15 +209,10 @@ public class SettingsScreen implements Screen {
                             System.out.println("result " + obj);
                         }
                     };
-                    //backDialog.text(String.valueOf(dialog_field));
-                    //backDialog.row();
                     Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
                     backDialog.text(languageManager.getValue(languageManager.getLanguage(), "dialog_field_text"), labelStyle);
                     backDialog.button(bBackDialog).padBottom(10);
                     backDialog.button(bSave).padBottom(10);
-                    //dialog_field.setPosition(backDialog.getX()+5, backDialog.getY()+5);
-
-
                     backDialog.show(stage);
                     table_default.remove();
                 }
@@ -377,7 +371,7 @@ public class SettingsScreen implements Screen {
         stage = new Stage();
         parameter.size = 15;
         parameter.color = Color.WHITE;
-        parameter.characters = "ąćęłóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
+        parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
         font = new BitmapFont();
         font = generator.generateFont(parameter);
 

@@ -35,5 +35,10 @@
   "ResponseMailTaken": "Mail already taken",
   "ResponseUserCreated": "User created",
   "ResponseErrorConnectionWithServer": "Connection error with the server",
-  "ResponseClientInternalError": "Internal client error"
+  "ResponseClientInternalError": "Internal client error",
+  "difficulty_field" : "Difficulty: ",
+  "finishedmaps_field": "Finished maps: ",
+  "wave_field" : "Wave: ",
+  "gold_field" : "Gold: ",
+  "diamonds_field" : "Diamonds: "
 }

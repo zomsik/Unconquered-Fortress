@@ -35,5 +35,10 @@
   "ResponseMailTaken": "Mail jest już zajęty",
   "ResponseUserCreated": "Użytkownik zarejestrowany",
   "ResponseErrorConnectionWithServer": "Błąd połączenia z serwerem",
-  "ResponseClientInternalError": "Wewnętrzny bład klienta"
+  "ResponseClientInternalError": "Wewnętrzny bład klienta",
+  "difficulty_field" : "Poziom trudności: ",
+  "finishedmaps_field": "Ukończone mapy: ",
+  "wave_field" : "Fala: ",
+  "gold_field" : "Złoto: ",
+  "diamonds_field" : "Diamenty: "
 }

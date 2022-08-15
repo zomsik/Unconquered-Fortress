@@ -8,16 +8,25 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 
 public class FileReader {
 
     private String tokenValue;
 
-
     private String resolutionValue;
     private int volumeValue;
     private String languageValue;
+
+    private int seed;
+    private String difficulty;
+    private int finishedMaps;
+    private int wave;
+    private int gold;
+    private int diamonds;
     public FileReader(){
 
     }
@@ -29,6 +38,30 @@ public class FileReader {
     }
     public String getLanguageValue() {
         return languageValue;
+    }
+
+    public int getSeed() {
+        return seed;
+    }
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public int getFinishedMaps() {
+        return finishedMaps;
+    }
+
+    public int getWave() {
+        return wave;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public int getDiamonds() {
+        return diamonds;
     }
 
     public String getLoginFromToken(){
@@ -68,7 +101,7 @@ public class FileReader {
         JsonValue base  = json.parse(Gdx.files.internal(jsonPath));
 
         resolutionValue = base.getString("resolution");
-        volumeValue = Integer.parseInt(base.getString("volume"));
+        volumeValue = base.getInt("volume");
         languageValue = (base.getString("language"));
 
     }
@@ -89,4 +122,22 @@ public class FileReader {
         file.writeString(json.prettyPrint(txt), false);
     }
 
+    public boolean fileExists(String savePath){
+        File file = new File(savePath);
+        if(file.exists()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public void downloadSave(String jsonPath){
+        JsonReader json = new JsonReader();
+        JsonValue base  = json.parse(Gdx.files.internal(jsonPath));
+        seed = base.getInt("seed");
+        difficulty = base.getString("difficulty");
+        finishedMaps = base.getInt("finishedMaps");
+        wave = base.getInt("wave");
+        gold = base.getInt("gold");
+        diamonds = base.getInt("diamonds");
+    }
 }
