@@ -38,8 +38,8 @@ public class ProfileLocalScreen implements Screen {
     private Stage stage;
     private Texture background;
     private BitmapFont font;
-    private TextureAtlas buttons_default, profile_banner, empty_textfield;
-    private Skin images_default, images_empty;
+    private TextureAtlas buttons_default, profile_banner, empty_textfield, buttons_profile;
+    private Skin images_default, images_empty, image_profiles;
     private TextButton bBack, bPlay, bOtherScreen, bNewProfile;
     private Table table_profile_01, table_profile_02, table_profile_03, table_default, table_next;
     private TextField tDifficulty01, tDifficulty02,tDifficulty03,
@@ -49,7 +49,7 @@ public class ProfileLocalScreen implements Screen {
                       tDiamonds01, tDiamonds02, tDiamonds03;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    private TextButton.TextButtonStyle textButtonStyle_bBack,textButtonStyle_bSave, textButtonStyle_bNext;
+    private TextButton.TextButtonStyle textButtonStyle_bBack,textButtonStyle_bSave, textButtonStyle_bNext, textButtonStyle_bNewProfile;
     private TextField.TextFieldStyle textFieldStyle;
     private Music backgroundMusic;
     private LanguageManager languageManager;
@@ -70,10 +70,11 @@ public class ProfileLocalScreen implements Screen {
         bBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bSave, images_default, font, "defaultButton", "defaultButton");
         bPlay = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bPlay"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
-        buttonStyleManager.setTextButtonStyle(textButtonStyle_bNext, images_default, font, "defaultButton", "defaultButton");
-        bOtherScreen = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
-        buttonStyleManager.setTextButtonStyle(textButtonStyle_bSave, images_default, font, "defaultButton", "defaultButton");
-        bNewProfile = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bNext, image_profiles, font, "next_screen_button", "next_screen_button");
+        bOtherScreen = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bNext));
+
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bNewProfile, image_profiles, font, "new_profile_button_up", "new_profile_button_down");
+        bNewProfile = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bNewProfile));
 
         textFieldStyleManager.setTextFieldStyle(textFieldStyle, images_empty, font, "empty_background", Color.WHITE);
     }
@@ -278,8 +279,11 @@ public class ProfileLocalScreen implements Screen {
         buttons_default = new TextureAtlas("assets/buttons/buttons_default.pack");
         //TODO dodaj jeden więcej przycisk >
         empty_textfield = new TextureAtlas("assets/buttons/buttons_settings.pack");
+        buttons_profile = new TextureAtlas("assets/buttons/buttons_profile.pack");
         images_default = new Skin(buttons_default);
         images_empty = new Skin(empty_textfield);
+        image_profiles = new Skin(buttons_profile);
+
         table_default = new Table(images_default);
         table_next = new Table(images_default);
 
@@ -290,6 +294,7 @@ public class ProfileLocalScreen implements Screen {
         textButtonStyle_bBack = new TextButton.TextButtonStyle();
         textButtonStyle_bSave = new TextButton.TextButtonStyle();
         textButtonStyle_bNext = new TextButton.TextButtonStyle();
+        textButtonStyle_bNewProfile = new TextButton.TextButtonStyle();
         textFieldStyle = new TextField.TextFieldStyle();
         backgroundMusic = game.getMusic();
     }
