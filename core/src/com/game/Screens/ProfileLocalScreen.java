@@ -53,6 +53,7 @@ public class ProfileLocalScreen implements Screen {
 
     private Dialog newGameDialog;
     private String chosenDifficulty = null;
+    private int chosenProfileToCreate;
 
     public ProfileLocalScreen(Main game){
         this.game = game;
@@ -232,6 +233,13 @@ public class ProfileLocalScreen implements Screen {
 
         }else{
             table_profile_01.add(bNewProfile01).height(table_profile_01.getHeight()/4).width(table_profile_01.getHeight()/4).padBottom(table_profile_01.getHeight()/4);
+            table_profile_01.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    chosenProfileToCreate = 1;
+                    newGameDialog.show(stage);
+                }
+            });
         }
 
         if(fileReader.fileExists("save/save02l.json")){
@@ -276,6 +284,13 @@ public class ProfileLocalScreen implements Screen {
             });
         }else{
             table_profile_02.add(bNewProfile02).height(table_profile_02.getHeight()/4).width(table_profile_02.getHeight()/4).padBottom(table_profile_02.getHeight()/4);;
+            table_profile_02.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    chosenProfileToCreate = 2;
+                    newGameDialog.show(stage);
+                }
+            });
         }
         if(fileReader.fileExists("save/save03l.json")){
             User_save user_save_03 = new User_save();
@@ -322,7 +337,7 @@ public class ProfileLocalScreen implements Screen {
             table_profile_03.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    System.out.println("Tworzę");
+                    chosenProfileToCreate = 3;
                     newGameDialog.show(stage);
                 }
             });
