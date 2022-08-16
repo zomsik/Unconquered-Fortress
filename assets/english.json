@@ -50,5 +50,10 @@
   "tNormalDifficulty": "Normal",
   "tHardDifficulty": "Hard",
   "ResponseSavedSuccessfully" : "Saved successfully",
-  "ResponseSuccessfullyCreatedSave": "Successfully created save"
+  "ResponseSuccessfullyCreatedSave": "Successfully created save",
+  "ResponseSuccessfullyDeletedSave": "Successfully deleted save",
+  "ResponseSaveDoesntExist": "Save doesn't exist",
+  "ResponseNoExistingSaves": "No existing saves",
+  "ResponseSuccessfullyLoadedSaves": "Successfully loaded saves",
+  "ResponseSuccessfulPing": "Successful ping to server"
 }

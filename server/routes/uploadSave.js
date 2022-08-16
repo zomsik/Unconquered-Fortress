@@ -4,19 +4,19 @@ const { Save } = require("../models/save")
 router.post("/", async (req, res) => {
     try {
 
-        const dataFromRequest  = {login: req.headers.login , profileNumber: req.headers.profileNumber, seed: req.headers.seed, difficulty: req.headers.difficulty, finishedMaps: req.headers.finishedMaps, wave: req.headers.wave, gold: req.headers.gold, diamonds: req.headers.diamonds}
-
-        console.log("Zapisywanie")
-        const saveData = await new Save({ dataFromRequest })
-
-        const save = await Save.findOneAndReplace({ login: dataFromRequest.login, profileNumber: dataFromRequest.profileNumber }, saveData)
+        const dataFromRequest  = {login: req.headers.login , profileNumber: req.headers.profilenumber, seed: req.headers.seed, difficulty: req.headers.difficulty, finishedMaps: req.headers.finishedmaps, wave: req.headers.wave, gold: req.headers.gold, diamonds: req.headers.diamonds}
 
 
+        const save = await Save.exists({ login: dataFromRequest.login, profileNumber: dataFromRequest.profileNumber });
+        
         if (save)
+        {
+            await Save.findOneAndUpdate({ login: dataFromRequest.login, profileNumber: dataFromRequest.profileNumber }, dataFromRequest)
             return res.send({status: 200, message: "ResponseSuccessfullySaved" })
+        }
         else 
         {
-            saveData.save()
+            await Save({ ...dataFromRequest }).save()
             return res.send({status: 200, message: "ResponseSuccessfullyCreatedSave" })
         }
     } catch (error) {

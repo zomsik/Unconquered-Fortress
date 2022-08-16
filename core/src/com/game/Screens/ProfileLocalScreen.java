@@ -50,6 +50,7 @@ public class ProfileLocalScreen implements Screen {
     private TextField.TextFieldStyle textFieldStyle;
     private Music backgroundMusic;
     private LanguageManager languageManager;
+    private ConnectionManager connectionManager;
 
     private Dialog newGameDialog;
     private String chosenDifficulty = null;
@@ -104,7 +105,22 @@ public class ProfileLocalScreen implements Screen {
             bOtherScreen.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+
+                    //testy
                     game.setScreen(new ProfileCloudScreen(game));
+
+                    //produkcja
+                    /*
+                    JSONObject pingResponse = connectionManager.requestSend(new JSONObject(), "http://localhost:9000/api/ping");
+                    if (pingResponse.getInt("status") == 200 || pingResponse.getInt("status") == 201) {
+                        game.setScreen(new ProfileCloudScreen(game));
+                    }
+                    else {
+                        System.out.println(languageManager.getValue(languageManager.getLanguage(), pingResponse.getString("message")));
+                    }
+                    */
+
+
                 }
             });
         }
@@ -421,6 +437,7 @@ public class ProfileLocalScreen implements Screen {
         taEmptyTextfield = new TextureAtlas("assets/buttons/buttons_settings.pack");
         taButtonsProfile = new TextureAtlas("assets/buttons/buttons_profile.pack");
 
+        connectionManager = new ConnectionManager();
         images_default = new Skin(taButtonsDefault);
         images_empty = new Skin(taEmptyTextfield);
         image_profiles = new Skin(taButtonsProfile);
