@@ -44,7 +44,11 @@
   "creditsGame": "Gra",
   "creditsMusic": "Muzyka",
   "creditsGraphics": "Grafika",
-  "creditsStack": "Technologia"
+  "creditsStack": "Technologia",
+  "bDialogCancel": "Anuluj",
+  "bDialogCreate": "Stwórz",
+  "tNormalDifficulty": "Normalny",
+  "tHardDifficulty": "Trudny"
 
 
 }

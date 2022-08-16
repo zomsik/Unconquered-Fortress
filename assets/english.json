@@ -44,5 +44,9 @@
   "creditsGame": "Game",
   "creditsMusic": "Music",
   "creditsGraphics": "Graphics",
-  "creditsStack": "Stack"
+  "creditsStack": "Stack",
+  "bDialogCancel": "Cancel",
+  "bDialogCreate": "Create",
+  "tNormalDifficulty": "Normal",
+  "tHardDifficulty": "Hard"
 }
