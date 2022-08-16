@@ -13,16 +13,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
 import com.game.Main;
 import com.game.Manager.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONObject;
 
 public class ProfileLocalScreen implements Screen {
     private Main game;
@@ -30,20 +26,14 @@ public class ProfileLocalScreen implements Screen {
     private ButtonStyleManager buttonStyleManager;
 
     private TextFieldStyleManager textFieldStyleManager;
-    private List<User_save> profiles;
     private Stage stage;
     private Texture background;
     private BitmapFont font;
-    private TextureAtlas taButtonsDefault, taProfileBanner, taEmptyTextfield, taButtonsProfile;
+    private TextureAtlas taButtonsDefault, taEmptyTextfield, taButtonsProfile;
     private Skin images_default, images_empty, image_profiles, images_settings;
     private TextButton bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogNormalDifficulty, cDialogHardDifficulty;
     private Table table_profile_01, table_profile_02, table_profile_03, table_default, table_next, table_Dialog;
-    private TextField tDifficulty01, tDifficulty02,tDifficulty03,
-                      tFinishedMaps01, tFinishedMaps02, tFinishedMaps03,
-                      tWave01, tWave02, tWave03,
-                      tGold01, tGold02, tGold03,
-                      tDiamonds01, tDiamonds02, tDiamonds03,
-                      tDialogNormalDifficulty, tDialogHardDifficulty;
+    private TextField tDialogNormalDifficulty, tDialogHardDifficulty;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private TextButton.TextButtonStyle textButtonStyle_bBack,textButtonStyle_bSave, textButtonStyle_bNext, textButtonStyle_bNewProfile, textButtonStyle_cDialogDifficultyChecked, textButtonStyle_cDialogDifficultyUnchecked;
@@ -66,7 +56,6 @@ public class ProfileLocalScreen implements Screen {
             languageManager = new LanguageManager("English");
         }
         initProfileLocalUI();
-        profiles = new ArrayList<>();
         buttonStyleManager = new ButtonStyleManager();
         textFieldStyleManager = new TextFieldStyleManager();
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
@@ -198,47 +187,16 @@ public class ProfileLocalScreen implements Screen {
         //
 
 
-        table_profile_01.setBounds(Gdx.graphics.getWidth()/10*2, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
-        table_profile_01.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
         table_profile_02.setBounds(Gdx.graphics.getWidth()/10*4, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
         table_profile_02.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
         table_profile_03.setBounds(Gdx.graphics.getWidth()/10*6, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
         table_profile_03.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
 
         table_default.setBounds(Gdx.graphics.getWidth()/10*3, Gdx.graphics.getHeight()/20, Gdx.graphics.getWidth()/10*4,50);
+
         if(fileReader.fileExists("save/save01l.json")){
-            User_save user_save_01 = new User_save();
-            fileReader.downloadSave("save/save01l.json");
-            user_save_01.seed = fileReader.getSeed();
-            user_save_01.difficulty = fileReader.getDifficulty();
-            user_save_01.finishedMaps = fileReader.getFinishedMaps();
-            user_save_01.wave = fileReader.getWave();
-            user_save_01.gold = fileReader.getGold();
-            user_save_01.diamonds = fileReader.getDiamonds();
-            profiles.add(user_save_01);
-            tDifficulty01 = new TextField(languageManager.getValue(languageManager.getLanguage(), "difficulty_field") + user_save_01.difficulty, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-            tDifficulty01.setAlignment(Align.left);
-            tFinishedMaps01 = new TextField(languageManager.getValue(languageManager.getLanguage(), "finishedmaps_field") + user_save_01.finishedMaps, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-            tFinishedMaps01.setAlignment(Align.left);
-            tWave01 = new TextField(languageManager.getValue(languageManager.getLanguage(), "wave_field") + user_save_01.wave, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-            tWave01.setAlignment(Align.left);
-            tGold01 = new TextField(languageManager.getValue(languageManager.getLanguage(), "gold_field") + user_save_01.gold, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-            tGold01.setAlignment(Align.left);
-            tDiamonds01 = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") + user_save_01.diamonds, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-            tDiamonds01.setAlignment(Align.left);
-            table_profile_01.add(local01).width(table_profile_01.getHeight()/20).height(table_profile_01.getHeight()/20).align(Align.right);
-            table_profile_01.row();
-            table_profile_01.add(tDifficulty01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10);
-            table_profile_01.row();
-            table_profile_01.add(tFinishedMaps01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10);
-            table_profile_01.row();
-            table_profile_01.add(tWave01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10);
-            table_profile_01.row();
-            table_profile_01.add(tGold01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10);
-            table_profile_01.row();
-            table_profile_01.add(tDiamonds01).width(table_profile_01.getWidth()).height(table_profile_01.getHeight()/10).padBottom(table_profile_01.getHeight()/2-table_profile_01.getHeight()/10);
-            table_profile_01.debug();
-            table_profile_01.setTouchable(Touchable.enabled);
+            JSONObject save = fileReader.downloadSaveAsJSONObject("save/save01l.json");
+            table_profile_01 = ProfileManager.createProfileTable(save, font, languageManager, Gdx.graphics.getWidth()/10*2, "assets/icons/local.png");
             table_profile_01.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -248,7 +206,7 @@ public class ProfileLocalScreen implements Screen {
             });
 
         }else{
-            table_profile_01.add(bNewProfile01).height(table_profile_01.getHeight()/4).width(table_profile_01.getHeight()/4).padBottom(table_profile_01.getHeight()/4);
+            table_profile_01 = ProfileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*2);
             table_profile_01.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -259,38 +217,8 @@ public class ProfileLocalScreen implements Screen {
         }
 
         if(fileReader.fileExists("save/save02l.json")){
-            User_save user_save_02 = new User_save();
-            fileReader.downloadSave("save/save02l.json");
-            user_save_02.seed = fileReader.getSeed();
-            user_save_02.difficulty = fileReader.getDifficulty();
-            user_save_02.finishedMaps = fileReader.getFinishedMaps();
-            user_save_02.wave = fileReader.getWave();
-            user_save_02.gold = fileReader.getGold();
-            user_save_02.diamonds = fileReader.getDiamonds();
-            profiles.add(user_save_02);
-            tDifficulty02 = new TextField(languageManager.getValue(languageManager.getLanguage(), "difficulty_field") + user_save_02.difficulty, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-            tDifficulty02.setAlignment(Align.left);
-            tFinishedMaps02 = new TextField(languageManager.getValue(languageManager.getLanguage(), "finishedmaps_field") + user_save_02.finishedMaps, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-            tFinishedMaps02.setAlignment(Align.left);
-            tWave02 = new TextField(languageManager.getValue(languageManager.getLanguage(), "wave_field") + user_save_02.wave, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-            tWave02.setAlignment(Align.left);
-            tGold02 = new TextField(languageManager.getValue(languageManager.getLanguage(), "gold_field") + user_save_02.gold, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-            tGold02.setAlignment(Align.left);
-            tDiamonds02 = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") + user_save_02.diamonds, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-            tDiamonds02.setAlignment(Align.left);
-            table_profile_02.add(local02).width(table_profile_02.getHeight()/20).height(table_profile_02.getHeight()/20).align(Align.right);
-            table_profile_02.row();
-            table_profile_02.add(tDifficulty02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10);
-            table_profile_02.row();
-            table_profile_02.add(tFinishedMaps02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10);
-            table_profile_02.row();
-            table_profile_02.add(tWave02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10);
-            table_profile_02.row();
-            table_profile_02.add(tGold02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10);
-            table_profile_02.row();
-            table_profile_02.add(tDiamonds02).width(table_profile_02.getWidth()).height(table_profile_02.getHeight()/10).padBottom(table_profile_02.getHeight()/2-table_profile_02.getHeight()/10);
-            table_profile_02.debug();
-            table_profile_02.setTouchable(Touchable.enabled);
+            JSONObject save = fileReader.downloadSaveAsJSONObject("save/save02l.json");
+            table_profile_02 = ProfileManager.createProfileTable(save, font, languageManager, Gdx.graphics.getWidth()/10*4, "assets/icons/local.png");
             table_profile_02.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -299,7 +227,7 @@ public class ProfileLocalScreen implements Screen {
                 }
             });
         }else{
-            table_profile_02.add(bNewProfile02).height(table_profile_02.getHeight()/4).width(table_profile_02.getHeight()/4).padBottom(table_profile_02.getHeight()/4);;
+            table_profile_02 = ProfileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*4);
             table_profile_02.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -308,39 +236,10 @@ public class ProfileLocalScreen implements Screen {
                 }
             });
         }
+
         if(fileReader.fileExists("save/save03l.json")){
-            User_save user_save_03 = new User_save();
-            fileReader.downloadSave("save/save03l.json");
-            user_save_03.seed = fileReader.getSeed();
-            user_save_03.difficulty = fileReader.getDifficulty();
-            user_save_03.finishedMaps = fileReader.getFinishedMaps();
-            user_save_03.wave = fileReader.getWave();
-            user_save_03.gold = fileReader.getGold();
-            user_save_03.diamonds = fileReader.getDiamonds();
-            profiles.add(user_save_03);
-            tDifficulty03 = new TextField(languageManager.getValue(languageManager.getLanguage(), "difficulty_field") + user_save_03.difficulty, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-            tDifficulty03.setAlignment(Align.left);
-            tFinishedMaps03 = new TextField(languageManager.getValue(languageManager.getLanguage(), "finishedmaps_field") + user_save_03.finishedMaps, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-            tFinishedMaps03.setAlignment(Align.left);
-            tWave03 = new TextField(languageManager.getValue(languageManager.getLanguage(), "wave_field") + user_save_03.wave, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-            tWave03.setAlignment(Align.left);
-            tGold03 = new TextField(languageManager.getValue(languageManager.getLanguage(), "gold_field") + user_save_03.gold, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-            tGold03.setAlignment(Align.left);
-            tDiamonds03 = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") + user_save_03.diamonds, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-            tDiamonds03.setAlignment(Align.left);
-            table_profile_03.add(local03).width(table_profile_03.getHeight()/20).height(table_profile_03.getHeight()/20).align(Align.right);
-            table_profile_03.row();
-            table_profile_03.add(tDifficulty01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10);
-            table_profile_03.row();
-            table_profile_03.add(tFinishedMaps01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10);
-            table_profile_03.row();
-            table_profile_03.add(tWave01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10);
-            table_profile_03.row();
-            table_profile_03.add(tGold01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10);
-            table_profile_03.row();
-            table_profile_03.add(tDiamonds01).width(table_profile_03.getWidth()).height(table_profile_03.getHeight()/10).padBottom(table_profile_03.getHeight()/2-table_profile_03.getHeight()/10);
-            table_profile_03.debug();
-            table_profile_03.setTouchable(Touchable.enabled);
+            JSONObject save = fileReader.downloadSaveAsJSONObject("save/save03l.json");
+            table_profile_01 = ProfileManager.createProfileTable(save, font, languageManager, Gdx.graphics.getWidth()/10*6, "assets/icons/local.png");
             table_profile_03.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -349,7 +248,7 @@ public class ProfileLocalScreen implements Screen {
                 }
             });
         }else{
-            table_profile_03.add(bNewProfile03).height(table_profile_03.getHeight()/4).width(table_profile_03.getHeight()/4).padBottom(table_profile_03.getHeight()/4);
+            table_profile_03 = ProfileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*6);
             table_profile_03.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -357,7 +256,6 @@ public class ProfileLocalScreen implements Screen {
                     newGameDialog.show(stage);
                 }
             });
-
         }
 
         table_default.add(bBack).padRight(200);

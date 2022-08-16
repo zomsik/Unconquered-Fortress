@@ -9,8 +9,6 @@ import com.badlogic.gdx.utils.JsonWriter;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Base64;
 
 public class FileReader {
@@ -124,11 +122,7 @@ public class FileReader {
 
     public boolean fileExists(String savePath){
         File file = new File(savePath);
-        if(file.exists()){
-            return true;
-        }else{
-            return false;
-        }
+        return file.exists();
     }
     public void downloadSave(String jsonPath){
         JsonReader json = new JsonReader();
@@ -140,4 +134,20 @@ public class FileReader {
         gold = base.getInt("gold");
         diamonds = base.getInt("diamonds");
     }
+
+    public JSONObject downloadSaveAsJSONObject(String jsonPath){
+        JsonReader json = new JsonReader();
+        JsonValue base  = json.parse(Gdx.files.internal(jsonPath));
+        JSONObject j = new JSONObject();
+
+        j.put("seed", base.getInt("seed"));
+        j.put("difficulty", base.getString("difficulty"));
+        j.put("finishedMaps", base.getInt("finishedMaps"));
+        j.put("wave", base.getInt("wave"));
+        j.put("gold", base.getInt("gold"));
+        j.put("diamonds", base.getInt("diamonds"));
+
+        return j;
+    }
+
 }
