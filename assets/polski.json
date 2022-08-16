@@ -48,7 +48,9 @@
   "bDialogCancel": "Anuluj",
   "bDialogCreate": "Stwórz",
   "tNormalDifficulty": "Normalny",
-  "tHardDifficulty": "Trudny"
+  "tHardDifficulty": "Trudny",
+  "ResponseSavedSuccessfully" : "Zapisano pomyślnie",
+  "ResponseSuccessfullyCreatedSave": "Pomyślnie utworzono zapis"
 
 
 }

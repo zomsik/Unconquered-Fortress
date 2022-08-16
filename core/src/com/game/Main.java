@@ -12,17 +12,27 @@ public class Main extends Game {
 	public SpriteBatch batch;
 	private FileReader fileReader;
 	private Music music;
-	public boolean isLogged;
+	private boolean isLogged;
+	private String login;
 
-	public void setIsLogged(boolean newValue)
+	public void setIsLogged(boolean isLogged)
 	{
-		isLogged = newValue;
+		this.isLogged = isLogged;
 	}
 	public boolean getIsLogged()
 	{
 		return isLogged;
 	}
 
+	public void setLogin(String login)
+	{
+		this.login = login;
+	}
+
+	public String getLogin()
+	{
+		return login;
+	}
 
 	@Override
 	public void create () {

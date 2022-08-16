@@ -77,7 +77,9 @@ public class MenuScreen implements Screen  {
         if (fileReader.getTokenValue()!=null || game.getIsLogged())
         {
             game.setIsLogged(true);
+            game.setLogin(fileReader.getLoginFromToken());
             System.out.println(fileReader.getTokenValue());
+
             System.out.println("zalogowany");
             bLogin = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bLogout"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLogin));
 
@@ -271,6 +273,7 @@ public class MenuScreen implements Screen  {
                 if (game.getIsLogged()) {
                     if (fileReader.getTokenValue()!=null){
                         fDialogLoginLogin.setText(fileReader.getLoginFromToken());
+
                     }
 
                     fileReader.setUserInfo(null);
@@ -353,6 +356,7 @@ public class MenuScreen implements Screen  {
 
                     tDialogLoginErrors.setText(null);
                     bLogin.setText(languageManager.getValue(languageManager.getLanguage(), "bLogout"));
+                    game.setLogin(fDialogLoginLogin.getText());
                     game.setIsLogged(true);
                     menuDialog.hide();
                 }
@@ -468,7 +472,7 @@ public class MenuScreen implements Screen  {
         bPlay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                GameState.SetPreviousGameState(GameState.MENU);
+                GameState.setPreviousGameState(GameState.MENU);
                 game.setScreen(new ProfileLocalScreen(game));
                 dispose();
             }
@@ -477,7 +481,7 @@ public class MenuScreen implements Screen  {
         bSettings.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                GameState.SetPreviousGameState(GameState.MENU);
+                GameState.setPreviousGameState(GameState.MENU);
                 game.setScreen(new SettingsScreen(game));
                 dispose();
             }
@@ -487,7 +491,7 @@ public class MenuScreen implements Screen  {
         bCredits.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                GameState.SetPreviousGameState(GameState.MENU);
+                GameState.setPreviousGameState(GameState.MENU);
                 game.setScreen(new CreditsScreen(game));
                 backgroundMusic.dispose();
                 dispose();

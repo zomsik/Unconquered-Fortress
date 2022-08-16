@@ -48,5 +48,7 @@
   "bDialogCancel": "Cancel",
   "bDialogCreate": "Create",
   "tNormalDifficulty": "Normal",
-  "tHardDifficulty": "Hard"
+  "tHardDifficulty": "Hard",
+  "ResponseSavedSuccessfully" : "Saved successfully",
+  "ResponseSuccessfullyCreatedSave": "Successfully created save"
 }

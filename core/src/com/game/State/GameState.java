@@ -7,10 +7,14 @@ public enum GameState {
     CREDITS,
     LOGIN,
     REGISTER;
-    public static GameState gameState = MENU;
-    public static GameState previousGameState = MENU;
-    public static void SetGameState(GameState state){
+    private static GameState gameState = MENU;
+    private static GameState previousGameState = MENU;
+    public static void setGameState(GameState state){
         gameState = state;
     }
-    public static void SetPreviousGameState(GameState state){previousGameState = state;}
+    public static GameState getGameState(){
+        return gameState;
+    }
+    public static void setPreviousGameState(GameState state){previousGameState = state;}
+    public static GameState getPreviousGameState(){return previousGameState;}
 }

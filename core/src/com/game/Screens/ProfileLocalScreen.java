@@ -76,7 +76,7 @@ public class ProfileLocalScreen implements Screen {
         bDialogCreate = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bDialogCreate"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
         bDialogCancel = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bDialogCancel"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
 
-
+        //TODO Dialog Seed input
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogDifficultyChecked, images_settings, font, "checkbox_on", "checkbox_on");
         buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogDifficultyUnchecked, images_settings, font, "checkbox_off", "checkbox_off");
@@ -96,7 +96,7 @@ public class ProfileLocalScreen implements Screen {
 
     @Override
     public void show() {
-        if(game.isLogged){
+        if(game.getIsLogged()){
             table_next.setBounds(Gdx.graphics.getWidth()/10*9, Gdx.graphics.getWidth()/10*2,Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*2);
             table_next.add(bOtherScreen);
             table_next.debug();
@@ -173,7 +173,7 @@ public class ProfileLocalScreen implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 if (chosenDifficulty !=null)
                 {
-                    System.out.println("Stworzono gre o poziomie trudnosci " + chosenDifficulty);
+                    System.out.println("Stworzono gre na profilu " +chosenProfileToCreate + "o poziomie trudnosci " + chosenDifficulty);
                 }
             }
         });

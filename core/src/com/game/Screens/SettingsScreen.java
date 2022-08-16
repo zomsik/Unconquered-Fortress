@@ -191,7 +191,7 @@ public class SettingsScreen implements Screen {
                 System.out.println(tResolutionField.getText() + " " + fileReader.getResolutionValue());
                 System.out.println(Math.round(volumeSlider.getValue()) + " " + fileReader.getVolumeValue());
                 if(tLanguageField.getText().equals(fileReader.getLanguageValue()) && tResolutionField.getText().equals(fileReader.getResolutionValue()) && Math.round(volumeSlider.getValue()) == fileReader.getVolumeValue()){
-                    switch(GameState.previousGameState){
+                    switch(GameState.getPreviousGameState()){
                         case MENU:{
                             game.setScreen(new MenuScreen(game));
                             dispose();
@@ -221,7 +221,7 @@ public class SettingsScreen implements Screen {
         bBackDialog.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                switch(GameState.gameState){
+                switch(GameState.getGameState()){
                     case MENU:{
                         game.setScreen(new MenuScreen(game));
                         dispose();
@@ -252,7 +252,7 @@ public class SettingsScreen implements Screen {
                     Gdx.graphics.setWindowedMode(1600,900);
                 }
                 fileReader.setSettings(tResolutionField.getText(), volumeSlider.getValue(), tLanguageField.getText());
-                switch(GameState.previousGameState){
+                switch(GameState.getPreviousGameState()){
                     case MENU:{
                         game.setScreen(new MenuScreen(game));
                         dispose();
