@@ -51,6 +51,8 @@ public class SettingsScreen implements Screen {
     private FileReader fileReader;
     private LanguageManager languageManager;
     private Dialog backDialog;
+
+    private boolean isDialog = false;
     public SettingsScreen (Main game){
         this.game = game;
         resolutionsClass = new Resolutions();
@@ -203,6 +205,7 @@ public class SettingsScreen implements Screen {
 
                 }else {
                     //TODO second back button with setScreenem i disposem dodać, wyrownać, zrobić ramkę i ogarnąć tekst
+                    isDialog = true;
                     Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
                     backDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
                         public void result(Object obj) {
@@ -329,7 +332,18 @@ public class SettingsScreen implements Screen {
         Gdx.gl.glClearColor(1,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-        game.batch.draw(background, 0,0);
+        if(isDialog){
+            Gdx.gl.glClearColor(0,0,0,1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            table_language.setVisible(false);
+            table_volume.setVisible(false);
+            table_resolution.setVisible(false);
+        }else{
+            game.batch.draw(background, 0,0);
+            table_language.setVisible(true);
+            table_volume.setVisible(true);
+            table_resolution.setVisible(true);
+        }
         game.batch.end();
         tVolumeFieldText.setText(languageManager.getValue(languageManager.getLanguage(), "volume_field_text") + Math.round(volumeSlider.getValue()));
         stage.act(delta);

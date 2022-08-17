@@ -1,0 +1,103 @@
+
+upgrade_icons.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+upgradeIcons_attackBattleAxe
+  rotate: false
+  xy: 1, 1
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+upgradeIcons_attackBow
+  rotate: false
+  xy: 51, 1
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+upgradeIcons_attackCrossbow
+  rotate: false
+  xy: 101, 1
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+upgradeIcons_attackMace
+  rotate: false
+  xy: 151, 1
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+upgradeIcons_attackSword
+  rotate: false
+  xy: 201, 1
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+upgradeIcons_background
+  rotate: false
+  xy: 251, 1
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+upgradeIcons_bought
+  rotate: false
+  xy: 301, 1
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+upgradeIcons_connect
+  rotate: false
+  xy: 351, 1
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+upgradeIcons_healthHealth
+  rotate: false
+  xy: 401, 1
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+upgradeIcons_healthRegen
+  rotate: false
+  xy: 451, 1
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+upgradeIcons_healthShield
+  rotate: false
+  xy: 501, 1
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+upgradeIcons_incomeDiamonds
+  rotate: false
+  xy: 551, 1
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+upgradeIcons_incomeGold
+  rotate: false
+  xy: 601, 1
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+upgradeIcons_lock
+  rotate: false
+  xy: 651, 1
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1

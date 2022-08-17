@@ -46,7 +46,7 @@ public class ProfileManager {
         t.add(tGold).width(t.getWidth()).height(t.getHeight()/10);
         t.row();
         t.add(tDiamonds).width(t.getWidth()).height(t.getHeight()/10).padBottom(t.getHeight()/2-t.getHeight()/10);
-        t.debug();
+        //t.debug();
         t.setTouchable(Touchable.enabled);
 
 

@@ -55,7 +55,7 @@ public class MenuScreen implements Screen  {
 
     public boolean stayLogged = false;
 
-
+    public boolean isDialog = false;
 
 
 
@@ -270,6 +270,7 @@ public class MenuScreen implements Screen  {
         bLogin.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
+                isDialog = true;
                 if (game.getIsLogged()) {
                     if (fileReader.getTokenValue()!=null){
                         fDialogLoginLogin.setText(fileReader.getLoginFromToken());
@@ -372,6 +373,7 @@ public class MenuScreen implements Screen  {
         bDialogExit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
+                isDialog = false;
                 menuDialog.hide();
             }
         });
@@ -379,6 +381,7 @@ public class MenuScreen implements Screen  {
         bDialogExit2.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
+                isDialog = false;
                 menuDialog.hide();
             }
         });
@@ -523,7 +526,23 @@ public class MenuScreen implements Screen  {
             Gdx.gl.glClearColor(1,0,0,1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             game.batch.begin();
-            game.batch.draw(background, 0,0);
+            if(isDialog){
+                Gdx.gl.glClearColor(0,0,0,1);//do zamiany na inne tło
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);         //
+                bPlay.setVisible(false);
+                bLogin.setVisible(false);
+                bSettings.setVisible(false);
+                bCredits.setVisible(false);
+                bExit.setVisible(false);
+            }else{
+               game.batch.draw(background, 0,0);
+                bPlay.setVisible(true);
+                bLogin.setVisible(true);
+                bSettings.setVisible(true);
+                bCredits.setVisible(true);
+                bExit.setVisible(true);
+            }
+
             game.batch.end();
             stage.act(delta);
             stage.draw();

@@ -55,5 +55,6 @@
   "ResponseSaveDoesntExist": "Save doesn't exist",
   "ResponseNoExistingSaves": "No existing saves",
   "ResponseSuccessfullyLoadedSaves": "Successfully loaded saves",
-  "ResponseSuccessfulPing": "Successful ping to server"
+  "ResponseSuccessfulPing": "Successful ping to server",
+  "upgrade_dialog_field_text": "Passive upgrades"
 }
