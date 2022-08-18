@@ -118,7 +118,7 @@ public class ProfileCloudScreen implements Screen {
 
         loadSaves.put("login", game.getLogin());
 
-        JSONObject loadResponse = connectionManager.requestSend(loadSaves, "http://localhost:9000/api/downloadSaves");
+        JSONObject loadResponse = connectionManager.requestSend(loadSaves, "api/downloadSaves");
         System.out.println(loadResponse.getInt("status"));
         if (loadResponse.getInt("status") == 200)
         {
@@ -229,7 +229,7 @@ public class ProfileCloudScreen implements Screen {
                     saveData.put("gold", 12233);
                     saveData.put("diamonds", 0);
 
-                    JSONObject saveResponse = connectionManager.requestSend(saveData, "http://localhost:9000/api/uploadSave");
+                    JSONObject saveResponse = connectionManager.requestSend(saveData, "api/uploadSave");
                     System.out.println(saveResponse);
 
                     return true;
@@ -247,7 +247,7 @@ public class ProfileCloudScreen implements Screen {
                     saveData.put("gold", 12233);
                     saveData.put("diamonds", 1111);
 
-                    JSONObject saveResponse = connectionManager.requestSend(saveData, "http://localhost:9000/api/uploadSave");
+                    JSONObject saveResponse = connectionManager.requestSend(saveData, "api/uploadSave");
                     System.out.println(saveResponse);
 
                     return true;
@@ -259,7 +259,7 @@ public class ProfileCloudScreen implements Screen {
                     deleteData.put("profileNumber", 1);
 
 
-                    JSONObject deleteResponse = connectionManager.requestSend(deleteData, "http://localhost:9000/api/deleteSave");
+                    JSONObject deleteResponse = connectionManager.requestSend(deleteData, "api/deleteSave");
                     System.out.println(deleteResponse);
 
                     return true;

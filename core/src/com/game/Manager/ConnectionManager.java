@@ -10,7 +10,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class ConnectionManager {
-
+    private static final String urlHeader = "https://projektgame.azurewebsites.net/";
     public ConnectionManager()  {
     }
 
@@ -19,7 +19,7 @@ public class ConnectionManager {
 
         try {
 
-            URL url = new URL(Url);
+            URL url = new URL(urlHeader+Url);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
 

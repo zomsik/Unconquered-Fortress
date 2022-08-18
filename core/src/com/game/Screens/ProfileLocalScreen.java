@@ -108,18 +108,18 @@ public class ProfileLocalScreen implements Screen {
                 public void clicked(InputEvent event, float x, float y) {
 
                     //testy
-                    game.setScreen(new ProfileCloudScreen(game));
+                    // game.setScreen(new ProfileCloudScreen(game));
 
                     //produkcja
-                    /*
-                    JSONObject pingResponse = connectionManager.requestSend(new JSONObject(), "http://localhost:9000/api/ping");
-                    if (pingResponse.getInt("status") == 200 || pingResponse.getInt("status") == 201) {
+
+                    JSONObject pingResponse = connectionManager.requestSend(new JSONObject(), "api/ping");
+                    if (pingResponse.getInt("status") == 200 ) {
                         game.setScreen(new ProfileCloudScreen(game));
                     }
                     else {
                         System.out.println(languageManager.getValue(languageManager.getLanguage(), pingResponse.getString("message")));
                     }
-                    */
+
 
 
                 }

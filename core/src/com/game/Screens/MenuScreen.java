@@ -270,7 +270,7 @@ public class MenuScreen implements Screen  {
         bLogin.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                isDialog = true;
+
                 if (game.getIsLogged()) {
                     if (fileReader.getTokenValue()!=null){
                         fDialogLoginLogin.setText(fileReader.getLoginFromToken());
@@ -282,6 +282,7 @@ public class MenuScreen implements Screen  {
                     game.setIsLogged(false);
                     return;
                 }
+                isDialog = true;
 
                 tDialogLoginErrors.setText(null);
                 menuDialog.removeActor(table_dialogRegister);
@@ -343,7 +344,7 @@ public class MenuScreen implements Screen  {
                 loginData.put("login",fDialogLoginLogin.getText());
                 loginData.put("password", fDialogLoginPassword.getText());
 
-                JSONObject response = connectionManager.requestSend(loginData, "http://localhost:9000/api/login");
+                JSONObject response = connectionManager.requestSend(loginData, "api/login");
 
                 if (response.getInt("status") == 200)
                 {
@@ -359,6 +360,7 @@ public class MenuScreen implements Screen  {
                     bLogin.setText(languageManager.getValue(languageManager.getLanguage(), "bLogout"));
                     game.setLogin(fDialogLoginLogin.getText());
                     game.setIsLogged(true);
+                    isDialog = false;
                     menuDialog.hide();
                 }
                 else
@@ -438,7 +440,7 @@ public class MenuScreen implements Screen  {
                 RegisterData.put("password",fDialogRegisterPassword.getText());
 
 
-                JSONObject response = connectionManager.requestSend(RegisterData, "http://localhost:9000/api/register");
+                JSONObject response = connectionManager.requestSend(RegisterData, "api/register");
 
                 if (response.getInt("status") == 200)
                 {
@@ -447,6 +449,7 @@ public class MenuScreen implements Screen  {
                     fDialogRegisterPassword.setText(null);
                     fDialogRegisterRepeatPassword.setText(null);
                     tDialogRegisterErrors.setText(null);
+                    isDialog = false;
                     menuDialog.hide();
 
                 }

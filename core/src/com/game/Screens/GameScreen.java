@@ -54,6 +54,7 @@ public class GameScreen implements Screen {
     private int[][] worldIntArr;
     private boolean isPauseDialog = false;
     private boolean isLocal;
+    private ConnectionManager connectionManager;
 
     public GameScreen (Main game, JSONObject save, boolean isLocal){
         this.game = game;
@@ -64,6 +65,9 @@ public class GameScreen implements Screen {
         if(fileReader.getLanguageValue() != null){languageManager = new LanguageManager(fileReader.getLanguageValue());}else{languageManager = new LanguageManager("English");}
 
         actualGame = save;
+        if (!isLocal)
+            actualGame.put("login",game.getLogin());
+
         //reading stats etc
         if(actualGame.getString("difficulty").equals("normal")){
             table_map = worldManager.createWorld(actualGame.getInt("seed"), 46);
@@ -111,6 +115,9 @@ public class GameScreen implements Screen {
                 }
                 else
                 {
+
+                    JSONObject saveResponse = connectionManager.requestSend(actualGame, "api/uploadSave");
+                    System.out.println(saveResponse);
 
                 }
 
@@ -208,6 +215,8 @@ public class GameScreen implements Screen {
         parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
         font = new BitmapFont();
         font = generator.generateFont(parameter);
+
+        connectionManager = new ConnectionManager();
 
         taButtonsSettings = new TextureAtlas("assets/buttons/buttons_settings.pack");
         taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");
