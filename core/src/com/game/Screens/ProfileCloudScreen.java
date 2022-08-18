@@ -37,9 +37,9 @@ public class ProfileCloudScreen implements Screen {
     private TextureAtlas taButtonsDefault, taEmptyTextfield, taButtonsProfile;
     private Skin images_default, images_empty, image_profiles, images_settings;
 
-    private TextButton bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogNormalDifficulty, cDialogHardDifficulty;
+    private TextButton bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogEasyDifficulty, cDialogNormalDifficulty, cDialogHardDifficulty;
     private Table table_profile_01, table_profile_02, table_profile_03, table_default, table_previous, table_Dialog;
-    private TextField tDialogNormalDifficulty, tDialogHardDifficulty;
+    private TextField tDialogEasyDifficulty, tDialogNormalDifficulty, tDialogHardDifficulty;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private TextButton.TextButtonStyle textButtonStyle_bBack,textButtonStyle_bSave, textButtonStyle_bPrevious, textButtonStyle_bNewProfile, textButtonStyle_cDialogDifficultyChecked, textButtonStyle_cDialogDifficultyUnchecked;
@@ -79,6 +79,7 @@ public class ProfileCloudScreen implements Screen {
         buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogDifficultyChecked, images_settings, font, "checkbox_on", "checkbox_on");
         buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogDifficultyUnchecked, images_settings, font, "checkbox_off", "checkbox_off");
 
+        cDialogEasyDifficulty = new TextButton(null, buttonStyleManager.returnTextButtonStyle(textButtonStyle_cDialogDifficultyUnchecked));
         cDialogNormalDifficulty = new TextButton(null, buttonStyleManager.returnTextButtonStyle(textButtonStyle_cDialogDifficultyUnchecked));
         cDialogHardDifficulty = new TextButton(null, buttonStyleManager.returnTextButtonStyle(textButtonStyle_cDialogDifficultyUnchecked));
 
@@ -294,7 +295,7 @@ public class ProfileCloudScreen implements Screen {
                 newGameDialog.cancel();
             }
         };
-
+        tDialogEasyDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "tEasyDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogNormalDifficulty  = new TextField(languageManager.getValue(languageManager.getLanguage(), "tNormalDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogHardDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "tHardDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
 
@@ -304,6 +305,9 @@ public class ProfileCloudScreen implements Screen {
         table_Dialog.setWidth(350);
         table_Dialog.setX(200);
         table_Dialog.setY(300);
+        table_Dialog.add(cDialogEasyDifficulty);
+        table_Dialog.add(tDialogEasyDifficulty);
+        table_Dialog.row();
         table_Dialog.add(cDialogNormalDifficulty);
         table_Dialog.add(tDialogNormalDifficulty);
         table_Dialog.row();
@@ -314,9 +318,20 @@ public class ProfileCloudScreen implements Screen {
         newGameDialog.button(bDialogCancel);
         newGameDialog.button(bDialogCreate);
 
+        cDialogEasyDifficulty.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                cDialogEasyDifficulty.setStyle(textButtonStyle_cDialogDifficultyChecked);
+                cDialogNormalDifficulty.setStyle(textButtonStyle_cDialogDifficultyUnchecked);
+                cDialogHardDifficulty.setStyle(textButtonStyle_cDialogDifficultyUnchecked);
+                chosenDifficulty = "easy";
+            }
+        });
+
         cDialogNormalDifficulty.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
+                cDialogEasyDifficulty.setStyle(textButtonStyle_cDialogDifficultyUnchecked);
                 cDialogNormalDifficulty.setStyle(textButtonStyle_cDialogDifficultyChecked);
                 cDialogHardDifficulty.setStyle(textButtonStyle_cDialogDifficultyUnchecked);
                 chosenDifficulty = "normal";
@@ -326,6 +341,7 @@ public class ProfileCloudScreen implements Screen {
         cDialogHardDifficulty.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
+                cDialogEasyDifficulty.setStyle(textButtonStyle_cDialogDifficultyUnchecked);
                 cDialogNormalDifficulty.setStyle(textButtonStyle_cDialogDifficultyUnchecked);
                 cDialogHardDifficulty.setStyle(textButtonStyle_cDialogDifficultyChecked);
                 chosenDifficulty = "hard";
