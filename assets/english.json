@@ -57,5 +57,9 @@
   "ResponseNoExistingSaves": "No existing saves",
   "ResponseSuccessfullyLoadedSaves": "Successfully loaded saves",
   "ResponseSuccessfulPing": "Successful ping to server",
-  "upgrade_dialog_field_text": "Passive upgrades"
+  "upgrade_dialog_field_text": "Passive upgrades",
+  "normal" : "normal",
+  "easy" : "easy",
+  "hard" : "hard"
+
 }

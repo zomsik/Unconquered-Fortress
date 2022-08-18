@@ -57,6 +57,9 @@
   "ResponseNoExistingSaves": "Brak zapisów",
   "ResponseSuccessfullyLoadedSaves": "Pomyślnie załadowano zapisy",
   "ResponseSuccessfulPing": "Pomyślny ping do serwera ",
-  "upgrade_dialog_field_text": "Ulepszenia pasywne"
+  "upgrade_dialog_field_text": "Ulepszenia pasywne",
+  "normal" : "normalny",
+  "easy" : "łatwy",
+  "hard" : "trudny"
 
 }

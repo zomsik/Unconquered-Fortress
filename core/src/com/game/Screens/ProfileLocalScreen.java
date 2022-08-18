@@ -37,7 +37,7 @@ public class ProfileLocalScreen implements Screen {
     private List<User_save> profiles;
     private Stage stage;
     private Texture background;
-    private BitmapFont font;
+    private BitmapFont font, font_profile;
     private TextureAtlas taButtonsDefault, taEmptyTextfield, taButtonsProfile, taDialog, taUpgrades; //<- to delete
     private Skin images_default, images_empty, image_profiles, images_settings, images_dialog, images_upgrades; //<- to delete
     private TextButton bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogEasyDifficulty, cDialogNormalDifficulty, cDialogHardDifficulty;
@@ -230,7 +230,7 @@ public class ProfileLocalScreen implements Screen {
 
         if(fileReader.fileExists("save/save01l.json")){
             JSONObject save = fileReader.downloadSaveAsJSONObject("save/save01l.json");
-            table_profile_01 = ProfileManager.createProfileTable(save, font, languageManager, Gdx.graphics.getWidth()/10*2, "assets/icons/local.png");
+            table_profile_01 = ProfileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*2, "assets/icons/local.png");
             table_profile_01.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -428,7 +428,7 @@ public class ProfileLocalScreen implements Screen {
 
         if(fileReader.fileExists("save/save02l.json")){
             save2 = fileReader.downloadSaveAsJSONObject("save/save02l.json");
-            table_profile_02 = ProfileManager.createProfileTable(save2, font, languageManager, Gdx.graphics.getWidth()/10*4, "assets/icons/local.png");
+            table_profile_02 = ProfileManager.createProfileTable(save2, font_profile, languageManager, Gdx.graphics.getWidth()/10*4, "assets/icons/local.png");
             table_profile_02.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -452,7 +452,7 @@ public class ProfileLocalScreen implements Screen {
 
         if(fileReader.fileExists("save/save03l.json")){
             JSONObject save = fileReader.downloadSaveAsJSONObject("save/save03l.json");
-            table_profile_01 = ProfileManager.createProfileTable(save, font, languageManager, Gdx.graphics.getWidth()/10*6, "assets/icons/local.png");
+            table_profile_01 = ProfileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*6, "assets/icons/local.png");
             table_profile_03.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -560,15 +560,22 @@ public class ProfileLocalScreen implements Screen {
         background = new Texture("background.png");
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        if(Gdx.graphics.getWidth() < 1281){
-            parameter.size = 12;
-        }else{
-            parameter.size = 15;
-        }
+        parameter.size = 13;
+
         parameter.color = Color.WHITE;
         parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
         font = new BitmapFont();
         font = generator.generateFont(parameter);
+        if(Gdx.graphics.getWidth() < 1281){
+            parameter.size = 9;
+        }
+        else if(Gdx.graphics.getWidth() < 1601){
+            parameter.size = 11;
+        }else{
+            parameter.size = 13;
+        }
+        font_profile = new BitmapFont();
+        font_profile = generator.generateFont(parameter);
         taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");
         //TODO dodaj jeden więcej przycisk >
         taEmptyTextfield = new TextureAtlas("assets/buttons/buttons_settings.pack");

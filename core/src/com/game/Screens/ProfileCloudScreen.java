@@ -32,7 +32,7 @@ public class ProfileCloudScreen implements Screen {
     private ButtonStyleManager buttonStyleManager;
     private TextFieldStyleManager textFieldStyleManager;
 
-    private BitmapFont font;
+    private BitmapFont font, font_profile;
     private TextureAtlas taButtonsDefault, taEmptyTextfield, taButtonsProfile;
     private Skin images_default, images_empty, image_profiles, images_settings;
 
@@ -131,7 +131,7 @@ public class ProfileCloudScreen implements Screen {
 
                 if( save.getInt("profileNumber")==1)
                 {
-                    table_profile_01 = ProfileManager.createProfileTable(save, font, languageManager, Gdx.graphics.getWidth()/10*2, "assets/icons/cloud.png");
+                    table_profile_01 = ProfileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*2, "assets/icons/cloud.png");
                     table_profile_01.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
@@ -143,7 +143,7 @@ public class ProfileCloudScreen implements Screen {
                 }
                 else if( save.getInt("profileNumber")==2)
                 {
-                    table_profile_02 = ProfileManager.createProfileTable(save, font, languageManager, Gdx.graphics.getWidth()/10*4,"assets/icons/cloud.png");
+                    table_profile_02 = ProfileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*4,"assets/icons/cloud.png");
                     table_profile_02.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
@@ -155,7 +155,7 @@ public class ProfileCloudScreen implements Screen {
                 }
                 else if( save.getInt("profileNumber")==3)
                 {
-                    table_profile_03 = ProfileManager.createProfileTable(save, font, languageManager, Gdx.graphics.getWidth()/10*6, "assets/icons/cloud.png");
+                    table_profile_03 = ProfileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*6, "assets/icons/cloud.png");
                     table_profile_03.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
@@ -418,15 +418,22 @@ public class ProfileCloudScreen implements Screen {
         background = new Texture("background.png");
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        if(Gdx.graphics.getWidth() < 1281){
-            parameter.size = 12;
-        }else{
-            parameter.size = 15;
-        }
+        parameter.size = 13;
+
         parameter.color = Color.WHITE;
         parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
         font = new BitmapFont();
         font = generator.generateFont(parameter);
+        if(Gdx.graphics.getWidth() < 1281){
+            parameter.size = 9;
+        }
+        else if(Gdx.graphics.getWidth() < 1601){
+            parameter.size = 11;
+        }else{
+            parameter.size = 13;
+        }
+        font_profile = new BitmapFont();
+        font_profile = generator.generateFont(parameter);
         taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");
         taEmptyTextfield = new TextureAtlas("assets/buttons/buttons_settings.pack");
         taButtonsProfile = new TextureAtlas("assets/buttons/buttons_profile.pack");

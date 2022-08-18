@@ -31,8 +31,8 @@ public class SettingsScreen implements Screen {
     private Stage stage;
     private Texture background;
     private BitmapFont font;
-    private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack;
-    private Skin images, images_default, dialog;
+    private TextureAtlas taButtonsSettings, taButtonsDefault;
+    private Skin images, images_default;
     private TextButton bLeftResolution, bRightResolution, bBack, bSave, bLeftLanguage, bRightLanguage, bBackDialog;
     private Table table_resolution, table_default, table_volume, table_language;
     private TextField tResolutionField, tResolutionFieldText, tVolumeFieldText, tLanguageFieldText, tLanguageField;
@@ -206,7 +206,7 @@ public class SettingsScreen implements Screen {
                 }else {
                     //TODO second back button with setScreenem i disposem dodać, wyrownać, zrobić ramkę i ogarnąć tekst
                     isDialog = true;
-                    Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
+                    Texture bg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
                     backDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
                         public void result(Object obj) {
                             System.out.println("result " + obj);
@@ -215,8 +215,8 @@ public class SettingsScreen implements Screen {
 
                     Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
                     backDialog.text(languageManager.getValue(languageManager.getLanguage(), "dialog_field_text"), labelStyle);
-                    backDialog.button(bBackDialog).padBottom(10);
-                    backDialog.button(bSave).padBottom(10);
+                    backDialog.button(bBackDialog).padBottom(16);
+                    backDialog.button(bSave).padBottom(16);
                     backDialog.show(stage);
                     System.out.println("Dialog width: " + backDialog.getWidth() + " height: " + backDialog.getHeight());
                     table_default.remove();
@@ -393,10 +393,8 @@ public class SettingsScreen implements Screen {
 
         taButtonsSettings = new TextureAtlas("assets/buttons/buttons_settings.pack");
         taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");
-        taDialogBack = new TextureAtlas("assets/dialog/skin_dialog.pack");
         images = new Skin(taButtonsSettings);
         images_default = new Skin(taButtonsDefault);
-        dialog = new Skin(taDialogBack);
         table_resolution = new Table(images);
         table_default = new Table(images_default);
         table_volume = new Table(images);

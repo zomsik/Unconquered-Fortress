@@ -27,7 +27,7 @@ public class ProfileManager {
         TextFieldStyleManager tSM = new TextFieldStyleManager();
         tSM.setTextFieldStyle(tFS, new Skin(new TextureAtlas("assets/buttons/buttons_settings.pack")), font, "empty_background", Color.WHITE);
 
-        TextField tDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "difficulty_field") + save.getString("difficulty"), tSM.returnTextFieldStyle(tFS));
+        TextField tDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "difficulty_field") + languageManager.getValue(languageManager.getLanguage(), save.getString("difficulty")), tSM.returnTextFieldStyle(tFS));
         tDifficulty.setAlignment(Align.left);
         TextField tFinishedMaps = new TextField(languageManager.getValue(languageManager.getLanguage(), "finishedmaps_field") + save.getInt("finishedMaps"), tSM.returnTextFieldStyle(tFS));
         tFinishedMaps.setAlignment(Align.left);
@@ -37,17 +37,17 @@ public class ProfileManager {
         tGold.setAlignment(Align.left);
         TextField tDiamonds = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") + save.getInt("diamonds"), tSM.returnTextFieldStyle(tFS));
         tDiamonds.setAlignment(Align.left);
-        t.add(new Image(new Texture(new FileHandle(icon)))).width(t.getHeight()/20).height(t.getHeight()/20).align(Align.right);
+        t.add(new Image(new Texture(new FileHandle(icon)))).width(t.getHeight()/20).height(t.getHeight()/20).align(Align.right).padTop(16).padRight(8);
         t.row();
-        t.add(tDifficulty).width(t.getWidth()).height(t.getHeight()/10);
+        t.add(tDifficulty).width(t.getWidth()/10*9).height(t.getHeight()/10).padLeft(t.getWidth()/10*2);
         t.row();
-        t.add(tFinishedMaps).width(t.getWidth()).height(t.getHeight()/10);
+        t.add(tFinishedMaps).width(t.getWidth()/10*9).height(t.getHeight()/10).padLeft(t.getWidth()/10*2);
         t.row();
-        t.add(tWave).width(t.getWidth()).height(t.getHeight()/10);
+        t.add(tWave).width(t.getWidth()/10*9).height(t.getHeight()/10).padLeft(t.getWidth()/10*2);
         t.row();
-        t.add(tGold).width(t.getWidth()).height(t.getHeight()/10);
+        t.add(tGold).width(t.getWidth()/10*9).height(t.getHeight()/10).padLeft(t.getWidth()/10*2);
         t.row();
-        t.add(tDiamonds).width(t.getWidth()).height(t.getHeight()/10).padBottom(t.getHeight()/2-t.getHeight()/10);
+        t.add(tDiamonds).width(t.getWidth()/10*9).height(t.getHeight()/10).padBottom(t.getHeight()/2-t.getHeight()/10).padLeft(t.getWidth()/10*2);
         //t.debug();
         t.setTouchable(Touchable.enabled);
 
