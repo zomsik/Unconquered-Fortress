@@ -31,7 +31,7 @@ public class GameScreen implements Screen {
     private BitmapFont font;
     private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack;
     private Skin images, images_default, dialog, images_map;
-    private TextButton  bExitDialog;
+    private TextButton  bSaveDialog, bExitDialog;
     private Table table_map, table_dialogPause;
     private TextField tResolutionField, tResolutionFieldText, tVolumeFieldText, tLanguageFieldText, tLanguageField;
     private ArrayList<String> resolutions;
@@ -53,9 +53,11 @@ public class GameScreen implements Screen {
     private JSONObject actualGame;
     private int[][] worldIntArr;
     private boolean isPauseDialog = false;
+    private boolean isLocal;
 
-    public GameScreen (Main game, JSONObject save){
+    public GameScreen (Main game, JSONObject save, boolean isLocal){
         this.game = game;
+        this.isLocal = isLocal;
         resolutionsClass = new Resolutions();
         fileReader = new FileReader();
         fileReader.downloadSettings();
@@ -81,7 +83,9 @@ public class GameScreen implements Screen {
 
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
+        bSaveDialog  = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bExitDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+
 
     }
 
@@ -96,6 +100,23 @@ public class GameScreen implements Screen {
             }
         };
 
+        bSaveDialog.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("zapisano");
+
+                if (isLocal)
+                {
+                fileReader.setSave(actualGame);
+                }
+                else
+                {
+
+                }
+
+
+            }
+        });
 
         bExitDialog.addListener(new ClickListener() {
             @Override
@@ -104,7 +125,11 @@ public class GameScreen implements Screen {
             }
         });
 
+
+        table_dialogPause.add(bSaveDialog);
+        table_dialogPause.row();
         table_dialogPause.add(bExitDialog);
+        table_dialogPause.debug();
         pauseDialog.add(table_dialogPause);
         //t.add(new Image(new Texture(new FileHandle(icon)))).width(t.getHeight()/20).height(t.getHeight()/20).align(Align.right);
 

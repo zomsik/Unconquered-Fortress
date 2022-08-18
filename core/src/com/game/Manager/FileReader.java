@@ -150,4 +150,26 @@ public class FileReader {
         return j;
     }
 
+    public void setSave(JSONObject save){
+        String jsonPath = null;
+        switch (save.getInt("profileNumber")) {
+            case 1 -> jsonPath = "save/save01l.json";
+            case 2 -> jsonPath = "save/save02l.json";
+            case 3 -> jsonPath = "save/save03l.json";
+        }
+
+        FileHandle file = Gdx.files.local(jsonPath);
+        Json json = new Json();
+        json.setTypeName(null);
+        json.setUsePrototypes(false);
+        json.setIgnoreUnknownFields(true);
+        json.setOutputType(JsonWriter.OutputType.json);
+
+        if (save.has("profileNumber"))
+            save.remove("profileNumber");
+
+        file.writeString(json.prettyPrint(save.toString()), false);
+    }
+
+
 }

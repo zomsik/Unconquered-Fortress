@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.game.Main;
 import com.game.Manager.*;
+import com.game.State.GameState;
 import org.json.JSONObject;
 
 public class ProfileCloudScreen implements Screen {
@@ -31,7 +32,7 @@ public class ProfileCloudScreen implements Screen {
     private LanguageManager languageManager;
     private ButtonStyleManager buttonStyleManager;
     private TextFieldStyleManager textFieldStyleManager;
-
+    private JSONObject save1, save2, save3;
     private BitmapFont font, font_profile;
     private TextureAtlas taButtonsDefault, taEmptyTextfield, taButtonsProfile;
     private Skin images_default, images_empty, image_profiles, images_settings;
@@ -47,7 +48,7 @@ public class ProfileCloudScreen implements Screen {
 
     private Dialog newGameDialog;
     private String chosenDifficulty = null;
-    private int chosenProfileToCreate;
+    private int chosenProfile;
 
 
     public ProfileCloudScreen(Main game){
@@ -104,9 +105,7 @@ public class ProfileCloudScreen implements Screen {
         Texture bg = new Texture(new FileHandle("assets/profile_banner.png"));
         Texture dialogBg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
         Texture icon = new Texture(new FileHandle("assets/icons/local.png"));
-        Image local01 = new Image(icon);
-        Image local02 = new Image(icon);
-        Image local03 = new Image(icon);
+
         table_profile_01.setBounds(Gdx.graphics.getWidth()/10*2, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
         table_profile_01.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
         table_profile_02.setBounds(Gdx.graphics.getWidth()/10*4, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
@@ -131,36 +130,40 @@ public class ProfileCloudScreen implements Screen {
 
                 if( save.getInt("profileNumber")==1)
                 {
+                    save1 = save;
                     table_profile_01 = ProfileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*2, "assets/icons/cloud.png");
                     table_profile_01.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
                             System.out.println("zostałem wybrany");
-                            //wyłapuje tylko na textfieldach, a nie na całym table_profile
+                            GameState.setGameState(GameState.PLAYING);
+                            game.setScreen(new GameScreen(game, save1, false));
                         }
                     });
 
                 }
                 else if( save.getInt("profileNumber")==2)
                 {
+                    save2 = save;
                     table_profile_02 = ProfileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*4,"assets/icons/cloud.png");
                     table_profile_02.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            System.out.println("zostałem wybrany");
-                            //wyłapuje tylko na textfieldach, a nie na całym table_profile
+                            GameState.setGameState(GameState.PLAYING);
+                            game.setScreen(new GameScreen(game, save2, false));
                         }
                     });
 
                 }
                 else if( save.getInt("profileNumber")==3)
                 {
+                    save3 = save;
                     table_profile_03 = ProfileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*6, "assets/icons/cloud.png");
                     table_profile_03.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            System.out.println("zostałem wybrany");
-                            //wyłapuje tylko na textfieldach, a nie na całym table_profile
+                            GameState.setGameState(GameState.PLAYING);
+                            game.setScreen(new GameScreen(game, save3, false));
                         }
                     });
 
@@ -179,7 +182,7 @@ public class ProfileCloudScreen implements Screen {
             table_profile_01.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    chosenProfileToCreate = 1;
+                    chosenProfile = 1;
                     newGameDialog.show(stage);
                 }
             });
@@ -189,7 +192,7 @@ public class ProfileCloudScreen implements Screen {
             table_profile_02.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    chosenProfileToCreate = 2;
+                    chosenProfile = 2;
                     newGameDialog.show(stage);
                 }
             });
@@ -199,7 +202,7 @@ public class ProfileCloudScreen implements Screen {
             table_profile_03.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    chosenProfileToCreate = 3;
+                    chosenProfile = 3;
                     newGameDialog.show(stage);
                 }
             });
@@ -342,7 +345,10 @@ public class ProfileCloudScreen implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 if (chosenDifficulty !=null)
                 {
-                    System.out.println("Stworzono gre na profilu " +chosenProfileToCreate + "o poziomie trudnosci " + chosenDifficulty);
+                    System.out.println("Stworzono gre na profilu " + chosenProfile + "o poziomie trudnosci " + chosenDifficulty);
+                    GameState.setGameState(GameState.PLAYING);
+                    ///in cloud put profileNumber
+                    game.setScreen(new GameScreen(game,ProfileManager.createEmptySave(chosenDifficulty, chosenProfile), false));
                 }
             }
         });

@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -23,7 +22,6 @@ import com.game.Main;
 import com.game.Manager.*;
 import com.game.State.GameState;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +52,7 @@ public class ProfileLocalScreen implements Screen {
 
     private Dialog newGameDialog, upgradeDialog;//<- to delete
     private String chosenDifficulty = null;
-    private int chosenProfileToCreate;
+    private int chosenProfile;
 
     private boolean isDialog = false;//<- to delete or leave
     private Image attack01, attack02, attack03, attack04, attack05, health01, health02, health03, income01, income02;
@@ -207,10 +205,10 @@ public class ProfileLocalScreen implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 if (chosenDifficulty !=null)
                 {
-                    System.out.println("Stworzono gre na profilu " +chosenProfileToCreate + "o poziomie trudnosci " + chosenDifficulty);
+                    System.out.println("Stworzono gre na profilu " + chosenProfile + "o poziomie trudnosci " + chosenDifficulty);
                     GameState.setGameState(GameState.PLAYING);
                     ///in cloud put profileNumber
-                    game.setScreen(new GameScreen(game,ProfileManager.createEmptySave(chosenDifficulty)));
+                    game.setScreen(new GameScreen(game, ProfileManager.createEmptySave(chosenDifficulty, chosenProfile), true));
                 }
             }
         });
@@ -227,7 +225,7 @@ public class ProfileLocalScreen implements Screen {
         table_profile_03.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
 
         table_default.setBounds(Gdx.graphics.getWidth()/10*3, Gdx.graphics.getHeight()/20, Gdx.graphics.getWidth()/10*4,50);
-
+/*
         if(fileReader.fileExists("save/save01l.json")){
             JSONObject save = fileReader.downloadSaveAsJSONObject("save/save01l.json");
             table_profile_01 = ProfileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*2, "assets/icons/local.png");
@@ -415,12 +413,28 @@ public class ProfileLocalScreen implements Screen {
                 }
             });
 
+
+ */
+        if(fileReader.fileExists("save/save01l.json")){
+            save1 = fileReader.downloadSaveAsJSONObject("save/save01l.json");
+            save1.put("profileNumber",1);
+            table_profile_01 = ProfileManager.createProfileTable(save1, font_profile, languageManager, Gdx.graphics.getWidth()/10*2, "assets/icons/local.png");
+            table_profile_01.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    System.out.println("zostałem wybrany");
+                    //wyłapuje tylko na textfieldach, a nie na całym table_profile
+                    GameState.setGameState(GameState.PLAYING);
+                    game.setScreen(new GameScreen(game, save1, true));
+
+                }
+            });
         }else{
             table_profile_01 = ProfileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*2);
             table_profile_01.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    chosenProfileToCreate = 1;
+                    chosenProfile = 1;
                     newGameDialog.show(stage);
                 }
             });
@@ -428,6 +442,7 @@ public class ProfileLocalScreen implements Screen {
 
         if(fileReader.fileExists("save/save02l.json")){
             save2 = fileReader.downloadSaveAsJSONObject("save/save02l.json");
+            save2.put("profileNumber",2);
             table_profile_02 = ProfileManager.createProfileTable(save2, font_profile, languageManager, Gdx.graphics.getWidth()/10*4, "assets/icons/local.png");
             table_profile_02.addListener(new ClickListener(){
                 @Override
@@ -435,7 +450,7 @@ public class ProfileLocalScreen implements Screen {
                     System.out.println("zostałem wybrany");
                     //wyłapuje tylko na textfieldach, a nie na całym table_profile
                     GameState.setGameState(GameState.PLAYING);
-                    game.setScreen(new GameScreen(game,save2));
+                    game.setScreen(new GameScreen(game, save2, true));
 
                 }
             });
@@ -444,20 +459,21 @@ public class ProfileLocalScreen implements Screen {
             table_profile_02.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    chosenProfileToCreate = 2;
+                    chosenProfile = 2;
                     newGameDialog.show(stage);
                 }
             });
         }
 
         if(fileReader.fileExists("save/save03l.json")){
-            JSONObject save = fileReader.downloadSaveAsJSONObject("save/save03l.json");
-            table_profile_01 = ProfileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*6, "assets/icons/local.png");
+            save3 = fileReader.downloadSaveAsJSONObject("save/save03l.json");
+            save3.put("profileNumber",3);
+            table_profile_03 = ProfileManager.createProfileTable(save3, font_profile, languageManager, Gdx.graphics.getWidth()/10*6, "assets/icons/local.png");
             table_profile_03.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    System.out.println("zostałem wybrany");
-                    //wyłapuje tylko na textfieldach, a nie na całym table_profile
+                    GameState.setGameState(GameState.PLAYING);
+                    game.setScreen(new GameScreen(game, save3, true));
                 }
             });
         }else{
@@ -465,7 +481,7 @@ public class ProfileLocalScreen implements Screen {
             table_profile_03.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    chosenProfileToCreate = 3;
+                    chosenProfile = 3;
                     newGameDialog.show(stage);
                 }
             });

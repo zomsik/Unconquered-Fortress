@@ -71,7 +71,7 @@ public class ProfileManager {
         return t;
     }
 
-    public static JSONObject createEmptySave(String difficulty){
+    public static JSONObject createEmptySave(String difficulty, int chosenProfile){
 
         //        //wygenerowanie seeda
         final ThreadLocal<Random> RANDOM_THREAD_LOCAL = ThreadLocal.withInitial(Random::new);
@@ -80,7 +80,8 @@ public class ProfileManager {
         JSONObject j = new JSONObject();
 
 
-        j.put("seed", 431);
+        j.put("seed", random.nextInt(1,100));
+        j.put("profileNumber", chosenProfile);
         j.put("difficulty", difficulty);
         j.put("finishedMaps",0);
         j.put("wave",0);
