@@ -695,7 +695,7 @@ public class WorldManager {
                 else if (y==2)
                     t.add(new Image(images_map, "water"));
                 else if (y==5)
-                    t.add(new Image(images_map, "purple"));
+                    t.add(new Image(images_map, "bush"));
                 else if (y==6)
                     t.add(new Image(images_map, "mountain"));
                 else if (y==8)
