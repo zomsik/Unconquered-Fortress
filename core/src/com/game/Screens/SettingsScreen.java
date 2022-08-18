@@ -212,11 +212,13 @@ public class SettingsScreen implements Screen {
                             System.out.println("result " + obj);
                         }
                     };
+
                     Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
                     backDialog.text(languageManager.getValue(languageManager.getLanguage(), "dialog_field_text"), labelStyle);
                     backDialog.button(bBackDialog).padBottom(10);
                     backDialog.button(bSave).padBottom(10);
                     backDialog.show(stage);
+                    System.out.println("Dialog width: " + backDialog.getWidth() + " height: " + backDialog.getHeight());
                     table_default.remove();
                 }
             }

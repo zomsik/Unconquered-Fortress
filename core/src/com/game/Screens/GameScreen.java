@@ -62,8 +62,14 @@ public class GameScreen implements Screen {
 
         actualGame = save;
         //reading stats etc
+        if(actualGame.getString("difficulty").equals("normal")){
+            table_map = worldManager.createWorld(actualGame.getInt("seed"), 46);
+        }else if(actualGame.getString("difficulty").equals("hard")){
+            table_map = worldManager.createWorld(actualGame.getInt("seed"), 36);
+        }else if(actualGame.getString("difficulty").equals("easy")){
+            table_map = worldManager.createWorld(actualGame.getInt("seed"), 51);
+        }
 
-        table_map = worldManager.createWorld(actualGame.getInt("seed"));
 
 
         initSettingsUI();

@@ -1,6 +1,7 @@
 package com.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -21,6 +23,7 @@ import com.game.Main;
 import com.game.Manager.*;
 import com.game.State.GameState;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +40,9 @@ public class ProfileLocalScreen implements Screen {
     private BitmapFont font;
     private TextureAtlas taButtonsDefault, taEmptyTextfield, taButtonsProfile, taDialog, taUpgrades; //<- to delete
     private Skin images_default, images_empty, image_profiles, images_settings, images_dialog, images_upgrades; //<- to delete
-    private TextButton bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogNormalDifficulty, cDialogHardDifficulty;
+    private TextButton bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogEasyDifficulty, cDialogNormalDifficulty, cDialogHardDifficulty;
     private Table table_profile_01, table_profile_02, table_profile_03, table_default, table_next, table_Dialog, table_upgrade; //<- to delete
-    private TextField tDialogNormalDifficulty, tDialogHardDifficulty;
+    private TextField tDialogEasyDifficulty, tDialogNormalDifficulty, tDialogHardDifficulty;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private TextButton.TextButtonStyle textButtonStyle_bBack,textButtonStyle_bSave, textButtonStyle_bNext, textButtonStyle_bNewProfile, textButtonStyle_cDialogDifficultyChecked, textButtonStyle_cDialogDifficultyUnchecked;
@@ -81,6 +84,7 @@ public class ProfileLocalScreen implements Screen {
         buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogDifficultyChecked, images_settings, font, "checkbox_on", "checkbox_on");
         buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogDifficultyUnchecked, images_settings, font, "checkbox_off", "checkbox_off");
 
+        cDialogEasyDifficulty = new TextButton(null, buttonStyleManager.returnTextButtonStyle(textButtonStyle_cDialogDifficultyUnchecked));
         cDialogNormalDifficulty = new TextButton(null, buttonStyleManager.returnTextButtonStyle(textButtonStyle_cDialogDifficultyUnchecked));
         cDialogHardDifficulty = new TextButton(null, buttonStyleManager.returnTextButtonStyle(textButtonStyle_cDialogDifficultyUnchecked));
 
@@ -137,7 +141,7 @@ public class ProfileLocalScreen implements Screen {
                 newGameDialog.cancel();
             }
         };
-
+        tDialogEasyDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "tEasyDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogNormalDifficulty  = new TextField(languageManager.getValue(languageManager.getLanguage(), "tNormalDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogHardDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "tHardDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
 
@@ -147,6 +151,9 @@ public class ProfileLocalScreen implements Screen {
         table_Dialog.setWidth(350);
         table_Dialog.setX(200);
         table_Dialog.setY(300);
+        table_Dialog.add(cDialogEasyDifficulty);
+        table_Dialog.add(tDialogEasyDifficulty);
+        table_Dialog.row();
         table_Dialog.add(cDialogNormalDifficulty);
         table_Dialog.add(tDialogNormalDifficulty);
         table_Dialog.row();
@@ -157,9 +164,20 @@ public class ProfileLocalScreen implements Screen {
         newGameDialog.button(bDialogCancel);
         newGameDialog.button(bDialogCreate);
 
+        cDialogEasyDifficulty.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                cDialogEasyDifficulty.setStyle(textButtonStyle_cDialogDifficultyChecked);
+                cDialogNormalDifficulty.setStyle(textButtonStyle_cDialogDifficultyUnchecked);
+                cDialogHardDifficulty.setStyle(textButtonStyle_cDialogDifficultyUnchecked);
+                chosenDifficulty = "easy";
+            }
+        });
+
         cDialogNormalDifficulty.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
+                cDialogEasyDifficulty.setStyle(textButtonStyle_cDialogDifficultyUnchecked);
                 cDialogNormalDifficulty.setStyle(textButtonStyle_cDialogDifficultyChecked);
                 cDialogHardDifficulty.setStyle(textButtonStyle_cDialogDifficultyUnchecked);
                 chosenDifficulty = "normal";
@@ -169,6 +187,7 @@ public class ProfileLocalScreen implements Screen {
         cDialogHardDifficulty.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
+                cDialogEasyDifficulty.setStyle(textButtonStyle_cDialogDifficultyUnchecked);
                 cDialogNormalDifficulty.setStyle(textButtonStyle_cDialogDifficultyUnchecked);
                 cDialogHardDifficulty.setStyle(textButtonStyle_cDialogDifficultyChecked);
                 chosenDifficulty = "hard";
@@ -218,15 +237,20 @@ public class ProfileLocalScreen implements Screen {
                     isDialog = true;
                     System.out.println("zostałem wybrany");
                     Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));                  // V
+                    System.out.println(bg.getHeight());
+                    System.out.println(bg.getWidth());
                     upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
                         public void result(Object obj) {
                             System.out.println("result " + obj);
                         }
                     };
                     Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+                    upgradeDialog.setBounds(0,0,200,200);
+                    System.out.println(upgradeDialog.getWidth());
+                    System.out.println(upgradeDialog.getHeight());
                     upgradeDialog.text(languageManager.getValue(languageManager.getLanguage(), "upgrade_dialog_field_text"), labelStyle);
-                    table_upgrade.setBounds(0,0,upgradeDialog.getWidth(), upgradeDialog.getHeight()/10*3);
-                    table_upgrade.debug();
+                    table_upgrade.setBounds(0,0,upgradeDialog.getWidth(), upgradeDialog.getHeight()/10*9);
+                    //table_upgrade.debug();
                     upgradeDialog.row();
                     //upgradeDialog.padBottom(500);
                     attack01 = new Image(images_upgrades, "upgradeIcons_attackSword");
@@ -465,8 +489,18 @@ public class ProfileLocalScreen implements Screen {
             }
         });
 
-
-
+        //temp?
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ESCAPE) {
+                    game.setScreen(new MenuScreen(game));
+                    dispose();
+                    return true;
+                }
+                return super.keyDown(event, keycode);
+            }
+        });
 
     }
 

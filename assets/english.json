@@ -47,6 +47,7 @@
   "creditsStack": "Stack",
   "bDialogCancel": "Cancel",
   "bDialogCreate": "Create",
+  "tEasyDifficulty": "Easy",
   "tNormalDifficulty": "Normal",
   "tHardDifficulty": "Hard",
   "ResponseSavedSuccessfully" : "Saved successfully",
