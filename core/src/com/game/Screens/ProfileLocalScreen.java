@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.game.Main;
 import com.game.Manager.*;
+import com.game.State.GameState;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class ProfileLocalScreen implements Screen {
     private Music backgroundMusic;
     private LanguageManager languageManager;
     private ConnectionManager connectionManager;
+    private JSONObject save1, save2, save3;
 
     private Dialog newGameDialog, upgradeDialog;//<- to delete
     private String chosenDifficulty = null;
@@ -187,6 +189,9 @@ public class ProfileLocalScreen implements Screen {
                 if (chosenDifficulty !=null)
                 {
                     System.out.println("Stworzono gre na profilu " +chosenProfileToCreate + "o poziomie trudnosci " + chosenDifficulty);
+                    GameState.setGameState(GameState.PLAYING);
+                    ///in cloud put profileNumber
+                    game.setScreen(new GameScreen(game,ProfileManager.createEmptySave(chosenDifficulty)));
                 }
             }
         });
@@ -398,13 +403,16 @@ public class ProfileLocalScreen implements Screen {
         }
 
         if(fileReader.fileExists("save/save02l.json")){
-            JSONObject save = fileReader.downloadSaveAsJSONObject("save/save02l.json");
-            table_profile_02 = ProfileManager.createProfileTable(save, font, languageManager, Gdx.graphics.getWidth()/10*4, "assets/icons/local.png");
+            save2 = fileReader.downloadSaveAsJSONObject("save/save02l.json");
+            table_profile_02 = ProfileManager.createProfileTable(save2, font, languageManager, Gdx.graphics.getWidth()/10*4, "assets/icons/local.png");
             table_profile_02.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     System.out.println("zostałem wybrany");
                     //wyłapuje tylko na textfieldach, a nie na całym table_profile
+                    GameState.setGameState(GameState.PLAYING);
+                    game.setScreen(new GameScreen(game,save2));
+
                 }
             });
         }else{

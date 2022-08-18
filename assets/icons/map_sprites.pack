@@ -1,0 +1,89 @@
+
+map_sprites.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+grass
+  rotate: false
+  xy: 0, 0
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+water
+  rotate: false
+  xy: 64, 0
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+enemy
+  rotate: false
+  xy: 128, 0
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+base
+  rotate: false
+  xy: 192, 0
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+mountain
+  rotate: false
+  xy: 256, 0
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+purple
+  rotate: false
+  xy: 320, 0
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+pathLeftRight
+  rotate: false
+  xy: 0, 64
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+pathUpDown
+  rotate: false
+  xy: 64, 64
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+pathUpRight
+  rotate: false
+  xy: 128, 64
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+pathLeftUp
+  rotate: false
+  xy: 192, 64
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+pathDownRight
+  rotate: false
+  xy: 256, 64
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+pathLeftDown
+  rotate: false
+  xy: 320, 64
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1

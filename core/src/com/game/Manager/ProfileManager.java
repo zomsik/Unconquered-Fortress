@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import org.json.JSONObject;
 
+import java.util.Random;
+
 public class ProfileManager {
 
     public static Table createProfileTable(JSONObject save, BitmapFont font, LanguageManager languageManager, int x, String icon){
@@ -67,6 +69,26 @@ public class ProfileManager {
         t.add(tB).height(t.getHeight()/4).width(t.getHeight()/4).padBottom(t.getHeight()/4);
 
         return t;
+    }
+
+    public static JSONObject createEmptySave(String difficulty){
+
+        //        //wygenerowanie seeda
+        final ThreadLocal<Random> RANDOM_THREAD_LOCAL = ThreadLocal.withInitial(Random::new);
+        Random random = RANDOM_THREAD_LOCAL.get();
+
+        JSONObject j = new JSONObject();
+
+
+        j.put("seed", 431);
+        j.put("difficulty", difficulty);
+        j.put("finishedMaps",0);
+        j.put("wave",0);
+        j.put("gold",0);
+        j.put("diamonds",0);
+
+        return j;
+
     }
 
 
