@@ -77,17 +77,14 @@ public class MenuScreen implements Screen  {
         if (fileReader.getTokenValue()!=null || game.getIsLogged())
         {
             game.setIsLogged(true);
-            game.setLogin(fileReader.getLoginFromToken());
-            System.out.println(fileReader.getTokenValue());
+            if (fileReader.getTokenValue()!=null)
+                game.setLogin(fileReader.getLoginFromToken());
 
-            System.out.println("zalogowany");
             bLogin = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bLogout"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLogin));
 
         }
         else
         {
-            System.out.println(fileReader.getTokenValue());
-            System.out.println("wylogowany");
             bLogin = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bLogin"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLogin));
 
         }
