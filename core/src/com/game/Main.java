@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.Manager.FileReader;
 import com.game.Screens.MenuScreen;
 
+import java.awt.*;
+
 
 public class Main extends Game {
 	public SpriteBatch batch;

@@ -20,7 +20,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setResizable(false);
-		config.setTitle("Tower Defense");
+		config.setTitle("Unconquered Fortress");
 		if(getDisplayMode().width > 1920 && getDisplayMode().height > 1080)
 		{
 			config.setWindowedMode(1920,1080);
@@ -29,6 +29,7 @@ public class DesktopLauncher {
 		}else{
 			config.setFullscreenMode(getDisplayMode());
 		}
+		config.setWindowIcon("assets/icons/gameIcon.png");
 		new Lwjgl3Application(new Main(), config);
 	}
 }
