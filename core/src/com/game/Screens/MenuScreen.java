@@ -153,7 +153,7 @@ public class MenuScreen implements Screen  {
             public void clicked(InputEvent event, float x, float y) {
                 isDialog = true;
                 System.out.println("zostałem wybrany");
-                Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));                  // V
+                Texture bg = new Texture(new FileHandle("assets/dialog/upgrade_dialog.png"));                  // V
                 System.out.println(bg.getHeight());
                 System.out.println(bg.getWidth());
                 upgradeDialog = new Dialog("", new Window.WindowStyle(fontText, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
@@ -307,19 +307,19 @@ public class MenuScreen implements Screen  {
                 table_upgrade.add(cannonBall);
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
                 table_upgrade.add(betterCannon);
-                table_upgrade.row();
+                table_upgrade.row().padBottom(10);
                 //mage type turret
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(sceptre);
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
                 table_upgrade.add(book);
-                table_upgrade.row();
+                table_upgrade.row().padBottom(10);
                 //range
                 table_upgrade.add(gear);
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
                 table_upgrade.add(sonar);
-                table_upgrade.row();
+                table_upgrade.row().padBottom(10);
                 //health
                 table_upgrade.add(health);
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
@@ -380,22 +380,12 @@ public class MenuScreen implements Screen  {
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(luck);
-                /*table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
-                table_upgrade.row();
-                table_upgrade.add(health);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
-                table_upgrade.add(betterHealth);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
-                table_upgrade.add(betterBetterHealth);
-                table_upgrade.row();
-                table_upgrade.add(gold);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
-                table_upgrade.add(betterGold);*/
+                table_upgrade.add(luck).padBottom(10);;
+                table_upgrade.padBottom(16);
                 stage.addActor(table_upgrade);
                 upgradeDialog.add(table_upgrade);
                 upgradeDialog.show(stage);
+                System.out.println("table width: " + table_upgrade.getWidth() + " height: " + table_upgrade.getWidth());
                 fork.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
