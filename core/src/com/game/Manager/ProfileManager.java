@@ -79,8 +79,8 @@ public class ProfileManager {
 
         JSONObject j = new JSONObject();
 
-
-        j.put("seed", random.nextInt(1,100));
+        int seed = random.nextInt();
+        j.put("seed", seed);//
         j.put("profileNumber", chosenProfile);
         j.put("difficulty", difficulty);
         j.put("finishedMaps",0);
