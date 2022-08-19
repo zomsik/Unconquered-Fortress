@@ -4,10 +4,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.game.Manager.ConnectionManager;
 import com.game.Manager.FileReader;
 import com.game.Screens.MenuScreen;
-
-import java.awt.*;
+import org.json.JSONObject;
 
 
 public class Main extends Game {
@@ -16,6 +16,7 @@ public class Main extends Game {
 	private Music music;
 	private boolean isLogged;
 	private String login;
+	private ConnectionManager connectionManager;
 
 	public void setIsLogged(boolean isLogged)
 	{
@@ -38,6 +39,10 @@ public class Main extends Game {
 
 	@Override
 	public void create () {
+		connectionManager = new ConnectionManager();
+		new Thread(() -> connectionManager.requestSend(new JSONObject(), "api/ping")).start();
+
+
 		batch = new SpriteBatch();
 		fileReader = new FileReader();
 		fileReader.downloadSettings();
