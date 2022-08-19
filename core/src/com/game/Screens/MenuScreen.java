@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -57,8 +58,17 @@ public class MenuScreen implements Screen  {
 
     public boolean isDialog = false;
 
-
-
+    private TextButton bUpgrade;
+    private Table table_upgrade, table_upgradeButton;
+    private Dialog upgradeDialog;
+    private Skin images_upgrades;
+    private TextureAtlas taUpgrades;
+    private Image fork, scythe, dagger, sword, battleAxe, mace, sceptre, book, bow, crossbow, cannon, betterCannon, cannonBall;
+    private Image sonar, gear;
+    private Image bought, lock;
+    private Image health, betterHealth, betterBetterHealth, shield, regeneration;
+    private Image gold, diamonds, betterGold, betterDiamonds, upgrade, betterUpgrade, hammer, discount10, discount20, discount30;
+    private Image luck;
     public MenuScreen(Main game){
         this.game = game;
         initSettingsUI();
@@ -136,7 +146,598 @@ public class MenuScreen implements Screen  {
         bDialogRegister = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bRegister"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogLogin));
         bDialogRegisterLogin = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bLogin"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogLogin));
 
+        bUpgrade = new TextButton("Upgrades", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogLogin));
+        table_upgradeButton.setBounds(0,0,100,100);
+        table_upgradeButton.add(bUpgrade);
+        stage.addActor(table_upgradeButton);
 
+        bUpgrade.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                isDialog = true;
+                System.out.println("zostałem wybrany");
+                Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));                  // V
+                System.out.println(bg.getHeight());
+                System.out.println(bg.getWidth());
+                upgradeDialog = new Dialog("", new Window.WindowStyle(fontText, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
+                    public void result(Object obj) {
+                        System.out.println("result " + obj);
+                    }
+                };
+                Label.LabelStyle labelStyle = new Label.LabelStyle(fontText, Color.WHITE);
+                upgradeDialog.setBounds(0,0,200,200);
+                System.out.println(upgradeDialog.getWidth());
+                System.out.println(upgradeDialog.getHeight());
+                upgradeDialog.text(languageManager.getValue(languageManager.getLanguage(), "upgrade_dialog_field_text"), labelStyle);
+                table_upgrade.setBounds(0,0,upgradeDialog.getWidth(), upgradeDialog.getHeight()/10*9);
+                //table_upgrade.debug();
+                upgradeDialog.row();
+                //upgradeDialog.padBottom(500);
+                UpgradeTalesManager tile = new UpgradeTalesManager();
+                fork = new Image(images_upgrades, "upgradeIcons_attackFork");
+                scythe = new Image(images_upgrades, "upgradeIcons_lock");
+                dagger = new Image(images_upgrades, "upgradeIcons_lock");
+                sword = new Image(images_upgrades, "upgradeIcons_lock");
+                battleAxe = new Image(images_upgrades, "upgradeIcons_lock");
+                mace = new Image(images_upgrades, "upgradeIcons_lock");
+
+                bow = new Image(images_upgrades, "upgradeIcons_lock");
+                crossbow = new Image(images_upgrades, "upgradeIcons_lock");
+
+                cannon = new Image(images_upgrades, "upgradeIcons_lock");
+                betterCannon = new Image(images_upgrades, "upgradeIcons_lock");
+                cannonBall = new Image(images_upgrades, "upgradeIcons_lock");
+
+                sceptre = new Image(images_upgrades, "upgradeIcons_lock");
+                book = new Image(images_upgrades, "upgradeIcons_lock");
+
+                gear = new Image(images_upgrades, "upgradeIcons_attackGear");
+                sonar = new Image(images_upgrades, "upgradeIcons_lock");
+
+                health = new Image(images_upgrades, "upgradeIcons_healthHealth");
+                betterHealth = new Image(images_upgrades, "upgradeIcons_lock");
+                betterBetterHealth = new Image(images_upgrades, "upgradeIcons_lock");
+                regeneration = new Image(images_upgrades, "upgradeIcons_lock");
+                shield = new Image(images_upgrades, "upgradeIcons_lock");
+
+                gold = new Image(images_upgrades, "upgradeIcons_incomeGold");
+                betterGold = new Image(images_upgrades, "upgradeIcons_lock");
+                diamonds = new Image(images_upgrades, "upgradeIcons_lock");
+                betterDiamonds = new Image(images_upgrades, "upgradeIcons_lock");
+
+                discount10 = new Image(images_upgrades, "upgradeIcons_lock");
+                discount20 =  new Image(images_upgrades, "upgradeIcons_lock");
+                discount30 =  new Image(images_upgrades, "upgradeIcons_lock");
+
+                upgrade = new Image(images_upgrades, "upgradeIcons_lock");
+                hammer = new Image(images_upgrades, "upgradeIcons_lock");
+                betterUpgrade = new Image(images_upgrades, "upgradeIcons_lock");
+
+                luck = new Image(images_upgrades, "upgradeIcons_lock");
+                fork.setTouchable(Touchable.enabled);
+                scythe.setTouchable(Touchable.disabled);
+                dagger.setTouchable(Touchable.disabled);
+                sword.setTouchable(Touchable.disabled);
+                battleAxe.setTouchable(Touchable.disabled);
+                mace.setTouchable(Touchable.disabled);
+                bow.setTouchable(Touchable.disabled);
+                crossbow.setTouchable(Touchable.disabled);
+                cannon.setTouchable(Touchable.disabled);
+                cannonBall.setTouchable(Touchable.disabled);
+                betterCannon.setTouchable(Touchable.disabled);
+                sceptre.setTouchable(Touchable.disabled);
+                book.setTouchable(Touchable.disabled);
+                gear.setTouchable(Touchable.enabled);
+                sonar.setTouchable(Touchable.disabled);
+                health.setTouchable(Touchable.enabled);
+                regeneration.setTouchable(Touchable.disabled);
+                betterHealth.setTouchable(Touchable.disabled);
+                betterBetterHealth.setTouchable(Touchable.disabled);
+                gold.setTouchable(Touchable.enabled);
+                betterGold.setTouchable(Touchable.disabled);
+                diamonds.setTouchable(Touchable.disabled);
+                betterDiamonds.setTouchable(Touchable.disabled);
+                discount10.setTouchable(Touchable.disabled);
+                discount20.setTouchable(Touchable.disabled);
+                discount30.setTouchable(Touchable.disabled);
+                upgrade.setTouchable(Touchable.disabled);
+                hammer.setTouchable(Touchable.disabled);
+                betterUpgrade.setTouchable(Touchable.disabled);
+                luck.setTouchable(Touchable.disabled);
+                //Attack
+                table_upgrade.add(fork);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(scythe);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(dagger);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(sword);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(battleAxe);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(mace);
+                table_upgrade.row();
+                //connectors to lower upgrades
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.row();
+                //bow type turret
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(bow);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(crossbow);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.row();
+                //connectors to lower upgrades
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.row();
+                //cannon type turret
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(cannon);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(cannonBall);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(betterCannon);
+                table_upgrade.row();
+                //mage type turret
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(sceptre);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(book);
+                table_upgrade.row();
+                //range
+                table_upgrade.add(gear);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(sonar);
+                table_upgrade.row();
+                //health
+                table_upgrade.add(health);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(betterHealth);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(regeneration);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(shield);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(betterBetterHealth);
+                table_upgrade.row();
+                //income
+                table_upgrade.add(gold);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(betterGold);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(diamonds);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(betterDiamonds);
+                table_upgrade.row();
+                //connectors to lower level
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.row();
+                //sales
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(discount10);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(discount20);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(discount30);
+                table_upgrade.row();
+                //connectors to lower level
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.row();
+                //upgarde/hammer
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(upgrade);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(hammer);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(betterUpgrade);
+                table_upgrade.row();
+                //connectors to lower level
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.row();
+                //luck
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(luck);
+                /*table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.row();
+                table_upgrade.add(health);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(betterHealth);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(betterBetterHealth);
+                table_upgrade.row();
+                table_upgrade.add(gold);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(betterGold);*/
+                stage.addActor(table_upgrade);
+                upgradeDialog.add(table_upgrade);
+                upgradeDialog.show(stage);
+                fork.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        fork.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        scythe.setDrawable(images_upgrades, "upgradeIcons_attackScythe");
+                        scythe.setTouchable(Touchable.enabled);
+                        fork.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                scythe.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        scythe.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        dagger.setDrawable(images_upgrades, "upgradeIcons_attackDagger");
+                        sceptre.setDrawable(images_upgrades, "upgradeIcons_attackSceptre");
+                        dagger.setTouchable(Touchable.enabled);
+                        sceptre.setTouchable(Touchable.enabled);
+                        scythe.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                dagger.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        dagger.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        sword.setDrawable(images_upgrades, "upgradeIcons_attackSword");
+                        bow.setDrawable(images_upgrades, "upgradeIcons_attackBow");
+                        sword.setTouchable(Touchable.enabled);
+                        bow.setTouchable(Touchable.enabled);
+                        dagger.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                sword.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        sword.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        battleAxe.setDrawable(images_upgrades, "upgradeIcons_attackBattleAxe");
+                        battleAxe.setTouchable(Touchable.enabled);
+                        sword.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                battleAxe.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        battleAxe.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        mace.setDrawable(images_upgrades, "upgradeIcons_attackMace");
+                        cannon.setDrawable(images_upgrades,"upgradeIcons_attackCannon");
+                        mace.setTouchable(Touchable.enabled);
+                        cannon.setTouchable(Touchable.enabled);
+                        battleAxe.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                mace.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        mace.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        mace.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                bow.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        bow.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        crossbow.setDrawable(images_upgrades, "upgradeIcons_attackCrossbow");
+                        crossbow.setTouchable(Touchable.enabled);
+                        bow.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                crossbow.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        crossbow.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        crossbow.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                cannon.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        cannon.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        cannonBall.setDrawable(images_upgrades, "upgradeIcons_attackCannonBall");
+                        cannonBall.setTouchable(Touchable.enabled);
+                        cannon.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                cannonBall.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        cannonBall.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        betterCannon.setDrawable(images_upgrades, "upgradeIcons_attackBetterCannon");
+                        betterCannon.setTouchable(Touchable.enabled);
+                        cannonBall.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                betterCannon.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        betterCannon.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        betterCannon.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                sceptre.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        sceptre.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        book.setDrawable(images_upgrades, "upgradeIcons_attackBook");
+                        book.setTouchable(Touchable.enabled);
+                        sceptre.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                book.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        book.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        book.setTouchable(Touchable.disabled);
+
+                    }
+                });
+
+                gear.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        gear.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        sonar.setDrawable(images_upgrades, "upgradeIcons_attackSonar");
+                        sonar.setTouchable(Touchable.enabled);
+                        gear.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                sonar.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        sonar.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        sonar.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                health.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        health.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        betterHealth.setDrawable(images_upgrades, "upgradeIcons_healthBetterHealth");
+                        betterHealth.setTouchable(Touchable.enabled);
+                        health.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                betterHealth.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        betterHealth.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        regeneration.setDrawable(images_upgrades, "upgradeIcons_healthRegen");
+                        regeneration.setTouchable(Touchable.enabled);
+                        betterHealth.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                regeneration.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        regeneration.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        shield.setDrawable(images_upgrades, "upgradeIcons_healthShield");
+                        shield.setTouchable(Touchable.enabled);
+                        regeneration.setTouchable(Touchable.disabled);
+
+                    }
+                });
+
+                shield.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        shield.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        betterBetterHealth.setDrawable(images_upgrades, "upgradeIcons_healthBetterBetterHealth");
+                        betterBetterHealth.setTouchable(Touchable.enabled);
+                        shield.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                betterBetterHealth.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        betterBetterHealth.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        betterBetterHealth.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                gold.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        gold.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        betterGold.setDrawable(images_upgrades, "upgradeIcons_incomeBetterGold");
+                        betterGold.setTouchable(Touchable.enabled);
+                        gold.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                betterGold.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        betterGold.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        diamonds.setDrawable(images_upgrades, "upgradeIcons_incomeDiamonds");
+                        discount10.setDrawable(images_upgrades, "upgradeIcons_incomeDiscountTen");
+                        discount10.setTouchable(Touchable.enabled);
+                        diamonds.setTouchable(Touchable.enabled);
+                        betterGold.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                diamonds.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        diamonds.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        betterDiamonds.setDrawable(images_upgrades, "upgradeIcons_incomeBetterDiamonds");
+                        betterDiamonds.setTouchable(Touchable.enabled);
+                        diamonds.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                betterDiamonds.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        betterDiamonds.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        betterDiamonds.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                discount10.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        discount10.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        discount20.setDrawable(images_upgrades, "upgradeIcons_incomeDiscountTwenty");
+                        upgrade.setDrawable(images_upgrades, "upgradeIcons_incomeUpgrade");
+                        upgrade.setTouchable(Touchable.enabled);
+                        discount20.setTouchable(Touchable.enabled);
+                        discount10.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                discount20.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        discount20.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        discount30.setDrawable(images_upgrades, "upgradeIcons_incomeDiscountThirty");
+                        discount30.setTouchable(Touchable.enabled);
+                        discount20.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                discount30.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        discount30.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        discount30.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                upgrade.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        upgrade.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        hammer.setDrawable(images_upgrades, "upgradeIcons_incomeHammer");
+                        hammer.setTouchable(Touchable.enabled);
+                        upgrade.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                hammer.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        hammer.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        betterUpgrade.setDrawable(images_upgrades, "upgradeIcons_incomeBetterUpgrade");
+                        luck.setDrawable(images_upgrades, "upgradeIcons_incomeLuck");
+                        luck.setTouchable(Touchable.enabled);
+                        betterUpgrade.setTouchable(Touchable.enabled);
+                        hammer.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                betterUpgrade.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        betterUpgrade.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        betterUpgrade.setTouchable(Touchable.disabled);
+
+                    }
+                });
+                luck.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("zostałem wybrany");
+                        luck.setDrawable(images_upgrades, "upgradeIcons_bought");
+                        luck.setTouchable(Touchable.disabled);
+
+                    }
+                });
+// ^
+                //wyłapuje tylko na textfieldach, a nie na całym table_profile
+            }
+        });
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bDialogExit, images_settings, fontText, "checkbox_on", "checkbox_on");
         bDialogExit = new TextButton(null,buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogExit));
@@ -624,6 +1225,11 @@ public class MenuScreen implements Screen  {
         textButtonStyle_tDialogStayLogged = new TextButton.TextButtonStyle();
         textButtonStyle_bDialogExit =  new TextButton.TextButtonStyle();
         backgroundMusic = game.getMusic();
+
+        table_upgrade = new Table(images);
+        table_upgradeButton = new Table(images);
+        taUpgrades = new TextureAtlas("assets/icons/upgrade_icons.pack");//<- to delete
+        images_upgrades = new Skin(taUpgrades);
 
     }
 }

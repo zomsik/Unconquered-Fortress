@@ -36,10 +36,10 @@ public class ProfileLocalScreen implements Screen {
     private Stage stage;
     private Texture background;
     private BitmapFont font, font_profile;
-    private TextureAtlas taButtonsDefault, taEmptyTextfield, taButtonsProfile, taDialog, taUpgrades; //<- to delete
-    private Skin images_default, images_empty, image_profiles, images_settings, images_dialog, images_upgrades; //<- to delete
+    private TextureAtlas taButtonsDefault, taEmptyTextfield, taButtonsProfile, taDialog;
+    private Skin images_default, images_empty, image_profiles, images_settings; //<- to delete
     private TextButton bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogEasyDifficulty, cDialogNormalDifficulty, cDialogHardDifficulty;
-    private Table table_profile_01, table_profile_02, table_profile_03, table_default, table_next, table_Dialog, table_upgrade; //<- to delete
+    private Table table_profile_01, table_profile_02, table_profile_03, table_default, table_next, table_Dialog;
     private TextField tDialogEasyDifficulty, tDialogNormalDifficulty, tDialogHardDifficulty;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
@@ -50,7 +50,7 @@ public class ProfileLocalScreen implements Screen {
     private ConnectionManager connectionManager;
     private JSONObject save1, save2, save3;
 
-    private Dialog newGameDialog, upgradeDialog;//<- to delete
+    private Dialog newGameDialog;
     private String chosenDifficulty = null;
     private int chosenProfile;
 
@@ -597,21 +597,17 @@ public class ProfileLocalScreen implements Screen {
         taEmptyTextfield = new TextureAtlas("assets/buttons/buttons_settings.pack");
         taButtonsProfile = new TextureAtlas("assets/buttons/buttons_profile.pack");
         taDialog = new TextureAtlas("assets/dialog/skin_dialog.pack");//<- to delete
-        taUpgrades = new TextureAtlas("assets/icons/upgrade_icons.pack");//<- to delete
-        images_dialog = new Skin(taDialog);//<- to delete
         connectionManager = new ConnectionManager();
         images_default = new Skin(taButtonsDefault);
         images_empty = new Skin(taEmptyTextfield);
         image_profiles = new Skin(taButtonsProfile);
         images_settings = new Skin(new TextureAtlas("assets/buttons/buttons_settings.pack"));
-        images_upgrades = new Skin(taUpgrades);
         table_default = new Table(images_default);
         table_next = new Table(images_default);
         table_Dialog = new Table(images_settings);
         table_profile_01 = new Table();
         table_profile_02 = new Table();
         table_profile_03 = new Table();
-        table_upgrade = new Table();//<- to delete
         textButtonStyle_bBack = new TextButton.TextButtonStyle();
         textButtonStyle_bSave = new TextButton.TextButtonStyle();
         textButtonStyle_bNext = new TextButton.TextButtonStyle();
