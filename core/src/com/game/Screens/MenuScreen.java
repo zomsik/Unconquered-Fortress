@@ -27,7 +27,7 @@ import java.util.Objects;
 
 public class MenuScreen implements Screen  {
     private Main game;
-    private Texture background;
+    private Texture background, backgroundForDialog;
     public TextButton bExit, bLogin ,bPlay, bSettings, bCredits;
 
     public TextButton bDialogLogin, bDialogLoginRegister, cDialogStayLogged, bDialogExit, bDialogExit2;
@@ -1118,8 +1118,9 @@ public class MenuScreen implements Screen  {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             game.batch.begin();
             if(isDialog){
-                Gdx.gl.glClearColor(0,0,0,1);//do zamiany na inne tło
-                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);         //
+                game.batch.draw(backgroundForDialog, 0,0);
+                //Gdx.gl.glClearColor(0,0,0,1);//do zamiany na inne tło
+                //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);         //
                 bPlay.setVisible(false);
                 bLogin.setVisible(false);
                 bSettings.setVisible(false);
@@ -1166,6 +1167,7 @@ public class MenuScreen implements Screen  {
 
     private void initSettingsUI(){
         background = new Texture("background_menu.png");
+        backgroundForDialog = new Texture("tempBackground.png");
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         stage = new Stage();

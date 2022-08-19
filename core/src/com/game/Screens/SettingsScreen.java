@@ -29,7 +29,7 @@ import java.util.Objects;
 public class SettingsScreen implements Screen {
     private Main game;
     private Stage stage;
-    private Texture background;
+    private Texture background, backgroundForDialog;
     private BitmapFont font;
     private TextureAtlas taButtonsSettings, taButtonsDefault;
     private Skin images, images_default;
@@ -335,8 +335,9 @@ public class SettingsScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
         if(isDialog){
-            Gdx.gl.glClearColor(0,0,0,1);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            game.batch.draw(backgroundForDialog, 0,0);
+            //Gdx.gl.glClearColor(0,0,0,1);
+            //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             table_language.setVisible(false);
             table_volume.setVisible(false);
             table_resolution.setVisible(false);
@@ -377,6 +378,7 @@ public class SettingsScreen implements Screen {
     }
     private void initSettingsUI(){
         background = new Texture("background.png");
+        backgroundForDialog = new Texture("tempBackground.png");
         resolutions = new ArrayList<>();
         resolutions = resolutionsClass.getResolutionsArrayList();
         languages = new ArrayList<>();
