@@ -11,11 +11,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.game.Main;
@@ -23,6 +25,7 @@ import com.game.Manager.*;
 import com.game.State.GameState;
 import org.json.JSONObject;
 
+import javax.swing.*;
 import java.util.Objects;
 
 public class MenuScreen implements Screen  {
@@ -65,10 +68,14 @@ public class MenuScreen implements Screen  {
     private TextureAtlas taUpgrades;
     private Image fork, scythe, dagger, sword, battleAxe, mace, sceptre, book, bow, crossbow, cannon, betterCannon, cannonBall;
     private Image sonar, gear;
-    private Image bought, lock;
     private Image health, betterHealth, betterBetterHealth, shield, regeneration;
     private Image gold, diamonds, betterGold, betterDiamonds, upgrade, betterUpgrade, hammer, discount10, discount20, discount30;
     private Image luck;
+
+    private UpgradeManager upgradeManager;
+
+    private TextTooltip.TextTooltipStyle textTooltipStyle;
+    private TextTooltip tooltip;
     public MenuScreen(Main game){
         this.game = game;
         initSettingsUI();
@@ -395,8 +402,25 @@ public class MenuScreen implements Screen  {
                         scythe.setTouchable(Touchable.enabled);
                         fork.setTouchable(Touchable.disabled);
 
+
                     }
                 });
+                fork.addListener(new ClickListener() {
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        System.out.println("Hover");
+
+                        tooltip = new TextTooltip("Działam", textTooltipStyle);
+                        tooltip.setInstant(true);
+                        System.out.println(tooltip.getActor());
+                        tooltip.enter(event, x, y, pointer, fromActor);
+
+                    }});
+                fork.addListener(new ClickListener() {
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
+
+                    }});
+
                 scythe.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
@@ -1134,7 +1158,6 @@ public class MenuScreen implements Screen  {
                 bCredits.setVisible(true);
                 bExit.setVisible(true);
             }
-
             game.batch.end();
             stage.act(delta);
             stage.draw();
@@ -1182,7 +1205,6 @@ public class MenuScreen implements Screen  {
 
         parameter.size = 15;
         parameter.color = Color.WHITE;
-
         fontText = generator.generateFont(parameter);
 
         connectionManager = new ConnectionManager();
@@ -1219,6 +1241,13 @@ public class MenuScreen implements Screen  {
         table_upgradeButton = new Table(images);
         taUpgrades = new TextureAtlas("assets/icons/upgrade_icons.pack");//<- to delete
         images_upgrades = new Skin(taUpgrades);
+
+        Drawable tooltipBackground = new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/settings_dialog.png"))));
+        textTooltipStyle = new TextTooltip.TextTooltipStyle();
+        textTooltipStyle.label = new Label.LabelStyle(fontText, Color.WHITE);
+        textTooltipStyle.background = tooltipBackground;
+        textTooltipStyle.wrapWidth = 100.0f;
+
 
     }
 }
