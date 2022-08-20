@@ -1,6 +1,7 @@
 package com.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
@@ -11,15 +12,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.game.Entity.Upgrades;
 import com.game.Main;
 import com.game.Manager.*;
 import com.game.State.GameState;
@@ -73,6 +72,7 @@ public class MenuScreen implements Screen  {
     private Image luck;
 
     private UpgradeManager upgradeManager;
+    private Upgrades uFork, uScythe, uDagger, uSword, uBattleAxe, uMace, uBow, uCrossBow, uCannon, uCannonBall, uBetterCannon, uSceptre, uBook, uGear, uSonar, uHealth, uBetterHealth, uBetterBetterHealth, uRegeneration, uShield, uGold, uBetterGold, uDiamonds, uBetterDiamonds, uDiscount10, uDiscount20, uDiscount30, uUpgrade, uHammer, uBetterUpgrade, uLuck;
 
     private TextTooltip.TextTooltipStyle textTooltipStyle;
     private TextTooltip tooltip;
@@ -177,77 +177,72 @@ public class MenuScreen implements Screen  {
                 //table_upgrade.debug();
                 upgradeDialog.row();
                 //upgradeDialog.padBottom(500);
-                UpgradeTalesManager tile = new UpgradeTalesManager();
+                //UpgradeTalesManager tile = new UpgradeTalesManager();
+
                 fork = new Image(images_upgrades, "upgradeIcons_attackFork");
+
+
                 scythe = new Image(images_upgrades, "upgradeIcons_lock");
+
+
                 dagger = new Image(images_upgrades, "upgradeIcons_lock");
+
                 sword = new Image(images_upgrades, "upgradeIcons_lock");
+
                 battleAxe = new Image(images_upgrades, "upgradeIcons_lock");
+
                 mace = new Image(images_upgrades, "upgradeIcons_lock");
 
                 bow = new Image(images_upgrades, "upgradeIcons_lock");
+
                 crossbow = new Image(images_upgrades, "upgradeIcons_lock");
 
                 cannon = new Image(images_upgrades, "upgradeIcons_lock");
+
                 betterCannon = new Image(images_upgrades, "upgradeIcons_lock");
+
                 cannonBall = new Image(images_upgrades, "upgradeIcons_lock");
 
                 sceptre = new Image(images_upgrades, "upgradeIcons_lock");
+
                 book = new Image(images_upgrades, "upgradeIcons_lock");
 
                 gear = new Image(images_upgrades, "upgradeIcons_attackGear");
+
                 sonar = new Image(images_upgrades, "upgradeIcons_lock");
 
                 health = new Image(images_upgrades, "upgradeIcons_healthHealth");
+
                 betterHealth = new Image(images_upgrades, "upgradeIcons_lock");
+
                 betterBetterHealth = new Image(images_upgrades, "upgradeIcons_lock");
+
                 regeneration = new Image(images_upgrades, "upgradeIcons_lock");
+
                 shield = new Image(images_upgrades, "upgradeIcons_lock");
 
                 gold = new Image(images_upgrades, "upgradeIcons_incomeGold");
+
                 betterGold = new Image(images_upgrades, "upgradeIcons_lock");
+
                 diamonds = new Image(images_upgrades, "upgradeIcons_lock");
+
                 betterDiamonds = new Image(images_upgrades, "upgradeIcons_lock");
 
                 discount10 = new Image(images_upgrades, "upgradeIcons_lock");
+
                 discount20 =  new Image(images_upgrades, "upgradeIcons_lock");
+
                 discount30 =  new Image(images_upgrades, "upgradeIcons_lock");
 
                 upgrade = new Image(images_upgrades, "upgradeIcons_lock");
+
                 hammer = new Image(images_upgrades, "upgradeIcons_lock");
+
                 betterUpgrade = new Image(images_upgrades, "upgradeIcons_lock");
 
                 luck = new Image(images_upgrades, "upgradeIcons_lock");
-                fork.setTouchable(Touchable.enabled);
-                scythe.setTouchable(Touchable.disabled);
-                dagger.setTouchable(Touchable.disabled);
-                sword.setTouchable(Touchable.disabled);
-                battleAxe.setTouchable(Touchable.disabled);
-                mace.setTouchable(Touchable.disabled);
-                bow.setTouchable(Touchable.disabled);
-                crossbow.setTouchable(Touchable.disabled);
-                cannon.setTouchable(Touchable.disabled);
-                cannonBall.setTouchable(Touchable.disabled);
-                betterCannon.setTouchable(Touchable.disabled);
-                sceptre.setTouchable(Touchable.disabled);
-                book.setTouchable(Touchable.disabled);
-                gear.setTouchable(Touchable.enabled);
-                sonar.setTouchable(Touchable.disabled);
-                health.setTouchable(Touchable.enabled);
-                regeneration.setTouchable(Touchable.disabled);
-                betterHealth.setTouchable(Touchable.disabled);
-                betterBetterHealth.setTouchable(Touchable.disabled);
-                gold.setTouchable(Touchable.enabled);
-                betterGold.setTouchable(Touchable.disabled);
-                diamonds.setTouchable(Touchable.disabled);
-                betterDiamonds.setTouchable(Touchable.disabled);
-                discount10.setTouchable(Touchable.disabled);
-                discount20.setTouchable(Touchable.disabled);
-                discount30.setTouchable(Touchable.disabled);
-                upgrade.setTouchable(Touchable.disabled);
-                hammer.setTouchable(Touchable.disabled);
-                betterUpgrade.setTouchable(Touchable.disabled);
-                luck.setTouchable(Touchable.disabled);
+                initUpgrades();
                 //Attack
                 table_upgrade.add(fork);
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
@@ -393,91 +388,179 @@ public class MenuScreen implements Screen  {
                 upgradeDialog.add(table_upgrade);
                 upgradeDialog.show(stage);
                 System.out.println("table width: " + table_upgrade.getWidth() + " height: " + table_upgrade.getWidth());
+                //TODO tooltip enter position = coś mniejszego od upgradeDialog.getWidth(), podzieliść na 4 części i wyświetlać w wybranym miejscu
                 fork.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("zostałem wybrany");
-                        fork.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        scythe.setDrawable(images_upgrades, "upgradeIcons_attackScythe");
-                        scythe.setTouchable(Touchable.enabled);
-                        fork.setTouchable(Touchable.disabled);
-
-
+                        uFork.setLevel(uFork.getLevel()+1, 3, fork);
+                        uFork.setDamagemultiplayer(uFork.getLevel());
+                        if(uFork.getLevel() == 1){
+                            uScythe.setLevel(0, 3, scythe);
+                            uScythe.setDamagemultiplayer(uScythe.getLevel());
+                            scythe.setDrawable(images_upgrades, "upgradeIcons_attackScythe");
+                        }
                     }
-                });
-                fork.addListener(new ClickListener() {
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                        System.out.println("Hover");
-
-                        tooltip = new TextTooltip("Działam", textTooltipStyle);
+                        Label information = new Label( "Upgrade: " + uFork.getUpgradeName() + "\nLevel:" + uFork.getLevel() + "/3" + "\nDamage multiplayer: " + uFork.getDamageMultiplayer(),labelStyle);
+                        tooltip = new TextTooltip("", textTooltipStyle);
+                        tooltip.setActor(information);
                         tooltip.setInstant(true);
-                        System.out.println(tooltip.getActor());
                         tooltip.enter(event, x, y, pointer, fromActor);
-
-                    }});
-                fork.addListener(new ClickListener() {
+                    }
                     public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         tooltip.exit(event, x, y, pointer, fromActor);
-
-                    }});
-
+                    }
+                });
                 scythe.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        scythe.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        dagger.setDrawable(images_upgrades, "upgradeIcons_attackDagger");
-                        sceptre.setDrawable(images_upgrades, "upgradeIcons_attackSceptre");
-                        dagger.setTouchable(Touchable.enabled);
-                        sceptre.setTouchable(Touchable.enabled);
-                        scythe.setTouchable(Touchable.disabled);
+                        if(uScythe.getLevel()>=0){
+                            uScythe.setLevel(uScythe.getLevel()+1, 1, scythe);
+                            uScythe.setDamagemultiplayer(uScythe.getLevel());
+                        }
+                        if(uScythe.getLevel() == 1) {
+                            uDagger.setLevel(0, 3, dagger);
+                            uDagger.setDamagemultiplayer(uScythe.getLevel());
+                            dagger.setDrawable(images_upgrades, "upgradeIcons_attackDagger");
+                            uSceptre.setLevel(0,3,sceptre);
+                            uSceptre.setDamagemultiplayer(uSceptre.getLevel());
+                            sceptre.setDrawable(images_upgrades, "upgradeIcons_attackSceptre");
+                        }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        if(uScythe.getLevel()<0){
+                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
+                        }else{
+                            information = new Label( "Upgrade: " + uScythe.getUpgradeName() + "\nLevel:" + uScythe.getLevel() + "/1" + "\nDamage multiplayer: " + uScythe.getDamageMultiplayer(),labelStyle);
+                        }
+                        tooltip = new TextTooltip("Działam", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, x, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
 
                     }
                 });
                 dagger.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        dagger.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        sword.setDrawable(images_upgrades, "upgradeIcons_attackSword");
-                        bow.setDrawable(images_upgrades, "upgradeIcons_attackBow");
-                        sword.setTouchable(Touchable.enabled);
-                        bow.setTouchable(Touchable.enabled);
-                        dagger.setTouchable(Touchable.disabled);
-
+                        if(uDagger.getLevel()>=0){
+                            uDagger.setLevel(uDagger.getLevel()+1, 3, dagger);
+                            uDagger.setDamagemultiplayer(uDagger.getLevel());
+                        }
+                        if(uDagger.getLevel() == 1){
+                            uSword.setLevel(0,3,sword);
+                            uSword.setDamagemultiplayer(uSword.getLevel());
+                            sword.setDrawable(images_upgrades, "upgradeIcons_attackSword");
+                            uBow.setLevel(0,3,bow);
+                            uBow.setDamagemultiplayer(uBow.getLevel());
+                            bow.setDrawable(images_upgrades, "upgradeIcons_attackSword");
+                        }
                     }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        if(uDagger.getLevel()<0){
+                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
+                        }else{
+                            information = new Label( "Upgrade: " + uDagger.getUpgradeName() + "\nLevel:" + uDagger.getLevel() + "/3" + "\nDamage multiplayer: " + uDagger.getDamageMultiplayer(),labelStyle);
+                        }
+                        tooltip = new TextTooltip("", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, x, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
+                    }
+
                 });
                 sword.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        sword.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        battleAxe.setDrawable(images_upgrades, "upgradeIcons_attackBattleAxe");
-                        battleAxe.setTouchable(Touchable.enabled);
-                        sword.setTouchable(Touchable.disabled);
-
+                        if(uSword.getLevel()>=0){
+                            uSword.setLevel(uSword.getLevel()+1, 3, sword);
+                            uSword.setDamagemultiplayer(uSword.getLevel());
+                        }
+                        if(uSword.getLevel() == 1){
+                            uBattleAxe.setLevel(0,1,battleAxe);
+                            uBattleAxe.setDamagemultiplayer(uBattleAxe.getLevel());
+                            battleAxe.setDrawable(images_upgrades, "upgradeIcons_attackBattleAxe");
+                        }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        if(uSword.getLevel()<0){
+                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
+                        }else{
+                            information = new Label( "Upgrade: " + uSword.getUpgradeName() + "\nLevel:" + uSword.getLevel() + "/3" + "\nDamage multiplayer: " + uSword.getDamageMultiplayer(),labelStyle);
+                        }
+                        tooltip = new TextTooltip("", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, x, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
                 battleAxe.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        battleAxe.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        mace.setDrawable(images_upgrades, "upgradeIcons_attackMace");
-                        cannon.setDrawable(images_upgrades,"upgradeIcons_attackCannon");
-                        mace.setTouchable(Touchable.enabled);
-                        cannon.setTouchable(Touchable.enabled);
-                        battleAxe.setTouchable(Touchable.disabled);
-
+                        if(uBattleAxe.getLevel()>=0){
+                            uBattleAxe.setLevel(uBattleAxe.getLevel()+1, 1, battleAxe);
+                            uBattleAxe.setDamagemultiplayer(uBattleAxe.getLevel());
+                        }
+                        if(uBattleAxe.getLevel() == 1) {
+                            uMace.setLevel(0, 3, mace);
+                            uMace.setDamagemultiplayer(uMace.getLevel());
+                            mace.setDrawable(images_upgrades, "upgradeIcons_attackMace");
+                            uCannon.setLevel(0,3,cannon);
+                            uCannon.setDamagemultiplayer(uCannon.getLevel());
+                            cannon.setDrawable(images_upgrades, "upgradeIcons_attackCannon");
+                        }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        if(uBattleAxe.getLevel()<0){
+                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
+                        }else{
+                            information = new Label( "Upgrade: " + uBattleAxe.getUpgradeName() + "\nLevel:" + uBattleAxe.getLevel() + "/1" + "\nDamage multiplayer: " + uBattleAxe.getDamageMultiplayer(),labelStyle);
+                        }
+                        tooltip = new TextTooltip("", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, x, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
                 mace.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        mace.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        mace.setTouchable(Touchable.disabled);
-
+                        if(uMace.getLevel()>=0){
+                            uMace.setLevel(uMace.getLevel()+1, 3, mace);
+                            uMace.setDamagemultiplayer(uMace.getLevel());
+                        }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        if(uMace.getLevel()<0){
+                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
+                        }else{
+                            information = new Label( "Upgrade: " + uMace.getUpgradeName() + "\nLevel:" + uMace.getLevel() + "/3" + "\nDamage multiplayer: " + uMace.getDamageMultiplayer(),labelStyle);
+                        }
+                        tooltip = new TextTooltip("", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, x, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
                 bow.addListener(new ClickListener(){
@@ -1143,8 +1226,6 @@ public class MenuScreen implements Screen  {
             game.batch.begin();
             if(isDialog){
                 game.batch.draw(backgroundForDialog, 0,0);
-                //Gdx.gl.glClearColor(0,0,0,1);//do zamiany na inne tło
-                //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);         //
                 bPlay.setVisible(false);
                 bLogin.setVisible(false);
                 bSettings.setVisible(false);
@@ -1199,7 +1280,7 @@ public class MenuScreen implements Screen  {
 
         parameter.size = 32;
         parameter.color = Color.BLACK;
-        parameter.characters = "ąćęłóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
+        parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
 
         fontTitle = generator.generateFont(parameter);
 
@@ -1246,7 +1327,47 @@ public class MenuScreen implements Screen  {
         textTooltipStyle = new TextTooltip.TextTooltipStyle();
         textTooltipStyle.label = new Label.LabelStyle(fontText, Color.WHITE);
         textTooltipStyle.background = tooltipBackground;
-        textTooltipStyle.wrapWidth = 100.0f;
+        textTooltipStyle.wrapWidth = 400; //nie może być 100.0f
+
+    }
+
+    private void initUpgrades(){
+        uFork = new Upgrades("fork", 0, 3, fork);
+        uScythe = new Upgrades("scythe", -1, 1, scythe);
+        uDagger = new Upgrades("dagger", -1, 3, dagger);
+        uSword = new Upgrades("sword", -1, 3, sword);
+        uBattleAxe = new Upgrades("battleaxe", -1, 1, battleAxe);
+        uMace = new Upgrades("mace", -1, 3, mace);
+        uBow = new Upgrades("bow", -1, 3, bow);
+        uCrossBow = new Upgrades("crossbow", -1, 3, crossbow);
+        uCannon = new Upgrades("cannon", -1, 3, cannon);
+        uBetterCannon = new Upgrades("bettercannon", -1,3, betterCannon);
+        uCannonBall = new Upgrades("cannonball", -1, 3, cannonBall);
+        uSceptre = new Upgrades("sceptre", -1, 3, sceptre);
+        uBook = new Upgrades("book", -1, 3, book);
+        uGear = new Upgrades("gaer", 0, 3, gear);
+        uSonar = new Upgrades("sonar", -1, 3, gear);
+        uHealth = new Upgrades("health", 0, 3, health);
+        uBetterHealth = new Upgrades("betterHealth", -1, 3, betterHealth);
+        uBetterBetterHealth = new Upgrades("betterBetterHealth", -1, 3, betterBetterHealth);
+        uRegeneration = new Upgrades("regeneration", -1, 3, regeneration);
+        uShield = new Upgrades("shield", -1, 3, shield);
+        uGold = new Upgrades("gold", 0, 3, gold);
+        uBetterGold = new Upgrades("betterGold", -1, 1, betterGold);
+        uDiamonds = new Upgrades("diamonds", -1, 3, diamonds);
+        uBetterDiamonds = new Upgrades("betterDiamonds", -1, 3, betterDiamonds);
+        uDiscount10 = new Upgrades("discount10", -1, 1, discount10);
+        uDiscount20 = new Upgrades("discount20", -1, 1, discount20);
+        uDiscount30 = new Upgrades("discount30", -1, 1, discount30);
+        uUpgrade = new Upgrades("upgrade", -1, 1, upgrade);
+        uHammer = new Upgrades("hammer", -1, 3, hammer);
+        uBetterUpgrade = new Upgrades("betterUpgrade", -1, 1, betterUpgrade);
+        uLuck = new Upgrades("luck", -1, 3, luck);
+
+
+
+
+
 
 
     }
