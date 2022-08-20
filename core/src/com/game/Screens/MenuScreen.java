@@ -540,13 +540,6 @@ public class MenuScreen implements Screen  {
                     }
                 });
                 mace.addListener(new ClickListener(){
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        if(uMace.getLevel()>=0){
-                            uMace.setLevel(uMace.getLevel()+1, 3, mace);
-                            uMace.setDamagemultiplayer(uMace.getLevel());
-                        }
-                    }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         Label information;
                         if(uMace.getLevel()<0){
@@ -557,11 +550,22 @@ public class MenuScreen implements Screen  {
                         tooltip = new TextTooltip("", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
-                        tooltip.enter(event, x, y, pointer, fromActor);
+                        System.out.println(x);
+                        tooltip.enter(event, -(upgradeDialog.getWidth()/2)+64, 0, pointer, fromActor);
                     }
                     public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                        tooltip.exit(event, x, y, pointer, fromActor);
+
+                        tooltip.exit(event, x,y , pointer, fromActor);
+
                     }
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        if(uMace.getLevel()>=0){
+                            uMace.setLevel(uMace.getLevel()+1, 3, mace);
+                            uMace.setDamagemultiplayer(uMace.getLevel());
+                        }
+                    }
+
                 });
 
                 bow.addListener(new ClickListener(){
