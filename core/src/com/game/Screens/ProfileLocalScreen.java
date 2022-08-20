@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ProfileLocalScreen implements Screen {
     private Main game;
     private FileReader fileReader;
@@ -107,6 +108,19 @@ public class ProfileLocalScreen implements Screen {
 
             JSONObject loadSaves = new JSONObject().put("login", game.getLogin());
 
+            new Thread(() -> {
+                loadResponse = connectionManager.requestSend(loadSaves, "api/downloadSaves");
+
+                System.out.println(loadResponse.getInt("status"));
+
+                if (loadResponse.getInt("status") == 200 || loadResponse.getInt("status") == 201) {
+                    stage.addActor(table_next);
+                } else {
+                    System.out.println(languageManager.getValue(languageManager.getLanguage(), loadResponse.getString("message")));
+                }
+            }).start();
+
+            /*
             try {
                 new Thread(() -> {
                     loadResponse = connectionManager.requestSend(loadSaves, "api/downloadSaves");
@@ -126,6 +140,8 @@ public class ProfileLocalScreen implements Screen {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            */
 
             bOtherScreen.addListener(new ClickListener() {
                 @Override

@@ -31,8 +31,8 @@ public class GameScreen implements Screen {
     private BitmapFont font;
     private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack;
     private Skin images, images_default, dialog, images_map;
-    private TextButton  bSaveDialog, bExitDialog;
-    private Table table_map, table_dialogPause;
+    private TextButton  bSaveDialog, bExitDialog, bTest;
+    private Table table_map, table_dialogPause, table_nextWave;
     private TextField tResolutionField, tResolutionFieldText, tVolumeFieldText, tLanguageFieldText, tLanguageField;
     private ArrayList<String> resolutions;
     private ArrayList<String> languages;
@@ -55,6 +55,7 @@ public class GameScreen implements Screen {
     private boolean isPauseDialog = false;
     private boolean isLocal;
     private ConnectionManager connectionManager;
+    private Image[][] mapArr;
 
     public GameScreen (Main game, JSONObject save, boolean isLocal){
         this.game = game;
@@ -70,12 +71,14 @@ public class GameScreen implements Screen {
 
         //reading stats etc
         if(actualGame.getString("difficulty").equals("normal")){
-            table_map = worldManager.createWorld(actualGame.getInt("seed"), 46);
+            mapArr = worldManager.createWorld(actualGame.getInt("seed"), 46);
         }else if(actualGame.getString("difficulty").equals("hard")){
-            table_map = worldManager.createWorld(actualGame.getInt("seed"), 36);
+            mapArr = worldManager.createWorld(actualGame.getInt("seed"), 36);
         }else if(actualGame.getString("difficulty").equals("easy")){
-            table_map = worldManager.createWorld(actualGame.getInt("seed"), 51);
+            mapArr = worldManager.createWorld(actualGame.getInt("seed"), 51);
         }
+
+        table_map = worldManager.drawWorld(mapArr);
 
 
 
@@ -89,8 +92,9 @@ public class GameScreen implements Screen {
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
         bSaveDialog  = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bExitDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-
-
+        bTest = new TextButton("test", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        table_nextWave.add(bTest);
+        table_nextWave.setBounds(100,100,100,100);
     }
 
     @Override
@@ -104,6 +108,16 @@ public class GameScreen implements Screen {
             }
         };
 
+        bTest.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                    //mapArr[4,4] = new Image(images_map, "mountain");
+                table_map = worldManager.changeTileAndRedrawWorld(mapArr, 0, 5, "water");
+                stage.addActor(table_map);
+
+            }
+        });
         bSaveDialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -162,7 +176,7 @@ public class GameScreen implements Screen {
         });
 
         stage.addActor(table_map);
-
+        stage.addActor(table_nextWave);
     }
 
     @Override
@@ -228,6 +242,8 @@ public class GameScreen implements Screen {
         images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         //table_map = new Table(images);
         table_dialogPause = new Table(images_default);
+        table_nextWave = new Table(images_default);
+
         textButtonStyle_bLeft = new TextButton.TextButtonStyle();
         textButtonStyle_bRight = new TextButton.TextButtonStyle();
         textButtonStyle_bBack = new TextButton.TextButtonStyle();
