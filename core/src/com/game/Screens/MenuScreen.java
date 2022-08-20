@@ -563,6 +563,7 @@ public class MenuScreen implements Screen  {
                         tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
+
                 bow.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
