@@ -42,6 +42,14 @@ public class Main extends Game {
 		connectionManager = new ConnectionManager();
 		new Thread(() -> connectionManager.requestSend(new JSONObject(), "api/ping")).start();
 
+		/*
+				try {
+			new Thread(() -> { connectionManager.requestSend(new JSONObject(), "api/ping");}){{start();}}.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		 */
 
 		batch = new SpriteBatch();
 		fileReader = new FileReader();

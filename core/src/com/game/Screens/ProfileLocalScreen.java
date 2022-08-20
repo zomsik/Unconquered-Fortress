@@ -50,6 +50,7 @@ public class ProfileLocalScreen implements Screen {
     private ConnectionManager connectionManager;
     private JSONObject save1, save2, save3;
 
+    private JSONObject loadResponse;
     private Dialog newGameDialog;
     private String chosenDifficulty = null;
     private int chosenProfile;
@@ -98,34 +99,47 @@ public class ProfileLocalScreen implements Screen {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(stage);
+
         if(game.getIsLogged()){
             table_next.setBounds(Gdx.graphics.getWidth()/10*9, Gdx.graphics.getWidth()/10*2,Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*2);
             table_next.add(bOtherScreen);
-            //table_next.debug();
-            stage.addActor(table_next);
+
+            JSONObject loadSaves = new JSONObject().put("login", game.getLogin());
+
+            try {
+                new Thread(() -> {
+                    loadResponse = connectionManager.requestSend(loadSaves, "api/downloadSaves");
+
+                    System.out.println(loadResponse.getInt("status"));
+
+                    if (loadResponse.getInt("status") == 200 || loadResponse.getInt("status") == 201)
+                    {
+                        stage.addActor(table_next);
+                    }
+                    else {
+                        System.out.println(languageManager.getValue(languageManager.getLanguage(), loadResponse.getString("message")));
+                    }
+
+
+                }){{start();}}.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             bOtherScreen.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
 
-                    //testy
-                    // game.setScreen(new ProfileCloudScreen(game));
-
-                    //produkcja
-
-                    JSONObject pingResponse = connectionManager.requestSend(new JSONObject(), "api/ping");
-                    if (pingResponse.getInt("status") == 200 ) {
-                        game.setScreen(new ProfileCloudScreen(game));
-                    }
-                    else {
-                        System.out.println(languageManager.getValue(languageManager.getLanguage(), pingResponse.getString("message")));
-                    }
-
-
+                    game.setScreen(new ProfileCloudScreen(game, loadResponse));
 
                 }
             });
         }
-        Gdx.input.setInputProcessor(stage);
+
+
+
+
         Texture bg = new Texture(new FileHandle("assets/profile_banner.png"));
         Texture dialogBg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
         Texture icon = new Texture(new FileHandle("assets/icons/local.png"));

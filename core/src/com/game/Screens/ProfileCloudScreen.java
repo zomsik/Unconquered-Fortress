@@ -46,12 +46,14 @@ public class ProfileCloudScreen implements Screen {
     private TextField.TextFieldStyle textFieldStyle;
     private Music backgroundMusic;
 
+
+    private JSONObject loadResponse;
     private Dialog newGameDialog;
     private String chosenDifficulty = null;
     private int chosenProfile;
 
 
-    public ProfileCloudScreen(Main game){
+    public ProfileCloudScreen(Main game, JSONObject loadResponse){
         this.game = game;
         stage = new Stage();
         fileReader = new FileReader();
@@ -62,6 +64,7 @@ public class ProfileCloudScreen implements Screen {
             languageManager = new LanguageManager("English");
         }
 
+        this.loadResponse = loadResponse;
 
         initProfileCloudUI();
         buttonStyleManager = new ButtonStyleManager();
@@ -115,12 +118,9 @@ public class ProfileCloudScreen implements Screen {
         table_profile_03.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
 
 
-        JSONObject loadSaves = new JSONObject();
 
-        loadSaves.put("login", game.getLogin());
 
-        JSONObject loadResponse = connectionManager.requestSend(loadSaves, "api/downloadSaves");
-        System.out.println(loadResponse.getInt("status"));
+
         if (loadResponse.getInt("status") == 200)
         {
             int numberOfLoadedSaves = loadResponse.getJSONArray("loadedData").length();
