@@ -1,14 +1,14 @@
 package com.game.Manager;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class WorldManager {
 
@@ -350,7 +350,7 @@ public class WorldManager {
         return arr;
     }
 
-    public static Table createWorld(int seed, int difficulty){
+    public static Image[][] createWorld(int seed, int difficulty){
         //wygenerowanie seeda
         final ThreadLocal<Random> RANDOM_THREAD_LOCAL = ThreadLocal.withInitial(Random::new);
         Random random = RANDOM_THREAD_LOCAL.get();
@@ -686,40 +686,135 @@ public class WorldManager {
         Table t = new Table();
         t.setBounds(500, 200, 64*15, 64*10);
 
+
+
+        Image[][] imageArr = new Image[10][15];
+        int i = 0;
         for (int[] x : arr)
         {
+            int j = 0;
             for (int y : x)
             {
-                if (y==0)
-                    t.add(new Image(images_map, "grass"));
-                else if (y==2)
-                    t.add(new Image(images_map, "water"));
-                else if (y==5)
-                    t.add(new Image(images_map, "bush"));
-                else if (y==6)
-                    t.add(new Image(images_map, "mountain"));
-                else if (y==8)
-                    t.add(new Image(images_map, "enemy"));
-                else if (y==9)
-                    t.add(new Image(images_map, "base"));
+                if (y==0) {
+                    imageArr[i][j] = new Image(images_map, "grass");
+                    imageArr[i][j].setName("grass");
+                    // imageArr[i][j].addListener(new ImageClickListener(5).clicked());
+                    imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
+                        public void clicked(InputEvent event, float x, float y) {
+                            this.getInfo();
+                        }
+                    });
+                }
+                else if (y==2) {
+                    imageArr[i][j] = new Image(images_map, "water");
+                    imageArr[i][j].setName("water");
+                    // imageArr[i][j].addListener(new ImageClickListener(5).clicked());
+                    imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
+                        public void clicked(InputEvent event, float x, float y) {
+                            this.getInfo();
+                        }
+                    });
+                }
+                else if (y==5) {
+                    imageArr[i][j] = new Image(images_map, "bush");
+                    imageArr[i][j].setName("bush");
+                    // imageArr[i][j].addListener(new ImageClickListener(5).clicked());
+                    imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
+                        public void clicked(InputEvent event, float x, float y) {
+                            this.getInfo();
+                        }
+                    });
+                }
+                else if (y==6) {
+                    imageArr[i][j] = new Image(images_map, "mountain");
+                    imageArr[i][j].setName("mountain");
+                   // imageArr[i][j].addListener(new ImageClickListener(5).clicked());
+                    imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
+                        public void clicked(InputEvent event, float x, float y) {
+                            this.getInfo();
+                        }
+                    });
+                }
+                else if (y==8){
+                    imageArr[i][j] = new Image(images_map, "enemy");
+                    imageArr[i][j].setName("enemy");
+                    // imageArr[i][j].addListener(new ImageClickListener(5).clicked());
+                    imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
+                        public void clicked(InputEvent event, float x, float y) {
+                            this.getInfo();
+                        }
+                    });
+                }
+                else if (y==9){
+                    imageArr[i][j] = new Image(images_map, "base");
+                    imageArr[i][j].setName("base");
+                    // imageArr[i][j].addListener(new ImageClickListener(5).clicked());
+                    imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
+                        public void clicked(InputEvent event, float x, float y) {
+                            this.getInfo();
+                        }
+                    });
+                }
                 else if (y==11)
-                    t.add(new Image(images_map, "pathLeftRight"));
+                    imageArr[i][j] = new Image(images_map, "pathLeftRight");
                 else if (y==12)
-                    t.add(new Image(images_map, "pathUpDown"));
+                    imageArr[i][j] = new Image(images_map, "pathUpDown");
                 else if (y==13)
-                    t.add(new Image(images_map, "pathUpRight"));
+                    imageArr[i][j] = new Image(images_map, "pathUpRight");
                 else if (y==14)
-                    t.add(new Image(images_map, "pathLeftUp"));
+                    imageArr[i][j] = new Image(images_map, "pathLeftUp");
                 else if (y==15)
-                    t.add(new Image(images_map, "pathDownRight"));
+                    imageArr[i][j] = new Image(images_map, "pathDownRight");
                 else if (y==16)
-                    t.add(new Image(images_map, "pathLeftDown"));
+                    imageArr[i][j] = new Image(images_map, "pathLeftDown");
+                j++;
             }
-            t.row();
+            i++;
+
         }
+
+
+        return imageArr;
+    }
+
+    public static Table changeTileAndRedrawWorld (Image[][] mapArr, int x, int y, String tileName)
+    {
+        Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
+        mapArr[y][x].setDrawable(images_map, tileName);
+        mapArr[y][x].setName(tileName);
+
+        mapArr[y][x].addListener(new ImageClickListener(x,y,mapArr[y][x].getName()){
+            public void clicked(InputEvent event, float x, float y) {
+                this.getInfo();
+            }
+        });
+
+
+        return drawWorld(mapArr);
+    }
+
+
+    public static Table drawWorld(Image[][] imageArr){
+
+        //Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
+        Table t = new Table();
+        t.setBounds(500, 200, 64*15, 64*10);
+
+        for (int i = 0; i<10; i++)
+        {
+            for (int j = 0; j<15; j++)
+            {
+                t.add(imageArr[i][j]);
+            }
+
+            t.row();
+
+        }
+
 
         return t;
     }
+
 
 
 }
