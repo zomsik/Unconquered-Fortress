@@ -533,7 +533,7 @@ public class MenuScreen implements Screen  {
                         tooltip = new TextTooltip("", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
-                        tooltip.enter(event, x, y, pointer, fromActor);
+                        tooltip.enter(event, -(upgradeDialog.getWidth()/2)+160, y, pointer, fromActor);
                     }
                     public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         tooltip.exit(event, x, y, pointer, fromActor);
