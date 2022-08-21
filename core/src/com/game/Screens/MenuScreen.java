@@ -70,10 +70,8 @@ public class MenuScreen implements Screen  {
     private Image health, betterHealth, betterBetterHealth, shield, regeneration;
     private Image gold, diamonds, betterGold, betterDiamonds, upgrade, betterUpgrade, hammer, discount10, discount20, discount30;
     private Image luck;
-
-    private UpgradeManager upgradeManager;
     private Upgrades uFork, uScythe, uDagger, uSword, uBattleAxe, uMace, uBow, uCrossBow, uCannon, uCannonBall, uBetterCannon, uSceptre, uBook, uGear, uSonar, uHealth, uBetterHealth, uBetterBetterHealth, uRegeneration, uShield, uGold, uBetterGold, uDiamonds, uBetterDiamonds, uDiscount10, uDiscount20, uDiscount30, uUpgrade, uHammer, uBetterUpgrade, uLuck;
-
+    private UpgradeManager upgradeManager;
     private TextTooltip.TextTooltipStyle textTooltipStyle;
     private TextTooltip tooltip;
     public MenuScreen(Main game){
@@ -159,7 +157,6 @@ public class MenuScreen implements Screen  {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 isDialog = true;
-                System.out.println("zostałem wybrany");
                 Texture bg;
                 if(Gdx.graphics.getWidth() < 721){
                     bg = new Texture(new FileHandle("assets/dialog/upgrade_dialog_720.png"));
@@ -172,193 +169,14 @@ public class MenuScreen implements Screen  {
                     }
                 };
                 Label.LabelStyle labelStyle = new Label.LabelStyle(fontText, Color.WHITE);
-                upgradeDialog.setBounds(0,0,Gdx.graphics.getWidth()/10*8,Gdx.graphics.getHeight()/10*8);
-                upgradeDialog.text(languageManager.getValue(languageManager.getLanguage(), "upgrade_dialog_field_text"), labelStyle);
-                table_upgrade.setBounds(0,0,Gdx.graphics.getWidth()/10*8, Gdx.graphics.getHeight()/10*7);
-                upgradeDialog.row();
-
-                fork = new Image(images_upgrades, "upgradeIcons_attackFork");
-                scythe = new Image(images_upgrades, "upgradeIcons_lock");
-                dagger = new Image(images_upgrades, "upgradeIcons_lock");
-                sword = new Image(images_upgrades, "upgradeIcons_lock");
-                battleAxe = new Image(images_upgrades, "upgradeIcons_lock");
-                mace = new Image(images_upgrades, "upgradeIcons_lock");
-                bow = new Image(images_upgrades, "upgradeIcons_lock");
-                crossbow = new Image(images_upgrades, "upgradeIcons_lock");
-                cannon = new Image(images_upgrades, "upgradeIcons_lock");
-                betterCannon = new Image(images_upgrades, "upgradeIcons_lock");
-                cannonBall = new Image(images_upgrades, "upgradeIcons_lock");
-                sceptre = new Image(images_upgrades, "upgradeIcons_lock");
-                book = new Image(images_upgrades, "upgradeIcons_lock");
-                gear = new Image(images_upgrades, "upgradeIcons_attackGear");
-                sonar = new Image(images_upgrades, "upgradeIcons_lock");
-                health = new Image(images_upgrades, "upgradeIcons_healthHealth");
-                betterHealth = new Image(images_upgrades, "upgradeIcons_lock");
-                betterBetterHealth = new Image(images_upgrades, "upgradeIcons_lock");
-                regeneration = new Image(images_upgrades, "upgradeIcons_lock");
-                shield = new Image(images_upgrades, "upgradeIcons_lock");
-                gold = new Image(images_upgrades, "upgradeIcons_incomeGold");
-                betterGold = new Image(images_upgrades, "upgradeIcons_lock");
-                diamonds = new Image(images_upgrades, "upgradeIcons_lock");
-                betterDiamonds = new Image(images_upgrades, "upgradeIcons_lock");
-                discount10 = new Image(images_upgrades, "upgradeIcons_lock");
-                discount20 =  new Image(images_upgrades, "upgradeIcons_lock");
-                discount30 =  new Image(images_upgrades, "upgradeIcons_lock");
-                upgrade = new Image(images_upgrades, "upgradeIcons_lock");
-                hammer = new Image(images_upgrades, "upgradeIcons_lock");
-                betterUpgrade = new Image(images_upgrades, "upgradeIcons_lock");
-                luck = new Image(images_upgrades, "upgradeIcons_lock");
-
+                upgradeManager = new UpgradeManager(images_upgrades, languageManager);
+                upgradeManager.setUpgradeTable(table_upgrade);
+                upgradeManager.setUpgradeDialog(upgradeDialog, table_upgrade, labelStyle);
                 initUpgrades();
-                //Attack
-                table_upgrade.add(fork);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(scythe);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(dagger);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(sword);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(battleAxe);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(mace);
-                //table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).width(32);
-                //table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.row();
-                //connectors to lower upgrades
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.row();
-                //bow type turret
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(bow);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(crossbow);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.row();
-                //connectors to lower upgrades
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.row();
-                //cannon type turret
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(sceptre);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(book);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(cannon);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(cannonBall);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(betterCannon);
-                //mage type turret
-                //table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                //table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                //table_upgrade.add(sceptre);
-                //table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                //table_upgrade.add(book);
-                //table_upgrade.row().padBottom(10);
-                //range
-                table_upgrade.row().padTop(10);
-                table_upgrade.add(gear);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(sonar);
-                table_upgrade.row().padBottom(10);
-                //health
-                table_upgrade.add(health);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(betterHealth);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(regeneration);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(shield);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(betterBetterHealth);
-                table_upgrade.row();
-                //income
-                table_upgrade.add(gold);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(betterGold);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(diamonds);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(betterDiamonds);
-                table_upgrade.row();
-                //connectors to lower level
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
-                table_upgrade.row();
-                //sales
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(discount10);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(discount20);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(discount30);
-                table_upgrade.row();
-                //connectors to lower level
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
-                table_upgrade.row();
-                //upgarde/hammer
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(upgrade);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(hammer);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-                table_upgrade.add(betterUpgrade);
-                table_upgrade.row();
-                //connectors to lower level
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
-                table_upgrade.row();
-                //luck
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(luck);
-                table_upgrade.padBottom(16);
-                stage.addActor(table_upgrade);
-                upgradeDialog.add(table_upgrade);
+
+                stage.addActor(upgradeManager.returnUpgradeTable());
+                upgradeDialog.add(upgradeManager.returnUpgradeTable());
                 upgradeDialog.show(stage);
-                System.out.println("table width: " + table_upgrade.getWidth() + " height: " + table_upgrade.getWidth());
-                //TODO tooltip enter position = coś mniejszego od upgradeDialog.getWidth(), podzieliść na 4 części i wyświetlać w wybranym miejscu
                 stage.addListener(new InputListener() {
                     @Override
                     public boolean keyDown(InputEvent event, int keycode) {
@@ -370,15 +188,15 @@ public class MenuScreen implements Screen  {
                         return super.keyDown(event, keycode);
                     }
                 });
-                fork.addListener(new ClickListener(){
+                upgradeManager.getFork().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        uFork.setLevel(uFork.getLevel()+1, 3, fork);
+                        uFork.setLevel(uFork.getLevel()+1, 3, upgradeManager.getFork());
                         uFork.setDamagemultiplayer(uFork.getLevel());
                         if(uFork.getLevel() == 1){
-                            uScythe.setLevel(0, 3, scythe);
+                            uScythe.setLevel(0, 3, upgradeManager.getScythe());
                             uScythe.setDamagemultiplayer(uScythe.getLevel());
-                            scythe.setDrawable(images_upgrades, "upgradeIcons_attackScythe");
+                            upgradeManager.getScythe().setDrawable(images_upgrades, "upgradeIcons_attackScythe");
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -392,20 +210,20 @@ public class MenuScreen implements Screen  {
                         tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
-                scythe.addListener(new ClickListener(){
+                upgradeManager.getScythe().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if(uScythe.getLevel()>=0){
-                            uScythe.setLevel(uScythe.getLevel()+1, 1, scythe);
+                            uScythe.setLevel(uScythe.getLevel()+1, 1, upgradeManager.getScythe());
                             uScythe.setDamagemultiplayer(uScythe.getLevel());
                         }
                         if(uScythe.getLevel() == 1) {
-                            uDagger.setLevel(0, 3, dagger);
+                            uDagger.setLevel(0, 3, upgradeManager.getDagger());
                             uDagger.setDamagemultiplayer(uScythe.getLevel());
-                            dagger.setDrawable(images_upgrades, "upgradeIcons_attackDagger");
-                            uSceptre.setLevel(0,3,sceptre);
+                            upgradeManager.getDagger().setDrawable(images_upgrades, "upgradeIcons_attackDagger");
+                            uSceptre.setLevel(0,3,upgradeManager.getSceptre());
                             uSceptre.setDamagemultiplayer(uSceptre.getLevel());
-                            sceptre.setDrawable(images_upgrades, "upgradeIcons_attackSceptre");
+                            upgradeManager.getSceptre().setDrawable(images_upgrades, "upgradeIcons_attackSceptre");
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -425,20 +243,20 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                dagger.addListener(new ClickListener(){
+                upgradeManager.getDagger().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if(uDagger.getLevel()>=0){
-                            uDagger.setLevel(uDagger.getLevel()+1, 3, dagger);
+                            uDagger.setLevel(uDagger.getLevel()+1, 3, upgradeManager.getDagger());
                             uDagger.setDamagemultiplayer(uDagger.getLevel());
                         }
                         if(uDagger.getLevel() == 1){
-                            uSword.setLevel(0,3,sword);
+                            uSword.setLevel(0,3,upgradeManager.getSword());
                             uSword.setDamagemultiplayer(uSword.getLevel());
-                            sword.setDrawable(images_upgrades, "upgradeIcons_attackSword");
-                            uBow.setLevel(0,3,bow);
+                            upgradeManager.getSword().setDrawable(images_upgrades, "upgradeIcons_attackSword");
+                            uBow.setLevel(0,3,upgradeManager.getBow());
                             uBow.setDamagemultiplayer(uBow.getLevel());
-                            bow.setDrawable(images_upgrades, "upgradeIcons_attackBow");
+                            upgradeManager.getBow().setDrawable(images_upgrades, "upgradeIcons_attackBow");
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -458,17 +276,17 @@ public class MenuScreen implements Screen  {
                     }
 
                 });
-                sword.addListener(new ClickListener(){
+                upgradeManager.getSword().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if(uSword.getLevel()>=0){
-                            uSword.setLevel(uSword.getLevel()+1, 3, sword);
+                            uSword.setLevel(uSword.getLevel()+1, 3, upgradeManager.getSword());
                             uSword.setDamagemultiplayer(uSword.getLevel());
                         }
                         if(uSword.getLevel() == 1){
-                            uBattleAxe.setLevel(0,1,battleAxe);
+                            uBattleAxe.setLevel(0,1,upgradeManager.getBattleAxe());
                             uBattleAxe.setDamagemultiplayer(uBattleAxe.getLevel());
-                            battleAxe.setDrawable(images_upgrades, "upgradeIcons_attackBattleAxe");
+                            upgradeManager.getBattleAxe().setDrawable(images_upgrades, "upgradeIcons_attackBattleAxe");
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -487,20 +305,20 @@ public class MenuScreen implements Screen  {
                         tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
-                battleAxe.addListener(new ClickListener(){
+                upgradeManager.getBattleAxe().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if(uBattleAxe.getLevel()>=0){
-                            uBattleAxe.setLevel(uBattleAxe.getLevel()+1, 1, battleAxe);
+                            uBattleAxe.setLevel(uBattleAxe.getLevel()+1, 1, upgradeManager.getBattleAxe());
                             uBattleAxe.setDamagemultiplayer(uBattleAxe.getLevel());
                         }
                         if(uBattleAxe.getLevel() == 1) {
                             uMace.setLevel(0, 3, mace);
                             uMace.setDamagemultiplayer(uMace.getLevel());
-                            mace.setDrawable(images_upgrades, "upgradeIcons_attackMace");
+                            upgradeManager.getMace().setDrawable(images_upgrades, "upgradeIcons_attackMace");
                             uCannon.setLevel(0,3,cannon);
                             uCannon.setDamagemultiplayer(uCannon.getLevel());
-                            cannon.setDrawable(images_upgrades, "upgradeIcons_attackCannon");
+                            upgradeManager.getCannon().setDrawable(images_upgrades, "upgradeIcons_attackCannon");
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -520,12 +338,12 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                mace.addListener(new ClickListener(){
+                upgradeManager.getMace().addListener(new ClickListener(){
 
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if(uMace.getLevel()>=0){
-                            uMace.setLevel(uMace.getLevel()+1, 3, mace);
+                            uMace.setLevel(uMace.getLevel()+1, 3, upgradeManager.getMace());
                             uMace.setDamagemultiplayer(uMace.getLevel());
                         }
                     }
@@ -550,17 +368,17 @@ public class MenuScreen implements Screen  {
 
                 });
 
-                bow.addListener(new ClickListener(){
+                upgradeManager.getBow().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if(uBow.getLevel()>=0){
-                            uBow.setLevel(uBow.getLevel()+1, 3, bow);
+                            uBow.setLevel(uBow.getLevel()+1, 3, upgradeManager.getBow());
                             uBow.setDamagemultiplayer(uBow.getLevel());
                         }
                         if(uBow.getLevel() == 1){
-                            uCrossBow.setLevel(0,3,crossbow);
+                            uCrossBow.setLevel(0,3,upgradeManager.getCrossbow());
                             uCrossBow.setDamagemultiplayer(uCrossBow.getLevel());
-                            crossbow.setDrawable(images_upgrades, "upgradeIcons_attackCrossbow");
+                            upgradeManager.getCrossbow().setDrawable(images_upgrades, "upgradeIcons_attackCrossbow");
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -579,11 +397,11 @@ public class MenuScreen implements Screen  {
                         tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
-                crossbow.addListener(new ClickListener(){
+                upgradeManager.getCrossbow().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if(uCrossBow.getLevel()>=0){
-                            uCrossBow.setLevel(uCrossBow.getLevel()+1, 3, crossbow);
+                            uCrossBow.setLevel(uCrossBow.getLevel()+1, 3, upgradeManager.getCrossbow());
                             uCrossBow.setDamagemultiplayer(uCrossBow.getLevel());
                         }
                     }
@@ -603,17 +421,17 @@ public class MenuScreen implements Screen  {
                         tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
-                cannon.addListener(new ClickListener(){
+                upgradeManager.getCannon().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if(uCannon.getLevel()>=0){
-                            uCannon.setLevel(uCannon.getLevel()+1, 3, cannon);
+                            uCannon.setLevel(uCannon.getLevel()+1, 3, upgradeManager.getCannon());
                             uCannon.setDamagemultiplayer(uCannon.getLevel());
                         }
                         if(uCannon.getLevel() == 1) {
-                            uCannonBall.setLevel(0, 3, cannonBall);
+                            uCannonBall.setLevel(0, 3, upgradeManager.getCannonBall());
                             uCannonBall.setDamagemultiplayer(uCannonBall.getLevel());
-                            cannonBall.setDrawable(images_upgrades, "upgradeIcons_attackCannonBall");
+                            upgradeManager.getCannonBall().setDrawable(images_upgrades, "upgradeIcons_attackCannonBall");
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -633,17 +451,17 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                cannonBall.addListener(new ClickListener(){
+                upgradeManager.getCannonBall().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if(uCannonBall.getLevel()>=0){
-                            uCannonBall.setLevel(uCannonBall.getLevel()+1, 3, cannonBall);
+                            uCannonBall.setLevel(uCannonBall.getLevel()+1, 3, upgradeManager.getCannonBall());
                             uCannonBall.setDamagemultiplayer(uCannonBall.getLevel());
                         }
                         if(uCannonBall.getLevel() == 1) {
-                            uBetterCannon.setLevel(0, 3, betterCannon);
+                            uBetterCannon.setLevel(0, 3, upgradeManager.getBetterCannon());
                             uBetterCannon.setDamagemultiplayer(uBetterCannon.getLevel());
-                            betterCannon.setDrawable(images_upgrades, "upgradeIcons_attackBetterCannon");
+                            upgradeManager.getBetterCannon().setDrawable(images_upgrades, "upgradeIcons_attackBetterCannon");
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -665,11 +483,11 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                betterCannon.addListener(new ClickListener(){
+                upgradeManager.getBetterCannon().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if(uBetterCannon.getLevel()>=0){
-                            uBetterCannon.setLevel(uBetterCannon.getLevel()+1, 3, betterCannon);
+                            uBetterCannon.setLevel(uBetterCannon.getLevel()+1, 3, upgradeManager.getBetterCannon());
                             uBetterCannon.setDamagemultiplayer(uBetterCannon.getLevel());
                         }
                     }
@@ -692,17 +510,17 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                sceptre.addListener(new ClickListener(){
+                upgradeManager.getSceptre().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if(uSceptre.getLevel()>=0){
-                            uSceptre.setLevel(uSceptre.getLevel()+1, 3, sceptre);
+                            uSceptre.setLevel(uSceptre.getLevel()+1, 3, upgradeManager.getSceptre());
                             uSceptre.setDamagemultiplayer(uSceptre.getLevel());
                         }
                         if(uSceptre.getLevel() == 1) {
-                            uBook.setLevel(0, 3, book);
+                            uBook.setLevel(0, 3, upgradeManager.getBook());
                             uBook.setDamagemultiplayer(uBook.getLevel());
-                            book.setDrawable(images_upgrades, "upgradeIcons_attackBook");
+                            upgradeManager.getBook().setDrawable(images_upgrades, "upgradeIcons_attackBook");
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -722,11 +540,11 @@ public class MenuScreen implements Screen  {
                         tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
-                book.addListener(new ClickListener(){
+                upgradeManager.getBook().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if(uBook.getLevel()>=0){
-                            uBook.setLevel(uBook.getLevel()+1, 3, book);
+                            uBook.setLevel(uBook.getLevel()+1, 3, upgradeManager.getBook());
                             uBook.setDamagemultiplayer(uBook.getLevel());
                         }
                     }
@@ -747,15 +565,15 @@ public class MenuScreen implements Screen  {
                     }
                 });
 
-                gear.addListener(new ClickListener(){
+                upgradeManager.getGear().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        uGear.setLevel(uGear.getLevel()+1, 3, gear);
+                        uGear.setLevel(uGear.getLevel()+1, 3, upgradeManager.getGear());
                         uGear.setDamagemultiplayer(uGear.getLevel());
                         if(uGear.getLevel() == 1){
-                            uSonar.setLevel(0, 3, sonar);
+                            uSonar.setLevel(0, 3, upgradeManager.getSonar());
                             uSonar.setDamagemultiplayer(uSonar.getLevel());
-                            sonar.setDrawable(images_upgrades, "upgradeIcons_attackSonar");
+                            upgradeManager.getSonar().setDrawable(images_upgrades, "upgradeIcons_attackSonar");
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -769,17 +587,17 @@ public class MenuScreen implements Screen  {
                         tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
-                sonar.addListener(new ClickListener(){
+                upgradeManager.getSonar().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if(uSonar.getLevel()>=0){
-                            uSonar.setLevel(uSonar.getLevel()+1, 1, sonar);
+                            uSonar.setLevel(uSonar.getLevel()+1, 1, upgradeManager.getSonar());
                             uSonar.setDamagemultiplayer(uSonar.getLevel());
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         Label information;
-                        if(uScythe.getLevel()<0){
+                        if(uSonar.getLevel()<0){
                             information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
                         }else{
                             information = new Label( "Upgrade: " + uSonar.getUpgradeName() + "\nLevel:" + uSonar.getLevel() + "/1" + "\nDamage multiplayer: " + uSonar.getDamageMultiplayer(),labelStyle);
@@ -794,15 +612,15 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                health.addListener(new ClickListener(){
+                upgradeManager.getHealth().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        uHealth.setLevel(uHealth.getLevel()+1, 3, health);
+                        uHealth.setLevel(uHealth.getLevel()+1, 3, upgradeManager.getHealth());
                         uHealth.setDamagemultiplayer(uHealth.getLevel());
                         if(uHealth.getLevel() == 1){
-                            uBetterCannon.setLevel(0, 3, betterHealth);
+                            uBetterCannon.setLevel(0, 3, upgradeManager.getBetterHealth());
                             uBetterHealth.setDamagemultiplayer(uBetterHealth.getLevel());
-                            betterHealth.setDrawable(images_upgrades, "upgradeIcons_healthBetterHealth");
+                            upgradeManager.getBetterHealth().setDrawable(images_upgrades, "upgradeIcons_healthBetterHealth");
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -816,7 +634,7 @@ public class MenuScreen implements Screen  {
                         tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
-                betterHealth.addListener(new ClickListener(){
+                /*upgradeManager.getBetterHealth().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("zostałem wybrany");
@@ -827,7 +645,7 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                regeneration.addListener(new ClickListener(){
+                upgradeManager.getRegeneration().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("zostałem wybrany");
@@ -839,7 +657,7 @@ public class MenuScreen implements Screen  {
                     }
                 });
 
-                shield.addListener(new ClickListener(){
+                upgradeManager.getShield().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("zostałem wybrany");
@@ -850,7 +668,7 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                betterBetterHealth.addListener(new ClickListener(){
+                upgradeManager.getBetterBetterHealth().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("zostałem wybrany");
@@ -859,7 +677,7 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                gold.addListener(new ClickListener(){
+                upgradeManager.getGold().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("zostałem wybrany");
@@ -870,7 +688,7 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                betterGold.addListener(new ClickListener(){
+                upgradeManager.getBetterGold().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("zostałem wybrany");
@@ -883,7 +701,7 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                diamonds.addListener(new ClickListener(){
+                upgradeManager.getDiamonds().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("zostałem wybrany");
@@ -894,7 +712,7 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                betterDiamonds.addListener(new ClickListener(){
+                upgradeManager.getBetterDiamonds().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("zostałem wybrany");
@@ -903,7 +721,7 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                discount10.addListener(new ClickListener(){
+                upgradeManager.getDiscount10().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("zostałem wybrany");
@@ -916,7 +734,7 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                discount20.addListener(new ClickListener(){
+                upgradeManager.getDiscount20().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("zostałem wybrany");
@@ -927,7 +745,7 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                discount30.addListener(new ClickListener(){
+                upgradeManager.getDiscount30().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("zostałem wybrany");
@@ -936,7 +754,7 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                upgrade.addListener(new ClickListener(){
+                upgradeManager.getUpgrade().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("zostałem wybrany");
@@ -947,7 +765,7 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                hammer.addListener(new ClickListener(){
+                upgradeManager.getHammer().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("zostałem wybrany");
@@ -960,7 +778,7 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                betterUpgrade.addListener(new ClickListener(){
+                upgradeManager.getBetterUpgrade().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("zostałem wybrany");
@@ -969,7 +787,7 @@ public class MenuScreen implements Screen  {
 
                     }
                 });
-                luck.addListener(new ClickListener(){
+                upgradeManager.getLuck().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         System.out.println("zostałem wybrany");
@@ -977,7 +795,7 @@ public class MenuScreen implements Screen  {
                         luck.setTouchable(Touchable.disabled);
 
                     }
-                });
+                });*/
 // ^
                 //wyłapuje tylko na textfieldach, a nie na całym table_profile
             }
@@ -1482,43 +1300,36 @@ public class MenuScreen implements Screen  {
     }
 
     private void initUpgrades(){
-        uFork = new Upgrades("fork", 0, 3, fork);
-        uScythe = new Upgrades("scythe", -1, 1, scythe);
-        uDagger = new Upgrades("dagger", -1, 3, dagger);
-        uSword = new Upgrades("sword", -1, 3, sword);
-        uBattleAxe = new Upgrades("battleaxe", -1, 1, battleAxe);
-        uMace = new Upgrades("mace", -1, 3, mace);
-        uBow = new Upgrades("bow", -1, 3, bow);
-        uCrossBow = new Upgrades("crossbow", -1, 3, crossbow);
-        uCannon = new Upgrades("cannon", -1, 3, cannon);
-        uBetterCannon = new Upgrades("bettercannon", -1,3, betterCannon);
-        uCannonBall = new Upgrades("cannonball", -1, 3, cannonBall);
-        uSceptre = new Upgrades("sceptre", -1, 3, sceptre);
-        uBook = new Upgrades("book", -1, 3, book);
-        uGear = new Upgrades("gear", 0, 3, gear);
-        uSonar = new Upgrades("sonar", -1, 3, sonar);
-        uHealth = new Upgrades("health", 0, 3, health);
-        uBetterHealth = new Upgrades("betterHealth", -1, 3, betterHealth);
-        uBetterBetterHealth = new Upgrades("betterBetterHealth", -1, 3, betterBetterHealth);
-        uRegeneration = new Upgrades("regeneration", -1, 3, regeneration);
-        uShield = new Upgrades("shield", -1, 3, shield);
-        uGold = new Upgrades("gold", 0, 3, gold);
-        uBetterGold = new Upgrades("betterGold", -1, 1, betterGold);
-        uDiamonds = new Upgrades("diamonds", -1, 3, diamonds);
-        uBetterDiamonds = new Upgrades("betterDiamonds", -1, 3, betterDiamonds);
-        uDiscount10 = new Upgrades("discount10", -1, 1, discount10);
-        uDiscount20 = new Upgrades("discount20", -1, 1, discount20);
-        uDiscount30 = new Upgrades("discount30", -1, 1, discount30);
-        uUpgrade = new Upgrades("upgrade", -1, 1, upgrade);
-        uHammer = new Upgrades("hammer", -1, 3, hammer);
-        uBetterUpgrade = new Upgrades("betterUpgrade", -1, 1, betterUpgrade);
-        uLuck = new Upgrades("luck", -1, 3, luck);
-
-
-
-
-
-
-
+        uFork = upgradeManager.getuFork();
+        uScythe = upgradeManager.getuScythe();
+        uDagger = upgradeManager.getuDagger();
+        uSword = upgradeManager.getuSword();
+        uBattleAxe = upgradeManager.getuBattleAxe();
+        uMace = upgradeManager.getuMace();
+        uBow = upgradeManager.getuBow();
+        uCrossBow = upgradeManager.getuCrossBow();
+        uCannon = upgradeManager.getuCannon();
+        uBetterCannon = upgradeManager.getuBetterCannon();
+        uCannonBall = upgradeManager.getuCannonBall();
+        uSceptre = upgradeManager.getuScythe();
+        uBook = upgradeManager.getuBook();
+        uGear = upgradeManager.getuGear();
+        uSonar = upgradeManager.getuSonar();
+        uHealth = upgradeManager.getuHealth();
+        uBetterHealth = upgradeManager.getuBetterHealth();
+        uBetterBetterHealth = upgradeManager.getuBetterBetterHealth();
+        uRegeneration = upgradeManager.getuRegeneration();
+        uShield = upgradeManager.getuShield();
+        uGold = upgradeManager.getuGold();
+        uBetterGold = upgradeManager.getuBetterGold();
+        uDiamonds = upgradeManager.getuDiamonds();
+        uBetterDiamonds = upgradeManager.getuBetterDiamonds();
+        uDiscount10 = upgradeManager.getuDiscount10();
+        uDiscount20 = upgradeManager.getuDiscount20();
+        uDiscount30 = upgradeManager.getuDiscount30();
+        uUpgrade = upgradeManager.getuUpgrade();
+        uHammer = upgradeManager.getuHammer();
+        uBetterUpgrade = upgradeManager.getuBetterUpgrade();
+        uLuck = upgradeManager.getuLuck();
     }
 }
