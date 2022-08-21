@@ -160,227 +160,199 @@ public class MenuScreen implements Screen  {
             public void clicked(InputEvent event, float x, float y) {
                 isDialog = true;
                 System.out.println("zostałem wybrany");
-                Texture bg = new Texture(new FileHandle("assets/dialog/upgrade_dialog.png"));                  // V
-                System.out.println(bg.getHeight());
-                System.out.println(bg.getWidth());
+                Texture bg;
+                if(Gdx.graphics.getWidth() < 721){
+                    bg = new Texture(new FileHandle("assets/dialog/upgrade_dialog_720.png"));
+                }else{
+                    bg = new Texture(new FileHandle("assets/dialog/upgrade_dialog.png"));
+                }
                 upgradeDialog = new Dialog("", new Window.WindowStyle(fontText, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
                     public void result(Object obj) {
                         System.out.println("result " + obj);
                     }
                 };
                 Label.LabelStyle labelStyle = new Label.LabelStyle(fontText, Color.WHITE);
-                upgradeDialog.setBounds(0,0,200,200);
-                System.out.println(upgradeDialog.getWidth());
-                System.out.println(upgradeDialog.getHeight());
+                upgradeDialog.setBounds(0,0,Gdx.graphics.getWidth()/10*8,Gdx.graphics.getHeight()/10*8);
                 upgradeDialog.text(languageManager.getValue(languageManager.getLanguage(), "upgrade_dialog_field_text"), labelStyle);
-                table_upgrade.setBounds(0,0,upgradeDialog.getWidth(), upgradeDialog.getHeight()/10*9);
-                //table_upgrade.debug();
+                table_upgrade.setBounds(0,0,Gdx.graphics.getWidth()/10*8, Gdx.graphics.getHeight()/10*7);
                 upgradeDialog.row();
-                //upgradeDialog.padBottom(500);
-                //UpgradeTalesManager tile = new UpgradeTalesManager();
 
                 fork = new Image(images_upgrades, "upgradeIcons_attackFork");
-
                 scythe = new Image(images_upgrades, "upgradeIcons_lock");
-
                 dagger = new Image(images_upgrades, "upgradeIcons_lock");
-
                 sword = new Image(images_upgrades, "upgradeIcons_lock");
-
                 battleAxe = new Image(images_upgrades, "upgradeIcons_lock");
-
                 mace = new Image(images_upgrades, "upgradeIcons_lock");
-
                 bow = new Image(images_upgrades, "upgradeIcons_lock");
-
                 crossbow = new Image(images_upgrades, "upgradeIcons_lock");
-
                 cannon = new Image(images_upgrades, "upgradeIcons_lock");
-
                 betterCannon = new Image(images_upgrades, "upgradeIcons_lock");
-
                 cannonBall = new Image(images_upgrades, "upgradeIcons_lock");
-
                 sceptre = new Image(images_upgrades, "upgradeIcons_lock");
-
                 book = new Image(images_upgrades, "upgradeIcons_lock");
-
                 gear = new Image(images_upgrades, "upgradeIcons_attackGear");
-
                 sonar = new Image(images_upgrades, "upgradeIcons_lock");
-
                 health = new Image(images_upgrades, "upgradeIcons_healthHealth");
-
                 betterHealth = new Image(images_upgrades, "upgradeIcons_lock");
-
                 betterBetterHealth = new Image(images_upgrades, "upgradeIcons_lock");
-
                 regeneration = new Image(images_upgrades, "upgradeIcons_lock");
-
                 shield = new Image(images_upgrades, "upgradeIcons_lock");
-
                 gold = new Image(images_upgrades, "upgradeIcons_incomeGold");
-
                 betterGold = new Image(images_upgrades, "upgradeIcons_lock");
-
                 diamonds = new Image(images_upgrades, "upgradeIcons_lock");
-
                 betterDiamonds = new Image(images_upgrades, "upgradeIcons_lock");
-
                 discount10 = new Image(images_upgrades, "upgradeIcons_lock");
-
                 discount20 =  new Image(images_upgrades, "upgradeIcons_lock");
-
                 discount30 =  new Image(images_upgrades, "upgradeIcons_lock");
-
                 upgrade = new Image(images_upgrades, "upgradeIcons_lock");
-
                 hammer = new Image(images_upgrades, "upgradeIcons_lock");
-
                 betterUpgrade = new Image(images_upgrades, "upgradeIcons_lock");
-
                 luck = new Image(images_upgrades, "upgradeIcons_lock");
+
                 initUpgrades();
                 //Attack
                 table_upgrade.add(fork);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(scythe);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(dagger);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(sword);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(battleAxe);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(mace);
+                //table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).width(32);
+                //table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.row();
                 //connectors to lower upgrades
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
                 table_upgrade.row();
                 //bow type turret
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(bow);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(crossbow);
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.row();
                 //connectors to lower upgrades
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
                 table_upgrade.row();
                 //cannon type turret
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                table_upgrade.add(sceptre);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
+                table_upgrade.add(book);
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(cannon);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(cannonBall);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(betterCannon);
-                table_upgrade.row().padBottom(10);
                 //mage type turret
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(sceptre);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
-                table_upgrade.add(book);
-                table_upgrade.row().padBottom(10);
+                //table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                //table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+                //table_upgrade.add(sceptre);
+                //table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
+                //table_upgrade.add(book);
+                //table_upgrade.row().padBottom(10);
                 //range
+                table_upgrade.row().padTop(10);
                 table_upgrade.add(gear);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(sonar);
                 table_upgrade.row().padBottom(10);
                 //health
                 table_upgrade.add(health);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(betterHealth);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(regeneration);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(shield);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(betterBetterHealth);
                 table_upgrade.row();
                 //income
                 table_upgrade.add(gold);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(betterGold);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(diamonds);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(betterDiamonds);
                 table_upgrade.row();
                 //connectors to lower level
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
                 table_upgrade.row();
                 //sales
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(discount10);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(discount20);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(discount30);
                 table_upgrade.row();
                 //connectors to lower level
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
                 table_upgrade.row();
                 //upgarde/hammer
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(upgrade);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(hammer);
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
                 table_upgrade.add(betterUpgrade);
                 table_upgrade.row();
                 //connectors to lower level
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical"));
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+                table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
                 table_upgrade.row();
                 //luck
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
                 table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-                table_upgrade.add(luck).padBottom(10);;
+                table_upgrade.add(luck);
                 table_upgrade.padBottom(16);
                 stage.addActor(table_upgrade);
                 upgradeDialog.add(table_upgrade);
