@@ -698,62 +698,26 @@ public class WorldManager {
                 if (y==0) {
                     imageArr[i][j] = new Image(images_map, "grass");
                     imageArr[i][j].setName("grass");
-                    // imageArr[i][j].addListener(new ImageClickListener(5).clicked());
-                    imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
-                        public void clicked(InputEvent event, float x, float y) {
-                            this.getInfo();
-                        }
-                    });
                 }
                 else if (y==2) {
                     imageArr[i][j] = new Image(images_map, "water");
                     imageArr[i][j].setName("water");
-                    // imageArr[i][j].addListener(new ImageClickListener(5).clicked());
-                    imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
-                        public void clicked(InputEvent event, float x, float y) {
-                            this.getInfo();
-                        }
-                    });
                 }
                 else if (y==5) {
                     imageArr[i][j] = new Image(images_map, "bush");
                     imageArr[i][j].setName("bush");
-                    // imageArr[i][j].addListener(new ImageClickListener(5).clicked());
-                    imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
-                        public void clicked(InputEvent event, float x, float y) {
-                            this.getInfo();
-                        }
-                    });
                 }
                 else if (y==6) {
                     imageArr[i][j] = new Image(images_map, "mountain");
                     imageArr[i][j].setName("mountain");
-                   // imageArr[i][j].addListener(new ImageClickListener(5).clicked());
-                    imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
-                        public void clicked(InputEvent event, float x, float y) {
-                            this.getInfo();
-                        }
-                    });
                 }
                 else if (y==8){
                     imageArr[i][j] = new Image(images_map, "enemy");
                     imageArr[i][j].setName("enemy");
-                    // imageArr[i][j].addListener(new ImageClickListener(5).clicked());
-                    imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
-                        public void clicked(InputEvent event, float x, float y) {
-                            this.getInfo();
-                        }
-                    });
                 }
                 else if (y==9){
                     imageArr[i][j] = new Image(images_map, "base");
                     imageArr[i][j].setName("base");
-                    // imageArr[i][j].addListener(new ImageClickListener(5).clicked());
-                    imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
-                        public void clicked(InputEvent event, float x, float y) {
-                            this.getInfo();
-                        }
-                    });
                 }
                 else if (y==11)
                     imageArr[i][j] = new Image(images_map, "pathLeftRight");
@@ -767,6 +731,14 @@ public class WorldManager {
                     imageArr[i][j] = new Image(images_map, "pathDownRight");
                 else if (y==16)
                     imageArr[i][j] = new Image(images_map, "pathLeftDown");
+
+                imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
+                    public void clicked(InputEvent event, float x, float y) {
+                        this.setLastClickedTile();
+                    }
+                });
+
+
                 j++;
             }
             i++;

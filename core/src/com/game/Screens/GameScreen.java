@@ -80,6 +80,7 @@ public class GameScreen implements Screen {
 
         table_map = worldManager.drawWorld(mapArr);
 
+        //System.out.println(table_map.getChild(6).getListeners().get(0).getClass().getDeclaredFields().);
 
 
         initSettingsUI();
@@ -108,16 +109,33 @@ public class GameScreen implements Screen {
             }
         };
 
+        //buck
         bTest.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                    //mapArr[4,4] = new Image(images_map, "mountain");
-                table_map = worldManager.changeTileAndRedrawWorld(mapArr, 0, 5, "water");
-                stage.addActor(table_map);
+                //mapArr[4,4] = new Image(images_map, "mountain");
+                //table_map = worldManager.changeTileAndRedrawWorld(mapArr, 0, 5, "water");
+                //stage.addActor(table_map);
+
+                System.out.println(LastClickedTile.getX()+"y: "+ LastClickedTile.getY());
+
+                //set pamieci na luk
+
+
 
             }
         });
+
+
+
+
+        //naciska się tile
+
+        
+
+
+
         bSaveDialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
