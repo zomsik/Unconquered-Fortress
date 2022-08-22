@@ -4,8 +4,7 @@ const { Save } = require("../models/save")
 router.post("/", async (req, res) => {
     try {
 
-        const dataFromRequest  = {login: req.headers.login , profileNumber: req.headers.profilenumber, seed: req.headers.seed, difficulty: req.headers.difficulty, finishedMaps: req.headers.finishedmaps, wave: req.headers.wave, gold: req.headers.gold, diamonds: req.headers.diamonds}
-
+        const dataFromRequest  = {login: req.headers.login , profileNumber: req.headers.profilenumber, seed: req.headers.seed, difficulty: req.headers.difficulty, finishedMaps: req.headers.finishedmaps, wave: req.headers.wave, gold: req.headers.gold, diamonds: req.headers.diamonds, terrainModifications: JSON.parse(req.headers.terrainmodifications)}
 
         const save = await Save.exists({ login: dataFromRequest.login, profileNumber: dataFromRequest.profileNumber });
         

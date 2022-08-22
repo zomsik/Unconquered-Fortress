@@ -737,13 +737,10 @@ public class WorldManager {
 
     public static Image[][] loadTerrainModifications (GameScreen gameScreen, Image[][] mapArr, JSONArray terrArr)
     {
-        System.out.println("weszlo");
         Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
-
+        System.out.println(terrArr.length());
         for (int i = 0; i< terrArr.length(); i++) {
             JSONObject j = terrArr.getJSONObject(i);
-
-
 
             mapArr[j.getInt("y")][j.getInt("x")].setDrawable(images_map, j.getString("tileName"));
             mapArr[j.getInt("y")][j.getInt("x")].setName(j.getString("tileName"));

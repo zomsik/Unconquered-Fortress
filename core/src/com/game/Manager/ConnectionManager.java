@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 
 public class ConnectionManager {
     private static final String urlHeader = "https://projektgame.azurewebsites.net/";
+    private static final String urlHeaderTest = "http://localhost:9000/";
     public ConnectionManager()  {
     }
 

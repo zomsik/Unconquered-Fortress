@@ -8,7 +8,8 @@ const saveSchema = new mongoose.Schema({
     finishedMaps: { type: Number, required: true },
     wave: { type: Number, required: true },
     gold: { type: Number, required: true },
-    diamonds: {type: Number, required: true}
+    diamonds: {type: Number, required: true},
+    terrainModifications: {type: Array, required: true}
 })
 
 const Save = mongoose.model("Save", saveSchema)
