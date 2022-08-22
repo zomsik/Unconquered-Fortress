@@ -52,7 +52,7 @@ clean
   orig: 64, 64
   offset: 0, 0
   index: -1
-fill
+sell
   rotate: false
   xy: 64, 64
   size: 64, 64
@@ -73,14 +73,14 @@ fill2
   orig: 64, 64
   offset: 0, 0
   index: -1
-fill3
+chosen
   rotate: false
   xy: 256, 64
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-fill4
+empty
   rotate: false
   xy: 320, 64
   size: 64, 64

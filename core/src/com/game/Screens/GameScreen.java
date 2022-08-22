@@ -35,7 +35,7 @@ public class GameScreen implements Screen {
     private Skin images, images_default, dialog, images_map, images_buildings;
     private TextButton  bSaveDialog, bExitDialog, bTest;
 
-    private Table table_map, table_dialogPause, table_nextWave, table_operations;
+    private Table table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings;
     private TextField tResolutionField, tResolutionFieldText, tVolumeFieldText, tLanguageFieldText, tLanguageField;
     private ArrayList<String> resolutions;
     private ArrayList<String> languages;
@@ -58,8 +58,9 @@ public class GameScreen implements Screen {
     private boolean isPauseDialog = false;
     private boolean isLocal;
     private ConnectionManager connectionManager;
-    private Image[][] mapArr, operationsArr;
+    private Image[][] mapArr, operationsArr, operationsSelectedArr, buildingsArr;
     private String chosenOperation = null;
+    private int chosenOperationX, chosenOperationY;
 
     public LastClickedTile lastClickedMapTile, lastClickedOperationTile;
     private Image iSword, iBow, iMage, iCannon, iClean, iFill, iStickyRoad, iRoadNeedles;
@@ -69,12 +70,16 @@ public class GameScreen implements Screen {
         this.game = game;
         this.isLocal = isLocal;
 
+
+
         lastClickedMapTile = new LastClickedTile();
         lastClickedOperationTile = new LastClickedTile();
         resolutionsClass = new Resolutions();
         fileReader = new FileReader();
         fileReader.downloadSettings();
         if(fileReader.getLanguageValue() != null){languageManager = new LanguageManager(fileReader.getLanguageValue());}else{languageManager = new LanguageManager("English");}
+
+        initSettingsUI();
 
         actualGame = save;
         if (!isLocal)
@@ -92,13 +97,15 @@ public class GameScreen implements Screen {
             mapArr = worldManager.createWorld(this, actualGame.getInt("seed"), 51);
         }
 
-        if(actualGame.has("terrainModifications"))
-            mapArr = worldManager.loadTerrainModifications(this, mapArr, actualGame.getJSONArray("terrainModifications"));
+
+        mapArr = worldManager.loadTerrainModifications(this, mapArr, actualGame.getJSONArray("terrainModifications"));
 
 
         table_map = worldManager.drawWorld(mapArr);
 
-        initSettingsUI();
+
+
+
         
         
         buttonStyleManager = new ButtonStyleManager();
@@ -114,7 +121,11 @@ public class GameScreen implements Screen {
 
         operationsArr = GameFunctions.getOperationsArr(this);
         table_operations = GameFunctions.getOperationsTable(operationsArr);
+        operationsSelectedArr = GameFunctions.getOperationsSelectedArr();
+        table_operationsSelected = GameFunctions.getOperationsTable(operationsSelectedArr);
 
+        buildingsArr = GameFunctions.getEmptyBuildingsArr();
+        table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
 
         table_nextWave.add(bTest);
         table_nextWave.setBounds(100,100,100,100);
@@ -123,13 +134,17 @@ public class GameScreen implements Screen {
     public void mouseClickOperation() {
         if (Objects.equals(chosenOperation,lastClickedOperationTile.getName()))
         {
+            operationsSelectedArr[chosenOperationY][chosenOperationX].setDrawable(images_buildings, "empty");
             chosenOperation = null;
-            System.out.println("Odznaczono");
+            chosenOperationX = -1;
+            chosenOperationY = -1;
         }
         else {
+            operationsSelectedArr[chosenOperationY][chosenOperationX].setDrawable(images_buildings, "empty");
             chosenOperation = lastClickedOperationTile.getName();
-            System.out.println("Wybrano: " + chosenOperation);
-
+            chosenOperationX = lastClickedOperationTile.getX();
+            chosenOperationY = lastClickedOperationTile.getY();
+            operationsSelectedArr[chosenOperationY][chosenOperationX].setDrawable(images_buildings, "chosen");
 
         }
     }
@@ -140,8 +155,82 @@ public class GameScreen implements Screen {
         //System.out.println("x: "+lastClickedMapTile.getX()+", y: "+ lastClickedMapTile.getY());
     }
 
+    public void mouseClickBuildingTile() {
+        if (Objects.equals(chosenOperation,"sell"))
+        {
+            System.out.println(lastClickedMapTile.getName());
+
+            if (lastClickedMapTile.getName() == "sword" || lastClickedMapTile.getName() == "bow" || lastClickedMapTile.getName() == "mage" || lastClickedMapTile.getName() == "cannon" )
+            {
+                //get from buildingsArr type and price etc
+                System.out.println("sprzedaje");
+                buildingsArr = GameFunctions.sellBuilding(buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY());
+                table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
+                stage.addActor(table_buildings);
+            }
+
+
+        }
+    }
+
+
+
     public void mouseClickMapTile() {
-        //System.out.println("x: "+lastClickedMapTile.getX()+", y: "+ lastClickedMapTile.getY());
+
+        if (Objects.equals(chosenOperation,"sword")) {
+            if (Objects.equals(lastClickedMapTile.getName(), "grass")) {
+
+                //warunki wybudowania bowTowera
+
+                buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "sword");
+                table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
+                stage.addActor(table_buildings);
+
+
+            }
+        }
+
+
+        if (Objects.equals(chosenOperation,"bow")) {
+            if (Objects.equals(lastClickedMapTile.getName(), "grass")) {
+
+                //warunki wybudowania bowTowera
+
+                buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "bow");
+                table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
+                stage.addActor(table_buildings);
+
+
+            }
+        }
+
+        if (Objects.equals(chosenOperation,"mage")) {
+            if (Objects.equals(lastClickedMapTile.getName(), "grass")) {
+
+                //warunki wybudowania mageTowera
+
+                buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "mage");
+                table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
+                stage.addActor(table_buildings);
+
+
+            }
+        }
+
+
+        if (Objects.equals(chosenOperation,"cannon")) {
+            if (Objects.equals(lastClickedMapTile.getName(), "grass")) {
+
+                //warunki wybudowania cannonTowera
+
+                buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "cannon");
+                table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
+                stage.addActor(table_buildings);
+
+
+            }
+        }
+
 
         if (Objects.equals(chosenOperation,"clean")) {
             if (Objects.equals(lastClickedMapTile.getName(), "obstacle")) {
@@ -155,6 +244,8 @@ public class GameScreen implements Screen {
 
                 table_map = worldManager.changeTileAndRedrawWorld(this, mapArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "grass");
                 stage.addActor(table_map);
+                table_buildings.toFront();
+
 
             }
         }
@@ -189,7 +280,7 @@ public class GameScreen implements Screen {
                 System.out.println(lastClickedMapTile.getX()+"y: "+ lastClickedMapTile.getY());
 
                 //set pamieci na luk
-
+                buildingsArr[0][0].setRotation(45);
 
 
             }
@@ -262,7 +353,9 @@ public class GameScreen implements Screen {
         });
 
         stage.addActor(table_operations);
+        stage.addActor(table_operationsSelected);
         stage.addActor(table_map);
+        stage.addActor(table_buildings);
         stage.addActor(table_nextWave);
     }
 
@@ -332,6 +425,8 @@ public class GameScreen implements Screen {
         table_dialogPause = new Table(images_default);
         table_nextWave = new Table(images_default);
         table_operations = new Table(images_buildings);
+        table_buildings = new Table(images_buildings);
+        table_operationsSelected = new Table(images_buildings);
 
         textButtonStyle_bLeft = new TextButton.TextButtonStyle();
         textButtonStyle_bRight = new TextButton.TextButtonStyle();
