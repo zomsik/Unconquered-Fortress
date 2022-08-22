@@ -1,14 +1,15 @@
 package com.game.Manager;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.game.Screens.GameScreen;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.*;
+import java.util.List;
 
 public class WorldManager {
 
@@ -350,7 +351,7 @@ public class WorldManager {
         return arr;
     }
 
-    public static Image[][] createWorld(int seed, int difficulty){
+    public static Image[][] createWorld(GameScreen gameScreen, int seed, int difficulty){
         //wygenerowanie seeda
         final ThreadLocal<Random> RANDOM_THREAD_LOCAL = ThreadLocal.withInitial(Random::new);
         Random random = RANDOM_THREAD_LOCAL.get();
@@ -704,8 +705,8 @@ public class WorldManager {
                     imageArr[i][j].setName("water");
                 }
                 else if (y==5) {
-                    imageArr[i][j] = new Image(images_map, "bush");
-                    imageArr[i][j].setName("bush");
+                    imageArr[i][j] = new Image(images_map, "obstacle");
+                    imageArr[i][j].setName("obstacle");
                 }
                 else if (y==6) {
                     imageArr[i][j] = new Image(images_map, "mountain");
@@ -734,8 +735,22 @@ public class WorldManager {
 
                 imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
                     public void clicked(InputEvent event, float x, float y) {
-                        this.setLastClickedTile();
+                        this.setLastClickedTile(gameScreen.lastClickedMapTile);
+                        gameScreen.mouseClickMapTile();
                     }
+
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        this.setLastClickedTile(gameScreen.lastClickedMapTile);
+                        gameScreen.mouseEnterMapTile();
+
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        //this.setLastClickedTile();
+                        gameScreen.mouseExitMapTile();
+                    }
+
+
+
                 });
 
 
@@ -749,16 +764,68 @@ public class WorldManager {
         return imageArr;
     }
 
-    public static Table changeTileAndRedrawWorld (Image[][] mapArr, int x, int y, String tileName)
+
+    public static Image[][] loadTerrainModifications (GameScreen gameScreen, Image[][] mapArr, JSONArray terrArr)
+    {
+        System.out.println("weszlo");
+        Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
+
+        for (int i = 0; i< terrArr.length(); i++) {
+            JSONObject j = terrArr.getJSONObject(i);
+            mapArr[j.getInt("y")][j.getInt("x")].setDrawable(images_map, j.getString("tileName"));
+            mapArr[j.getInt("y")][j.getInt("x")].setName(j.getString("tileName"));
+            mapArr[j.getInt("y")][j.getInt("x")].clearListeners();
+
+
+            mapArr[j.getInt("y")][j.getInt("x")].addListener(new ImageClickListener(j.getInt("x"), j.getInt("y"),  mapArr[j.getInt("y")][j.getInt("x")].getName()) {
+                public void clicked(InputEvent event, float x, float y) {
+                    this.setLastClickedTile(gameScreen.lastClickedMapTile);
+                    gameScreen.mouseClickMapTile();
+                }
+
+                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                    this.setLastClickedTile(gameScreen.lastClickedMapTile);
+                    gameScreen.mouseEnterMapTile();
+
+                }
+
+                public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                    //this.setLastClickedTile();
+                    gameScreen.mouseExitMapTile();
+                }
+
+            });
+
+        }
+
+
+        return mapArr;
+    }
+
+
+    public static Table changeTileAndRedrawWorld (GameScreen gameScreen, Image[][] mapArr, int x, int y, String tileName)
     {
         Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         mapArr[y][x].setDrawable(images_map, tileName);
         mapArr[y][x].setName(tileName);
+        mapArr[y][x].clearListeners();
 
         mapArr[y][x].addListener(new ImageClickListener(x,y,mapArr[y][x].getName()){
             public void clicked(InputEvent event, float x, float y) {
-                this.getInfo();
+                this.setLastClickedTile(gameScreen.lastClickedMapTile);
+                gameScreen.mouseClickMapTile();
             }
+
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                this.setLastClickedTile(gameScreen.lastClickedMapTile);
+                gameScreen.mouseEnterMapTile();
+
+            }
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                //this.setLastClickedTile();
+                gameScreen.mouseExitMapTile();
+            }
+
         });
 
 

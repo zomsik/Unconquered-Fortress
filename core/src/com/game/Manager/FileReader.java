@@ -6,9 +6,13 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Base64;
 
 public class FileReader {
@@ -124,28 +128,15 @@ public class FileReader {
         File file = new File(savePath);
         return file.exists();
     }
-    public void downloadSave(String jsonPath){
-        JsonReader json = new JsonReader();
-        JsonValue base  = json.parse(Gdx.files.internal(jsonPath));
-        seed = base.getInt("seed");
-        difficulty = base.getString("difficulty");
-        finishedMaps = base.getInt("finishedMaps");
-        wave = base.getInt("wave");
-        gold = base.getInt("gold");
-        diamonds = base.getInt("diamonds");
-    }
 
     public JSONObject downloadSaveAsJSONObject(String jsonPath){
-        JsonReader json = new JsonReader();
-        JsonValue base  = json.parse(Gdx.files.internal(jsonPath));
-        JSONObject j = new JSONObject();
 
-        j.put("seed", base.getInt("seed"));
-        j.put("difficulty", base.getString("difficulty"));
-        j.put("finishedMaps", base.getInt("finishedMaps"));
-        j.put("wave", base.getInt("wave"));
-        j.put("gold", base.getInt("gold"));
-        j.put("diamonds", base.getInt("diamonds"));
+        JSONObject j = new JSONObject();
+        try {
+            return new JSONObject(new String(Files.readAllBytes(Paths.get(jsonPath))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return j;
     }

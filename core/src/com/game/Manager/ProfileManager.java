@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import org.json.JSONObject;
+import org.json.simple.JSONArray;
 
 import java.util.Random;
 
@@ -87,6 +88,7 @@ public class ProfileManager {
         j.put("wave",0);
         j.put("gold",0);
         j.put("diamonds",0);
+        j.put("terrainModifications", new JSONArray());
 
         return j;
 
