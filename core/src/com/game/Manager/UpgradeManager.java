@@ -102,8 +102,8 @@ public class UpgradeManager {
         table_upgrade.add(gear);
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
         table_upgrade.add(sonar);
-        table_upgrade.row().padBottom(10);
 
+        table_upgrade.row().padTop(10);
         table_upgrade.add(health);
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
         table_upgrade.add(betterHealth);
@@ -115,6 +115,7 @@ public class UpgradeManager {
         table_upgrade.add(betterBetterHealth);
         table_upgrade.row();
 
+        table_upgrade.row().padTop(10);
         table_upgrade.add(gold);
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
         table_upgrade.add(betterGold);

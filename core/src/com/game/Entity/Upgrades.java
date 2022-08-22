@@ -4,6 +4,7 @@ package com.game.Entity;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class Upgrades {
         }else if (level == maxLevel){
             this.level = maxLevel;
             name.setDrawable(new Skin(new TextureAtlas("assets/icons/upgrade_icons.pack")),"upgradeIcons_bought");
-            name.setTouchable(Touchable.enabled);
+            name.setTouchable(Touchable.disabled);
         }else if(level < 0){
             name.setDrawable(new Skin(new TextureAtlas("assets/icons/upgrade_icons.pack")),"upgradeIcons_lock");
             name.setTouchable(Touchable.enabled);
@@ -78,5 +79,16 @@ public class Upgrades {
 
     public String getUpgradeName() {
         return upgradeName;
+    }
+
+    public Label returnInformation(Upgrades upgradeName, int maxLevel, Label.LabelStyle labelStyle){
+        Label information;
+        if(upgradeName.getLevel()<0) {
+            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.", labelStyle);
+        }else{
+            information = new Label("Upgrade: " + upgradeName.getUpgradeName() + "\nLevel:" + upgradeName.getLevel() + "/" + maxLevel + "\nDamage multiplayer: " + upgradeName.getDamageMultiplayer(),labelStyle);
+
+        }
+        return information;
     }
 }

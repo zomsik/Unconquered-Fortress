@@ -200,7 +200,8 @@ public class MenuScreen implements Screen  {
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                        Label information = new Label( "Upgrade: " + uFork.getUpgradeName() + "\nLevel:" + uFork.getLevel() + "/3" + "\nDamage multiplayer: " + uFork.getDamageMultiplayer(),labelStyle);
+                        Label information;
+                        information = uFork.returnInformation(uFork, 3, labelStyle);
                         tooltip = new TextTooltip("", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
@@ -219,7 +220,7 @@ public class MenuScreen implements Screen  {
                         }
                         if(uScythe.getLevel() == 1) {
                             uDagger.setLevel(0, 3, upgradeManager.getDagger());
-                            uDagger.setDamagemultiplayer(uScythe.getLevel());
+                            uDagger.setDamagemultiplayer(uDagger.getLevel());
                             upgradeManager.getDagger().setDrawable(images_upgrades, "upgradeIcons_attackDagger");
                             uSceptre.setLevel(0,3,upgradeManager.getSceptre());
                             uSceptre.setDamagemultiplayer(uSceptre.getLevel());
@@ -228,11 +229,7 @@ public class MenuScreen implements Screen  {
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         Label information;
-                        if(uScythe.getLevel()<0){
-                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
-                        }else{
-                            information = new Label( "Upgrade: " + uScythe.getUpgradeName() + "\nLevel:" + uScythe.getLevel() + "/1" + "\nDamage multiplayer: " + uScythe.getDamageMultiplayer(),labelStyle);
-                        }
+                        information = uScythe.returnInformation(uScythe, 1, labelStyle);
                         tooltip = new TextTooltip("Działam", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
@@ -261,11 +258,7 @@ public class MenuScreen implements Screen  {
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         Label information;
-                        if(uDagger.getLevel()<0){
-                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
-                        }else{
-                            information = new Label( "Upgrade: " + uDagger.getUpgradeName() + "\nLevel:" + uDagger.getLevel() + "/3" + "\nDamage multiplayer: " + uDagger.getDamageMultiplayer(),labelStyle);
-                        }
+                        information = uDagger.returnInformation(uDagger, 3, labelStyle);
                         tooltip = new TextTooltip("", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
@@ -291,11 +284,7 @@ public class MenuScreen implements Screen  {
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         Label information;
-                        if(uSword.getLevel()<0){
-                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
-                        }else{
-                            information = new Label( "Upgrade: " + uSword.getUpgradeName() + "\nLevel:" + uSword.getLevel() + "/3" + "\nDamage multiplayer: " + uSword.getDamageMultiplayer(),labelStyle);
-                        }
+                        information = uSword.returnInformation(uSword, 3, labelStyle);
                         tooltip = new TextTooltip("", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
@@ -313,21 +302,17 @@ public class MenuScreen implements Screen  {
                             uBattleAxe.setDamagemultiplayer(uBattleAxe.getLevel());
                         }
                         if(uBattleAxe.getLevel() == 1) {
-                            uMace.setLevel(0, 3, mace);
+                            uMace.setLevel(0, 3, upgradeManager.getMace());
                             uMace.setDamagemultiplayer(uMace.getLevel());
                             upgradeManager.getMace().setDrawable(images_upgrades, "upgradeIcons_attackMace");
-                            uCannon.setLevel(0,3,cannon);
+                            uCannon.setLevel(0,3,upgradeManager.getCannon());
                             uCannon.setDamagemultiplayer(uCannon.getLevel());
                             upgradeManager.getCannon().setDrawable(images_upgrades, "upgradeIcons_attackCannon");
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         Label information;
-                        if(uBattleAxe.getLevel()<0){
-                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
-                        }else{
-                            information = new Label( "Upgrade: " + uBattleAxe.getUpgradeName() + "\nLevel:" + uBattleAxe.getLevel() + "/1" + "\nDamage multiplayer: " + uBattleAxe.getDamageMultiplayer(),labelStyle);
-                        }
+                        information = uBattleAxe.returnInformation(uBattleAxe, 1, labelStyle);
                         tooltip = new TextTooltip("", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
@@ -349,11 +334,7 @@ public class MenuScreen implements Screen  {
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         Label information;
-                        if(uMace.getLevel()<0){
-                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
-                        }else{
-                            information = new Label( "Upgrade: " + uMace.getUpgradeName() + "\nLevel:" + uMace.getLevel() + "/3" + "\nDamage multiplayer: " + uMace.getDamageMultiplayer(),labelStyle);
-                        }
+                        information = uMace.returnInformation(uMace, 3, labelStyle);
                         tooltip = new TextTooltip("", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
@@ -383,11 +364,7 @@ public class MenuScreen implements Screen  {
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         Label information;
-                        if(uBow.getLevel()<0){
-                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
-                        }else{
-                            information = new Label( "Upgrade: " + uBow.getUpgradeName() + "\nLevel:" + uBow.getLevel() + "/3" + "\nDamage multiplayer: " + uBow.getDamageMultiplayer(),labelStyle);
-                        }
+                        information = uBow.returnInformation(uBow, 3, labelStyle);
                         tooltip = new TextTooltip("", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
@@ -407,11 +384,7 @@ public class MenuScreen implements Screen  {
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         Label information;
-                        if(uCrossBow.getLevel()<0){
-                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
-                        }else{
-                            information = new Label( "Upgrade: " + uCrossBow.getUpgradeName() + "\nLevel:" + uCrossBow.getLevel() + "/3" + "\nDamage multiplayer: " + uCrossBow.getDamageMultiplayer(),labelStyle);
-                        }
+                        information = uCrossBow.returnInformation(uCrossBow, 3, labelStyle);
                         tooltip = new TextTooltip("", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
@@ -436,11 +409,7 @@ public class MenuScreen implements Screen  {
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         Label information;
-                        if(uCannon.getLevel()<0){
-                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
-                        }else{
-                            information = new Label( "Upgrade: " + uCannon.getUpgradeName() + "\nLevel:" + uCannon.getLevel() + "/1" + "\nDamage multiplayer: " + uCannon.getDamageMultiplayer(),labelStyle);
-                        }
+                        information = uCannon.returnInformation(uCannon, 3, labelStyle);
                         tooltip = new TextTooltip("", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
@@ -466,11 +435,7 @@ public class MenuScreen implements Screen  {
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         Label information;
-                        if(uCannonBall.getLevel()<0){
-                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
-                        }else{
-                            information = new Label( "Upgrade: " + uCannonBall.getUpgradeName() + "\nLevel:" + uCannonBall.getLevel() + "/3" + "\nDamage multiplayer: " + uCannonBall.getDamageMultiplayer(),labelStyle);
-                        }
+                        information = uCannonBall.returnInformation(uCannonBall, 3, labelStyle);
                         tooltip = new TextTooltip("", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
@@ -478,9 +443,7 @@ public class MenuScreen implements Screen  {
                         tooltip.enter(event, -(upgradeDialog.getWidth()/2)+64, 0, pointer, fromActor);
                     }
                     public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-
                         tooltip.exit(event, x,y , pointer, fromActor);
-
                     }
                 });
                 upgradeManager.getBetterCannon().addListener(new ClickListener(){
@@ -493,11 +456,7 @@ public class MenuScreen implements Screen  {
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         Label information;
-                        if(uBetterCannon.getLevel()<0){
-                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
-                        }else{
-                            information = new Label( "Upgrade: " + uBetterCannon.getUpgradeName() + "\nLevel:" + uBetterCannon.getLevel() + "/3" + "\nDamage multiplayer: " + uBetterCannon.getDamageMultiplayer(),labelStyle);
-                        }
+                        information = uBetterCannon.returnInformation(uBetterCannon, 3, labelStyle);
                         tooltip = new TextTooltip("", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
@@ -525,11 +484,7 @@ public class MenuScreen implements Screen  {
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         Label information;
-                        if(uSceptre.getLevel()<0){
-                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
-                        }else{
-                            information = new Label( "Upgrade: " + uSceptre.getUpgradeName() + "\nLevel:" + uSceptre.getLevel() + "/1" + "\nDamage multiplayer: " + uSceptre.getDamageMultiplayer(),labelStyle);
-                        }
+                        information = uSceptre.returnInformation(uSceptre, 3, labelStyle);
                         tooltip = new TextTooltip("", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
@@ -550,11 +505,7 @@ public class MenuScreen implements Screen  {
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         Label information;
-                        if(uBook.getLevel()<0){
-                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
-                        }else{
-                            information = new Label( "Upgrade: " + uBook.getUpgradeName() + "\nLevel:" + uBook.getLevel() + "/3" + "\nDamage multiplayer: " + uBook.getDamageMultiplayer(),labelStyle);
-                        }
+                        information = uBook.returnInformation(uBook, 3, labelStyle);
                         tooltip = new TextTooltip("", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
@@ -577,7 +528,8 @@ public class MenuScreen implements Screen  {
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                        Label information = new Label( "Upgrade: " + uGear.getUpgradeName() + "\nLevel:" + uGear.getLevel() + "/3" + "\nDamage multiplayer: " + uGear.getDamageMultiplayer(),labelStyle);
+                        Label information;
+                        information = uGear.returnInformation(uGear, 3, labelStyle);
                         tooltip = new TextTooltip("", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
@@ -591,17 +543,13 @@ public class MenuScreen implements Screen  {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if(uSonar.getLevel()>=0){
-                            uSonar.setLevel(uSonar.getLevel()+1, 1, upgradeManager.getSonar());
+                            uSonar.setLevel(uSonar.getLevel()+1, 3, upgradeManager.getSonar());
                             uSonar.setDamagemultiplayer(uSonar.getLevel());
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         Label information;
-                        if(uSonar.getLevel()<0){
-                            information = new Label("Najpierw musisz odblować poprzednie ulepszenie.",labelStyle);
-                        }else{
-                            information = new Label( "Upgrade: " + uSonar.getUpgradeName() + "\nLevel:" + uSonar.getLevel() + "/1" + "\nDamage multiplayer: " + uSonar.getDamageMultiplayer(),labelStyle);
-                        }
+                        information = uSonar.returnInformation(uSonar, 3, labelStyle);
                         tooltip = new TextTooltip("Działam", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
@@ -624,7 +572,8 @@ public class MenuScreen implements Screen  {
                         }
                     }
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                        Label information = new Label( "Upgrade: " + uHealth.getUpgradeName() + "\nLevel:" + uHealth.getLevel() + "/3" + "\nDamage multiplayer: " + uHealth.getDamageMultiplayer(),labelStyle);
+                        Label information;
+                        information = uHealth.returnInformation(uHealth, 3, labelStyle);
                         tooltip = new TextTooltip("", textTooltipStyle);
                         tooltip.setActor(information);
                         tooltip.setInstant(true);
@@ -634,168 +583,365 @@ public class MenuScreen implements Screen  {
                         tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
-                /*upgradeManager.getBetterHealth().addListener(new ClickListener(){
+                upgradeManager.getBetterHealth().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        betterHealth.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        regeneration.setDrawable(images_upgrades, "upgradeIcons_healthRegen");
-                        regeneration.setTouchable(Touchable.enabled);
-                        betterHealth.setTouchable(Touchable.disabled);
+                        if(uBetterHealth.getLevel()>=0){
+                            uBetterHealth.setLevel(uBetterHealth.getLevel()+1, 3, upgradeManager.getBetterHealth());
+                            uBetterHealth.setDamagemultiplayer(uBetterHealth.getLevel());
+                        }
+                        if(uBetterHealth.getLevel() == 1) {
+                            uRegeneration.setLevel(0, 3, upgradeManager.getRegeneration());
+                            uRegeneration.setDamagemultiplayer(uRegeneration.getLevel());
+                            upgradeManager.getRegeneration().setDrawable(images_upgrades, "upgradeIcons_healthRegen");
+
+                        }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        information = uBetterHealth.returnInformation(uBetterHealth, 3, labelStyle);
+                        tooltip = new TextTooltip("Działam", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, -168, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
 
                     }
                 });
                 upgradeManager.getRegeneration().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        regeneration.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        shield.setDrawable(images_upgrades, "upgradeIcons_healthShield");
-                        shield.setTouchable(Touchable.enabled);
-                        regeneration.setTouchable(Touchable.disabled);
-
+                        if(uRegeneration.getLevel()>=0){
+                            uRegeneration.setLevel(uRegeneration.getLevel()+1, 3, upgradeManager.getRegeneration());
+                            uRegeneration.setDamagemultiplayer(uRegeneration.getLevel());
+                        }
+                        if(uRegeneration.getLevel() == 1){
+                            uShield.setLevel(0,3,upgradeManager.getShield());
+                            uShield.setDamagemultiplayer(uShield.getLevel());
+                            upgradeManager.getShield().setDrawable(images_upgrades, "upgradeIcons_healthShield");
+                        }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        information = uRegeneration.returnInformation(uRegeneration, 3, labelStyle);
+                        tooltip = new TextTooltip("", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, -264, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
 
                 upgradeManager.getShield().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        shield.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        betterBetterHealth.setDrawable(images_upgrades, "upgradeIcons_healthBetterBetterHealth");
-                        betterBetterHealth.setTouchable(Touchable.enabled);
-                        shield.setTouchable(Touchable.disabled);
-
+                        if(uShield.getLevel()>=0){
+                            uShield.setLevel(uShield.getLevel()+1, 3, upgradeManager.getShield());
+                            uShield.setDamagemultiplayer(uShield.getLevel());
+                        }
+                        if(uShield.getLevel() == 1){
+                            uBetterBetterHealth.setLevel(0,1,upgradeManager.getBetterBetterHealth());
+                            uBetterBetterHealth.setDamagemultiplayer(uBetterBetterHealth.getLevel());
+                            upgradeManager.getBetterBetterHealth().setDrawable(images_upgrades, "upgradeIcons_healthBetterBetterHealth");
+                        }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        information = uShield.returnInformation(uShield, 3, labelStyle);
+                        tooltip = new TextTooltip("", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, -(upgradeDialog.getWidth()/2)+256, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
                 upgradeManager.getBetterBetterHealth().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        betterBetterHealth.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        betterBetterHealth.setTouchable(Touchable.disabled);
-
+                        if(uBetterBetterHealth.getLevel()>=0){
+                            uBetterBetterHealth.setLevel(uBetterBetterHealth.getLevel()+1, 3, upgradeManager.getBetterBetterHealth());
+                            uBetterBetterHealth.setDamagemultiplayer(uBetterBetterHealth.getLevel());
+                        }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        information = uBetterBetterHealth.returnInformation(uBetterBetterHealth, 3, labelStyle);
+                        tooltip = new TextTooltip("", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, -(upgradeDialog.getWidth()/2)+256, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
                 upgradeManager.getGold().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        gold.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        betterGold.setDrawable(images_upgrades, "upgradeIcons_incomeBetterGold");
-                        betterGold.setTouchable(Touchable.enabled);
-                        gold.setTouchable(Touchable.disabled);
-
+                        uGold.setLevel(uGold.getLevel()+1, 3, upgradeManager.getGold());
+                        uGold.setDamagemultiplayer(uGold.getLevel());
+                        if(uGold.getLevel() == 1){
+                            uBetterGold.setLevel(0, 3, upgradeManager.getBetterGold());
+                            uBetterGold.setDamagemultiplayer(uBetterGold.getLevel());
+                            upgradeManager.getBetterGold().setDrawable(images_upgrades, "upgradeIcons_incomeBetterGold");
+                        }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        information = uGold.returnInformation(uGold, 3, labelStyle);
+                        tooltip = new TextTooltip("", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, -72, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
                 upgradeManager.getBetterGold().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        betterGold.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        diamonds.setDrawable(images_upgrades, "upgradeIcons_incomeDiamonds");
-                        discount10.setDrawable(images_upgrades, "upgradeIcons_incomeDiscountTen");
-                        discount10.setTouchable(Touchable.enabled);
-                        diamonds.setTouchable(Touchable.enabled);
-                        betterGold.setTouchable(Touchable.disabled);
+                        if(uBetterGold.getLevel()>=0){
+                            uBetterGold.setLevel(uBetterGold.getLevel()+1, 1, upgradeManager.getBetterGold());
+                            uBetterGold.setDamagemultiplayer(uBetterGold.getLevel());
+                        }
+                        if(uBetterGold.getLevel() == 1) {
+                            uDiamonds.setLevel(0, 3, upgradeManager.getDiamonds());
+                            uDiamonds.setDamagemultiplayer(uDiamonds.getLevel());
+                            upgradeManager.getDiamonds().setDrawable(images_upgrades, "upgradeIcons_incomeDiamonds");
+                            uDiscount10.setLevel(0,3,upgradeManager.getDiscount10());
+                            uDiscount10.setDamagemultiplayer(uDiscount10.getLevel());
+                            upgradeManager.getDiscount10().setDrawable(images_upgrades, "upgradeIcons_incomeDiscountTen");
+                        }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        information = uBetterGold.returnInformation(uBetterGold, 1, labelStyle);
+                        tooltip = new TextTooltip("Działam", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, -168, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
 
                     }
                 });
                 upgradeManager.getDiamonds().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        diamonds.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        betterDiamonds.setDrawable(images_upgrades, "upgradeIcons_incomeBetterDiamonds");
-                        betterDiamonds.setTouchable(Touchable.enabled);
-                        diamonds.setTouchable(Touchable.disabled);
-
+                        if(uDiamonds.getLevel()>=0){
+                            uDiamonds.setLevel(uDiamonds.getLevel()+1, 3, upgradeManager.getDiamonds());
+                            uDiamonds.setDamagemultiplayer(uDiamonds.getLevel());
+                        }
+                        if(uDiamonds.getLevel() == 1){
+                            uBetterDiamonds.setLevel(0,3,upgradeManager.getBetterDiamonds());
+                            uDiamonds.setDamagemultiplayer(uDiamonds.getLevel());
+                            upgradeManager.getBetterDiamonds().setDrawable(images_upgrades, "upgradeIcons_incomeBetterDiamonds");
+                        }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        information = uDiamonds.returnInformation(uDiamonds, 3, labelStyle);
+                        tooltip = new TextTooltip("", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, -264, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
                 upgradeManager.getBetterDiamonds().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        betterDiamonds.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        betterDiamonds.setTouchable(Touchable.disabled);
-
+                        if(uBetterDiamonds.getLevel()>=0){
+                            uBetterDiamonds.setLevel(uBetterDiamonds.getLevel()+1, 3, upgradeManager.getBetterDiamonds());
+                            uBetterDiamonds.setDamagemultiplayer(uBetterDiamonds.getLevel());
+                        }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        information = uBetterDiamonds.returnInformation(uBetterDiamonds, 3, labelStyle);
+                        tooltip = new TextTooltip("", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, -(upgradeDialog.getWidth()/2)+256, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
                 upgradeManager.getDiscount10().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        discount10.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        discount20.setDrawable(images_upgrades, "upgradeIcons_incomeDiscountTwenty");
-                        upgrade.setDrawable(images_upgrades, "upgradeIcons_incomeUpgrade");
-                        upgrade.setTouchable(Touchable.enabled);
-                        discount20.setTouchable(Touchable.enabled);
-                        discount10.setTouchable(Touchable.disabled);
+                        if(uDiscount10.getLevel()>=0){
+                            uDiscount10.setLevel(uDiscount10.getLevel()+1, 1, upgradeManager.getDiscount10());
+                            uDiscount10.setDamagemultiplayer(uDiscount10.getLevel());
+                        }
+                        if(uDiscount10.getLevel() == 1) {
+                            uDiscount20.setLevel(0, 1, upgradeManager.getDiscount20());
+                            uDiscount20.setDamagemultiplayer(uDiscount20.getLevel());
+                            upgradeManager.getDagger().setDrawable(images_upgrades, "upgradeIcons_incomeDiscountTwenty");
+                            uUpgrade.setLevel(0,1,upgradeManager.getUpgrade());
+                            uUpgrade.setDamagemultiplayer(uUpgrade.getLevel());
+                            upgradeManager.getUpgrade().setDrawable(images_upgrades, "upgradeIcons_incomeUpgrade");
+                        }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        information = uDiscount10.returnInformation(uDiscount10, 1, labelStyle);
+                        tooltip = new TextTooltip("Działam", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, -168, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y+10, pointer, fromActor);
 
                     }
                 });
                 upgradeManager.getDiscount20().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        discount20.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        discount30.setDrawable(images_upgrades, "upgradeIcons_incomeDiscountThirty");
-                        discount30.setTouchable(Touchable.enabled);
-                        discount20.setTouchable(Touchable.disabled);
-
+                        if(uDiscount20.getLevel()>=0){
+                            uDiscount20.setLevel(uDiscount20.getLevel()+1, 1, upgradeManager.getDiscount20());
+                            uDiscount20.setDamagemultiplayer(uDiscount20.getLevel());
+                        }
+                        if(uDiscount20.getLevel() == 1){
+                            uDiscount30.setLevel(0,1,upgradeManager.getDiscount30());
+                            uDiscount30.setDamagemultiplayer(uDiscount30.getLevel());
+                            upgradeManager.getDiscount30().setDrawable(images_upgrades, "upgradeIcons_incomeDiscountThirty");
+                            }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        information = uDiscount20.returnInformation(uDiscount20, 1, labelStyle);
+                        tooltip = new TextTooltip("", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, -264, y+10, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
                 upgradeManager.getDiscount30().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        discount30.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        discount30.setTouchable(Touchable.disabled);
-
+                        if(uDiscount30.getLevel()>=0){
+                            uDiscount30.setLevel(uDiscount30.getLevel()+1, 1, upgradeManager.getDiscount30());
+                            uDiscount30.setDamagemultiplayer(uDiscount30.getLevel());
+                        }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        information = uDiscount30.returnInformation(uDiscount30, 1, labelStyle);
+                        tooltip = new TextTooltip("", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, -(upgradeDialog.getWidth()/2)+256, y+10, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
                 upgradeManager.getUpgrade().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        upgrade.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        hammer.setDrawable(images_upgrades, "upgradeIcons_incomeHammer");
-                        hammer.setTouchable(Touchable.enabled);
-                        upgrade.setTouchable(Touchable.disabled);
+                        if(uUpgrade.getLevel()>=0){
+                            uUpgrade.setLevel(uUpgrade.getLevel()+1, 1, upgradeManager.getUpgrade());
+                            uUpgrade.setDamagemultiplayer(uUpgrade.getLevel());
+                        }
+                        if(uUpgrade.getLevel() == 1) {
+                            uHammer.setLevel(0, 3, upgradeManager.getHammer());
+                            uHammer.setDamagemultiplayer(uHammer.getLevel());
+                            upgradeManager.getHammer().setDrawable(images_upgrades, "upgradeIcons_incomeHammer");
+                         }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        information = uUpgrade.returnInformation(uUpgrade, 1, labelStyle);
+                        tooltip = new TextTooltip("Działam", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, -168, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
 
                     }
                 });
                 upgradeManager.getHammer().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        hammer.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        betterUpgrade.setDrawable(images_upgrades, "upgradeIcons_incomeBetterUpgrade");
-                        luck.setDrawable(images_upgrades, "upgradeIcons_incomeLuck");
-                        luck.setTouchable(Touchable.enabled);
-                        betterUpgrade.setTouchable(Touchable.enabled);
-                        hammer.setTouchable(Touchable.disabled);
-
+                        if(uHammer.getLevel()>=0){
+                            uHammer.setLevel(uHammer.getLevel()+1, 3, upgradeManager.getHammer());
+                            uHammer.setDamagemultiplayer(uHammer.getLevel());
+                        }
+                        if(uHammer.getLevel() == 1){
+                            uBetterUpgrade.setLevel(0,1,upgradeManager.getBetterUpgrade());
+                            uBetterUpgrade.setDamagemultiplayer(uBetterUpgrade.getLevel());
+                            upgradeManager.getBetterUpgrade().setDrawable(images_upgrades, "upgradeIcons_incomeBetterUpgrade");}
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        information = uHammer.returnInformation(uHammer, 3, labelStyle);
+                        tooltip = new TextTooltip("", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, -264, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
                 upgradeManager.getBetterUpgrade().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        betterUpgrade.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        betterUpgrade.setTouchable(Touchable.disabled);
-
+                        if(uBetterUpgrade.getLevel()>=0){
+                            uBetterUpgrade.setLevel(uBetterUpgrade.getLevel()+1, 1, upgradeManager.getBetterUpgrade());
+                            uBetterUpgrade.setDamagemultiplayer(uBetterUpgrade.getLevel());
+                        }
+                    }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        information = uBetterUpgrade.returnInformation(uBetterUpgrade, 1, labelStyle);
+                        tooltip = new TextTooltip("", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, -(upgradeDialog.getWidth()/2)+256, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
                 upgradeManager.getLuck().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        System.out.println("zostałem wybrany");
-                        luck.setDrawable(images_upgrades, "upgradeIcons_bought");
-                        luck.setTouchable(Touchable.disabled);
-
+                        if(uLuck.getLevel()>=0){
+                            uLuck.setLevel(uLuck.getLevel()+1, 3, upgradeManager.getLuck());
+                            uLuck.setDamagemultiplayer(uLuck.getLevel());
+                        }
                     }
-                });*/
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Label information;
+                        information = uLuck.returnInformation(uLuck, 3, labelStyle);
+                        tooltip = new TextTooltip("", textTooltipStyle);
+                        tooltip.setActor(information);
+                        tooltip.setInstant(true);
+                        tooltip.enter(event, -264, y, pointer, fromActor);
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
+                    }
+                });
 // ^
                 //wyłapuje tylko na textfieldach, a nie na całym table_profile
             }
