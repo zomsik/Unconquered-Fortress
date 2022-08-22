@@ -685,11 +685,12 @@ public class WorldManager {
                     imageArr[i][j].setName("mountain");
                 }
                 else if (y==8){
-                    imageArr[i][j] = new Image(images_map, "enemy");
+                    imageArr[i][j] = getRotatedEnemyBase(arr,i,j);
                     imageArr[i][j].setName("enemy");
+
                 }
                 else if (y==9){
-                    imageArr[i][j] = new Image(images_map, "base");
+                    imageArr[i][j] = getRotatedBase(arr,i,j);
                     imageArr[i][j].setName("base");
                 }
                 else if (y==11)
@@ -704,6 +705,8 @@ public class WorldManager {
                     imageArr[i][j] = new Image(images_map, "pathDownRight");
                 else if (y==16)
                     imageArr[i][j] = new Image(images_map, "pathLeftDown");
+
+
 
                 imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
                     public void clicked(InputEvent event, float x, float y) {
@@ -734,6 +737,110 @@ public class WorldManager {
 
 
         return imageArr;
+    }
+
+    private static Image getRotatedEnemyBase(int[][] arr, int i, int j) {
+        Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
+
+        if(i==0)
+        {
+            if (j+1<15)
+                if(arr[i][j+1] == 11 || arr[i][j+1] == 16)
+                    return new Image(images_map, "enemyToRight");
+            if (j-1>=0)
+                if(arr[i][j-1] == 11 || arr[i][j-1] == 15)
+                    return new Image(images_map, "enemyToLeft");
+            if(arr[i+1][j] == 12 || arr[i+1][j] == 13 || arr[i+1][j] == 14)
+                return new Image(images_map, "enemyToDown");
+        }
+        else if(i==9)
+        {
+            if (j+1<15)
+                if(arr[i][j+1] == 11 || arr[i][j+1] == 14)
+                    return new Image(images_map, "enemyToRight");
+            if (j-1>=0)
+                if(arr[i][j-1] == 11 || arr[i][j-1] == 13)
+                    return new Image(images_map, "enemyToLeft");
+
+            if(arr[i-1][j] == 12 || arr[i-1][j] == 15 || arr[i-1][j] == 16)
+                return new Image(images_map, "enemyToUp");
+        }
+        else if(j==0)
+        {
+            if(arr[i][j+1] == 11 || arr[i][j+1] == 14 || arr[i][j+1] == 16)
+                return new Image(images_map, "enemyToRight");
+            if (i-1>=0)
+                if(arr[i-1][j] == 12 || arr[i-1][j] == 15)
+                    return new Image(images_map, "enemyToUp");
+            if (i+1<15)
+                if(arr[i+1][j] == 12 || arr[i+1][j] == 13)
+                    return new Image(images_map, "enemyToDown");
+        }
+        else if(j==14)
+        {
+            if(arr[i][j-1] == 11 || arr[i][j-1] == 13 || arr[i][j-1] == 15)
+                return new Image(images_map, "enemyToLeft");
+            if (i-1>=0)
+                if(arr[i-1][j] == 12 || arr[i-1][j] == 16)
+                    return new Image(images_map, "enemyToUp");
+            if (i+1<15)
+                if(arr[i+1][j] == 12 || arr[i+1][j] == 14)
+                    return new Image(images_map, "enemyToDown");
+        }
+
+        return new Image(images_map, "enemyToDown");
+    }
+
+    private static Image getRotatedBase(int[][] arr, int i, int j) {
+        Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
+
+        if(i==0)
+        {
+            if (j+1<15)
+                if(arr[i][j+1] == 11 || arr[i][j+1] == 16)
+                    return new Image(images_map, "baseToRight");
+            if (j-1>=0)
+                if(arr[i][j-1] == 11 || arr[i][j-1] == 15)
+                    return new Image(images_map, "baseToLeft");
+            if(arr[i+1][j] == 12 || arr[i+1][j] == 13 || arr[i+1][j] == 14)
+                return new Image(images_map, "baseToDown");
+        }
+        else if(i==9)
+        {
+            if (j+1<15)
+                if(arr[i][j+1] == 11 || arr[i][j+1] == 14)
+                    return new Image(images_map, "baseToRight");
+            if (j-1>=0)
+                if(arr[i][j-1] == 11 || arr[i][j-1] == 13)
+                    return new Image(images_map, "baseToLeft");
+
+            if(arr[i-1][j] == 12 || arr[i-1][j] == 15 || arr[i-1][j] == 16)
+                return new Image(images_map, "baseToUp");
+        }
+        else if(j==0)
+        {
+            if(arr[i][j+1] == 11 || arr[i][j+1] == 14 || arr[i][j+1] == 16)
+                return new Image(images_map, "baseToRight");
+            if (i-1>=0)
+                if(arr[i-1][j] == 12 || arr[i-1][j] == 15)
+                    return new Image(images_map, "baseToUp");
+            if (i+1<15)
+                if(arr[i+1][j] == 12 || arr[i+1][j] == 13)
+                    return new Image(images_map, "baseToDown");
+        }
+        else if(j==14)
+        {
+            if(arr[i][j-1] == 11 || arr[i][j-1] == 13 || arr[i][j-1] == 15)
+                return new Image(images_map, "baseToLeft");
+            if (i-1>=0)
+                if(arr[i-1][j] == 12 || arr[i-1][j] == 16)
+                    return new Image(images_map, "baseToUp");
+            if (i+1<15)
+                if(arr[i+1][j] == 12 || arr[i+1][j] == 14)
+                    return new Image(images_map, "baseToDown");
+        }
+
+        return new Image(images_map, "baseToDown");
     }
 
 
