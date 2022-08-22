@@ -20,32 +20,11 @@ public class ImageClickListener extends ClickListener {
 
     }
 
-
-    public int getClickX() {
-        return x;
+    public void setLastClickedTile(LastClickedTile lastClickedTile){
+        lastClickedTile.setX(x);
+        lastClickedTile.setY(y);
+        lastClickedTile.setName(name);
     }
 
-    public int getClickY() {
-        return y;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setLastClickedTile(){
-        LastClickedTile.setX(x);
-        LastClickedTile.setY(y);
-        LastClickedTile.setName(name);
-    }
-
-    public void getInfo(){
-        LastClickedTile.setX(x);
-        LastClickedTile.setY(x);
-        LastClickedTile.setName(name);
-        System.out.println(this.x);
-        System.out.println(this.y);
-        System.out.println(this.name);
-    }
 
 }

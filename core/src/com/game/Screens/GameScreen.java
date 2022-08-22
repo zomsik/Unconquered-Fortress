@@ -20,10 +20,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.game.Main;
 import com.game.Manager.*;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Objects;
 
 public class GameScreen implements Screen {
     private Main game;
@@ -31,9 +32,10 @@ public class GameScreen implements Screen {
     private Texture background;
     private BitmapFont font;
     private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack;
-    private Skin images, images_default, dialog, images_map;
+    private Skin images, images_default, dialog, images_map, images_buildings;
     private TextButton  bSaveDialog, bExitDialog, bTest;
-    private Table table_map, table_dialogPause, table_nextWave;
+
+    private Table table_map, table_dialogPause, table_nextWave, table_operations;
     private TextField tResolutionField, tResolutionFieldText, tVolumeFieldText, tLanguageFieldText, tLanguageField;
     private ArrayList<String> resolutions;
     private ArrayList<String> languages;
@@ -56,12 +58,19 @@ public class GameScreen implements Screen {
     private boolean isPauseDialog = false;
     private boolean isLocal;
     private ConnectionManager connectionManager;
-    private Image[][] mapArr;
-    private Random random;
+    private Image[][] mapArr, operationsArr;
+    private String chosenOperation = null;
+
+    public LastClickedTile lastClickedMapTile, lastClickedOperationTile;
+    private Image iSword, iBow, iMage, iCannon, iClean, iFill, iStickyRoad, iRoadNeedles;
+
 
     public GameScreen (Main game, JSONObject save, boolean isLocal){
         this.game = game;
         this.isLocal = isLocal;
+
+        lastClickedMapTile = new LastClickedTile();
+        lastClickedOperationTile = new LastClickedTile();
         resolutionsClass = new Resolutions();
         fileReader = new FileReader();
         fileReader.downloadSettings();
@@ -73,13 +82,19 @@ public class GameScreen implements Screen {
 
         //reading stats etc
         if(actualGame.getString("difficulty").equals("normal")){
-            mapArr = worldManager.createWorld(actualGame.getInt("seed"), 46);
+            mapArr = worldManager.createWorld(this, actualGame.getInt("seed"), 46);
         }else if(actualGame.getString("difficulty").equals("hard")){
-            mapArr = worldManager.createWorld(actualGame.getInt("seed"), 36);
+            mapArr = worldManager.createWorld(this, actualGame.getInt("seed"), 36);
         }else if(actualGame.getString("difficulty").equals("easy")){
-            mapArr = worldManager.createWorld(actualGame.getInt("seed"), 51);
+            mapArr = worldManager.createWorld(this, actualGame.getInt("seed"), 51);
         }
+
+        if(actualGame.has("terrainModifications"))
+            mapArr = worldManager.loadTerrainModifications(this, mapArr, actualGame.getJSONArray("terrainModifications"));
+
+
         table_map = worldManager.drawWorld(mapArr);
+
 
         //System.out.println(table_map.getChild(6).getListeners().get(0).getClass().getDeclaredFields().);
 
@@ -95,8 +110,61 @@ public class GameScreen implements Screen {
         bSaveDialog  = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bExitDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bTest = new TextButton("test", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+
+
+
+        operationsArr = GameFunctions.getOperationsArr(this);
+        table_operations = GameFunctions.getOperationsTable(operationsArr);
+
+
         table_nextWave.add(bTest);
         table_nextWave.setBounds(100,100,100,100);
+    }
+
+    public void mouseClickOperation() {
+        if (Objects.equals(chosenOperation,lastClickedOperationTile.getName()))
+        {
+            chosenOperation = null;
+            System.out.println("Odznaczono");
+        }
+        else {
+            chosenOperation = lastClickedOperationTile.getName();
+            System.out.println("Wybrano: " + chosenOperation);
+
+
+        }
+    }
+    public void mouseEnterOperation() {
+        System.out.println("Najechano: "+lastClickedOperationTile.getName());
+    }
+    public void mouseExitOperation() {
+        //System.out.println("x: "+lastClickedMapTile.getX()+", y: "+ lastClickedMapTile.getY());
+    }
+
+    public void mouseClickMapTile() {
+        //System.out.println("x: "+lastClickedMapTile.getX()+", y: "+ lastClickedMapTile.getY());
+
+        if (Objects.equals(chosenOperation,"clean")) {
+            if (Objects.equals(lastClickedMapTile.getName(), "obstacle")) {
+
+                //jeśli masz kasę itd warunki, może dialog etc
+
+                JSONArray terr = actualGame.getJSONArray("terrainModifications");
+
+                terr.put(new JSONObject().put("tileName","grass").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()));
+                actualGame.put("terrainModifications", terr);
+
+                table_map = worldManager.changeTileAndRedrawWorld(this, mapArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "grass");
+                stage.addActor(table_map);
+
+            }
+        }
+    }
+    public void mouseEnterMapTile() {
+        //System.out.println("x: "+lastClickedMapTile.getX()+", y: "+ lastClickedMapTile.getY());
+    }
+    public void mouseExitMapTile() {
+        //System.out.println("x: "+lastClickedMapTile.getX()+", y: "+ lastClickedMapTile.getY());
     }
 
     @Override
@@ -119,7 +187,7 @@ public class GameScreen implements Screen {
                 //table_map = worldManager.changeTileAndRedrawWorld(mapArr, 0, 5, "water");
                 //stage.addActor(table_map);
 
-                System.out.println(LastClickedTile.getX()+"y: "+ LastClickedTile.getY());
+                System.out.println(lastClickedMapTile.getX()+"y: "+ lastClickedMapTile.getY());
 
                 //set pamieci na luk
 
@@ -194,6 +262,7 @@ public class GameScreen implements Screen {
             }
         });
 
+        stage.addActor(table_operations);
         stage.addActor(table_map);
         stage.addActor(table_nextWave);
     }
@@ -259,9 +328,11 @@ public class GameScreen implements Screen {
         dialog = new Skin(taDialogBack);
 
         images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
-        //table_map = new Table(images);
+        images_buildings = new Skin(new TextureAtlas("assets/icons/buildings.pack"));
+
         table_dialogPause = new Table(images_default);
         table_nextWave = new Table(images_default);
+        table_operations = new Table(images_buildings);
 
         textButtonStyle_bLeft = new TextButton.TextButtonStyle();
         textButtonStyle_bRight = new TextButton.TextButtonStyle();

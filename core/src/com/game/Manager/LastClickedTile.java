@@ -1,31 +1,45 @@
 package com.game.Manager;
 
 public class LastClickedTile {
-    private static int x = -1;
-    private static int y = -1;
-    private static String name = null;
+    private int x;
+    private int y;
+    private String name;
 
-    public static int getX() {
+    public LastClickedTile () {
+        this.x = -1;
+        this.y = -1;
+        this.name = null;
+    }
+
+    public void cleanClick()
+    {
+    this.x = -1;
+    this.y = -1;
+    this.name = null;
+
+    }
+
+    public int getX() {
         return x;
     }
 
-    public static void setX(int x) {
-        LastClickedTile.x = x;
+    public void setX(int x) {
+        this.x = x;
     }
 
-    public static int getY() {
+    public int getY() {
         return y;
     }
 
-    public static void setY(int y) {
-        LastClickedTile.y = y;
+    public void setY(int y) {
+        this.y = y;
     }
 
-    public static String getName() {
+    public String getName() {
         return name;
     }
 
-    public static void setName(String name) {
-        LastClickedTile.name = name;
+    public void setName(String name) {
+        this.name = name;
     }
 }
