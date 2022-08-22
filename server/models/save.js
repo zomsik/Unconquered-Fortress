@@ -9,7 +9,8 @@ const saveSchema = new mongoose.Schema({
     wave: { type: Number, required: true },
     gold: { type: Number, required: true },
     diamonds: {type: Number, required: true},
-    terrainModifications: {type: Array, required: true}
+    terrainModifications: {type: Array, required: true},
+    buildings: {type: Array, required: true}
 })
 
 const Save = mongoose.model("Save", saveSchema)
