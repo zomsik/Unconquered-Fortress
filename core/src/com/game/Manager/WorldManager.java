@@ -772,6 +772,9 @@ public class WorldManager {
 
         for (int i = 0; i< terrArr.length(); i++) {
             JSONObject j = terrArr.getJSONObject(i);
+
+
+
             mapArr[j.getInt("y")][j.getInt("x")].setDrawable(images_map, j.getString("tileName"));
             mapArr[j.getInt("y")][j.getInt("x")].setName(j.getString("tileName"));
             mapArr[j.getInt("y")][j.getInt("x")].clearListeners();
