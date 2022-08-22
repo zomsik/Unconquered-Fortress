@@ -89,6 +89,7 @@ public class ProfileManager {
         j.put("gold",0);
         j.put("diamonds",0);
         j.put("terrainModifications", new JSONArray());
+        j.put("buildings", new JSONArray());
 
         return j;
 

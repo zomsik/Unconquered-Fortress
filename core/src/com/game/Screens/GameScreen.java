@@ -101,6 +101,8 @@ public class GameScreen implements Screen {
         mapArr = worldManager.loadTerrainModifications(this, mapArr, actualGame.getJSONArray("terrainModifications"));
 
 
+
+
         table_map = worldManager.drawWorld(mapArr);
 
 
@@ -126,6 +128,8 @@ public class GameScreen implements Screen {
 
         buildingsArr = GameFunctions.getEmptyBuildingsArr();
         table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
+
+        buildingsArr = GameFunctions.loadPlacedBuildings(this, buildingsArr, actualGame.getJSONArray("buildings"));
 
         table_nextWave.add(bTest);
         table_nextWave.setBounds(100,100,100,100);
@@ -160,9 +164,31 @@ public class GameScreen implements Screen {
         if (Objects.equals(chosenOperation,"sell"))
         {
             System.out.println(lastClickedMapTile.getName());
+            System.out.println("test1");
 
-            if (lastClickedMapTile.getName() == "sword" || lastClickedMapTile.getName() == "bow" || lastClickedMapTile.getName() == "mage" || lastClickedMapTile.getName() == "cannon" )
+            if (Objects.equals(lastClickedMapTile.getName(), "sword") || Objects.equals(lastClickedMapTile.getName(), "bow") || Objects.equals(lastClickedMapTile.getName(), "mage") || Objects.equals(lastClickedMapTile.getName(), "cannon"))
             {
+                System.out.println("test12");
+
+
+                JSONArray placedBuildings = actualGame.getJSONArray("buildings");
+
+
+
+
+                for (int i = 0; i < placedBuildings.length(); i++) {
+                    JSONObject searchedObject = placedBuildings.getJSONObject(i);
+                    if (lastClickedMapTile.getX() == searchedObject.getInt("x") && lastClickedMapTile.getY() == searchedObject.getInt("y") && lastClickedMapTile.getName() == searchedObject.getString("buildingName"))
+                    {
+                        placedBuildings.remove(i);
+                        break;
+
+                    }
+                }
+                actualGame.put("buildings", placedBuildings);
+                System.out.println("test2");
+
+
                 //get from buildingsArr type and price etc
                 System.out.println("sprzedaje");
                 buildingsArr = GameFunctions.sellBuilding(buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY());
@@ -181,7 +207,12 @@ public class GameScreen implements Screen {
         if (Objects.equals(chosenOperation,"sword")) {
             if (Objects.equals(lastClickedMapTile.getName(), "grass")) {
 
-                //warunki wybudowania bowTowera
+                //warunki wybudowania swordTowera
+
+                JSONArray placedBuildings = actualGame.getJSONArray("buildings");
+                placedBuildings.put(new JSONObject().put("buildingName","sword").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()).put("level",1));
+                actualGame.put("buildings", placedBuildings);
+
 
                 buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "sword");
                 table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
@@ -197,6 +228,10 @@ public class GameScreen implements Screen {
 
                 //warunki wybudowania bowTowera
 
+                JSONArray placedBuildings = actualGame.getJSONArray("buildings");
+                placedBuildings.put(new JSONObject().put("buildingName","bow").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()).put("level",1));
+                actualGame.put("buildings", placedBuildings);
+
                 buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "bow");
                 table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
                 stage.addActor(table_buildings);
@@ -209,6 +244,10 @@ public class GameScreen implements Screen {
             if (Objects.equals(lastClickedMapTile.getName(), "grass")) {
 
                 //warunki wybudowania mageTowera
+
+                JSONArray placedBuildings = actualGame.getJSONArray("buildings");
+                placedBuildings.put(new JSONObject().put("buildingName","mage").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()).put("level",1));
+                actualGame.put("buildings", placedBuildings);
 
                 buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "mage");
                 table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
@@ -223,6 +262,11 @@ public class GameScreen implements Screen {
             if (Objects.equals(lastClickedMapTile.getName(), "grass")) {
 
                 //warunki wybudowania cannonTowera
+
+                JSONArray placedBuildings = actualGame.getJSONArray("buildings");
+                placedBuildings.put(new JSONObject().put("buildingName","cannon").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()).put("level",1));
+                actualGame.put("buildings", placedBuildings);
+
 
                 buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "cannon");
                 table_buildings = GameFunctions.getBuildingsTable(buildingsArr);

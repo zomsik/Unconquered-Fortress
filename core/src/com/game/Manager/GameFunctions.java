@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.game.Screens.GameScreen;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class GameFunctions {
 
@@ -196,6 +198,45 @@ public class GameFunctions {
         return t;
     }
 
+
+    public static Image[][] loadPlacedBuildings (GameScreen gameScreen, Image[][] buildingsArr, JSONArray loadedBuildingsArr)
+    {
+        Skin images_buildings = new Skin(new TextureAtlas("assets/icons/buildings.pack"));
+
+        for (int i = 0; i< loadedBuildingsArr.length(); i++) {
+            JSONObject j = loadedBuildingsArr.getJSONObject(i);
+
+            buildingsArr = GameFunctions.addBuilding(gameScreen, buildingsArr, j.getInt("x"), j.getInt("y"), j.getString("buildingName"));
+
+            /*
+
+            buildingsArr[y][x].setDrawable(buildings_skin, tileName);
+            buildingsArr[y][x].setName(tileName);
+            buildingsArr[y][x].setTouchable(Touchable.enabled);
+
+
+            buildingsArr[y][x].addListener(new ImageClickListener(x,y,buildingsArr[y][x].getName()){
+                public void clicked(InputEvent event, float x, float y) {
+                    this.setLastClickedTile(gameScreen.lastClickedMapTile);
+                    gameScreen.mouseClickBuildingTile();
+                }
+
+                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                    this.setLastClickedTile(gameScreen.lastClickedMapTile);
+                    //gameScreen.mouseEnterMapTile();
+
+                }
+                public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                    //this.setLastClickedTile();
+                    //gameScreen.mouseExitMapTile();
+                }
+
+            });
+            */
+        }
+
+        return buildingsArr;
+    }
 
 
 

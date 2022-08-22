@@ -156,8 +156,8 @@ public class FileReader {
         json.setIgnoreUnknownFields(true);
         json.setOutputType(JsonWriter.OutputType.json);
 
-        if (save.has("profileNumber"))
-            save.remove("profileNumber");
+        //if (save.has("profileNumber"))
+        //    file.writeString(json.prettyPrint(save.remove("profileNumber").toString()), false);
 
         file.writeString(json.prettyPrint(save.toString()), false);
     }
