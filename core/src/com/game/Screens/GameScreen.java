@@ -95,10 +95,6 @@ public class GameScreen implements Screen {
 
         table_map = worldManager.drawWorld(mapArr);
 
-
-        //System.out.println(table_map.getChild(6).getListeners().get(0).getClass().getDeclaredFields().);
-
-
         initSettingsUI();
         
         
