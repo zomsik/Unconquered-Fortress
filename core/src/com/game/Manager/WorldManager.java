@@ -12,10 +12,11 @@ import java.util.*;
 import java.util.List;
 
 public class WorldManager {
-
+    private Random random;
     static int[][] dirs = {{1, 0},{0, 1},{-1, 0},{0, -1}};
 
-    static int[][] generateWater(int[][] arr, int randomI, int randomJ, int randomWaterSize, int randomAxis, int randomCorner, int randomDeep, Random random){
+    static int[][] generateWater(int[][] arr, int randomI, int randomJ, int randomWaterSize, int randomAxis, int randomCorner, int randomDeep, int seed){
+        Random random = new Random(seed);
         boolean isReturn = false;
         switch (randomCorner) {
             case 1 -> {
@@ -155,17 +156,18 @@ public class WorldManager {
         if(isReturn){
             return arr;
         }else{
-            return generateWater(arr, randomI, randomJ, randomWaterSize, randomAxis, randomCorner, randomDeep, random);
+            return generateWater(arr, randomI, randomJ, randomWaterSize, randomAxis, randomCorner, randomDeep, seed);
         }
     }
-    static List<int[]> ramdomWalk(int[][] arr, int[] start, int[] end, Random random, int difficulty) {
-        shuffleDirs(random);
+    static List<int[]> ramdomWalk(int[][] arr, int[] start, int[] end, int seed, int difficulty) {
+        shuffleDirs(seed);
         boolean[][] visited = new boolean[arr.length][arr[0].length];
         List<int[]> path = new ArrayList<>();
-        dfs(arr, visited, start, end, path, random, difficulty);
+        dfs(arr, visited, start, end, path, seed, difficulty);
         return path;
     }
-    static void shuffleDirs(Random random) {
+    static void shuffleDirs(int seed) {
+        Random random = new Random(seed);
         for(int i=0;i<dirs.length;i++) {
             int j = random.nextInt(i+1);
             int[] t = dirs[i];
@@ -173,19 +175,19 @@ public class WorldManager {
             dirs[j] = t;
         }
     }
-    static boolean dfs(int[][] grid, boolean[][] visited, int[] cur, int[] end, List<int[]> res, Random random, int difficulty) {
+    static boolean dfs(int[][] grid, boolean[][] visited, int[] cur, int[] end, List<int[]> res, int seed, int difficulty) {
         if(cur[0] == end[0] && cur[1] == end[1]) {
             res.add(new int[] {cur[0], cur[1]});
             return true;
         }
         visited[cur[0]][cur[1]] = true;
         res.add(new int[] {cur[0], cur[1]});
-        shuffleDirs(random);
+        shuffleDirs(seed);
         for(int[] dir : dirs) {
             int ni = cur[0] + dir[0];
             int nj = cur[1] + dir[1];
             if(ni >= 0 && ni < grid.length && nj >=0 && nj < grid[0].length && !visited[ni][nj] && res.size() < difficulty)     //  TODO ustawić długość ścieżki od poziomu trudności? jak to ma afektować? dłuższa ścieżka = więcej czasu na zabicie?
-                if(dfs(grid, visited, new int[] {ni, nj}, end, res, random, difficulty))
+                if(dfs(grid, visited, new int[] {ni, nj}, end, res, seed, difficulty))
                     return true;
         }
         visited[cur[0]][cur[1]] = false;
@@ -207,7 +209,8 @@ public class WorldManager {
         return arr;
     }
 
-    static int[][] generateObstacles(int[][] arr, Random random, int difficulty){
+    static int[][] generateObstacles(int[][] arr, int seed, int difficulty){
+        Random random = new Random(seed);
         switch (difficulty){
             case 51:{
                 for(int i=0; i<10; i++){
@@ -251,39 +254,6 @@ public class WorldManager {
 
     static int[][] overwritePath(int[][] arr, List<int[]> res){
         for(int i=0; i<res.size(); i++){
-            /*if(i==0){
-                if((res.get(i+1)[0] > res.get(i)[0] && res.get(i+1)[1] == res.get(i)[1]) && (res.get(i+1)[0] == res.get(i+2)[0] && res.get(i+1)[1] < res.get(i+2)[1])){
-                    arr[res.get(i+1)[0]][res.get(i+1)[1]] = "L ";
-                }else if((res.get(i+1)[0] == res.get(i)[0] && res.get(i+1)[1] < res.get(i)[1]) && (res.get(i+1)[0] > res.get(i+2)[0] && res.get(i+1)[1] == res.get(i+2)[1])){
-                    arr[res.get(i+1)[0]][res.get(i+1)[1]] = "L ";
-                }
-                else if((res.get(i+1)[0] == res.get(i)[0] && res.get(i+1)[1] < res.get(i)[1]) && (res.get(i+1)[0] < res.get(i+2)[0] && res.get(i+1)[1] == res.get(i+2)[1])){
-                    arr[res.get(i+1)[0]][res.get(i+1)[1]] = "┌ ";
-                } else if((res.get(i+1)[0] < res.get(i)[0] && res.get(i+1)[1] == res.get(i)[1]) && (res.get(i+1)[0] == res.get(i+2)[0] && res.get(i+1)[1] < res.get(i+2)[1])){
-                    arr[res.get(i+1)[0]][res.get(i+1)[1]] = "┌ ";
-                }
-                else if((res.get(i+1)[0] < res.get(i)[0] && res.get(i+1)[1] == res.get(i)[1]) && (res.get(i+1)[0] > res.get(i+2)[0] && res.get(i+1)[1] == res.get(i+2)[1])){
-                    arr[res.get(i+1)[0]][res.get(i+1)[1]] = "| ";
-                }else if((res.get(i+1)[0] > res.get(i)[0] && res.get(i+1)[1] == res.get(i)[1]) && (res.get(i+1)[0] < res.get(i+2)[0] && res.get(i+1)[1] == res.get(i+2)[1])){
-                    arr[res.get(i+1)[0]][res.get(i+1)[1]] = "| ";
-                }
-                else if((res.get(i+1)[0] > res.get(i)[0] && res.get(i+1)[1] == res.get(i)[1]) && (res.get(i+1)[0] == res.get(i+2)[0] && res.get(i+1)[1] > res.get(i+2)[1])){
-                    arr[res.get(i+1)[0]][res.get(i+1)[1]] = "⅃ ";
-                }else if((res.get(i+1)[0] == res.get(i)[0] && res.get(i+1)[1] > res.get(i)[1]) && (res.get(i+1)[0] > res.get(i+2)[0] && res.get(i+1)[1] == res.get(i+2)[1])){
-                    arr[res.get(i+1)[0]][res.get(i+1)[1]] = "⅃ ";
-                }
-                else if((res.get(i+1)[0] < res.get(i)[0] && res.get(i+1)[1] == res.get(i)[1]) && (res.get(i+1)[0] == res.get(i+2)[0] && res.get(i+1)[1] > res.get(i+2)[1])){
-                    arr[res.get(i+1)[0]][res.get(i+1)[1]] = "⅂ ";
-                }else if((res.get(i+1)[0] == res.get(i)[0] && res.get(i+1)[1] > res.get(i)[1]) && (res.get(i+1)[0] < res.get(i+2)[0] && res.get(i+1)[1] == res.get(i+2)[1])){
-                    arr[res.get(i+1)[0]][res.get(i+1)[1]] = "⅂ ";
-                }
-                else if((res.get(i+1)[0] == res.get(i)[0] && res.get(i+1)[1] < res.get(i)[1]) && (res.get(i+1)[0] == res.get(i+2)[0] && res.get(i+1)[1] > res.get(i+2)[1])){
-                    arr[res.get(i + 1)[0]][res.get(i + 1)[1]] = "— ";
-                }else if((res.get(i+1)[0] == res.get(i)[0] && res.get(i+1)[1] > res.get(i)[1]) && (res.get(i+1)[0] == res.get(i+2)[0] && res.get(i+1)[1] < res.get(i+2)[1])){
-                    arr[res.get(i + 1)[0]][res.get(i + 1)[1]] = "— ";
-                }
-            }else */
-
                 if(i==res.size()-1){
                 if((res.get(i-1)[0] < res.get(i)[0] && res.get(i-1)[1] == res.get(i)[1]) && (res.get(i-1)[0] == res.get(i-2)[0] && res.get(i-1)[1] > res.get(i-2)[1])){
                     arr[res.get(i-1)[0]][res.get(i-1)[1]] = 16;
@@ -353,9 +323,9 @@ public class WorldManager {
 
     public static Image[][] createWorld(GameScreen gameScreen, int seed, int difficulty){
         //wygenerowanie seeda
-        final ThreadLocal<Random> RANDOM_THREAD_LOCAL = ThreadLocal.withInitial(Random::new);
-        Random random = RANDOM_THREAD_LOCAL.get();
-        random.setSeed(seed);
+        //final ThreadLocal<Random> RANDOM_THREAD_LOCAL = ThreadLocal.withInitial(Random::new);
+        Random random = new Random(seed);
+        //random.setSeed(seed);
         //System.out.println("Seeded Thread Local Random Integer: " + random.nextInt(0, 100));
 
         //random losuje od min do max + 1
@@ -418,7 +388,7 @@ public class WorldManager {
                         randomJ = random.nextInt(1, 14);
                     }*/
                     System.out.println("2");
-                    generateWater(arr, randomI, randomJ, randomWaterSize, randomAxis, randomCorner, randomDeep, random);
+                    generateWater(arr, randomI, randomJ, randomWaterSize, randomAxis, randomCorner, randomDeep, seed);
                     System.out.println("3");
                     randomI = random.nextInt((randomDeep + 2), 10);
                     if (randomI < 9) {
@@ -451,10 +421,10 @@ public class WorldManager {
                         System.out.println("5.2");
                     }
                     System.out.println("6");
-                    List<int[]> res = ramdomWalk(arr, start, end, random, difficulty);
+                    List<int[]> res = ramdomWalk(arr, start, end, seed, difficulty);
                     System.out.println("7");
                     while (res.size() == 0) {
-                        res = ramdomWalk(arr, start, end, random, difficulty);
+                        res = ramdomWalk(arr, start, end, seed, difficulty);
                     }
                     System.out.println("8");
                     for (int j = 0; j < res.size(); j++) {
@@ -468,7 +438,7 @@ public class WorldManager {
                     System.out.println("10");
                     arr[randomI][randomJ] = 9;
                     arr[randomIE][randomJE] = 8;
-                    generateObstacles(arr, random, difficulty);
+                    generateObstacles(arr, seed, difficulty);
                     System.out.println("11");
                     overwritePath(arr, res);
                     System.out.println("12");
@@ -481,7 +451,7 @@ public class WorldManager {
                         randomI = random.nextInt(1, 9);
                     }*/
                     System.out.println("2");
-                    generateWater(arr, randomI, randomJ, randomWaterSize, randomAxis, randomCorner, randomDeep, random);
+                    generateWater(arr, randomI, randomJ, randomWaterSize, randomAxis, randomCorner, randomDeep, seed);
                     System.out.println("3");
                     randomJ = random.nextInt((randomDeep + 2), 15);
                     if (randomJ < 14) {
@@ -512,10 +482,10 @@ public class WorldManager {
                         System.out.println("5.2");
                     }
                     System.out.println("6");
-                    List<int[]> res = ramdomWalk(arr, start, end, random, difficulty);
+                    List<int[]> res = ramdomWalk(arr, start, end, seed, difficulty);
                     System.out.println("7");
                     while (res.size() == 0) {
-                        res = ramdomWalk(arr, start, end, random, difficulty);
+                        res = ramdomWalk(arr, start, end, seed, difficulty);
                     }
                     System.out.println("8");
                     for (int j = 0; j < res.size(); j++) {
@@ -529,7 +499,7 @@ public class WorldManager {
                     System.out.println("10");
                     arr[randomI][randomJ] = 9;
                     arr[randomIE][randomJE] = 8;
-                    generateObstacles(arr, random, difficulty);
+                    generateObstacles(arr, seed, difficulty);
                     System.out.println("11");
                     overwritePath(arr, res);
                     System.out.println("12");
@@ -545,7 +515,7 @@ public class WorldManager {
                         randomJ = random.nextInt(1, 14);
                     }*/
                     System.out.println("2");
-                    generateWater(arr, randomI, randomJ, randomWaterSize, randomAxis, randomCorner, randomDeep, random);
+                    generateWater(arr, randomI, randomJ, randomWaterSize, randomAxis, randomCorner, randomDeep, seed);
                     System.out.println("3");
                     randomI = random.nextInt(0, 10 - (randomDeep + 1));
                     if (randomI > 0) {
@@ -579,10 +549,10 @@ public class WorldManager {
 
                     }
                     System.out.println("6");
-                    List<int[]> res = ramdomWalk(arr, start, end, random, difficulty);
+                    List<int[]> res = ramdomWalk(arr, start, end, seed, difficulty);
                     System.out.println("7");
                     while (res.size() == 0) {
-                        res = ramdomWalk(arr, start, end, random, difficulty);
+                        res = ramdomWalk(arr, start, end, seed, difficulty);
                     }
                     System.out.println("8");
                     for (int j = 0; j < res.size(); j++) {
@@ -596,7 +566,7 @@ public class WorldManager {
                     System.out.println("10");
                     arr[randomI][randomJ] = 9;
                     arr[randomIE][randomJE] = 8;
-                    generateObstacles(arr, random, difficulty);
+                    generateObstacles(arr, seed, difficulty);
                     System.out.println("11");
                     overwritePath(arr, res);
                     System.out.println("12");
@@ -609,7 +579,7 @@ public class WorldManager {
                         randomI = random.nextInt(1, 9);
                     }*/
                     System.out.println("2");
-                    generateWater(arr, randomI, randomJ, randomWaterSize, randomAxis, randomCorner, randomDeep, random);
+                    generateWater(arr, randomI, randomJ, randomWaterSize, randomAxis, randomCorner, randomDeep, seed);
                     System.out.println("3");
                     randomJ = random.nextInt(0, 15 - (randomDeep + 1));
                     if (randomJ > 0) {
@@ -639,10 +609,10 @@ public class WorldManager {
                         System.out.println("5.2");
                     }
                     System.out.println("6");
-                    List<int[]> res = ramdomWalk(arr, start, end, random, difficulty);
+                    List<int[]> res = ramdomWalk(arr, start, end, seed, difficulty);
                     System.out.println("7");
                     while (res.size() == 0) {
-                        res = ramdomWalk(arr, start, end, random, difficulty);
+                        res = ramdomWalk(arr, start, end, seed, difficulty);
                     }
                     System.out.println("8");
                     for (int j = 0; j < res.size(); j++) {
@@ -656,7 +626,7 @@ public class WorldManager {
                     System.out.println("10");
                     arr[randomI][randomJ] = 9;
                     arr[randomIE][randomJE] = 8;
-                    generateObstacles(arr, random, difficulty);
+                    generateObstacles(arr, seed, difficulty);
                     System.out.println("11");
                     overwritePath(arr, res);
                     System.out.println("12");

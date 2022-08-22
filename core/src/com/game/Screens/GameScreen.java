@@ -82,10 +82,13 @@ public class GameScreen implements Screen {
 
         //reading stats etc
         if(actualGame.getString("difficulty").equals("normal")){
+            worldManager.createWorld(this, actualGame.getInt("seed"), 46);
             mapArr = worldManager.createWorld(this, actualGame.getInt("seed"), 46);
         }else if(actualGame.getString("difficulty").equals("hard")){
+            worldManager.createWorld(this, actualGame.getInt("seed"), 46);
             mapArr = worldManager.createWorld(this, actualGame.getInt("seed"), 36);
         }else if(actualGame.getString("difficulty").equals("easy")){
+            worldManager.createWorld(this, actualGame.getInt("seed"), 46);
             mapArr = worldManager.createWorld(this, actualGame.getInt("seed"), 51);
         }
 
