@@ -164,6 +164,7 @@ public class WorldManager {
         boolean[][] visited = new boolean[arr.length][arr[0].length];
         List<int[]> path = new ArrayList<>();
         dfs(arr, visited, start, end, path, seed, difficulty);
+
         return path;
     }
     static void shuffleDirs(int seed) {
@@ -176,23 +177,24 @@ public class WorldManager {
         }
     }
     static boolean dfs(int[][] grid, boolean[][] visited, int[] cur, int[] end, List<int[]> res, int seed, int difficulty) {
-        if(cur[0] == end[0] && cur[1] == end[1]) {
-            res.add(new int[] {cur[0], cur[1]});
-            return true;
-        }
-        visited[cur[0]][cur[1]] = true;
-        res.add(new int[] {cur[0], cur[1]});
-        shuffleDirs(seed);
-        for(int[] dir : dirs) {
-            int ni = cur[0] + dir[0];
-            int nj = cur[1] + dir[1];
-            if(ni >= 0 && ni < grid.length && nj >=0 && nj < grid[0].length && !visited[ni][nj] && res.size() < difficulty)     //  TODO ustawić długość ścieżki od poziomu trudności? jak to ma afektować? dłuższa ścieżka = więcej czasu na zabicie?
-                if(dfs(grid, visited, new int[] {ni, nj}, end, res, seed, difficulty))
-                    return true;
-        }
-        visited[cur[0]][cur[1]] = false;
-        res.remove(res.size() - 1);
-        return false;
+
+            if (cur[0] == end[0] && cur[1] == end[1]) {
+                res.add(new int[]{cur[0], cur[1]});
+                return true;
+            }
+            visited[cur[0]][cur[1]] = true;
+            res.add(new int[]{cur[0], cur[1]});
+            shuffleDirs(seed);
+            for (int[] dir : dirs) {
+                int ni = cur[0] + dir[0];
+                int nj = cur[1] + dir[1];
+                if (ni >= 0 && ni < grid.length && nj >= 0 && nj < grid[0].length && !visited[ni][nj] && res.size() < difficulty)
+                    if (dfs(grid, visited, new int[]{ni, nj}, end, res, seed, difficulty))
+                        return true;
+            }
+            visited[cur[0]][cur[1]] = false;
+            res.remove(res.size() - 1);
+            return false;
 
     }
 
