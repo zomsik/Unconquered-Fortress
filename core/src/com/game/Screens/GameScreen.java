@@ -23,6 +23,7 @@ import com.game.Manager.*;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameScreen implements Screen {
     private Main game;
@@ -56,6 +57,7 @@ public class GameScreen implements Screen {
     private boolean isLocal;
     private ConnectionManager connectionManager;
     private Image[][] mapArr;
+    private Random random;
 
     public GameScreen (Main game, JSONObject save, boolean isLocal){
         this.game = game;
@@ -77,7 +79,6 @@ public class GameScreen implements Screen {
         }else if(actualGame.getString("difficulty").equals("easy")){
             mapArr = worldManager.createWorld(actualGame.getInt("seed"), 51);
         }
-
         table_map = worldManager.drawWorld(mapArr);
 
         //System.out.println(table_map.getChild(6).getListeners().get(0).getClass().getDeclaredFields().);

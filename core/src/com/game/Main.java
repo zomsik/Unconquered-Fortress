@@ -9,6 +9,7 @@ import com.game.Manager.FileReader;
 import com.game.Screens.MenuScreen;
 import org.json.JSONObject;
 
+import java.util.Random;
 
 public class Main extends Game {
 	public SpriteBatch batch;
@@ -36,7 +37,6 @@ public class Main extends Game {
 	{
 		return login;
 	}
-
 	@Override
 	public void create () {
 		connectionManager = new ConnectionManager();
@@ -50,7 +50,6 @@ public class Main extends Game {
 		}
 
 		 */
-
 		batch = new SpriteBatch();
 		fileReader = new FileReader();
 		fileReader.downloadSettings();

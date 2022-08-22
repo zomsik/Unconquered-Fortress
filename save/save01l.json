@@ -1,8 +1,8 @@
 {
-  "seed": 100,
-  "difficulty": "normal",
-  "finishedMaps" : 10,
-  "wave": 15,
-  "gold": 56345,
-  "diamonds" : 1
+"difficulty": "normal",
+"gold": 56345,
+"diamonds": 1,
+"seed": 100,
+"finishedMaps": 10,
+"wave": 15
 }
