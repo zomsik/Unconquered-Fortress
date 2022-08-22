@@ -140,7 +140,8 @@ public class GameScreen implements Screen {
             chosenOperationY = -1;
         }
         else {
-            operationsSelectedArr[chosenOperationY][chosenOperationX].setDrawable(images_buildings, "empty");
+            if (chosenOperation!=null)
+                operationsSelectedArr[chosenOperationY][chosenOperationX].setDrawable(images_buildings, "empty");
             chosenOperation = lastClickedOperationTile.getName();
             chosenOperationX = lastClickedOperationTile.getX();
             chosenOperationY = lastClickedOperationTile.getY();
