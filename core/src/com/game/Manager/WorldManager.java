@@ -681,7 +681,7 @@ public class WorldManager {
                     imageArr[i][j].setName("obstacle");
                 }
                 else if (y==6) {
-                    imageArr[i][j] = new Image(images_map, "mountain");
+                    imageArr[i][j] = getRotatedMountain(arr,i,j);
                     imageArr[i][j].setName("mountain");
                 }
                 else if (y==8){
@@ -813,6 +813,38 @@ public class WorldManager {
 
 
         return new Image(images_map, "water");
+    }
+
+    private static Image getRotatedMountain(int[][] arr, int i, int j) {
+        Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
+
+        boolean isMountainLeft = false;
+        boolean isMountainRight = false;
+
+
+        if (j+1<15) {
+            if (arr[i][j + 1] == 6)
+                isMountainRight = true;
+        } else {
+            isMountainRight = true;
+        }
+
+        if (j-1>=0) {
+            if (arr[i][j - 1] == 6)
+                isMountainLeft = true;
+        } else {
+            isMountainLeft = true;
+        }
+
+        if(isMountainLeft && isMountainRight)
+            return new Image(images_map, "mountainFull");
+        if(isMountainRight)
+            return new Image(images_map, "mountainLeft");
+        if(isMountainLeft)
+            return new Image(images_map, "mountainRight");
+
+
+        return new Image(images_map, "mountain");
     }
 
 
