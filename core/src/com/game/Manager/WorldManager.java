@@ -673,7 +673,7 @@ public class WorldManager {
                     imageArr[i][j].setName("grass");
                 }
                 else if (y==2) {
-                    imageArr[i][j] = new Image(images_map, "water");
+                    imageArr[i][j] = getRotatedWater(arr,i,j);
                     imageArr[i][j].setName("water");
                 }
                 else if (y==5) {
@@ -738,6 +738,83 @@ public class WorldManager {
 
         return imageArr;
     }
+
+    private static Image getRotatedWater(int[][] arr, int i, int j) {
+        Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
+
+        boolean isWaterLeft = false;
+        boolean isWaterRight = false;
+        boolean isWaterUp = false;
+        boolean isWaterDown = false;
+
+
+        if (j+1<15) {
+            if (arr[i][j + 1] == 2)
+                isWaterRight = true;
+        } else {
+            isWaterRight = true;
+        }
+
+        if (j-1>=0) {
+            if (arr[i][j - 1] == 2)
+                isWaterLeft = true;
+        } else {
+            isWaterLeft = true;
+        }
+
+        if (i-1>=0) {
+            if (arr[i-1][j] == 2)
+                isWaterUp = true;
+        } else {
+            isWaterUp = true;
+        }
+
+        if (i+1<10) {
+            if (arr[i+1][j] == 2)
+                isWaterDown = true;
+        } else {
+            isWaterDown = true;
+        }
+
+        if(isWaterLeft && isWaterUp && isWaterRight && isWaterDown)
+            return new Image(images_map, "waterFull");
+        if(isWaterLeft && isWaterUp && isWaterRight)
+            return new Image(images_map, "waterDown");
+        if(isWaterLeft && isWaterUp && isWaterDown)
+            return new Image(images_map, "waterRight");
+        if(isWaterLeft && isWaterDown && isWaterRight)
+            return new Image(images_map, "waterUp");
+        if(isWaterDown && isWaterUp && isWaterRight)
+            return new Image(images_map, "waterLeft");
+
+        if(isWaterUp && isWaterRight)
+            return new Image(images_map, "waterLeftDown");
+        if(isWaterDown && isWaterRight)
+            return new Image(images_map, "waterLeftUp");
+        if(isWaterLeft && isWaterUp)
+            return new Image(images_map, "waterRightDown");
+        if(isWaterLeft && isWaterDown)
+            return new Image(images_map, "waterRightUp");
+
+        if(isWaterLeft && isWaterRight)
+            return new Image(images_map, "waterUpDown");
+        if(isWaterUp && isWaterDown)
+            return new Image(images_map, "waterLeftRight");
+
+
+        if(isWaterUp)
+            return new Image(images_map, "waterLeftRightDown");
+        if(isWaterDown)
+            return new Image(images_map, "waterLeftRightUp");
+        if(isWaterLeft)
+            return new Image(images_map, "waterRightUpDown");
+        if(isWaterRight)
+            return new Image(images_map, "waterLeftUpDown");
+
+
+        return new Image(images_map, "water");
+    }
+
 
     private static Image getRotatedEnemyBase(int[][] arr, int i, int j) {
         Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));

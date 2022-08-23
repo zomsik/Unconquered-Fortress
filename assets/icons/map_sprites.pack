@@ -241,14 +241,14 @@ waterLeftRightDown
   orig: 64, 64
   offset: 0, 0
   index: -1
-fill1
+waterLeftRight
   rotate: false
   xy: 256, 320
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-fill2
+waterUpDown
   rotate: false
   xy: 320, 320
   size: 64, 64
