@@ -60,6 +60,7 @@
   "upgrade_dialog_field_text": "Ulepszenia pasywne",
   "normal" : "normalny",
   "easy" : "łatwy",
-  "hard" : "trudny"
+  "hard" : "trudny",
+  "bNextWave": "Następna fala"
 
 }

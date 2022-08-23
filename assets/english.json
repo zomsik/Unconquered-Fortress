@@ -60,6 +60,6 @@
   "upgrade_dialog_field_text": "Passive upgrades",
   "normal" : "normal",
   "easy" : "easy",
-  "hard" : "hard"
-
+  "hard" : "hard",
+  "bNextWave": "Next Wave"
 }

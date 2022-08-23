@@ -33,7 +33,7 @@ public class GameScreen implements Screen {
     private BitmapFont font;
     private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack;
     private Skin images, images_default, dialog, images_map, images_buildings;
-    private TextButton  bSaveDialog, bExitDialog, bTest;
+    private TextButton  bSaveDialog, bExitDialog, bTest, bNextWave;
 
     private Table table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings;
     private TextField tResolutionField, tResolutionFieldText, tVolumeFieldText, tLanguageFieldText, tLanguageField;
@@ -61,6 +61,7 @@ public class GameScreen implements Screen {
     private Image[][] mapArr, operationsArr, operationsSelectedArr, buildingsArr;
     private String chosenOperation = null;
     private int chosenOperationX, chosenOperationY;
+    private int tick=0;
 
     public LastClickedTile lastClickedMapTile, lastClickedOperationTile;
     private Image iSword, iBow, iMage, iCannon, iClean, iFill, iStickyRoad, iRoadNeedles;
@@ -118,7 +119,7 @@ public class GameScreen implements Screen {
         bSaveDialog  = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bExitDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bTest = new TextButton("test", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-
+        bNextWave = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bNextWave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
 
 
         operationsArr = GameFunctions.getOperationsArr(this);
@@ -130,7 +131,8 @@ public class GameScreen implements Screen {
         table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
 
         buildingsArr = GameFunctions.loadPlacedBuildings(this, buildingsArr, actualGame.getJSONArray("buildings"));
-
+        table_nextWave.add(bNextWave);
+        table_nextWave.row();
         table_nextWave.add(bTest);
         table_nextWave.setBounds(100,100,100,100);
     }
@@ -313,6 +315,25 @@ public class GameScreen implements Screen {
             }
         };
 
+        bNextWave.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+
+
+                System.out.println("Nowa fala");
+                // enemyArr = createNewWaveArray(seed,wave,difficulty)
+                //lub
+                // enemyArr = createNewWaveArray(enemyArr, seed,wave,difficulty) -- append
+
+
+
+            }
+        });
+
+
+
+
         //buck
         bTest.addListener(new ClickListener() {
             @Override
@@ -413,7 +434,20 @@ public class GameScreen implements Screen {
         game.batch.end();
         stage.act(delta);
         stage.draw();
+
+        tick++;
+
+        if (tick>=60)
+        {
+            tick=0;
+            System.out.println("sekunda");
+        }
+
+
+
     }
+
+
 
 
     @Override
