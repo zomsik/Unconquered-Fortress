@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.util.*;
 import java.util.List;
 
+
 public class WorldManager {
     private Random random;
     static int[][] dirs = {{1, 0},{0, 1},{-1, 0},{0, -1}};
@@ -159,12 +160,12 @@ public class WorldManager {
             return generateWater(arr, randomI, randomJ, randomWaterSize, randomAxis, randomCorner, randomDeep, seed);
         }
     }
-    static List<int[]> ramdomWalk(int[][] arr, int[] start, int[] end, int seed, int difficulty) {
+    static List<int[]> randomWalk(int[][] arr, int[] start, int[] end, int seed){
         shuffleDirs(seed);
         boolean[][] visited = new boolean[arr.length][arr[0].length];
         List<int[]> path = new ArrayList<>();
-        dfs(arr, visited, start, end, path, seed, difficulty);
-
+        int checker = 0;
+        dfs(arr, visited, start, end, path, seed, checker);
         return path;
     }
     static void shuffleDirs(int seed) {
@@ -176,26 +177,32 @@ public class WorldManager {
             dirs[j] = t;
         }
     }
-    static boolean dfs(int[][] grid, boolean[][] visited, int[] cur, int[] end, List<int[]> res, int seed, int difficulty) {
-
+    static boolean dfs(int[][] grid, boolean[][] visited, int[] cur, int[] end, List<int[]> res, int seed, int checker){
+        checker++;
+        if(checker>100){
+            seed++;
+        }
             if (cur[0] == end[0] && cur[1] == end[1]) {
                 res.add(new int[]{cur[0], cur[1]});
                 return true;
             }
+
             visited[cur[0]][cur[1]] = true;
             res.add(new int[]{cur[0], cur[1]});
+
             shuffleDirs(seed);
+
             for (int[] dir : dirs) {
                 int ni = cur[0] + dir[0];
                 int nj = cur[1] + dir[1];
-                if (ni >= 0 && ni < grid.length && nj >= 0 && nj < grid[0].length && !visited[ni][nj] && res.size() < difficulty)
-                    if (dfs(grid, visited, new int[]{ni, nj}, end, res, seed, difficulty))
+                if (ni >= 0 && ni < grid.length && nj >= 0 && nj < grid[0].length && !visited[ni][nj] && visited.length<50)
+                    if (dfs(grid, visited, new int[]{ni, nj}, end, res, seed, checker)) {
                         return true;
+                    }
             }
             visited[cur[0]][cur[1]] = false;
             res.remove(res.size() - 1);
             return false;
-
     }
 
     static int[][] generatePath(int[][] arr, List<int[]> res){
@@ -423,10 +430,10 @@ public class WorldManager {
                         System.out.println("5.2");
                     }
                     System.out.println("6");
-                    List<int[]> res = ramdomWalk(arr, start, end, seed, difficulty);
+                    List<int[]> res = randomWalk(arr, start, end, seed);
                     System.out.println("7");
                     while (res.size() == 0) {
-                        res = ramdomWalk(arr, start, end, seed, difficulty);
+                        res = randomWalk(arr, start, end, seed);
                     }
                     System.out.println("8");
                     for (int j = 0; j < res.size(); j++) {
@@ -448,10 +455,6 @@ public class WorldManager {
                     randomI = random.nextInt(0, 10-randomWaterSize);
                     randomJ = 0;
                     System.out.println("1");
-                    /*while (randomWaterSize + randomI > 9) {
-                        //random.setSeed(randomI); //TODO dodać randomI do seeda i w reszcie też ale to jak będzie seed
-                        randomI = random.nextInt(1, 9);
-                    }*/
                     System.out.println("2");
                     generateWater(arr, randomI, randomJ, randomWaterSize, randomAxis, randomCorner, randomDeep, seed);
                     System.out.println("3");
@@ -484,10 +487,10 @@ public class WorldManager {
                         System.out.println("5.2");
                     }
                     System.out.println("6");
-                    List<int[]> res = ramdomWalk(arr, start, end, seed, difficulty);
+                    List<int[]> res = randomWalk(arr, start, end, seed);
                     System.out.println("7");
                     while (res.size() == 0) {
-                        res = ramdomWalk(arr, start, end, seed, difficulty);
+                        res = randomWalk(arr, start, end, seed);
                     }
                     System.out.println("8");
                     for (int j = 0; j < res.size(); j++) {
@@ -513,9 +516,6 @@ public class WorldManager {
                     randomJ = random.nextInt(0, 15-randomWaterSize);
                     randomI = 9;
                     System.out.println("1");
-                    /*while (randomWaterSize + randomJ > 14) {
-                        randomJ = random.nextInt(1, 14);
-                    }*/
                     System.out.println("2");
                     generateWater(arr, randomI, randomJ, randomWaterSize, randomAxis, randomCorner, randomDeep, seed);
                     System.out.println("3");
@@ -551,10 +551,10 @@ public class WorldManager {
 
                     }
                     System.out.println("6");
-                    List<int[]> res = ramdomWalk(arr, start, end, seed, difficulty);
+                    List<int[]> res = randomWalk(arr, start, end, seed);
                     System.out.println("7");
                     while (res.size() == 0) {
-                        res = ramdomWalk(arr, start, end, seed, difficulty);
+                        res = randomWalk(arr, start, end, seed);
                     }
                     System.out.println("8");
                     for (int j = 0; j < res.size(); j++) {
@@ -576,10 +576,6 @@ public class WorldManager {
                     randomI = random.nextInt(0, 10-randomWaterSize);
                     randomJ = 14;
                     System.out.println("1");
-                    /*while (randomWaterSize + randomI > 9) {
-                        //random.setSeed(randomI);
-                        randomI = random.nextInt(1, 9);
-                    }*/
                     System.out.println("2");
                     generateWater(arr, randomI, randomJ, randomWaterSize, randomAxis, randomCorner, randomDeep, seed);
                     System.out.println("3");
@@ -611,10 +607,10 @@ public class WorldManager {
                         System.out.println("5.2");
                     }
                     System.out.println("6");
-                    List<int[]> res = ramdomWalk(arr, start, end, seed, difficulty);
+                    List<int[]> res = randomWalk(arr, start, end, seed);
                     System.out.println("7");
                     while (res.size() == 0) {
-                        res = ramdomWalk(arr, start, end, seed, difficulty);
+                        res = randomWalk(arr, start, end, seed);
                     }
                     System.out.println("8");
                     for (int j = 0; j < res.size(); j++) {

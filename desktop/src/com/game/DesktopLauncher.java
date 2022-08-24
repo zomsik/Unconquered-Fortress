@@ -1,19 +1,13 @@
 package com.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Files;
-import com.game.Manager.FileReader;
-
-
-import java.util.Locale;
 
 import static com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration.getDisplayMode;
 
 //https://kottke.org/plus/type/silkscreen/index.html
 //Link to font licence
-//Music: The Sleeping Prophet by Jesse Gallagher - Youtube licence
+//Music: The Sleeping Prophet by Jesse Gallagher - YouTube licence
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
