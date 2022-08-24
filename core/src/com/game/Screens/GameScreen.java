@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.game.Main;
 import com.game.Manager.*;
+import com.game.State.GameState;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -319,9 +320,9 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-
-
-                System.out.println("Nowa fala");
+               GameFunctions.createRandomEnemyWave(actualGame);
+                actualGame.put("wave",actualGame.getInt("wave")+1);
+                System.out.println("");
                 // enemyArr = createNewWaveArray(seed,wave,difficulty)
                 //lub
                 // enemyArr = createNewWaveArray(enemyArr, seed,wave,difficulty) -- append
@@ -440,7 +441,7 @@ public class GameScreen implements Screen {
         if (tick>=60)
         {
             tick=0;
-            System.out.println("sekunda");
+            //System.out.println("sekunda");
         }
 
 

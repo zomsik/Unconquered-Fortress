@@ -12,6 +12,8 @@ import com.game.Screens.GameScreen;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Random;
+
 public class GameFunctions {
 
     public static Image[][] getEmptyBuildingsArr(){
@@ -236,6 +238,76 @@ public class GameFunctions {
         }
 
         return buildingsArr;
+    }
+
+    public static void createRandomEnemyWave(JSONObject actualGame)
+    {
+        Random random = new Random(actualGame.getInt("seed"));
+        int wave = actualGame.getInt("wave");
+        for (int i=0; i<wave*7; i++)
+            random.nextInt( Math.abs(actualGame.getInt("seed")));
+
+        // 1 -normal
+        // 2 - tank
+        // 3 - speed
+        // 4 - summoner
+        System.out.print(wave + ": ");
+        int enemyPoints = 50 + (wave/10 + wave)*5;
+
+        if (wave % 10 == 5)
+        {
+            System.out.print("Mini Boss,");
+            enemyPoints -= 20;
+            //Create miniBoss and remove points
+        }
+        else if (wave % 10 == 0 && wave>=10)
+        {
+            //Create Boss and remove points
+            System.out.print("Boss,");
+            enemyPoints -= 50;
+        }
+
+        while (enemyPoints>=5)
+        {
+
+            int chosenEnemy = random.nextInt(1, 6);
+
+            if (chosenEnemy == 1 && enemyPoints >= 5)
+            {
+                System.out.print("Normal,");
+                enemyPoints -= 5;
+            }
+            else if (chosenEnemy == 2 && wave>5 && enemyPoints >= 10)
+            {
+                System.out.print("Tank,");
+                enemyPoints -= 10;
+            }
+            else if (chosenEnemy == 3 && wave>10 && enemyPoints >= 15)
+            {
+                System.out.print("Speed,");
+                enemyPoints -= 15;
+            }
+            else if (chosenEnemy == 4 && wave>20 && enemyPoints >= 20)
+            {
+                System.out.print("Mini Boss,");
+                enemyPoints -= 20;
+            }
+            else if (chosenEnemy == 5 && wave>30 && enemyPoints >= 30 )
+            {
+                System.out.print("Summoner,");
+                enemyPoints -= 30;
+            }
+
+
+
+
+
+        }
+
+
+
+
+
     }
 
 
