@@ -244,8 +244,9 @@ public class GameFunctions {
     {
         Random random = new Random(actualGame.getInt("seed"));
         int wave = actualGame.getInt("wave");
+        int randomNumber = (Math.abs(actualGame.getInt("seed")))/((wave+1)*13);
         for (int i=0; i<wave*7; i++)
-            random.nextInt( Math.abs(actualGame.getInt("seed")));
+            random.nextInt(randomNumber);
 
         // 1 -normal
         // 2 - tank
