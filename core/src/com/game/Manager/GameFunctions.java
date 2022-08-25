@@ -8,10 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.game.Enemy.*;
 import com.game.Screens.GameScreen;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameFunctions {
@@ -240,8 +242,11 @@ public class GameFunctions {
         return buildingsArr;
     }
 
-    public static void createRandomEnemyWave(JSONObject actualGame)
+    public static ArrayList<Enemy> createRandomEnemyWave(JSONObject actualGame)
     {
+
+        ArrayList<Enemy> enemies = new ArrayList<>();
+
         Random random = new Random(actualGame.getInt("seed"));
         int wave = actualGame.getInt("wave");
         int randomNumber = (Math.abs(actualGame.getInt("seed")))/((wave+1)*13);
@@ -255,18 +260,26 @@ public class GameFunctions {
         System.out.print(wave + ": ");
         int enemyPoints = 50 + (wave/10 + wave)*5;
 
+
+
+
         if (wave % 10 == 5)
         {
+            enemies.add(new MiniBoss());
             System.out.print("Mini Boss,");
             enemyPoints -= 20;
-            //Create miniBoss and remove points
+
         }
         else if (wave % 10 == 0 && wave>=10)
         {
-            //Create Boss and remove points
+            enemies.add(new Boss());
             System.out.print("Boss,");
             enemyPoints -= 50;
         }
+
+
+        // if random 1 spawn normal //else if 2 spawn other enemy
+        // causes to spawn ~50% normal enemies
 
         while (enemyPoints>=5)
         {
@@ -275,40 +288,40 @@ public class GameFunctions {
 
             if (chosenEnemy == 1 && enemyPoints >= 5)
             {
+                enemies.add(new Warrior());
                 System.out.print("Normal,");
                 enemyPoints -= 5;
             }
             else if (chosenEnemy == 2 && wave>5 && enemyPoints >= 10)
             {
+                enemies.add(new Tank());
                 System.out.print("Tank,");
                 enemyPoints -= 10;
             }
             else if (chosenEnemy == 3 && wave>10 && enemyPoints >= 15)
             {
+                enemies.add(new Assasin());
                 System.out.print("Speed,");
                 enemyPoints -= 15;
             }
             else if (chosenEnemy == 4 && wave>20 && enemyPoints >= 20)
             {
+                enemies.add(new MiniBoss());
                 System.out.print("Mini Boss,");
                 enemyPoints -= 20;
             }
             else if (chosenEnemy == 5 && wave>30 && enemyPoints >= 30 )
             {
+                enemies.add(new Boss());
                 System.out.print("Summoner,");
                 enemyPoints -= 30;
             }
-
-
-
-
-
         }
 
 
 
 
-
+        return enemies;
     }
 
 

@@ -18,9 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.game.Enemy.Enemy;
 import com.game.Main;
 import com.game.Manager.*;
-import com.game.State.GameState;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -36,7 +36,7 @@ public class GameScreen implements Screen {
     private Skin images, images_default, dialog, images_map, images_buildings;
     private TextButton  bSaveDialog, bExitDialog, bTest, bNextWave;
 
-    private Table table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings;
+    private Table table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_enemies;
     private TextField tResolutionField, tResolutionFieldText, tVolumeFieldText, tLanguageFieldText, tLanguageField;
     private ArrayList<String> resolutions;
     private ArrayList<String> languages;
@@ -64,6 +64,9 @@ public class GameScreen implements Screen {
     private int chosenOperationX, chosenOperationY;
     private int tick=0;
 
+    private ArrayList<Enemy> ee = new ArrayList<>();
+
+    private EnemyManager enemyManager;
     public LastClickedTile lastClickedMapTile, lastClickedOperationTile;
     private Image iSword, iBow, iMage, iCannon, iClean, iFill, iStickyRoad, iRoadNeedles;
 
@@ -109,7 +112,7 @@ public class GameScreen implements Screen {
 
 
 
-
+        enemyManager = new EnemyManager();
         
         
         buttonStyleManager = new ButtonStyleManager();
@@ -320,7 +323,7 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-               GameFunctions.createRandomEnemyWave(actualGame);
+                enemyManager.addWaveToSpawn(GameFunctions.createRandomEnemyWave(actualGame));
                 actualGame.put("wave",actualGame.getInt("wave")+1);
                 System.out.println("");
                 // enemyArr = createNewWaveArray(seed,wave,difficulty)
@@ -328,6 +331,16 @@ public class GameScreen implements Screen {
                 // enemyArr = createNewWaveArray(enemyArr, seed,wave,difficulty) -- append
 
 
+
+
+                Enemy e1 = new Enemy();
+                Enemy e2 = new Enemy();
+                ee.add(e1);
+                ee.add(e2);
+                enemyManager.addWaveToSpawn(ee);
+
+                //table_enemies.add(e1.animation);
+                //stage.addActor(table_enemies);
 
             }
         });
@@ -438,6 +451,10 @@ public class GameScreen implements Screen {
 
         tick++;
 
+        //spawnEnemies
+        enemyManager.draw();
+        //updateEnemiesPosition
+
         if (tick>=60)
         {
             tick=0;
@@ -507,6 +524,7 @@ public class GameScreen implements Screen {
         table_operations = new Table(images_buildings);
         table_buildings = new Table(images_buildings);
         table_operationsSelected = new Table(images_buildings);
+        table_enemies = new Table(images_map);
 
         textButtonStyle_bLeft = new TextButton.TextButtonStyle();
         textButtonStyle_bRight = new TextButton.TextButtonStyle();
