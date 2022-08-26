@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.game.Enemy.Enemy;
+import com.game.Enemy.Flying;
 import com.game.Main;
 import com.game.Manager.*;
 import org.json.JSONArray;
@@ -63,6 +65,8 @@ public class GameScreen implements Screen {
     private String chosenOperation = null;
     private int chosenOperationX, chosenOperationY;
     private int tick=0;
+    private SpriteBatch spritebatch = new SpriteBatch();
+
 
     private ArrayList<Enemy> ee = new ArrayList<>();
 
@@ -323,20 +327,27 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                enemyManager.addWaveToSpawn(GameFunctions.createRandomEnemyWave(actualGame));
-                actualGame.put("wave",actualGame.getInt("wave")+1);
-                System.out.println("");
+
+
+                //enemyManager.addWaveToSpawn(GameFunctions.createRandomEnemyWave(actualGame));
+                //actualGame.put("wave",actualGame.getInt("wave")+1);
+                //System.out.println("");
                 // enemyArr = createNewWaveArray(seed,wave,difficulty)
                 //lub
                 // enemyArr = createNewWaveArray(enemyArr, seed,wave,difficulty) -- append
 
 
+                Flying f1 = new Flying();
 
-
-                Enemy e1 = new Enemy();
-                Enemy e2 = new Enemy();
-                ee.add(e1);
-                ee.add(e2);
+                //Enemy e1 = new Enemy();
+                //Enemy e2 = new Enemy();
+                //ee.add(e1);
+                ee.add(new Flying());
+                ee.add(new Flying());
+                ee.add(new Flying());
+                ee.add(new Flying());
+                ee.add(new Flying());
+                ee.add(f1);
                 enemyManager.addWaveToSpawn(ee);
 
                 //table_enemies.add(e1.animation);
@@ -452,8 +463,14 @@ public class GameScreen implements Screen {
         tick++;
 
         //spawnEnemies
-        enemyManager.draw();
+        //enemyManager.draw();
         //updateEnemiesPosition
+
+        enemyManager.update(delta); // <- Update all your entities
+        spritebatch.begin();
+        enemyManager.render(spritebatch); // <- Draw all your entities
+        spritebatch.end();
+
 
         if (tick>=60)
         {

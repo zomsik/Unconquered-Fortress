@@ -1,92 +1,73 @@
 package com.game.Enemy;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 
-
-enum AnimationDirection{
-    DOWN,
-    LEFT,
-    RIGHT,
-    UP
-}
-
-public class Enemy extends Sprite {
+public class Enemy extends Actor {
     private int health;
     private int speed;
     private String enemyType;
     private int lastDir;
-    private Image img;
-    public Animation<Drawable>[] animation;
 
-    public Animation<Drawable> animationLeft;
-    public Animation<Drawable> animationRight;
-    public Animation<Drawable> animationUp;
-    public Animation<Drawable> animationDown;
+    private Animation<TextureRegion> currentAnimation;
+    private Animation<TextureRegion>[] animationArr;
 
+    private Vector2 position;
 
-    private Skin enemySkin = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
+    private float stateTime;
 
 
     public Enemy(){
 
-
-  //      Array<Drawable> drawables = new Array<Drawable>();
-/*
-        for ( int i = 0; i < 4; ++i ){
-            //drawables.add( enemySkin.getDrawable( TestScreen.BAR + Integer.toString( i ) ) );
-            drawables.add(enemySkin.getDrawable( "grass"));
-            drawables.add(enemySkin.getDrawable("water"));
-        }
-*/
-        //animation = new Animation<Drawable>( 1f, drawables );
-        //bar = new Image( animation.getKeyFrame( 0f ) );
-        //addActor( bar );
-        //addActor( new Image( skin.getDrawable( TestScreen.METER ) ) );
-        //setTouchable( Touchable.disabled );
-
-
-
     }
 
-    public Enemy(int health, Skin skin, String name){
-        //construct with parameters from extended class
-        //gets skin, name to animation
+    public Enemy(int health,String path, String name, Vector2 position){
 
-        //foreach (Suit suit in (Suit[]) Enum.GetValues(typeof(Suit)))
-        //{
-        //}
-        //AnimationDirection
-        //for (String direction: AnimationDirection.values()))
-        //{
+        this.position = position;
 
-        //}
+        stateTime = 0f;
 
-        //TODO finish later
-
+        animationArr = new Animation[4];
+        Texture spriteMap = new Texture(Gdx.files.internal(path));
+        TextureRegion[][] spritePosition = TextureRegion.split(spriteMap, 64, 64); // frame width and height get from extended class
+        TextureRegion[] animationSprites;
 
         for (int j=0; j<4; j++) {
-            Array<Drawable> drawables = new Array<Drawable>();
 
-            for (int i = 1; i < 5; i++) {
-                //drawables.add( enemySkin.getDrawable( TestScreen.BAR + Integer.toString( i ) ) );
-                drawables.add(skin.getDrawable(name + AnimationDirection.DOWN + i));
+            animationSprites = new TextureRegion[4];
+
+            for (int i = 0; i < 4; i++) {
+                animationSprites[i] = spritePosition[j][i];
             }
 
-            animation[j] = new Animation<Drawable>(1f, drawables);
+            animationArr[j] = new Animation<>(0.125f, animationSprites);
+
         }
+
+        currentAnimation = animationArr[0];
+
+    }
+
+    public void update(float deltaTime){
+
     }
 
 
-
-
-    public void draw(){
+    public void render(SpriteBatch batch){
+        stateTime += Gdx.graphics.getDeltaTime();
+        batch.draw(currentAnimation.getKeyFrame(stateTime, true), position.x, position.y ,64, 64);
 
     }
+
 
 }
+
+
+
