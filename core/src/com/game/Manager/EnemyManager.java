@@ -66,7 +66,6 @@ public class EnemyManager {
     }
 
     public void spawn(Enemy e) {
-        e.position.x = 900;
         allEnemyArray.add(e);
 
     }
@@ -87,10 +86,6 @@ public class EnemyManager {
 
 
                     spawn(enemies.get(i).get(0));
-
-                    System.out.println(enemies.get(i).get(0).p.x);
-                    System.out.println(enemies.get(i).get(0).p.y);
-
                     enemies.get(i).remove(0);
 
 

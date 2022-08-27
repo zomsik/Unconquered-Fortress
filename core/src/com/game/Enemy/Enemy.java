@@ -19,8 +19,8 @@ public class Enemy extends Actor {
     private Animation<TextureRegion> currentAnimation;
     private Animation<TextureRegion>[] animationArr;
 
-    public Vector2 position;
-    public Vector2 p;
+    private float positionX;
+    private float positionY;
 
     private float stateTime;
     private float scale;
@@ -29,11 +29,11 @@ public class Enemy extends Actor {
 
     }
 
-    public Enemy(int health,String path, String name, Vector2 position, float scale){
+    public Enemy(int health,String path, String name, float startPositionX, float startPositionY, float scale){
 
-        System.out.println("wykonuje się");
-        this.position = position;
-        this.p = position;
+        this.positionX = startPositionX;
+        this.positionY = startPositionY;
+
         this.scale = scale;
         stateTime = 0f;
 
@@ -63,14 +63,15 @@ public class Enemy extends Actor {
 
     public void update(float deltaTime){
 
-        this.position.x -= 1;
+        this.positionX-= 1;
 
     }
 
 
     public void render(SpriteBatch batch){
         stateTime += Gdx.graphics.getDeltaTime();
-        batch.draw(currentAnimation.getKeyFrame(stateTime, true), position.x, position.y ,scale*64, scale*64);
+
+        batch.draw(currentAnimation.getKeyFrame(stateTime, true), this.positionX, this.positionY ,scale*64, scale*64);
 
     }
 

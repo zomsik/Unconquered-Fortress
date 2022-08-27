@@ -477,10 +477,12 @@ public class GameScreen implements Screen {
         //enemyManager.draw();
         //updateEnemiesPosition
 
+
         enemyManager.update(delta); // <- Update all your enemy entities
         spritebatch.begin();
         enemyManager.render(spritebatch); // <- Draw all your enemy entities
         spritebatch.end();
+
 
 
         if (tick>=60)

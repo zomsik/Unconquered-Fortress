@@ -261,16 +261,18 @@ public class GameFunctions {
     public static ArrayList<Enemy> createTestEnemyWave(JSONObject actualGame, Vector2 enemySpawnerPosition, float scale) {
         ArrayList<Enemy> enemies = new ArrayList<>();
 
-        enemies.add(new Flying(enemySpawnerPosition, scale));
-        enemies.add(new Warrior(enemySpawnerPosition, scale));
-        enemies.add(new Flying(enemySpawnerPosition, scale));
-        enemies.add(new Warrior(enemySpawnerPosition, scale));
-        enemies.add(new Flying(enemySpawnerPosition, scale));
-        enemies.add(new Flying(enemySpawnerPosition, scale));
-        enemies.add(new Flying(enemySpawnerPosition, scale));
-        enemies.add(new Flying(enemySpawnerPosition, scale));
-        enemies.add(new Flying(enemySpawnerPosition, scale));
-        enemies.add(new Flying(enemySpawnerPosition, scale));
+        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
+        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
+        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
+        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
+        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
+        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
+        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
+        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
+        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
+        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
+        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
+        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
 
         return enemies;
     }
