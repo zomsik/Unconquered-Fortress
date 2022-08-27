@@ -69,6 +69,7 @@ public class GameScreen implements Screen {
     private int tick=0;
     private SpriteBatch spritebatch = new SpriteBatch();
 
+    private float scale;
 
     private ArrayList<Enemy> ee = new ArrayList<>();
 
@@ -81,6 +82,7 @@ public class GameScreen implements Screen {
         this.game = game;
         this.isLocal = isLocal;
 
+        scale = (float) (Gdx.graphics.getWidth() / 1280.0);
 
 
         lastClickedMapTile = new LastClickedTile();
@@ -114,12 +116,12 @@ public class GameScreen implements Screen {
 
 
 
-        table_map = worldManager.drawWorld(mapArr);
+        table_map = worldManager.drawWorld(mapArr, scale);
 
 
         // add inicjalization like position of the base and the enemy tile x,y
         //width of the tile as well
-        enemyManager = new EnemyManager(worldManager.getEnemySpawnerPosition()[1],worldManager.getEnemySpawnerPosition()[0],64, new Vector2(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
+        enemyManager = new EnemyManager(worldManager.getEnemySpawnerPosition()[1],worldManager.getEnemySpawnerPosition()[0],64, new Vector2(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()), scale);
 
         
         buttonStyleManager = new ButtonStyleManager();
@@ -134,18 +136,18 @@ public class GameScreen implements Screen {
 
 
         operationsArr = GameFunctions.getOperationsArr(this);
-        table_operations = GameFunctions.getOperationsTable(operationsArr);
+        table_operations = GameFunctions.getOperationsTable(operationsArr, scale);
         operationsSelectedArr = GameFunctions.getOperationsSelectedArr();
-        table_operationsSelected = GameFunctions.getOperationsTable(operationsSelectedArr);
+        table_operationsSelected = GameFunctions.getOperationsTable(operationsSelectedArr, scale);
 
         buildingsArr = GameFunctions.getEmptyBuildingsArr();
-        table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
+        table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
 
         buildingsArr = GameFunctions.loadPlacedBuildings(this, buildingsArr, actualGame.getJSONArray("buildings"));
         table_nextWave.add(bNextWave).width(Gdx.graphics.getWidth()/10);
         table_nextWave.row();
         table_nextWave.add(bTest).width(Gdx.graphics.getWidth()/10);
-        table_nextWave.setBounds(Gdx.graphics.getWidth()/10*9,Gdx.graphics.getHeight()/10*2,Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight()/10);
+        table_nextWave.setBounds(Gdx.graphics.getWidth()/10*9,Gdx.graphics.getHeight()/10*1,Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight()/10);
         table_nextWave.debug();
     }
 
@@ -206,7 +208,7 @@ public class GameScreen implements Screen {
                 //get from buildingsArr type and price etc
                 System.out.println("sprzedaje");
                 buildingsArr = GameFunctions.sellBuilding(buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY());
-                table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
+                table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
                 stage.addActor(table_buildings);
             }
 
@@ -229,7 +231,7 @@ public class GameScreen implements Screen {
 
 
                 buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "sword");
-                table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
+                table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
                 stage.addActor(table_buildings);
 
 
@@ -247,7 +249,7 @@ public class GameScreen implements Screen {
                 actualGame.put("buildings", placedBuildings);
 
                 buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "bow");
-                table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
+                table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
                 stage.addActor(table_buildings);
 
 
@@ -264,7 +266,7 @@ public class GameScreen implements Screen {
                 actualGame.put("buildings", placedBuildings);
 
                 buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "mage");
-                table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
+                table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
                 stage.addActor(table_buildings);
 
 
@@ -283,7 +285,7 @@ public class GameScreen implements Screen {
 
 
                 buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "cannon");
-                table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
+                table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
                 stage.addActor(table_buildings);
 
 
@@ -301,7 +303,7 @@ public class GameScreen implements Screen {
                 terr.put(new JSONObject().put("tileName","grass").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()));
                 actualGame.put("terrainModifications", terr);
 
-                table_map = worldManager.changeTileAndRedrawWorld(this, mapArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "grass");
+                table_map = worldManager.changeTileAndRedrawWorld(this, mapArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "grass", scale);
                 stage.addActor(table_map);
                 table_buildings.toFront();
 
@@ -334,6 +336,10 @@ public class GameScreen implements Screen {
 
 
                 //enemyManager.addWaveToSpawn(GameFunctions.createRandomEnemyWave(actualGame));
+
+                enemyManager.addWaveToSpawn(GameFunctions.createTestEnemyWave(actualGame, enemyManager.getEnemySpawnerPosition(), scale));
+
+
                 //actualGame.put("wave",actualGame.getInt("wave")+1);
                 //System.out.println("");
                 // enemyArr = createNewWaveArray(seed,wave,difficulty)
@@ -346,14 +352,14 @@ public class GameScreen implements Screen {
                 //Enemy e1 = new Enemy();
                 //Enemy e2 = new Enemy();
                 //ee.add(e1);
-                ee.add(new Flying(enemyManager.getEnemySpawnerPosition()));
+                //ee.add(new Flying(enemyManager.getEnemySpawnerPosition(), scale));
                 //ee.add(new Flying());
                 //ee.add(new Flying());
                 //ee.add(new Flying());
                 //ee.add(new Flying());
                 //ee.add(new Flying());
                 //ee.add(f1);
-                enemyManager.addWaveToSpawn(ee);
+                //enemyManager.addWaveToSpawn(ee);
 
                 //table_enemies.add(e1.animation);
                 //stage.addActor(table_enemies);
@@ -471,9 +477,9 @@ public class GameScreen implements Screen {
         //enemyManager.draw();
         //updateEnemiesPosition
 
-        enemyManager.update(delta); // <- Update all your entities
+        enemyManager.update(delta); // <- Update all your enemy entities
         spritebatch.begin();
-        enemyManager.render(spritebatch); // <- Draw all your entities
+        enemyManager.render(spritebatch); // <- Draw all your enemy entities
         spritebatch.end();
 
 

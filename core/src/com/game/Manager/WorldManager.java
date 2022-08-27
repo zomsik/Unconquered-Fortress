@@ -659,8 +659,6 @@ public class WorldManager {
         Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         Table t = new Table();
 
-        t.setBounds(Gdx.graphics.getWidth()/20 , (Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2 , Gdx.graphics.getWidth()/10*8 , Gdx.graphics.getWidth()/30*16);
-        t.debug();
 
         Image[][] imageArr = new Image[10][15];
         int i = 0;
@@ -1028,7 +1026,7 @@ public class WorldManager {
     }
 
 
-    public static Table changeTileAndRedrawWorld (GameScreen gameScreen, Image[][] mapArr, int x, int y, String tileName)
+    public static Table changeTileAndRedrawWorld (GameScreen gameScreen, Image[][] mapArr, int x, int y, String tileName, float scale)
     {
         Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         mapArr[y][x].setDrawable(images_map, tileName);
@@ -1054,26 +1052,21 @@ public class WorldManager {
         });
 
 
-        return drawWorld(mapArr);
+        return drawWorld(mapArr, scale);
     }
 
 
-    public static Table drawWorld(Image[][] imageArr){
+    public static Table drawWorld(Image[][] imageArr, float scale){
 
         //Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         Table t = new Table();
-        t.setBounds(Gdx.graphics.getWidth()/20 , (Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2 , Gdx.graphics.getWidth()/10*8 , Gdx.graphics.getWidth()/30*16);
-        t.debug();
+        t.setBounds(Gdx.graphics.getWidth()/20 , (Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2 , 960 , 640);
 
         t.setTransform(true);
         for (int i = 0; i<10; i++)
         {
             for (int j = 0; j<15; j++)
             {
-                //imageArr[i][j].setTransform(true);
-                //imageArr[i][j].setBounds(0,0,128,128);
-                //imageArr[i][j].setWidth(90);
-                //imageArr[i][j].setScale(2f);
                 t.add(imageArr[i][j]);
             }
 
@@ -1081,14 +1074,7 @@ public class WorldManager {
 
         }
 
-        if (Gdx.graphics.getWidth()==1920) {
-            t.setWidth(960);
-            t.setHeight(640);
-            t.setScale(1.5f);
-        }
-        System.out.println(        t.getChild(5).getWidth());
-        System.out.println(        t.getChild(5).getHeight());
-
+        t.setScale(scale);
 
         return t;
     }

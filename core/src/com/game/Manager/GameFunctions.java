@@ -3,6 +3,7 @@ package com.game.Manager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -78,10 +79,10 @@ public class GameFunctions {
         return buildingsArr;
     }
 
-    public static Table getBuildingsTable(Image[][] arr) {
+    public static Table getBuildingsTable(Image[][] arr, float scale) {
         Table t = new Table();
-        t.setBounds(Gdx.graphics.getWidth()/20 , Gdx.graphics.getHeight()/10 , Gdx.graphics.getWidth()/10*8 , Gdx.graphics.getWidth()/30*16);
-
+        t.setBounds(Gdx.graphics.getWidth()/20 , (Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2 , 960 , 640);
+        t.setTransform(true);
 
         System.out.println(Gdx.graphics.getWidth()/10*8);
         System.out.println(Gdx.graphics.getWidth()/30*16);
@@ -97,6 +98,7 @@ public class GameFunctions {
             t.row();
         }
 
+        t.setScale(scale);
 
         return t;
     }
@@ -191,12 +193,15 @@ public class GameFunctions {
     }
 
 
-    public static Table getOperationsTable(Image[][] arr)
+    public static Table getOperationsTable(Image[][] arr, float scale)
     {
         Table t = new Table();
-        t.setBounds(Gdx.graphics.getWidth()/10*9, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*5);
+        t.setBounds(Gdx.graphics.getWidth()/10*9, Gdx.graphics.getHeight()/10*3, 128, 256);
 
-        t.debug();
+        t.setTransform(true);
+
+
+
         for (int i = 0; i<4; i++)
         {
             for (int j = 0; j<2; j++)
@@ -208,6 +213,7 @@ public class GameFunctions {
 
         }
 
+        t.setScale(scale);
         return t;
     }
 
@@ -249,6 +255,24 @@ public class GameFunctions {
         }
 
         return buildingsArr;
+    }
+
+
+    public static ArrayList<Enemy> createTestEnemyWave(JSONObject actualGame, Vector2 enemySpawnerPosition, float scale) {
+        ArrayList<Enemy> enemies = new ArrayList<>();
+
+        enemies.add(new Flying(enemySpawnerPosition, scale));
+        enemies.add(new Warrior(enemySpawnerPosition, scale));
+        enemies.add(new Flying(enemySpawnerPosition, scale));
+        enemies.add(new Warrior(enemySpawnerPosition, scale));
+        enemies.add(new Flying(enemySpawnerPosition, scale));
+        enemies.add(new Flying(enemySpawnerPosition, scale));
+        enemies.add(new Flying(enemySpawnerPosition, scale));
+        enemies.add(new Flying(enemySpawnerPosition, scale));
+        enemies.add(new Flying(enemySpawnerPosition, scale));
+        enemies.add(new Flying(enemySpawnerPosition, scale));
+
+        return enemies;
     }
 
     public static ArrayList<Enemy> createRandomEnemyWave(JSONObject actualGame)
