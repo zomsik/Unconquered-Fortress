@@ -659,7 +659,8 @@ public class WorldManager {
         Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         Table t = new Table();
 
-        t.setBounds(Gdx.graphics.getWidth()/10*2 , Gdx.graphics.getHeight()/10*2 , Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/10*6);
+        t.setBounds(Gdx.graphics.getWidth()/20 , Gdx.graphics.getHeight()/10 , Gdx.graphics.getWidth()/10*8 , Gdx.graphics.getHeight()/10*8);
+        t.debug();
 
         Image[][] imageArr = new Image[10][15];
         int i = 0;
@@ -670,41 +671,77 @@ public class WorldManager {
             {
                 if (y==0) {
                     imageArr[i][j] = new Image(images_map, "grass");
+                    //imageArr[i][j].setHeight(90);
+                    //imageArr[i][j].setWidth(90);
                     imageArr[i][j].setName("grass");
                 }
                 else if (y==2) {
                     imageArr[i][j] = getRotatedWater(arr,i,j);
+                    //imageArr[i][j].setHeight(90);
+                    //imageArr[i][j].setWidth(90);
                     imageArr[i][j].setName("water");
                 }
                 else if (y==5) {
                     imageArr[i][j] = new Image(images_map, "obstacle");
+                    //imageArr[i][j].setHeight(90);
+                    //imageArr[i][j].setWidth(90);
                     imageArr[i][j].setName("obstacle");
+                    System.out.println(imageArr[i][j].getWidth() + " : " + imageArr[i][j].getHeight());
                 }
                 else if (y==6) {
                     imageArr[i][j] = getRotatedMountain(arr,i,j);
+                    //imageArr[i][j].setHeight(90);
+                    //imageArr[i][j].setWidth(90);
                     imageArr[i][j].setName("mountain");
                 }
                 else if (y==8){
                     imageArr[i][j] = getRotatedEnemyBase(arr,i,j);
+                    //imageArr[i][j].setHeight(90);
+                    //imageArr[i][j].setWidth(90);
                     imageArr[i][j].setName("enemy");
 
                 }
                 else if (y==9){
                     imageArr[i][j] = getRotatedBase(arr,i,j);
+                    //imageArr[i][j].setHeight(90);
+                    //imageArr[i][j].setWidth(90);
                     imageArr[i][j].setName("base");
                 }
                 else if (y==11)
+                {
                     imageArr[i][j] = new Image(images_map, "pathLeftRight");
-                else if (y==12)
+                    //imageArr[i][j].setHeight(90);
+                    //imageArr[i][j].setWidth(90);
+                }
+                else if (y==12){
                     imageArr[i][j] = new Image(images_map, "pathUpDown");
-                else if (y==13)
+                    //imageArr[i][j].setHeight(90);
+                    //imageArr[i][j].setWidth(90);
+                }
+                else if (y==13){
                     imageArr[i][j] = new Image(images_map, "pathUpRight");
+                    //imageArr[i][j].setHeight(90);
+                    //imageArr[i][j].setWidth(90);
+                }
                 else if (y==14)
+                {
                     imageArr[i][j] = new Image(images_map, "pathLeftUp");
+                    //imageArr[i][j].setHeight(90);
+                    //imageArr[i][j].setWidth(90);
+                }
                 else if (y==15)
+                {
                     imageArr[i][j] = new Image(images_map, "pathDownRight");
+                    //imageArr[i][j].setHeight(90);
+                    //imageArr[i][j].setWidth(90);
+                }
+
                 else if (y==16)
+                {
                     imageArr[i][j] = new Image(images_map, "pathLeftDown");
+                    //imageArr[i][j].setHeight(90);
+                    //imageArr[i][j].setWidth(90);
+                }
 
 
 
@@ -1025,8 +1062,8 @@ public class WorldManager {
 
         //Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         Table t = new Table();
-        t.setBounds(Gdx.graphics.getWidth()/10*2 , Gdx.graphics.getHeight()/10*2 , Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/10*6);
-
+        t.setBounds(Gdx.graphics.getWidth()/20 , Gdx.graphics.getHeight()/10 , Gdx.graphics.getWidth()/10*8 , Gdx.graphics.getHeight()/10*8);
+        t.debug();
 
         for (int i = 0; i<10; i++)
         {

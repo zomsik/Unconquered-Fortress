@@ -142,9 +142,9 @@ public class GameScreen implements Screen {
         table_buildings = GameFunctions.getBuildingsTable(buildingsArr);
 
         buildingsArr = GameFunctions.loadPlacedBuildings(this, buildingsArr, actualGame.getJSONArray("buildings"));
-        table_nextWave.add(bNextWave);
+        table_nextWave.add(bNextWave).width(Gdx.graphics.getWidth()/10);
         table_nextWave.row();
-        table_nextWave.add(bTest);
+        table_nextWave.add(bTest).width(Gdx.graphics.getWidth()/10);
         table_nextWave.setBounds(Gdx.graphics.getWidth()/10*9,Gdx.graphics.getHeight()/10*2,Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight()/10);
         table_nextWave.debug();
     }
