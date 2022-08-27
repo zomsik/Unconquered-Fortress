@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -28,6 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Vector;
 
 public class GameScreen implements Screen {
     private Main game;
@@ -115,9 +117,10 @@ public class GameScreen implements Screen {
         table_map = worldManager.drawWorld(mapArr);
 
 
+        // add inicjalization like position of the base and the enemy tile x,y
+        //width of the tile as well
+        enemyManager = new EnemyManager(worldManager.getEnemySpawnerPosition()[1],worldManager.getEnemySpawnerPosition()[0],64, new Vector2(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
 
-        enemyManager = new EnemyManager();
-        
         
         buttonStyleManager = new ButtonStyleManager();
         textFieldStyleManager = new TextFieldStyleManager();
@@ -335,19 +338,20 @@ public class GameScreen implements Screen {
                 // enemyArr = createNewWaveArray(seed,wave,difficulty)
                 //lub
                 // enemyArr = createNewWaveArray(enemyArr, seed,wave,difficulty) -- append
-
-
-                Flying f1 = new Flying();
+                //System.out.println(worldManager.getEnemySpawnerPosition()[0]);
+                //System.out.println(worldManager.getEnemySpawnerPosition()[1]);
+                //Flying f1 = new Flying();
 
                 //Enemy e1 = new Enemy();
                 //Enemy e2 = new Enemy();
                 //ee.add(e1);
-                ee.add(new Flying());
-                ee.add(new Flying());
-                ee.add(new Flying());
-                ee.add(new Flying());
-                ee.add(new Flying());
-                ee.add(f1);
+                ee.add(new Flying(enemyManager.getEnemySpawnerPosition()));
+                //ee.add(new Flying());
+                //ee.add(new Flying());
+                //ee.add(new Flying());
+                //ee.add(new Flying());
+                //ee.add(new Flying());
+                //ee.add(f1);
                 enemyManager.addWaveToSpawn(ee);
 
                 //table_enemies.add(e1.animation);

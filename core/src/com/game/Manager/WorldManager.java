@@ -1,6 +1,8 @@
 package com.game.Manager;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -15,6 +17,9 @@ import java.util.List;
 public class WorldManager {
     private Random random;
     static int[][] dirs = {{1, 0},{0, 1},{-1, 0},{0, -1}};
+
+    static int[] start;
+    static int[] end;
 
     static int[][] generateWater(int[][] arr, int randomI, int randomJ, int randomWaterSize, int randomAxis, int randomCorner, int randomDeep, int seed){
         Random random = new Random(seed);
@@ -352,8 +357,8 @@ public class WorldManager {
         int randomI;
         int randomIE;
         int randomJE;
-        int[] start;
-        int[] end;
+        //int[] start;
+        //int[] end;
         //od 1 do 2
         int randomCorner = random.nextInt(1, 3);
 
@@ -653,7 +658,8 @@ public class WorldManager {
 
         Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         Table t = new Table();
-        t.setBounds(500, 200, 64*15, 64*10);
+        //t.setBounds(500, 200, 64*15, 64*10);
+        t.setBounds(Gdx.graphics.getWidth()/102 , Gdx.graphics.getHeight()/102 , Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/10*6);
 
 
 
@@ -1021,7 +1027,9 @@ public class WorldManager {
 
         //Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         Table t = new Table();
-        t.setBounds(500, 200, 64*15, 64*10);
+        //t.setBounds(500, 200, 64*15, 64*10);
+        t.setBounds(Gdx.graphics.getWidth()/102 , Gdx.graphics.getHeight()/102 , Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/10*6);
+
 
         for (int i = 0; i<10; i++)
         {
@@ -1039,5 +1047,7 @@ public class WorldManager {
     }
 
 
-
+    public static int[] getEnemySpawnerPosition() {
+        return end;
+    }
 }
