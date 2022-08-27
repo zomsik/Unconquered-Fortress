@@ -743,7 +743,7 @@ public class WorldManager {
                     //imageArr[i][j].setWidth(90);
                 }
 
-
+                //imageArr[i][j].setSize(100,100);
 
                 imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
                     public void clicked(InputEvent event, float x, float y) {
@@ -1065,16 +1065,29 @@ public class WorldManager {
         t.setBounds(Gdx.graphics.getWidth()/20 , (Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2 , Gdx.graphics.getWidth()/10*8 , Gdx.graphics.getWidth()/30*16);
         t.debug();
 
+        t.setTransform(true);
         for (int i = 0; i<10; i++)
         {
             for (int j = 0; j<15; j++)
             {
+                //imageArr[i][j].setTransform(true);
+                //imageArr[i][j].setBounds(0,0,128,128);
+                //imageArr[i][j].setWidth(90);
+                //imageArr[i][j].setScale(2f);
                 t.add(imageArr[i][j]);
             }
 
             t.row();
 
         }
+
+        if (Gdx.graphics.getWidth()==1920) {
+            t.setWidth(960);
+            t.setHeight(640);
+            t.setScale(1.5f);
+        }
+        System.out.println(        t.getChild(5).getWidth());
+        System.out.println(        t.getChild(5).getHeight());
 
 
         return t;
