@@ -145,7 +145,8 @@ public class GameScreen implements Screen {
         table_nextWave.add(bNextWave);
         table_nextWave.row();
         table_nextWave.add(bTest);
-        table_nextWave.setBounds(100,100,100,100);
+        table_nextWave.setBounds(Gdx.graphics.getWidth()/10*9,Gdx.graphics.getHeight()/10*2,Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight()/10);
+        table_nextWave.debug();
     }
 
     public void mouseClickOperation() {

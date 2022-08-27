@@ -1,6 +1,7 @@
 package com.game.Manager;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -79,7 +80,7 @@ public class GameFunctions {
 
     public static Table getBuildingsTable(Image[][] arr) {
         Table t = new Table();
-        t.setBounds(500, 200, 64*15, 64*10);
+        t.setBounds(Gdx.graphics.getWidth()/10*2 , Gdx.graphics.getHeight()/10*2 , Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/10*6);
 
         for (int i = 0; i<10; i++)
         {
@@ -186,8 +187,8 @@ public class GameFunctions {
     public static Table getOperationsTable(Image[][] arr)
     {
         Table t = new Table();
-        t.setBounds(100, 400, 64*2, 64*4);
-
+        t.setBounds(Gdx.graphics.getWidth()/10*9, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*5);
+        t.debug();
         for (int i = 0; i<4; i++)
         {
             for (int j = 0; j<2; j++)

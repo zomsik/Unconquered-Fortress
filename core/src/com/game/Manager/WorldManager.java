@@ -658,10 +658,8 @@ public class WorldManager {
 
         Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         Table t = new Table();
-        //t.setBounds(500, 200, 64*15, 64*10);
-        t.setBounds(Gdx.graphics.getWidth()/102 , Gdx.graphics.getHeight()/102 , Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/10*6);
 
-
+        t.setBounds(Gdx.graphics.getWidth()/10*2 , Gdx.graphics.getHeight()/10*2 , Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/10*6);
 
         Image[][] imageArr = new Image[10][15];
         int i = 0;
@@ -1027,8 +1025,7 @@ public class WorldManager {
 
         //Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         Table t = new Table();
-        //t.setBounds(500, 200, 64*15, 64*10);
-        t.setBounds(Gdx.graphics.getWidth()/102 , Gdx.graphics.getHeight()/102 , Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/10*6);
+        t.setBounds(Gdx.graphics.getWidth()/10*2 , Gdx.graphics.getHeight()/10*2 , Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/10*6);
 
 
         for (int i = 0; i<10; i++)
