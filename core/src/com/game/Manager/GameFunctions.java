@@ -80,16 +80,23 @@ public class GameFunctions {
 
     public static Table getBuildingsTable(Image[][] arr) {
         Table t = new Table();
-        t.setBounds(Gdx.graphics.getWidth()/10*2 , Gdx.graphics.getHeight()/10*2 , Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/10*6);
+        t.setBounds(Gdx.graphics.getWidth()/20 , Gdx.graphics.getHeight()/10 , Gdx.graphics.getWidth()/10*8 , Gdx.graphics.getWidth()/30*16);
+
+
+        System.out.println(Gdx.graphics.getWidth()/10*8);
+        System.out.println(Gdx.graphics.getWidth()/30*16);
 
         for (int i = 0; i<10; i++)
         {
             for (int j = 0; j<15; j++)
             {
                 t.add(arr[i][j]);
+
+
             }
             t.row();
         }
+
 
         return t;
     }
@@ -188,6 +195,7 @@ public class GameFunctions {
     {
         Table t = new Table();
         t.setBounds(Gdx.graphics.getWidth()/10*9, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*5);
+
         t.debug();
         for (int i = 0; i<4; i++)
         {

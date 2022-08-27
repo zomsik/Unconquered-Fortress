@@ -45,7 +45,7 @@ public class EnemyManager {
     private void calculateEnemyCenter()
     {
         System.out.println("enemySpawner x: "+enemySpawnerTileX + ", y: " + enemySpawnerTileY);
-        enemySpawnerPosition = new Vector2(enemySpawnerTileX * tileSize + 500 ,(9 - enemySpawnerTileY) * tileSize + 200);
+        enemySpawnerPosition = new Vector2(enemySpawnerTileX * tileSize + Gdx.graphics.getWidth()/10*2 ,(9 - enemySpawnerTileY) * tileSize + Gdx.graphics.getHeight()/10*2);
         //change 500 and 200 to gdx width/x and gdx height/x
 
         //System.out.println(enemySpawnerPosition.x);
