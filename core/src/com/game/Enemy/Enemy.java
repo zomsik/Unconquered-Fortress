@@ -30,16 +30,22 @@ public class Enemy extends Actor {
     private float stateTime;
     private float scale;
 
+    private boolean isAtEnd;
+
     private List<Vector2> path;
 
-    private String moveDirection = "";
+    private String moveDirection;
     public Enemy(){
 
     }
 
     public Enemy(int health,String path, String name){
 
-        this.speed = 30; //get from super()
+        moveDirection = "";
+        isAtEnd = false;
+
+
+        this.speed = 100; //get from super()
 
         stateTime = 0f;
 
@@ -117,6 +123,10 @@ public class Enemy extends Actor {
     }
 
 
+    public boolean getIsAtEnd()
+    {
+        return isAtEnd;
+    }
 
     public void update(float deltaTime){
 
@@ -145,7 +155,8 @@ public class Enemy extends Actor {
                     currentAnimation = animationArr[3];
                 }
             }
-
+            else if (path.size() == 0)
+                isAtEnd = true;
         }
     }
 

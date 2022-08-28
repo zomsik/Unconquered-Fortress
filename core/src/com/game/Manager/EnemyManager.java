@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.game.Enemy.Enemy;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class EnemyManager {
@@ -144,10 +145,30 @@ public class EnemyManager {
 
         }
 
+        Iterator<Enemy> eIterator = allEnemyArray.iterator();
+        while (eIterator.hasNext()) {
+            Enemy e = eIterator.next(); // must be called before you can call i.remove()
+            e.update(deltaTime);
+
+            if(e.getIsAtEnd())
+            {
+                System.out.println("Zaatakowano baze");
+                eIterator.remove();
+            }
+
+        }
+
+        /*
         for (Enemy e : allEnemyArray) {
             e.update(deltaTime);
 
-        }
+            if(e.getIsAtEnd())
+            {
+                System.out.println("Zaatakowano baze");
+                e.remove();
+            }
+
+        }*/
 
 
     }
