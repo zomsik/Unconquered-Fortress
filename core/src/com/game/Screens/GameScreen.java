@@ -35,7 +35,7 @@ import java.util.Vector;
 
 public class GameScreen implements Screen {
     private Main game;
-    private Stage stage;
+    private Stage stage, pauseStage;
     private Texture background;
     private BitmapFont font;
     private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack;
@@ -83,7 +83,7 @@ public class GameScreen implements Screen {
 
 
     public enum State{
-        Running, Paused
+        Running, Paused, Resumed, GameOver
     }
 
     private State state = State.Running;
@@ -345,9 +345,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+
         Gdx.input.setInputProcessor(stage);
 
         Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
+
         pauseDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
             public void result(Object obj) {
                 pauseDialog.cancel();
@@ -459,25 +461,29 @@ public class GameScreen implements Screen {
         table_dialogPause.add(bExitDialog);
         table_dialogPause.debug();
         pauseDialog.add(table_dialogPause);
-        //t.add(new Image(new Texture(new FileHandle(icon)))).width(t.getHeight()/20).height(t.getHeight()/20).align(Align.right);
 
         stage.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
-                    if(!isPauseDialog) {
-                        isPauseDialog = true;
-                        pauseDialog.show(stage);
-                        state = State.Paused;
-                        //pause game
-                    }
-                    else
-                    {
-                        isPauseDialog = false;
-                        pauseDialog.hide();
-                        state = State.Running;
-                        //resume game
-                    }
+
+                    pauseDialog.show(pauseStage);
+                    state = State.Paused;
+
+                    return true;
+                }
+                return super.keyDown(event, keycode);
+            }
+        });
+
+        pauseStage.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ESCAPE) {
+
+                    pauseDialog.hide();
+                    state = State.Resumed;
+
                     return true;
                 }
                 return super.keyDown(event, keycode);
@@ -503,6 +509,7 @@ public class GameScreen implements Screen {
         stage.draw();
 
 
+
                 hpTextField.setText("Hp: " + base.getHealth());
 
                 //spawnEnemies
@@ -515,20 +522,34 @@ public class GameScreen implements Screen {
                     state = State.Paused;
                 }
 
+
         switch(state) {
             case Running:
 
                 enemyManager.update(delta); // <- Update all your enemy entities
+                spritebatch.begin();
+                enemyManager.render(spritebatch); // <- Draw all your enemy entities
+                spritebatch.end();
 
                 break;
             case Paused:
+                spritebatch.begin();
+                enemyManager.render(spritebatch); // <- Draw all your enemy entities
+                spritebatch.end();
+                pauseStage.draw();
+                Gdx.input.setInputProcessor(pauseStage);
+                break;
+            case Resumed:
+                spritebatch.begin();
+                enemyManager.render(spritebatch); // <- Draw all your enemy entities
+                spritebatch.end();
 
+                Gdx.input.setInputProcessor(stage);
+                state = State.Running;
                 break;
         }
 
-        spritebatch.begin();
-        enemyManager.render(spritebatch); // <- Draw all your enemy entities
-        spritebatch.end();
+
 
 
 
@@ -571,6 +592,7 @@ public class GameScreen implements Screen {
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         stage = new Stage();
+        pauseStage = new Stage();
         parameter.size = 15;
         parameter.color = Color.WHITE;
         parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
