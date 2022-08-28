@@ -20,8 +20,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.game.Enemy.Enemy;
 import com.game.Enemy.Flying;
+import com.game.Entity.Base;
 import com.game.Main;
 import com.game.Manager.*;
 import org.json.JSONArray;
@@ -40,8 +42,9 @@ public class GameScreen implements Screen {
     private Skin images, images_default, dialog, images_map, images_buildings;
     private TextButton  bSaveDialog, bExitDialog, bTest, bNextWave;
 
-    private Table table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_enemies;
-    private TextField tResolutionField, tResolutionFieldText, tVolumeFieldText, tLanguageFieldText, tLanguageField;
+    private Table table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_enemies, table_stats;
+    private TextField hpTextField;
+    private TextField.TextFieldStyle statsTextFieldStyle;
     private ArrayList<String> resolutions;
     private ArrayList<String> languages;
     private FreeTypeFontGenerator generator;
@@ -76,6 +79,14 @@ public class GameScreen implements Screen {
     private EnemyManager enemyManager;
     public LastClickedTile lastClickedMapTile, lastClickedOperationTile;
     private Image iSword, iBow, iMage, iCannon, iClean, iFill, iStickyRoad, iRoadNeedles;
+    private Base base;
+
+
+    public enum State{
+        Running, Paused
+    }
+
+    private State state = State.Running;
 
 
     public GameScreen (Main game, JSONObject save, boolean isLocal){
@@ -123,7 +134,18 @@ public class GameScreen implements Screen {
         //width of the tile as well
         //enemyManager = new EnemyManager(worldManager.getEnemySpawnerPosition()[1],worldManager.getEnemySpawnerPosition()[0], new Vector2(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()), scale, worldManager.getPath());
 
-        enemyManager = new EnemyManager(scale, GameFunctions.calulatePath(worldManager.getPath(), scale));
+        base = new Base();
+
+        textFieldStyleManager.setTextFieldStyle(statsTextFieldStyle, images, font, "textBar", Color.WHITE);
+        hpTextField = new TextField("Hp: "+base.getHealth(), textFieldStyleManager.returnTextFieldStyle(statsTextFieldStyle));
+        hpTextField.setAlignment(Align.center);
+        table_stats.setBounds(100,Gdx.graphics.getHeight()/10*9,300,100);
+        table_stats.add(hpTextField);
+
+
+
+
+        enemyManager = new EnemyManager(base, scale, GameFunctions.calulatePath(worldManager.getPath(), scale));
 
 
 
@@ -388,6 +410,8 @@ public class GameScreen implements Screen {
                 //set pamieci na luk
                 buildingsArr[0][0].setRotation(45);
 
+                base.damageBase(7);
+
 
             }
         });
@@ -444,12 +468,14 @@ public class GameScreen implements Screen {
                     if(!isPauseDialog) {
                         isPauseDialog = true;
                         pauseDialog.show(stage);
+                        state = State.Paused;
                         //pause game
                     }
                     else
                     {
                         isPauseDialog = false;
                         pauseDialog.hide();
+                        state = State.Running;
                         //resume game
                     }
                     return true;
@@ -463,6 +489,7 @@ public class GameScreen implements Screen {
         stage.addActor(table_map);
         stage.addActor(table_buildings);
         stage.addActor(table_nextWave);
+        stage.addActor(table_stats);
     }
 
     @Override
@@ -475,25 +502,34 @@ public class GameScreen implements Screen {
         stage.act(delta);
         stage.draw();
 
-        tick++;
 
-        //spawnEnemies
-        //enemyManager.draw();
-        //updateEnemiesPosition
+                hpTextField.setText("Hp: " + base.getHealth());
 
+                //spawnEnemies
+                //enemyManager.draw();
+                //updateEnemiesPosition
+                if (base.getHealth() <= 0) {
+                    //przegrana
+                    //stop game
 
-        enemyManager.update(delta); // <- Update all your enemy entities
+                    state = State.Paused;
+                }
+
+        switch(state) {
+            case Running:
+
+                enemyManager.update(delta); // <- Update all your enemy entities
+
+                break;
+            case Paused:
+
+                break;
+        }
+
         spritebatch.begin();
         enemyManager.render(spritebatch); // <- Draw all your enemy entities
         spritebatch.end();
 
-
-
-        if (tick>=60)
-        {
-            tick=0;
-            //System.out.println("sekunda");
-        }
 
 
 
@@ -559,12 +595,16 @@ public class GameScreen implements Screen {
         table_buildings = new Table(images_buildings);
         table_operationsSelected = new Table(images_buildings);
         table_enemies = new Table(images_map);
+        table_stats = new Table(images_default);
+
+        textFieldStyleManager = new TextFieldStyleManager();
 
         textButtonStyle_bLeft = new TextButton.TextButtonStyle();
         textButtonStyle_bRight = new TextButton.TextButtonStyle();
         textButtonStyle_bBack = new TextButton.TextButtonStyle();
         textButtonStyle_bSave = new TextButton.TextButtonStyle();
         textFieldStyle = new TextField.TextFieldStyle();
+        statsTextFieldStyle = new TextField.TextFieldStyle();
         sliderStyle = new Slider.SliderStyle();
 
         backgroundMusic = game.getMusic();

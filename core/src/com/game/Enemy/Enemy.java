@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
+import com.game.Entity.Base;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,11 +17,10 @@ import java.util.List;
 
 public class Enemy extends Actor {
     private int health;
+    private int dmg;
 
+    private int money;
     private float speed;
-
-    private String enemyType;
-    private int lastDir;
 
     private Animation<TextureRegion> currentAnimation;
     private Animation<TextureRegion>[] animationArr;
@@ -40,6 +40,10 @@ public class Enemy extends Actor {
     }
 
     public Enemy(int health,String path, String name){
+
+        this.health = health;
+
+        this.dmg = 7;
 
         moveDirection = "";
         isAtEnd = false;
@@ -74,6 +78,7 @@ public class Enemy extends Actor {
     }
 
     public void initEnemy(java.util.List<Vector2> path, float scale) {
+
         this.scale = scale;
         this.path = new ArrayList<>();
         this.speed = speed*scale;
@@ -169,7 +174,9 @@ public class Enemy extends Actor {
     }
 
 
-
+    public int getDmg() {
+        return dmg;
+    }
 }
 
 

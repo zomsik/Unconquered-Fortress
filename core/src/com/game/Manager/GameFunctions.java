@@ -314,7 +314,7 @@ public class GameFunctions {
             enemyPoints -= 50;
         }
 
-
+        // another option :
         // if random 1 spawn normal //else if 2 spawn other enemy
         // causes to spawn ~50% normal enemies
 

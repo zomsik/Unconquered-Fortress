@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.game.Enemy.Enemy;
+import com.game.Entity.Base;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,7 +28,7 @@ public class EnemyManager {
 
     private List<Vector2> path;
 
-
+    private Base base;
 
     public EnemyManager() {
         enemies = new ArrayList<>();
@@ -52,7 +53,7 @@ public class EnemyManager {
 
     }*/
 
-    public EnemyManager(float scale, List<Vector2> path) {
+    public EnemyManager(Base base, float scale, List<Vector2> path) {
         enemies = new ArrayList<>();
         spawningDelay = new ArrayList<>();
         timeLeftToSpawn =  new ArrayList<>();
@@ -60,6 +61,7 @@ public class EnemyManager {
         this.path = path;
         this.scale = scale;
 
+        this.base = base;
         //this.enemySpawnerTileX = path.get(0).x;
         //this.enemySpawnerTileY = enemySpawnerTileY;
         //this.tileSize = tileSize;
@@ -152,7 +154,7 @@ public class EnemyManager {
 
             if(e.getIsAtEnd())
             {
-                System.out.println("Zaatakowano baze");
+                base.damageBase(e.getDmg());
                 eIterator.remove();
             }
 

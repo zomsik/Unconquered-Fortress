@@ -5,9 +5,13 @@ public class Base {
     private int health;
     private int armor;
 
-    Base(){}
+    public Base(){
+        this.maxHealth = 100;
+        this.health = 100;
+        this.armor = 100;
+    }
 
-    Base(int maxHealth, int health, int armor){
+    public Base(int maxHealth, int health, int armor){
         this.maxHealth = maxHealth;
         this.health = health;
         this.armor = armor;
