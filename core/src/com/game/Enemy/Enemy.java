@@ -17,7 +17,7 @@ import java.util.List;
 public class Enemy extends Actor {
     private int health;
 
-    private float speed = 50;
+    private float speed;
 
     private String enemyType;
     private int lastDir;
@@ -32,12 +32,14 @@ public class Enemy extends Actor {
 
     private List<Vector2> path;
 
-
+    private String moveDirection = "";
     public Enemy(){
 
     }
 
     public Enemy(int health,String path, String name){
+
+        this.speed = 30; //get from super()
 
         stateTime = 0f;
 
@@ -68,6 +70,7 @@ public class Enemy extends Actor {
     public void initEnemy(java.util.List<Vector2> path, float scale) {
         this.scale = scale;
         this.path = new ArrayList<>();
+        this.speed = speed*scale;
 
         for (Vector2 v : path)
         {
@@ -75,14 +78,14 @@ public class Enemy extends Actor {
         }
 
         position = new Vector2(this.path.get(0).x, this.path.get(0).y);
-        this.path.remove(0);
+        //this.path.remove(0);
     }
 
 
     private boolean MoveToPoint(Vector2 finalPoint, float deltaTime)
     {
-        // If we're already at the goal return immediately
-        if (position == finalPoint)
+
+        if (position.equals(finalPoint))
             return true;
 
 
@@ -108,7 +111,8 @@ public class Enemy extends Actor {
             position = finalPoint;
 
         // Return whether we've reached the goal or not
-        return position == finalPoint;
+        //return position == finalPoint;
+        return position.equals(finalPoint);
 
     }
 
@@ -119,7 +123,28 @@ public class Enemy extends Actor {
         if(path.size() > 0 && MoveToPoint(path.get(0), deltaTime)) {
             path.remove(0);
 
+
             //chamge rotation if enemy changes direction
+            if (path.size() > 0)
+            {
+                Vector2 direction = new Vector2  (position.x - path.get(0).x, position.y - path.get(0).y);
+                if (direction.x < 0 && direction.y == 0 && moveDirection!="Right") {
+                    moveDirection = "Right";
+                    currentAnimation = animationArr[0];
+                }
+                else if (direction.x > 0 && direction.y == 0 && moveDirection!="Left") {
+                    moveDirection = "Left";
+                    currentAnimation = animationArr[1];
+                }
+                else if (direction.x == 0 && direction.y > 0 && moveDirection!="Down") {
+                    moveDirection = "Down";
+                    currentAnimation = animationArr[2];
+                }
+                else if (direction.x == 0 && direction.y < 0 && moveDirection!="Up") {
+                    moveDirection = "Up";
+                    currentAnimation = animationArr[3];
+                }
+            }
 
         }
     }
