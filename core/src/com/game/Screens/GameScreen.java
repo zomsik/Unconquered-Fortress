@@ -121,9 +121,12 @@ public class GameScreen implements Screen {
 
         // add inicjalization like position of the base and the enemy tile x,y
         //width of the tile as well
-        enemyManager = new EnemyManager(worldManager.getEnemySpawnerPosition()[1],worldManager.getEnemySpawnerPosition()[0],64, new Vector2(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()), scale);
+        //enemyManager = new EnemyManager(worldManager.getEnemySpawnerPosition()[1],worldManager.getEnemySpawnerPosition()[0], new Vector2(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()), scale, worldManager.getPath());
 
-        
+        enemyManager = new EnemyManager(scale, GameFunctions.calulatePath(worldManager.getPath(), scale));
+
+
+
         buttonStyleManager = new ButtonStyleManager();
         textFieldStyleManager = new TextFieldStyleManager();
 
@@ -334,10 +337,11 @@ public class GameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 
 
+                System.out.println();
 
                 //enemyManager.addWaveToSpawn(GameFunctions.createRandomEnemyWave(actualGame));
 
-                enemyManager.addWaveToSpawn(GameFunctions.createTestEnemyWave(actualGame, enemyManager.getEnemySpawnerPosition(), scale));
+                enemyManager.addWaveToSpawn(GameFunctions.createTestEnemyWave(actualGame, scale));
 
 
                 //actualGame.put("wave",actualGame.getInt("wave")+1);

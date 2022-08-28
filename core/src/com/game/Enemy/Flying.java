@@ -6,13 +6,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Flying extends Enemy{
 
-    public Flying(){
-    //super(100, "assets/game/flying.png", "flying", new Vector2().add(700,900), 1.5f);
-    }
+
 
 
     public Flying(float startPositionX, float startPositionY, float scale){
-        super(100, "assets/game/flying.png", "flying", startPositionX,  startPositionY, scale);
+        //super(100, "assets/game/flying.png", "flying", startPositionX,  startPositionY, scale);
+    }
+
+    public Flying(){
+        super(100, "assets/game/flying.png", "flying");
     }
 
 

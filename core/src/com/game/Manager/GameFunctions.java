@@ -16,6 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class GameFunctions {
@@ -258,21 +260,17 @@ public class GameFunctions {
     }
 
 
-    public static ArrayList<Enemy> createTestEnemyWave(JSONObject actualGame, Vector2 enemySpawnerPosition, float scale) {
+    public static ArrayList<Enemy> createTestEnemyWave(JSONObject actualGame, float scale) {
         ArrayList<Enemy> enemies = new ArrayList<>();
 
-        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
-        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
-        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
-        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
-        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
-        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
-        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
-        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
-        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
-        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
-        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
-        enemies.add(new Flying(enemySpawnerPosition.x,enemySpawnerPosition.y, scale));
+        enemies.add(new Flying());
+        enemies.add(new Flying());
+        enemies.add(new Flying());
+        enemies.add(new Flying());
+        enemies.add(new Flying());
+        enemies.add(new Flying());
+        enemies.add(new Flying());
+        enemies.add(new Flying());
 
         return enemies;
     }
@@ -360,6 +358,21 @@ public class GameFunctions {
     }
 
 
+    public static ArrayList<Vector2> calulatePath(List<int[]> path, float scale) {
 
+        ArrayList<Vector2> v = new ArrayList<>();
+
+        for (int[] point : path)
+        {
+            System.out.println("x:"+point[1] + ", y:"+point[0]);
+            v.add(new Vector2(point[1] * scale * 64 + Gdx.graphics.getWidth() / 20, (9 - point[0]) * scale * 64 + (Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 30 * 16) / 2));
+
+        }
+
+
+        Collections.reverse(v);
+
+        return v;
+    }
 }
 

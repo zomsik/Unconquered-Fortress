@@ -10,31 +10,35 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Enemy extends Actor {
     private int health;
-    private int speed;
+
+    private float speed = 50;
+
     private String enemyType;
     private int lastDir;
 
     private Animation<TextureRegion> currentAnimation;
     private Animation<TextureRegion>[] animationArr;
 
-    private float positionX;
-    private float positionY;
+    private Vector2 position;
 
     private float stateTime;
     private float scale;
+
+    private List<Vector2> path;
+
 
     public Enemy(){
 
     }
 
-    public Enemy(int health,String path, String name, float startPositionX, float startPositionY, float scale){
+    public Enemy(int health,String path, String name){
 
-        this.positionX = startPositionX;
-        this.positionY = startPositionY;
-
-        this.scale = scale;
         stateTime = 0f;
 
         animationArr = new Animation[4];
@@ -58,22 +62,76 @@ public class Enemy extends Actor {
 
         currentAnimation = animationArr[1];
 
-        //this.setScale(this.scale);
+
     }
+
+    public void initEnemy(java.util.List<Vector2> path, float scale) {
+        this.scale = scale;
+        this.path = new ArrayList<>();
+
+        for (Vector2 v : path)
+        {
+            this.path.add(new Vector2(v.x, v.y));
+        }
+
+        position = new Vector2(this.path.get(0).x, this.path.get(0).y);
+        this.path.remove(0);
+    }
+
+
+    private boolean MoveToPoint(Vector2 finalPoint, float deltaTime)
+    {
+        // If we're already at the goal return immediately
+        if (position == finalPoint)
+            return true;
+
+
+        // Find direction from current position to goal
+        Vector2 direction = new Vector2  (position.x - finalPoint.x, position.y - finalPoint.y);
+
+        //System.out.println("x: "+ direction.x + ", y: "+ direction.y);
+
+        // Move in that direction
+        if (direction.x > 0)
+            position.x = position.x - speed * deltaTime;
+        else if (direction.x < 0)
+            position.x = position.x + speed * deltaTime;
+        else if (direction.y > 0)
+            position.y = position.y - speed * deltaTime;
+        else if (direction.y < 0)
+            position.y = position.y + speed * deltaTime;
+
+
+        // If we moved PAST the goal, move it back to the goal
+        Vector2 directionAfterMove = new Vector2  (position.x - finalPoint.x, position.y - finalPoint.y);
+        if ((direction.x * directionAfterMove.x < 0) || (direction.y * directionAfterMove.y < 0))
+            position = finalPoint;
+
+        // Return whether we've reached the goal or not
+        return position == finalPoint;
+
+    }
+
+
 
     public void update(float deltaTime){
 
-        this.positionX-= 1;
+        if(path.size() > 0 && MoveToPoint(path.get(0), deltaTime)) {
+            path.remove(0);
 
+            //chamge rotation if enemy changes direction
+
+        }
     }
 
 
     public void render(SpriteBatch batch){
         stateTime += Gdx.graphics.getDeltaTime();
 
-        batch.draw(currentAnimation.getKeyFrame(stateTime, true), this.positionX, this.positionY ,scale*64, scale*64);
+        batch.draw(currentAnimation.getKeyFrame(stateTime, true), position.x, position.y ,scale*64, scale*64);
 
     }
+
 
 
 }

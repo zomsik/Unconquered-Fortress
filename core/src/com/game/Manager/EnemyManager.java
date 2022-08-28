@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.game.Enemy.Enemy;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
 public class EnemyManager {
+
 
     private int enemySpawnerTileX, enemySpawnerTileY, tileSize;
 
@@ -24,37 +24,69 @@ public class EnemyManager {
     private Vector2 gameScreen;
     private float scale;
 
+    private List<Vector2> path;
+
+
+
     public EnemyManager() {
         enemies = new ArrayList<>();
         spawningDelay = new ArrayList<>();
     }
-
-    public EnemyManager(int enemySpawnerTileX, int enemySpawnerTileY, int tileSize, Vector2 gameScreen, float scale) {
+/*
+    public EnemyManager(int tileSize, float scale, ArrayList<Vector2> path) {
         enemies = new ArrayList<>();
         spawningDelay = new ArrayList<>();
         timeLeftToSpawn =  new ArrayList<>();
+
+        this.path = path;
         this.scale = scale;
 
         this.enemySpawnerTileX = enemySpawnerTileX;
         this.enemySpawnerTileY = enemySpawnerTileY;
         this.tileSize = tileSize;
 
-        this.gameScreen = gameScreen;
+
 
         calculateEnemyCenter(scale);
 
+    }*/
+
+    public EnemyManager(float scale, List<Vector2> path) {
+        enemies = new ArrayList<>();
+        spawningDelay = new ArrayList<>();
+        timeLeftToSpawn =  new ArrayList<>();
+
+        this.path = path;
+        this.scale = scale;
+
+        //this.enemySpawnerTileX = path.get(0).x;
+        //this.enemySpawnerTileY = enemySpawnerTileY;
+        //this.tileSize = tileSize;
+
+        //enemySpawnerPosition = path.get(0);
+        //path.remove(0);
+
+        //calculateEnemyCenter(scale);
+
     }
 
-    private void calculateEnemyCenter(float scale) {
-        enemySpawnerPosition = new Vector2(enemySpawnerTileX * scale * tileSize + Gdx.graphics.getWidth() / 20, (9 - enemySpawnerTileY) * scale * tileSize + (Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 30 * 16) / 2);
-    }
 
-    public Vector2 getEnemySpawnerPosition() {
-        return enemySpawnerPosition;
-    }
+    //private void calculateEnemyCenter(float scale) {
+    //    enemySpawnerPosition = new Vector2(enemySpawnerTileX * scale * 64 + Gdx.graphics.getWidth() / 20, (9 - enemySpawnerTileY) * scale * 64 + (Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 30 * 16) / 2);
+    //}
+
+    //public Vector2 getEnemySpawnerPosition() {
+    //    return enemySpawnerPosition;
+    //}
 
 
     public void addWaveToSpawn(ArrayList<Enemy> wave) {
+
+        for (Enemy e : wave) {
+            e.initEnemy(path, scale);
+        }
+
+
         enemies.add(wave);
         spawningDelay.add(60 / (float) wave.size());
         timeLeftToSpawn.add(0f);
@@ -67,7 +99,6 @@ public class EnemyManager {
 
     public void spawn(Enemy e) {
         allEnemyArray.add(e);
-
     }
 
     public void update(float deltaTime) {
@@ -113,7 +144,6 @@ public class EnemyManager {
 
         }
 
-        System.out.println(allEnemyArray.size());
         for (Enemy e : allEnemyArray) {
             e.update(deltaTime);
 

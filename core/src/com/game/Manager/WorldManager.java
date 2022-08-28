@@ -2,7 +2,6 @@ package com.game.Manager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -20,6 +19,7 @@ public class WorldManager {
 
     static int[] start;
     static int[] end;
+    static List<int[]> pathToMove = new ArrayList<>();
 
     static int[][] generateWater(int[][] arr, int randomI, int randomJ, int randomWaterSize, int randomAxis, int randomCorner, int randomDeep, int seed){
         Random random = new Random(seed);
@@ -454,6 +454,7 @@ public class WorldManager {
                     arr[randomIE][randomJE] = 8;
                     generateObstacles(arr, seed, difficulty);
                     System.out.println("11");
+                    pathToMove = res;
                     overwritePath(arr, res);
                     System.out.println("12");
                 } else {
@@ -511,6 +512,7 @@ public class WorldManager {
                     arr[randomIE][randomJE] = 8;
                     generateObstacles(arr, seed, difficulty);
                     System.out.println("11");
+                    pathToMove = res;
                     overwritePath(arr, res);
                     System.out.println("12");
                 }
@@ -575,6 +577,7 @@ public class WorldManager {
                     arr[randomIE][randomJE] = 8;
                     generateObstacles(arr, seed, difficulty);
                     System.out.println("11");
+                    pathToMove = res;
                     overwritePath(arr, res);
                     System.out.println("12");
                 } else {
@@ -631,11 +634,14 @@ public class WorldManager {
                     arr[randomIE][randomJE] = 8;
                     generateObstacles(arr, seed, difficulty);
                     System.out.println("11");
+                    pathToMove = res;
                     overwritePath(arr, res);
                     System.out.println("12");
                 }
             }
         }
+
+
         //wygenerowanie bazy przeciwników
 
         //sout
@@ -1083,4 +1089,11 @@ public class WorldManager {
     public static int[] getEnemySpawnerPosition() {
         return end;
     }
+
+
+
+    public static List<int[]> getPath() {
+        return pathToMove;
+    }
+
 }
