@@ -39,8 +39,8 @@ public class GameScreen implements Screen {
     private Stage stage, pauseStage, gameOverStage;
     private Texture background;
     private BitmapFont font;
-    private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack;
-    private Skin images, images_default, dialog, images_map, images_buildings;
+    private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack, taButtonsPause;
+    private Skin images, images_default, dialog, images_map, images_buildings, images_pause;
     private TextButton  bSaveDialog, bExitDialog, bTest, bNextWave, bResume, bPauseMenu;
 
     private Table table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_dialogGameOver, table_enemies, table_stats, table_menuPause;
@@ -50,7 +50,7 @@ public class GameScreen implements Screen {
     private ArrayList<String> languages;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    private TextButton.TextButtonStyle textButtonStyle_bLeft, textButtonStyle_bRight, textButtonStyle_bBack, textButtonStyle_bSave;
+    private TextButton.TextButtonStyle textButtonStyle_bLeft, textButtonStyle_bRight, textButtonStyle_bBack, textButtonStyle_bSave, textButtonStyle_bPauseMenu;
     private TextField.TextFieldStyle textFieldStyle;
     private Music backgroundMusic;
     private Slider volumeSlider;
@@ -76,7 +76,6 @@ public class GameScreen implements Screen {
     private int[][] buildArr;
 
     private ArrayList<Enemy> ee = new ArrayList<>();
-
     private EnemyManager enemyManager;
     private TowerManager towerManager;
 
@@ -149,10 +148,13 @@ public class GameScreen implements Screen {
         hpTextField.setAlignment(Align.center);
         table_stats.setBounds(100,Gdx.graphics.getHeight()/10*9,300,100);
         table_stats.add(hpTextField);
+        if(Gdx.graphics.getHeight() == 900){
+            table_menuPause.setBounds(Gdx.graphics.getWidth()/20*18,(Gdx.graphics.getHeight()/40*38-2), Gdx.graphics.getWidth()/50*3,Gdx.graphics.getHeight()/40*3);
+        }else{
+            table_menuPause.setBounds(Gdx.graphics.getWidth()/20*18,(Gdx.graphics.getHeight()/40*37), Gdx.graphics.getWidth()/50*3,Gdx.graphics.getHeight()/40*3);
+        }
 
-        table_menuPause.setBounds(0,Gdx.graphics.getHeight()/10*9, 100,100);
-
-
+        table_menuPause.debug();
         enemyManager = new EnemyManager(base, scale, GameFunctions.calulatePath(worldManager.getPath(), scale));
         towerManager = new TowerManager(enemyManager.getEnemies());
 
@@ -167,7 +169,9 @@ public class GameScreen implements Screen {
         bTest = new TextButton("test", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bNextWave = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bNextWave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bResume = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bResume"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-        bPauseMenu = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bPauseMenu, images_pause, font, "ButtonPauseUp", "ButtonPauseDown");
+        bPauseMenu = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bPauseMenu));
 
         operationsArr = GameFunctions.getOperationsArr(this);
         table_operations = GameFunctions.getOperationsTable(operationsArr, scale);
@@ -184,7 +188,7 @@ public class GameScreen implements Screen {
         table_nextWave.setBounds(Gdx.graphics.getWidth()/10*9,Gdx.graphics.getHeight()/10*1,Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight()/10);
         table_nextWave.debug();
 
-        table_menuPause.add(bPauseMenu).width(Gdx.graphics.getWidth()/10);
+        table_menuPause.add(bPauseMenu).height(Gdx.graphics.getHeight()/40*3).width(Gdx.graphics.getWidth()/50*3);
     }
 
     public void mouseClickOperation() {
@@ -382,7 +386,7 @@ public class GameScreen implements Screen {
 
         Gdx.input.setInputProcessor(stage);
 
-        Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
+        Texture bg = new Texture(new FileHandle("assets/profile_banner.png"));
 
         pauseDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
             public void result(Object obj) {
@@ -495,12 +499,14 @@ public class GameScreen implements Screen {
                 game.setScreen(new MenuScreen(game));
             }
         });
-
-        table_dialogPause.add(bResume);
-        table_dialogPause.add(bSaveDialog);
+        table_dialogPause.setBounds(0,0, 256, 460);
+        System.out.println("table_Dialog" + table_dialogPause.getWidth() +":"+table_dialogPause.getHeight());
+        table_dialogPause.add(bResume).width(table_dialogPause.getWidth()/20*16).padRight(table_dialogPause.getWidth()/10);
         table_dialogPause.row();
-        table_dialogPause.add(bExitDialog);
-        table_dialogPause.debug();
+        table_dialogPause.add(bSaveDialog).width(table_dialogPause.getWidth()/20*16).padRight(table_dialogPause.getWidth()/10);
+        table_dialogPause.row();
+        table_dialogPause.add(bExitDialog).padBottom(table_dialogPause.getHeight()/2).width(table_dialogPause.getWidth()/20*16).padRight(table_dialogPause.getWidth()/10);
+        table_dialogPause.row();
         pauseDialog.add(table_dialogPause);
 
 
@@ -512,10 +518,8 @@ public class GameScreen implements Screen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
-
                     pauseDialog.show(pauseStage);
                     state = State.Paused;
-
                     return true;
                 }
                 return super.keyDown(event, keycode);
@@ -526,7 +530,6 @@ public class GameScreen implements Screen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
-
                     pauseDialog.hide();
                     state = State.Resumed;
 
@@ -569,7 +572,6 @@ public class GameScreen implements Screen {
         game.batch.end();
         stage.act(delta);
         stage.draw();
-
 
 
                 hpTextField.setText("Hp: " + base.getHealth());
@@ -678,16 +680,17 @@ public class GameScreen implements Screen {
         taButtonsSettings = new TextureAtlas("assets/buttons/buttons_settings.pack");
         taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");
         taDialogBack = new TextureAtlas("assets/dialog/skin_dialog.pack");
+        taButtonsPause = new TextureAtlas("assets/buttons/buttons_pause.pack");
         images = new Skin(taButtonsSettings);
         images_default = new Skin(taButtonsDefault);
         dialog = new Skin(taDialogBack);
-
+        images_pause = new Skin(taButtonsPause);
 
         images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         images_buildings = new Skin(new TextureAtlas("assets/icons/buildings.pack"));
 
         table_dialogGameOver = new Table(images_default);
-        table_dialogPause = new Table(images_default);
+        table_dialogPause = new Table();
         table_nextWave = new Table(images_default);
         table_operations = new Table(images_buildings);
         table_buildings = new Table(images_buildings);
@@ -702,6 +705,7 @@ public class GameScreen implements Screen {
         textButtonStyle_bRight = new TextButton.TextButtonStyle();
         textButtonStyle_bBack = new TextButton.TextButtonStyle();
         textButtonStyle_bSave = new TextButton.TextButtonStyle();
+        textButtonStyle_bPauseMenu = new TextButton.TextButtonStyle();
         textFieldStyle = new TextField.TextFieldStyle();
         statsTextFieldStyle = new TextField.TextFieldStyle();
         sliderStyle = new Slider.SliderStyle();
