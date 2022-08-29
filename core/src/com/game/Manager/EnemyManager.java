@@ -1,9 +1,8 @@
 package com.game.Manager;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.game.Enemy.Enemy;
+import com.game.Entity.Enemy.Enemy;
 import com.game.Entity.Base;
 
 import java.util.ArrayList;
@@ -12,18 +11,12 @@ import java.util.List;
 
 public class EnemyManager {
 
-
-    private int enemySpawnerTileX, enemySpawnerTileY, tileSize;
-
     private ArrayList<ArrayList<Enemy>> enemies;
     private ArrayList<Float> spawningDelay;
     private ArrayList<Float> timeLeftToSpawn;
 
-    private ArrayList<Enemy> allEnemyArray = new ArrayList<Enemy>();
+    private ArrayList<Enemy> allEnemyArray;
 
-    private Vector2 enemySpawnerPosition;
-
-    private Vector2 gameScreen;
     private float scale;
 
     private List<Vector2> path;
@@ -34,54 +27,19 @@ public class EnemyManager {
         enemies = new ArrayList<>();
         spawningDelay = new ArrayList<>();
     }
-/*
-    public EnemyManager(int tileSize, float scale, ArrayList<Vector2> path) {
-        enemies = new ArrayList<>();
-        spawningDelay = new ArrayList<>();
-        timeLeftToSpawn =  new ArrayList<>();
-
-        this.path = path;
-        this.scale = scale;
-
-        this.enemySpawnerTileX = enemySpawnerTileX;
-        this.enemySpawnerTileY = enemySpawnerTileY;
-        this.tileSize = tileSize;
-
-
-
-        calculateEnemyCenter(scale);
-
-    }*/
 
     public EnemyManager(Base base, float scale, List<Vector2> path) {
         enemies = new ArrayList<>();
         spawningDelay = new ArrayList<>();
         timeLeftToSpawn =  new ArrayList<>();
+        allEnemyArray = new ArrayList<>();
 
         this.path = path;
         this.scale = scale;
 
         this.base = base;
-        //this.enemySpawnerTileX = path.get(0).x;
-        //this.enemySpawnerTileY = enemySpawnerTileY;
-        //this.tileSize = tileSize;
-
-        //enemySpawnerPosition = path.get(0);
-        //path.remove(0);
-
-        //calculateEnemyCenter(scale);
 
     }
-
-
-    //private void calculateEnemyCenter(float scale) {
-    //    enemySpawnerPosition = new Vector2(enemySpawnerTileX * scale * 64 + Gdx.graphics.getWidth() / 20, (9 - enemySpawnerTileY) * scale * 64 + (Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 30 * 16) / 2);
-    //}
-
-    //public Vector2 getEnemySpawnerPosition() {
-    //    return enemySpawnerPosition;
-    //}
-
 
     public void addWaveToSpawn(ArrayList<Enemy> wave) {
 
@@ -149,7 +107,7 @@ public class EnemyManager {
 
         Iterator<Enemy> eIterator = allEnemyArray.iterator();
         while (eIterator.hasNext()) {
-            Enemy e = eIterator.next(); // must be called before you can call i.remove()
+            Enemy e = eIterator.next();
             e.update(deltaTime);
 
             if(e.getIsAtEnd())
@@ -159,18 +117,6 @@ public class EnemyManager {
             }
 
         }
-
-        /*
-        for (Enemy e : allEnemyArray) {
-            e.update(deltaTime);
-
-            if(e.getIsAtEnd())
-            {
-                System.out.println("Zaatakowano baze");
-                e.remove();
-            }
-
-        }*/
 
 
     }

@@ -1,8 +1,4 @@
-package com.game.Enemy;
-
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+package com.game.Entity.Enemy;
 
 public class Flying extends Enemy{
 
@@ -14,7 +10,7 @@ public class Flying extends Enemy{
     }
 
     public Flying(){
-        super(100, "assets/game/flying.png", "flying");
+        super(100, "assets/game/enemies/flying.png", "flying");
     }
 
 

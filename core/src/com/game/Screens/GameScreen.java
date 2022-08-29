@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,9 +20,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.game.Enemy.Enemy;
-import com.game.Enemy.Flying;
+import com.game.Entity.Enemy.Enemy;
 import com.game.Entity.Base;
+import com.game.Entity.Tower.BowTower;
+import com.game.Entity.Tower.CannonTower;
+import com.game.Entity.Tower.MageTower;
+import com.game.Entity.Tower.SwordTower;
 import com.game.Main;
 import com.game.Manager.*;
 import org.json.JSONArray;
@@ -31,19 +33,18 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Vector;
 
 public class GameScreen implements Screen {
     private Main game;
-    private Stage stage, pauseStage;
+    private Stage stage, pauseStage, gameOverStage;
     private Texture background;
     private BitmapFont font;
     private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack;
     private Skin images, images_default, dialog, images_map, images_buildings;
     private TextButton  bSaveDialog, bExitDialog, bTest, bNextWave;
 
-    private Table table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_enemies, table_stats;
-    private TextField hpTextField;
+    private Table table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_dialogGameOver, table_enemies, table_stats;
+    private TextField hpTextField, GameOverTitle;
     private TextField.TextFieldStyle statsTextFieldStyle;
     private ArrayList<String> resolutions;
     private ArrayList<String> languages;
@@ -59,11 +60,9 @@ public class GameScreen implements Screen {
     private TextFieldStyleManager textFieldStyleManager;
     private FileReader fileReader;
     private LanguageManager languageManager;
-    private Dialog pauseDialog;
+    private Dialog pauseDialog, gameOverDialog;
     private WorldManager worldManager;
     private JSONObject actualGame;
-    private int[][] worldIntArr;
-    private boolean isPauseDialog = false;
     private boolean isLocal;
     private ConnectionManager connectionManager;
     private Image[][] mapArr, operationsArr, operationsSelectedArr, buildingsArr;
@@ -74,11 +73,15 @@ public class GameScreen implements Screen {
 
     private float scale;
 
+    private int[][] buildArr;
+
     private ArrayList<Enemy> ee = new ArrayList<>();
 
     private EnemyManager enemyManager;
+    private TowerManager towerManager;
+
     public LastClickedTile lastClickedMapTile, lastClickedOperationTile;
-    private Image iSword, iBow, iMage, iCannon, iClean, iFill, iStickyRoad, iRoadNeedles;
+
     private Base base;
 
 
@@ -93,6 +96,7 @@ public class GameScreen implements Screen {
         this.game = game;
         this.isLocal = isLocal;
 
+        this.buildArr = new int[15][10];
         scale = (float) (Gdx.graphics.getWidth() / 1280.0);
 
 
@@ -137,6 +141,10 @@ public class GameScreen implements Screen {
         base = new Base();
 
         textFieldStyleManager.setTextFieldStyle(statsTextFieldStyle, images, font, "textBar", Color.WHITE);
+
+        GameOverTitle = new TextField("Lose", textFieldStyleManager.returnTextFieldStyle(statsTextFieldStyle));
+        GameOverTitle.setAlignment(Align.center);
+
         hpTextField = new TextField("Hp: "+base.getHealth(), textFieldStyleManager.returnTextFieldStyle(statsTextFieldStyle));
         hpTextField.setAlignment(Align.center);
         table_stats.setBounds(100,Gdx.graphics.getHeight()/10*9,300,100);
@@ -146,7 +154,7 @@ public class GameScreen implements Screen {
 
 
         enemyManager = new EnemyManager(base, scale, GameFunctions.calulatePath(worldManager.getPath(), scale));
-
+        towerManager = new TowerManager();
 
 
         buttonStyleManager = new ButtonStyleManager();
@@ -202,6 +210,7 @@ public class GameScreen implements Screen {
     }
 
     public void mouseClickBuildingTile() {
+        /*
         if (Objects.equals(chosenOperation,"sell"))
         {
             System.out.println(lastClickedMapTile.getName());
@@ -238,18 +247,29 @@ public class GameScreen implements Screen {
             }
 
 
-        }
+        }*/
     }
 
 
 
     public void mouseClickMapTile() {
 
+        if (Objects.equals(chosenOperation,"sell")) {
+            if (buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] == 1) {
+                towerManager.sellTower(lastClickedMapTile.getX(),lastClickedMapTile.getY());
+                buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] = 0;
+            }
+        }
+
         if (Objects.equals(chosenOperation,"sword")) {
-            if (Objects.equals(lastClickedMapTile.getName(), "grass")) {
+            if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
                 //warunki wybudowania swordTowera
+                towerManager.buyTower(new SwordTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale));
+                buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
 
+
+                /*
                 JSONArray placedBuildings = actualGame.getJSONArray("buildings");
                 placedBuildings.put(new JSONObject().put("buildingName","sword").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()).put("level",1));
                 actualGame.put("buildings", placedBuildings);
@@ -257,7 +277,7 @@ public class GameScreen implements Screen {
 
                 buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "sword");
                 table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
-                stage.addActor(table_buildings);
+                stage.addActor(table_buildings);*/
 
 
             }
@@ -265,34 +285,42 @@ public class GameScreen implements Screen {
 
 
         if (Objects.equals(chosenOperation,"bow")) {
-            if (Objects.equals(lastClickedMapTile.getName(), "grass")) {
+            if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
                 //warunki wybudowania bowTowera
+                towerManager.buyTower(new BowTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale));
+                buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
 
-                JSONArray placedBuildings = actualGame.getJSONArray("buildings");
-                placedBuildings.put(new JSONObject().put("buildingName","bow").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()).put("level",1));
-                actualGame.put("buildings", placedBuildings);
 
-                buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "bow");
-                table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
-                stage.addActor(table_buildings);
+                //mapArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()].setTouchable(Touchable.);
+
+                //JSONArray placedBuildings = actualGame.getJSONArray("buildings");
+                //placedBuildings.put(new JSONObject().put("buildingName","bow").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()).put("level",1));
+                //actualGame.put("buildings", placedBuildings);
+
+                //buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "bow");
+                //table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
+                //stage.addActor(table_buildings);
 
 
             }
         }
 
         if (Objects.equals(chosenOperation,"mage")) {
-            if (Objects.equals(lastClickedMapTile.getName(), "grass")) {
+            if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
+
+                towerManager.buyTower(new MageTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale));
+                buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
                 //warunki wybudowania mageTowera
-
+                /*
                 JSONArray placedBuildings = actualGame.getJSONArray("buildings");
                 placedBuildings.put(new JSONObject().put("buildingName","mage").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()).put("level",1));
                 actualGame.put("buildings", placedBuildings);
 
                 buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "mage");
                 table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
-                stage.addActor(table_buildings);
+                stage.addActor(table_buildings);*/
 
 
             }
@@ -300,18 +328,21 @@ public class GameScreen implements Screen {
 
 
         if (Objects.equals(chosenOperation,"cannon")) {
-            if (Objects.equals(lastClickedMapTile.getName(), "grass")) {
+            if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
+
+                towerManager.buyTower(new CannonTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale));
+                buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
                 //warunki wybudowania cannonTowera
 
-                JSONArray placedBuildings = actualGame.getJSONArray("buildings");
+                /*JSONArray placedBuildings = actualGame.getJSONArray("buildings");
                 placedBuildings.put(new JSONObject().put("buildingName","cannon").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()).put("level",1));
                 actualGame.put("buildings", placedBuildings);
 
 
                 buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "cannon");
                 table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
-                stage.addActor(table_buildings);
+                stage.addActor(table_buildings);*/
 
 
             }
@@ -330,7 +361,7 @@ public class GameScreen implements Screen {
 
                 table_map = worldManager.changeTileAndRedrawWorld(this, mapArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "grass", scale);
                 stage.addActor(table_map);
-                table_buildings.toFront();
+                //table_buildings.toFront();*/
 
 
             }
@@ -355,6 +386,13 @@ public class GameScreen implements Screen {
                 pauseDialog.cancel();
             }
         };
+
+        gameOverDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
+            public void result(Object obj) {
+                gameOverDialog.cancel();
+            }
+        };
+
 
         bNextWave.addListener(new ClickListener() {
             @Override
@@ -462,6 +500,11 @@ public class GameScreen implements Screen {
         table_dialogPause.debug();
         pauseDialog.add(table_dialogPause);
 
+
+
+        table_dialogGameOver.add(GameOverTitle);
+        gameOverDialog.add(table_dialogGameOver);
+
         stage.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -519,34 +562,45 @@ public class GameScreen implements Screen {
                     //przegrana
                     //stop game
 
-                    state = State.Paused;
+                    state = State.GameOver;
                 }
 
 
         switch(state) {
             case Running:
-
-                enemyManager.update(delta); // <- Update all your enemy entities
+                towerManager.update(delta);
+                enemyManager.update(delta);
                 spritebatch.begin();
-                enemyManager.render(spritebatch); // <- Draw all your enemy entities
+                towerManager.render(spritebatch);
+                enemyManager.render(spritebatch);
                 spritebatch.end();
 
                 break;
             case Paused:
                 spritebatch.begin();
-                enemyManager.render(spritebatch); // <- Draw all your enemy entities
+                towerManager.render(spritebatch);
+                enemyManager.render(spritebatch);
                 spritebatch.end();
                 pauseStage.draw();
                 Gdx.input.setInputProcessor(pauseStage);
                 break;
             case Resumed:
                 spritebatch.begin();
-                enemyManager.render(spritebatch); // <- Draw all your enemy entities
+                towerManager.render(spritebatch);
+                enemyManager.render(spritebatch);
                 spritebatch.end();
 
                 Gdx.input.setInputProcessor(stage);
                 state = State.Running;
                 break;
+            case GameOver:
+                gameOverDialog.show(gameOverStage);
+                spritebatch.begin();
+                towerManager.render(spritebatch);
+                enemyManager.render(spritebatch);
+                spritebatch.end();
+                gameOverStage.draw();
+                Gdx.input.setInputProcessor(gameOverStage);
         }
 
 
@@ -593,6 +647,7 @@ public class GameScreen implements Screen {
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         stage = new Stage();
         pauseStage = new Stage();
+        gameOverStage = new Stage();
         parameter.size = 15;
         parameter.color = Color.WHITE;
         parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
@@ -608,9 +663,11 @@ public class GameScreen implements Screen {
         images_default = new Skin(taButtonsDefault);
         dialog = new Skin(taDialogBack);
 
+
         images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         images_buildings = new Skin(new TextureAtlas("assets/icons/buildings.pack"));
 
+        table_dialogGameOver = new Table(images_default);
         table_dialogPause = new Table(images_default);
         table_nextWave = new Table(images_default);
         table_operations = new Table(images_buildings);

@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.game.Enemy.*;
+import com.game.Entity.Enemy.*;
 import com.game.Screens.GameScreen;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -378,5 +378,7 @@ public class GameFunctions {
 
         return v;
     }
+
+
 }
 
