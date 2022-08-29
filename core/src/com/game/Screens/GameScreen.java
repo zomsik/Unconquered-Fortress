@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -83,6 +84,9 @@ public class GameScreen implements Screen {
 
     private Base base;
 
+    OrthographicCamera hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+
 
     public enum State{
         Running, Paused, Resumed, GameOver
@@ -132,7 +136,7 @@ public class GameScreen implements Screen {
 
         table_map = worldManager.drawWorld(mapArr, scale);
 
-
+        hudCamera.position.set(hudCamera.viewportWidth / 2.0f, hudCamera.viewportHeight / 2.0f, 1.0f);
         // add inicjalization like position of the base and the enemy tile x,y
         //width of the tile as well
         //enemyManager = new EnemyManager(worldManager.getEnemySpawnerPosition()[1],worldManager.getEnemySpawnerPosition()[0], new Vector2(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()), scale, worldManager.getPath());
@@ -561,6 +565,8 @@ public class GameScreen implements Screen {
         stage.addActor(table_stats);
         //
         stage.addActor(table_menuPause);
+
+
     }
 
     @Override
@@ -594,6 +600,7 @@ public class GameScreen implements Screen {
                 spritebatch.begin();
                 towerManager.render(spritebatch);
                 enemyManager.render(spritebatch);
+                font.draw(spritebatch, "FPS=" + Gdx.graphics.getFramesPerSecond(), 0, hudCamera.viewportHeight);
                 spritebatch.end();
 
                 break;
@@ -622,6 +629,7 @@ public class GameScreen implements Screen {
                 spritebatch.end();
                 gameOverStage.draw();
                 Gdx.input.setInputProcessor(gameOverStage);
+                break;
         }
 
 

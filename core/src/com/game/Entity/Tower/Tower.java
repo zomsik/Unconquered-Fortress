@@ -35,13 +35,13 @@ public class Tower extends Actor {
 
     public Tower(String name, TextureRegion towerTexture, int tileX, int tileY, float scale){
         this.timeToShoot=0;
-        this.reloadTime=3;
+        this.reloadTime= 0.5f;
         this.scale = scale;
         this.towerBullets = new ArrayList<>();
         this.bulletTexture = new TextureRegion(new Texture(Gdx.files.internal("assets/game/bullets/arrow64.png")));
 
-        this.bulletVelocity = 5*scale;
-        this.range = 100*scale;
+        this.bulletVelocity = 200*scale;
+        this.range = 200*scale;
 
         this.dmg = 20;
         this.enemyToFollow = null;
@@ -79,6 +79,10 @@ public class Tower extends Actor {
 
         if (timeToShoot<=0)
         {
+            //if dst < range for last enemy then shoot last enemy
+
+
+            // else find new enemy
             for (Enemy e: enemies)
             {
                 if (range>=Vector2.dst(position.x,position.y,e.getPosition().x,e.getPosition().y)) {
