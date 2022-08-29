@@ -337,7 +337,7 @@ public class GameFunctions {
             }
             else if (chosenEnemy == 3 && wave>10 && enemyPoints >= 15)
             {
-                enemies.add(new Assasin());
+                enemies.add(new Assassin());
                 System.out.print("Speed,");
                 enemyPoints -= 15;
             }
