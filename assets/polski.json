@@ -61,6 +61,7 @@
   "normal" : "normalny",
   "easy" : "łatwy",
   "hard" : "trudny",
-  "bNextWave": "Następna fala"
+  "bNextWave": "Następna fala",
+  "bResume": "Wznów"
 
 }

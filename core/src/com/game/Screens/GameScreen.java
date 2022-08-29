@@ -41,9 +41,9 @@ public class GameScreen implements Screen {
     private BitmapFont font;
     private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack;
     private Skin images, images_default, dialog, images_map, images_buildings;
-    private TextButton  bSaveDialog, bExitDialog, bTest, bNextWave;
+    private TextButton  bSaveDialog, bExitDialog, bTest, bNextWave, bResume, bPauseMenu;
 
-    private Table table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_dialogGameOver, table_enemies, table_stats;
+    private Table table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_dialogGameOver, table_enemies, table_stats, table_menuPause;
     private TextField hpTextField, GameOverTitle;
     private TextField.TextFieldStyle statsTextFieldStyle;
     private ArrayList<String> resolutions;
@@ -150,7 +150,7 @@ public class GameScreen implements Screen {
         table_stats.setBounds(100,Gdx.graphics.getHeight()/10*9,300,100);
         table_stats.add(hpTextField);
 
-
+        table_menuPause.setBounds(0,Gdx.graphics.getHeight()/10*9, 100,100);
 
 
         enemyManager = new EnemyManager(base, scale, GameFunctions.calulatePath(worldManager.getPath(), scale));
@@ -166,7 +166,8 @@ public class GameScreen implements Screen {
         bExitDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bTest = new TextButton("test", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bNextWave = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bNextWave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-
+        bResume = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bResume"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bPauseMenu = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
 
         operationsArr = GameFunctions.getOperationsArr(this);
         table_operations = GameFunctions.getOperationsTable(operationsArr, scale);
@@ -182,6 +183,8 @@ public class GameScreen implements Screen {
         table_nextWave.add(bTest).width(Gdx.graphics.getWidth()/10);
         table_nextWave.setBounds(Gdx.graphics.getWidth()/10*9,Gdx.graphics.getHeight()/10*1,Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight()/10);
         table_nextWave.debug();
+
+        table_menuPause.add(bPauseMenu).width(Gdx.graphics.getWidth()/10);
     }
 
     public void mouseClickOperation() {
@@ -493,7 +496,7 @@ public class GameScreen implements Screen {
             }
         });
 
-
+        table_dialogPause.add(bResume);
         table_dialogPause.add(bSaveDialog);
         table_dialogPause.row();
         table_dialogPause.add(bExitDialog);
@@ -533,12 +536,27 @@ public class GameScreen implements Screen {
             }
         });
 
+        bPauseMenu.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                pauseDialog.show(pauseStage);
+                state = State.Paused;
+            }
+        });
+        bResume.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                pauseDialog.hide();
+                state = State.Resumed;
+            }
+        });
         stage.addActor(table_operations);
         stage.addActor(table_operationsSelected);
         stage.addActor(table_map);
         stage.addActor(table_buildings);
         stage.addActor(table_nextWave);
         stage.addActor(table_stats);
+        stage.addActor(table_menuPause);
     }
 
     @Override
@@ -675,6 +693,7 @@ public class GameScreen implements Screen {
         table_operationsSelected = new Table(images_buildings);
         table_enemies = new Table(images_map);
         table_stats = new Table(images_default);
+        table_menuPause = new Table(images_default);
 
         textFieldStyleManager = new TextFieldStyleManager();
 

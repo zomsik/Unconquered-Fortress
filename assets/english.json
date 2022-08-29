@@ -61,5 +61,6 @@
   "normal" : "normal",
   "easy" : "easy",
   "hard" : "hard",
-  "bNextWave": "Next Wave"
+  "bNextWave": "Next Wave",
+  "bResume": "Resume"
 }
