@@ -10,10 +10,17 @@ import java.util.Iterator;
 public class TowerManager {
 
     private ArrayList<Tower> towers;
+    private ArrayList<Enemy> enemies;
+
     private float scale;
 
     public TowerManager(){
+        towers = new ArrayList<>();
 
+    }
+
+    public TowerManager(ArrayList<Enemy> enemies){
+        this.enemies = enemies;
         towers = new ArrayList<>();
 
 
@@ -46,7 +53,7 @@ public class TowerManager {
     public void update(float deltaTime) {
 
         for (Tower t : towers) {
-            t.update(deltaTime);
+            t.update(deltaTime, enemies);
 
         }
 

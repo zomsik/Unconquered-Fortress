@@ -154,7 +154,7 @@ public class GameScreen implements Screen {
 
 
         enemyManager = new EnemyManager(base, scale, GameFunctions.calulatePath(worldManager.getPath(), scale));
-        towerManager = new TowerManager();
+        towerManager = new TowerManager(enemyManager.getEnemies());
 
 
         buttonStyleManager = new ButtonStyleManager();

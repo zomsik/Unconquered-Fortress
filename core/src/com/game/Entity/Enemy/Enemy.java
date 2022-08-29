@@ -71,6 +71,10 @@ public class Enemy extends Actor {
 
     }
 
+    public Vector2 getPosition(){
+        return position;
+    }
+
     public void initEnemy(java.util.List<Vector2> path, float scale) {
 
         this.scale = scale;

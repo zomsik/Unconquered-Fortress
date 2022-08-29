@@ -11,11 +11,12 @@ import java.util.List;
 
 public class EnemyManager {
 
-    private ArrayList<ArrayList<Enemy>> enemies;
+    private ArrayList<ArrayList<Enemy>> enemyWavesToSpawn;
+    private ArrayList<Enemy> enemies;
+
     private ArrayList<Float> spawningDelay;
     private ArrayList<Float> timeLeftToSpawn;
 
-    private ArrayList<Enemy> allEnemyArray;
 
     private float scale;
 
@@ -24,21 +25,25 @@ public class EnemyManager {
     private Base base;
 
     public EnemyManager() {
-        enemies = new ArrayList<>();
+        enemyWavesToSpawn = new ArrayList<>();
         spawningDelay = new ArrayList<>();
     }
 
     public EnemyManager(Base base, float scale, List<Vector2> path) {
-        enemies = new ArrayList<>();
+        enemyWavesToSpawn = new ArrayList<>();
         spawningDelay = new ArrayList<>();
         timeLeftToSpawn =  new ArrayList<>();
-        allEnemyArray = new ArrayList<>();
+        enemies = new ArrayList<>();
 
         this.path = path;
         this.scale = scale;
 
         this.base = base;
 
+    }
+
+    public ArrayList<Enemy> getEnemies(){
+        return enemies;
     }
 
     public void addWaveToSpawn(ArrayList<Enemy> wave) {
@@ -48,7 +53,7 @@ public class EnemyManager {
         }
 
 
-        enemies.add(wave);
+        enemyWavesToSpawn.add(wave);
         spawningDelay.add(60 / (float) wave.size());
         timeLeftToSpawn.add(0f);
 
@@ -59,29 +64,29 @@ public class EnemyManager {
     }
 
     public void spawn(Enemy e) {
-        allEnemyArray.add(e);
+        enemies.add(e);
     }
 
     public void update(float deltaTime) {
 
-        if (enemies.size()>0)
+        if (enemyWavesToSpawn.size()>0)
         {
             ArrayList<Integer> indexesToDelete = new ArrayList<>();
 
 
 
-            for(int i=0; i<enemies.size(); i++) {
+            for(int i = 0; i< enemyWavesToSpawn.size(); i++) {
                 timeLeftToSpawn.set(i, timeLeftToSpawn.get(i) - deltaTime);
 
 
                 if (timeLeftToSpawn.get(i)<=0){
 
 
-                    spawn(enemies.get(i).get(0));
-                    enemies.get(i).remove(0);
+                    spawn(enemyWavesToSpawn.get(i).get(0));
+                    enemyWavesToSpawn.get(i).remove(0);
 
 
-                    if (enemies.get(i).size()==0)
+                    if (enemyWavesToSpawn.get(i).size()==0)
                     {
                         indexesToDelete.add(i);
                     }
@@ -98,14 +103,14 @@ public class EnemyManager {
                 {
                     timeLeftToSpawn.remove(index);
                     spawningDelay.remove(index);
-                    enemies.remove(index);
+                    enemyWavesToSpawn.remove(index);
                 }
             }
 
 
         }
 
-        Iterator<Enemy> eIterator = allEnemyArray.iterator();
+        Iterator<Enemy> eIterator = enemies.iterator();
         while (eIterator.hasNext()) {
             Enemy e = eIterator.next();
             e.update(deltaTime);
@@ -124,7 +129,7 @@ public class EnemyManager {
 
     public void render(SpriteBatch spritebatch) {
 
-        for (Enemy e : allEnemyArray) {
+        for (Enemy e : enemies) {
             e.render(spritebatch);
 
         }
