@@ -556,6 +556,7 @@ public class GameScreen implements Screen {
         stage.addActor(table_buildings);
         stage.addActor(table_nextWave);
         stage.addActor(table_stats);
+        //
         stage.addActor(table_menuPause);
     }
 
