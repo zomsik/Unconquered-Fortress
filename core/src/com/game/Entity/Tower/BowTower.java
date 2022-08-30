@@ -10,8 +10,7 @@ public class BowTower extends Tower{
     public BowTower(int tileX, int tileY, float scale)
     {
 
-
-        super("bowTower", new TextureRegion(new Texture(Gdx.files.internal("assets/game/towers/bowTower.png"))), tileX, tileY, scale);
+        super("bowTower", new TextureRegion(new Texture(Gdx.files.internal("assets/game/towers/bowTower.png"))), 64, new TextureRegion(new Texture(Gdx.files.internal("assets/game/bullets/arrow64.png"))), 64, tileX, tileY, scale, 0.5f, 300, 200, 20);
 
 
     }

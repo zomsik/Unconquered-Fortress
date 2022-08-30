@@ -264,7 +264,8 @@ public class GameFunctions {
         ArrayList<Enemy> enemies = new ArrayList<>();
 
         enemies.add(new Flying());
-        enemies.add(new Summoner());
+        /*
+                enemies.add(new Summoner());
         enemies.add(new Flying());
         enemies.add(new Summoner());
         enemies.add(new Flying());
@@ -275,6 +276,7 @@ public class GameFunctions {
         enemies.add(new Summoner());
         enemies.add(new Flying());
         enemies.add(new Summoner());
+         */
 
         return enemies;
     }

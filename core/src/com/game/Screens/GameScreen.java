@@ -26,7 +26,7 @@ import com.game.Entity.Base;
 import com.game.Entity.Tower.BowTower;
 import com.game.Entity.Tower.CannonTower;
 import com.game.Entity.Tower.MageTower;
-import com.game.Entity.Tower.SwordTower;
+import com.game.Entity.Tower.MeleeTower;
 import com.game.Main;
 import com.game.Manager.*;
 import org.json.JSONArray;
@@ -276,7 +276,7 @@ public class GameScreen implements Screen {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
                 //warunki wybudowania swordTowera
-                towerManager.buyTower(new SwordTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale));
+                towerManager.buyTower(new MeleeTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale));
                 buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
 
 
