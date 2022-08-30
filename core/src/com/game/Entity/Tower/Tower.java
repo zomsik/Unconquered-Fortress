@@ -2,6 +2,7 @@ package com.game.Entity.Tower;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -30,6 +31,7 @@ public class Tower extends Actor {
     private float bulletSpeed;
 
 
+    private Animation<TextureRegion> towerAnimation;
 
     private float timeToShoot;
     private float reloadTime;
@@ -37,13 +39,14 @@ public class Tower extends Actor {
     private int lvl;
     private ArrayList<Bullet> towerBullets;
 
+    private float stateTime;
 
     public Tower(){
         this.enemyToFollow = null;
     }
 
 
-    public Tower(String name, TextureRegion towerTexture, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, float reloadTime, float bulletSpeed, float range, float bulletDamage){
+    public Tower(String name, String path, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, float reloadTime, float bulletSpeed, float range, float bulletDamage){
         this.name = name;
 
         this.timeToShoot=0;
@@ -53,7 +56,10 @@ public class Tower extends Actor {
 
         this.tileX = tileX;
         this.tileY = tileY;
-        this.towerTexture = towerTexture;
+        //this.towerTexture = towerTexture;
+
+        this.stateTime = 1f;
+
         this.bulletTexture = bulletTexture;
         this.towerTextureSize = towerTextureSize;
         this.bulletTextureSize = bulletTextureSize;
@@ -61,11 +67,26 @@ public class Tower extends Actor {
         this.bulletSpeed = bulletSpeed*scale;
         this.range = range*scale;
 
-        this.bulletDamage = bulletDamage;
-
         this.lvl = 1;
         this.enemyToFollow = null;
 
+
+        Texture spriteMap = new Texture(Gdx.files.internal(path));
+        TextureRegion[][] spritePosition = TextureRegion.split(spriteMap, 64, 64); // frame width and height get from extended class
+        TextureRegion[] animationSprites = new TextureRegion[4];
+
+        for (int i = 0; i < 4; i++) {
+            animationSprites[i] = spritePosition[0][i];
+        }
+        this.towerAnimation = new Animation<>(0.125f, animationSprites);
+
+
+
+
+
+
+
+        this.bulletDamage = bulletDamage;
 
 
 
@@ -82,6 +103,11 @@ public class Tower extends Actor {
     public void update(float deltaTime, ArrayList<Enemy> enemies) {
         //set positions, orientation
         // shoot if reloaded
+
+        // next animation frame if animation is not ended yet
+        if (!towerAnimation.isAnimationFinished(stateTime))
+            stateTime += Gdx.graphics.getDeltaTime();
+
 
         Iterator<Bullet> bIterator = towerBullets.iterator();
         while (bIterator.hasNext()) {
@@ -110,6 +136,7 @@ public class Tower extends Actor {
             {
                 if (range>=Vector2.dst(position.x,position.y,e.getPosition().x,e.getPosition().y)) {
                     towerBullets.add(new Bullet(e, bulletDamage, bulletSpeed, bulletTexture, bulletTextureSize, position, scale));
+                    stateTime = 0f;
                     timeToShoot = reloadTime;
 
                     Vector2 direction = new Vector2(position.x - e.getPosition().x, position.y - e.getPosition().y);
@@ -142,8 +169,7 @@ public class Tower extends Actor {
 
     public void render(SpriteBatch batch) {
         //draw tower
-        batch.draw(towerTexture,position.x, position.y, scale*64/2, scale*64/2,64,64,scale,scale,rotation);
-
+        batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x, position.y, towerTextureSize/2, towerTextureSize/2,towerTextureSize,towerTextureSize,scale,scale,rotation);
 
 
         for (Bullet b: towerBullets)

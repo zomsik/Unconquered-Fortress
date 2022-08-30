@@ -111,7 +111,7 @@ public class Bullet {
 
     public void render(SpriteBatch batch) {
 
-        batch.draw(bulletTexture,position.x, position.y, scale*bulletTextureSize/2, scale*bulletTextureSize/2,bulletTextureSize,bulletTextureSize,scale,scale,rotation);
+        batch.draw(bulletTexture,position.x, position.y, bulletTextureSize/2, bulletTextureSize/2,bulletTextureSize,bulletTextureSize,scale,scale,rotation);
 
     }
 
