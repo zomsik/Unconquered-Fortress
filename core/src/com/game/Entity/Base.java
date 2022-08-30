@@ -4,14 +4,17 @@ public class Base {
     private int maxHealth;
     private int health;
     private int armor;
+    private int money;
 
     public Base(){
+        this.money = 0;
         this.maxHealth = 100;
         this.health = 100;
         this.armor = 100;
     }
 
     public Base(int maxHealth, int health, int armor){
+        this.money = 0;
         this.maxHealth = maxHealth;
         this.health = health;
         this.armor = armor;
@@ -53,4 +56,17 @@ public class Base {
     public void setArmor(int armor) {
         this.armor = armor;
     }
+
+    public void increaseMoney(int money) {
+        this.money += money;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
 }

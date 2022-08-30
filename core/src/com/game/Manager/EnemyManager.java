@@ -69,6 +69,7 @@ public class EnemyManager {
 
     public void update(float deltaTime) {
 
+        //spawning enemies
         if (enemyWavesToSpawn.size()>0)
         {
             ArrayList<Integer> indexesToDelete = new ArrayList<>();
@@ -110,14 +111,22 @@ public class EnemyManager {
 
         }
 
+        //updating enemies
         Iterator<Enemy> eIterator = enemies.iterator();
         while (eIterator.hasNext()) {
             Enemy e = eIterator.next();
             e.update(deltaTime);
 
-            if(e.getIsAtEnd())
+            //if reached end
+            if(e.isAtEnd())
             {
                 base.damageBase(e.getDmg());
+                eIterator.remove();
+            }
+            //if dead
+            if(!e.isAlive())
+            {
+                base.increaseMoney(e.getMoney());
                 eIterator.remove();
             }
 

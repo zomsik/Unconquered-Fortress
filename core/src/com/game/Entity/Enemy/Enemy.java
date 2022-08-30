@@ -13,6 +13,8 @@ public class Enemy extends Actor {
     private int health;
     private int dmg;
 
+
+
     private int money;
     private float speed;
 
@@ -38,6 +40,7 @@ public class Enemy extends Actor {
         this.health = health;
 
         this.dmg = 7;
+        this.money = 15;
 
         moveDirection = "";
         isAtEnd = false;
@@ -69,6 +72,20 @@ public class Enemy extends Actor {
         currentAnimation = animationArr[1];
 
 
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void dealDmg(float damage)
+    {
+        health -= damage;
+    }
+
+    public boolean isAlive()
+    {
+        return health > 0;
     }
 
     public Vector2 getPosition(){
@@ -126,7 +143,7 @@ public class Enemy extends Actor {
     }
 
 
-    public boolean getIsAtEnd()
+    public boolean isAtEnd()
     {
         return isAtEnd;
     }

@@ -17,7 +17,7 @@ public class Tower extends Actor {
     private String name;
 
     private float range;
-    private float dmg;
+    private float bulletDamage;
     private float scale;
     private Enemy enemyToFollow;
     private TextureRegion towerTexture;
@@ -61,7 +61,7 @@ public class Tower extends Actor {
         this.bulletSpeed = bulletSpeed*scale;
         this.range = range*scale;
 
-        this.dmg = bulletDamage;
+        this.bulletDamage = bulletDamage;
 
         this.lvl = 1;
         this.enemyToFollow = null;
@@ -90,6 +90,7 @@ public class Tower extends Actor {
             b.update(deltaTime);
             if (b.isOnEnemy())
             {
+                b.getEnemyToFollow().dealDmg(b.getBulletDamage());
                 bIterator.remove();
             }
 
@@ -108,7 +109,7 @@ public class Tower extends Actor {
             for (Enemy e: enemies)
             {
                 if (range>=Vector2.dst(position.x,position.y,e.getPosition().x,e.getPosition().y)) {
-                    towerBullets.add(new Bullet(e, bulletSpeed, bulletTexture, position, scale));
+                    towerBullets.add(new Bullet(e, bulletDamage, bulletSpeed, bulletTexture, bulletTextureSize, position, scale));
                     timeToShoot = reloadTime;
 
                     Vector2 direction = new Vector2(position.x - e.getPosition().x, position.y - e.getPosition().y);

@@ -10,27 +10,50 @@ public class Bullet {
     private Enemy enemyToFollow;
     private float velocity;
     private TextureRegion bulletTexture;
+    private int bulletTextureSize;
     private Vector2 position;
     private float scale;
     private float rotation;
     private boolean isOnEnemy;
-    private int bulletSize;
+    private float bulletDamage;
 
-    public Bullet(Enemy enemyToFollow, float velocity, TextureRegion bulletTexture, Vector2 position, float scale)
+    public Bullet(Enemy enemyToFollow, float bulletDamage, float velocity, TextureRegion bulletTexture, int bulletTextureSize, Vector2 position, float scale)
     {
+
         this.isOnEnemy = false;
         this.enemyToFollow = enemyToFollow;
         this.velocity = velocity;
         this.bulletTexture = bulletTexture;
+        this.bulletTextureSize = bulletTextureSize;
         this.position = new Vector2(position);
         this.scale = scale;
-        this.bulletSize = 64;
-        this.rotation = 50;
+        this.bulletDamage = bulletDamage;
+
+
+        Vector2 spawnDirection = new Vector2(position.x - enemyToFollow.getPosition().x, position.y - enemyToFollow.getPosition().y);
+
+        rotation = (float) Math.toDegrees(Math.acos(Math.abs(position.x - enemyToFollow.getPosition().x)/Vector2.dst(position.x,position.y,enemyToFollow.getPosition().x,enemyToFollow.getPosition().y)));
+        if (spawnDirection.x <= 0 && spawnDirection.y <= 0)
+            rotation = 270 + rotation;
+        else if (spawnDirection.x <= 0 && spawnDirection.y > 0)
+            rotation = 270 - rotation;
+        else if (spawnDirection.x > 0 && spawnDirection.y > 0)
+            rotation = 90 + rotation;
+        else if (spawnDirection.x > 0 && spawnDirection.y <= 0)
+            rotation = 90 - rotation;
 
     }
 
     public boolean isOnEnemy() {
         return isOnEnemy;
+    }
+
+    public Enemy getEnemyToFollow() {
+        return enemyToFollow;
+    }
+
+    public float getBulletDamage() {
+        return bulletDamage;
     }
 
     public void update(float deltaTime) {
@@ -88,7 +111,7 @@ public class Bullet {
 
     public void render(SpriteBatch batch) {
 
-        batch.draw(bulletTexture,position.x, position.y, scale*bulletSize/2, scale*bulletSize/2,bulletSize,bulletSize,scale,scale,rotation);
+        batch.draw(bulletTexture,position.x, position.y, scale*bulletTextureSize/2, scale*bulletTextureSize/2,bulletTextureSize,bulletTextureSize,scale,scale,rotation);
 
     }
 

@@ -45,7 +45,7 @@ public class GameScreen implements Screen {
     private TextButton  bSaveDialog, bExitDialog, bTest, bNextWave, bResume, bPauseMenu;
 
     private Table table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_dialogGameOver, table_enemies, table_stats, table_menuPause;
-    private TextField hpTextField, GameOverTitle;
+    private TextField hpTextField, moneyTextField, GameOverTitle;
     private TextField.TextFieldStyle statsTextFieldStyle;
     private ArrayList<String> resolutions;
     private ArrayList<String> languages;
@@ -150,8 +150,14 @@ public class GameScreen implements Screen {
 
         hpTextField = new TextField("Hp: "+base.getHealth(), textFieldStyleManager.returnTextFieldStyle(statsTextFieldStyle));
         hpTextField.setAlignment(Align.center);
+
+        moneyTextField = new TextField("Money: "+base.getMoney(), textFieldStyleManager.returnTextFieldStyle(statsTextFieldStyle));
+        moneyTextField.setAlignment(Align.center);
+
         table_stats.setBounds(100,Gdx.graphics.getHeight()/10*9,300,100);
         table_stats.add(hpTextField);
+        table_stats.add(moneyTextField);
+
         if(Gdx.graphics.getHeight() == 900){
             table_menuPause.setBounds(Gdx.graphics.getWidth()/20*18,(Gdx.graphics.getHeight()/40*38-2), Gdx.graphics.getWidth()/50*3,Gdx.graphics.getHeight()/40*3);
         }else{
@@ -580,8 +586,8 @@ public class GameScreen implements Screen {
         stage.draw();
 
 
-                hpTextField.setText("Hp: " + base.getHealth());
-
+        hpTextField.setText("Hp: " + base.getHealth());
+        moneyTextField.setText("Money: " + base.getMoney());
                 //spawnEnemies
                 //enemyManager.draw();
                 //updateEnemiesPosition
