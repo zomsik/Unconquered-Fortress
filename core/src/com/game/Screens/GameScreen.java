@@ -24,10 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.game.Entity.Enemy.Enemy;
 import com.game.Entity.Base;
-import com.game.Entity.Tower.BowTower;
-import com.game.Entity.Tower.CannonTower;
-import com.game.Entity.Tower.MageTower;
-import com.game.Entity.Tower.MeleeTower;
+import com.game.Entity.Tower.*;
 import com.game.Main;
 import com.game.Manager.*;
 import org.json.JSONArray;
@@ -284,7 +281,9 @@ public class GameScreen implements Screen {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
                 //warunki wybudowania swordTowera
-                towerManager.buyTower(new MeleeTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale));
+                Tower t = new MeleeTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
+                towerManager.buyTower(t);
+                stage.addActor(t);
                 buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
 
 
@@ -307,7 +306,10 @@ public class GameScreen implements Screen {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
                 //warunki wybudowania bowTowera
-                towerManager.buyTower(new BowTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale));
+
+                Tower t = new BowTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
+                towerManager.buyTower(t);
+                stage.addActor(t);
                 buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
 
 
@@ -328,8 +330,10 @@ public class GameScreen implements Screen {
         if (Objects.equals(chosenOperation,"mage")) {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
-
-                towerManager.buyTower(new MageTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale));
+                Tower t = new MageTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
+                towerManager.buyTower(t);
+                stage.addActor(t);
+                //towerManager.buyTower(new MageTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale));
                 buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
                 //warunki wybudowania mageTowera
                 /*
@@ -350,7 +354,9 @@ public class GameScreen implements Screen {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
 
-                towerManager.buyTower(new CannonTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale));
+                Tower t = new CannonTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
+                towerManager.buyTower(t);
+                stage.addActor(t);
                 buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
                 //warunki wybudowania cannonTowera
 

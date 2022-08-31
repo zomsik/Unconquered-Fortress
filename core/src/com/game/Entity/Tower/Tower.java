@@ -48,6 +48,7 @@ public class Tower extends Actor {
 
     private float stateTime;
 
+    private boolean isMouseEntered;
     public Tower(){
         this.enemyToFollow = null;
     }
@@ -56,6 +57,7 @@ public class Tower extends Actor {
     public Tower(String name, String path, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, float reloadTime, float bulletSpeed, float range, float bulletDamage){
         this.name = name;
 
+        this.isMouseEntered = false;
         this.timeToShoot=0;
         this.reloadTime= reloadTime;
         this.scale = scale;
@@ -103,35 +105,28 @@ public class Tower extends Actor {
         this.addListener(new ClickListener() {
 
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("nacisnietoz");
+                System.out.println("upgrade");
             }
 
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                System.out.println("najechano");
+                isMouseEntered = true;
 
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                System.out.println("opuszczono");
+                isMouseEntered = false;
             }
 
         });
 
-        this.setBounds(position.x,position.y,600,600);
+        this.setBounds(position.x,position.y,towerTextureSize,towerTextureSize);
 
-        this.debug();
 
-        this.setTouchable(Touchable.enabled);
+
+
 
 
     }
-
-    /*
-    public boolean addListener(EventListener listener) {
-        Gdx.app.debug("MyTag", "my debug message");
-        return super.addListener(listener);
-    }*/
-
 
 
     public int getTileX() { return tileX;}
@@ -208,17 +203,20 @@ public class Tower extends Actor {
     public void render(SpriteBatch batch, ShapeRenderer shapeRenderer) {
         //draw tower
 
-        batch.end();
-
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.circle(position.x+towerTextureSize/2, position.y+towerTextureSize/2, range);
-        shapeRenderer.end();
-        Gdx.gl.glDisable(GL20.GL_BLEND);
 
 
-        batch.begin();
+        if (isMouseEntered)
+        {
+            batch.end();
+            shapeRenderer.setColor(Color.GREEN);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.circle(position.x+towerTextureSize/2, position.y+towerTextureSize/2, range);
+            shapeRenderer.end();
+            batch.begin();
+        }
+
+
+
         batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x, position.y, towerTextureSize/2, towerTextureSize/2,towerTextureSize,towerTextureSize,scale,scale,rotation);
 
 
