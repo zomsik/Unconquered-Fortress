@@ -215,13 +215,14 @@ public class Tower extends Actor {
             batch.begin();
         }
 
-
         if(Objects.equals(name, "meleeTower")){
-            batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x+8, position.y+16, towerTextureSize/2, towerTextureSize/3,towerTextureSize,towerTextureSize,scale,scale,rotation);
+            batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x, position.y, towerTextureSize/2, towerTextureSize/3,towerTextureSize,towerTextureSize,scale,scale,rotation);
 
         }else{
             batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x, position.y, towerTextureSize/2, towerTextureSize/2,towerTextureSize,towerTextureSize,scale,scale,rotation);
         }
+
+
 
 
 
