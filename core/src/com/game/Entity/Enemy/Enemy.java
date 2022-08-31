@@ -1,8 +1,10 @@
 package com.game.Entity.Enemy;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -20,6 +22,7 @@ public class Enemy extends Actor {
 
     private Animation<TextureRegion> currentAnimation;
     private Animation<TextureRegion>[] animationArr;
+    private int enemySize;
 
     private Vector2 position;
 
@@ -35,8 +38,8 @@ public class Enemy extends Actor {
 
     }
 
-    public Enemy(int health,String path, String name){
-
+    public Enemy(int health,String path, String name, int enemySize){
+        this.enemySize = enemySize;
         this.health = health;
 
         this.dmg = 7;
@@ -184,7 +187,19 @@ public class Enemy extends Actor {
     public void render(SpriteBatch batch){
         stateTime += Gdx.graphics.getDeltaTime();
 
-        batch.draw(currentAnimation.getKeyFrame(stateTime, true), position.x, position.y ,scale*64, scale*64);
+
+
+        batch.draw(currentAnimation.getKeyFrame(stateTime, true), position.x, position.y ,scale*enemySize, scale*enemySize);
+
+        batch.end();
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.circle(position.x+enemySize*scale/2, position.y+enemySize*scale/2,1);
+        shapeRenderer.end();
+        batch.begin();
+
+
 
     }
 

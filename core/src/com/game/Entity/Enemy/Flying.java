@@ -10,7 +10,7 @@ public class Flying extends Enemy{
     }
 
     public Flying(){
-        super(100, "assets/game/enemies/flying.png", "flying");
+        super(100, "assets/game/enemies/flying.png", "flying", 64);
     }
 
 

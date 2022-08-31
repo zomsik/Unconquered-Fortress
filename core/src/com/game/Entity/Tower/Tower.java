@@ -166,7 +166,7 @@ public class Tower extends Actor {
             // else find new enemy
             for (Enemy e: enemies)
             {
-                if (range>=Vector2.dst(position.x,position.y,e.getPosition().x,e.getPosition().y)) {
+                if (range>=Vector2.dst(position.x+towerTextureSize*scale/2,position.y+towerTextureSize*scale/2,e.getPosition().x+towerTextureSize*scale/2,e.getPosition().y+towerTextureSize*scale/2)) {
                     towerBullets.add(new Bullet(e, bulletDamage, bulletSpeed, bulletTexture, bulletTextureSize, position, scale));
                     stateTime = 0f;
                     timeToShoot = reloadTime;
