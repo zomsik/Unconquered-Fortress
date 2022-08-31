@@ -1,12 +1,19 @@
 package com.game.Entity.Tower;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.*;
+
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.Entity.Bullet;
 import com.game.Entity.Enemy.Enemy;
 
@@ -80,12 +87,6 @@ public class Tower extends Actor {
         }
         this.towerAnimation = new Animation<>(0.125f, animationSprites);
 
-
-
-
-
-
-
         this.bulletDamage = bulletDamage;
 
 
@@ -94,7 +95,44 @@ public class Tower extends Actor {
 
         this.rotation = 0;
 
+        //this.setBounds(position.x,position.y,towerTextureSize,towerTextureSize);
+
+
+
+
+        this.addListener(new ClickListener() {
+
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("nacisnietoz");
+            }
+
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                System.out.println("najechano");
+
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                System.out.println("opuszczono");
+            }
+
+        });
+
+        this.setBounds(position.x,position.y,600,600);
+
+        this.debug();
+
+        this.setTouchable(Touchable.enabled);
+
+
     }
+
+    /*
+    public boolean addListener(EventListener listener) {
+        Gdx.app.debug("MyTag", "my debug message");
+        return super.addListener(listener);
+    }*/
+
+
 
     public int getTileX() { return tileX;}
     public int getTileY() { return tileY;}
@@ -167,9 +205,22 @@ public class Tower extends Actor {
 
     }
 
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, ShapeRenderer shapeRenderer) {
         //draw tower
+
+        batch.end();
+
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.circle(position.x+towerTextureSize/2, position.y+towerTextureSize/2, range);
+        shapeRenderer.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+
+
+        batch.begin();
         batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x, position.y, towerTextureSize/2, towerTextureSize/2,towerTextureSize,towerTextureSize,scale,scale,rotation);
+
 
 
         for (Bullet b: towerBullets)

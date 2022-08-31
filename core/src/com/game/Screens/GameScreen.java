@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -71,6 +72,7 @@ public class GameScreen implements Screen {
     private int chosenOperationX, chosenOperationY;
     private int tick=0;
     private SpriteBatch spritebatch = new SpriteBatch();
+    private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     private float scale;
 
@@ -586,6 +588,9 @@ public class GameScreen implements Screen {
         stage.draw();
 
 
+
+
+
         hpTextField.setText("Hp: " + base.getHealth());
         moneyTextField.setText("Money: " + base.getMoney());
                 //spawnEnemies
@@ -604,7 +609,7 @@ public class GameScreen implements Screen {
                 towerManager.update(delta);
                 enemyManager.update(delta);
                 spritebatch.begin();
-                towerManager.render(spritebatch);
+                towerManager.render(spritebatch, shapeRenderer);
                 enemyManager.render(spritebatch);
                 font.draw(spritebatch, "FPS=" + Gdx.graphics.getFramesPerSecond(), 0, hudCamera.viewportHeight);
                 spritebatch.end();
@@ -612,7 +617,7 @@ public class GameScreen implements Screen {
                 break;
             case Paused:
                 spritebatch.begin();
-                towerManager.render(spritebatch);
+                towerManager.render(spritebatch, shapeRenderer);
                 enemyManager.render(spritebatch);
                 spritebatch.end();
                 pauseStage.draw();
@@ -620,7 +625,7 @@ public class GameScreen implements Screen {
                 break;
             case Resumed:
                 spritebatch.begin();
-                towerManager.render(spritebatch);
+                towerManager.render(spritebatch, shapeRenderer);
                 enemyManager.render(spritebatch);
                 spritebatch.end();
 
@@ -630,7 +635,7 @@ public class GameScreen implements Screen {
             case GameOver:
                 gameOverDialog.show(gameOverStage);
                 spritebatch.begin();
-                towerManager.render(spritebatch);
+                towerManager.render(spritebatch, shapeRenderer);
                 enemyManager.render(spritebatch);
                 spritebatch.end();
                 gameOverStage.draw();

@@ -1,6 +1,7 @@
 package com.game.Manager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.game.Entity.Enemy.Enemy;
 import com.game.Entity.Tower.Tower;
 
@@ -60,10 +61,10 @@ public class TowerManager {
 
     }
 
-    public void render(SpriteBatch spritebatch) {
+    public void render(SpriteBatch spritebatch, ShapeRenderer shapeRenderer) {
 
         for (Tower t : towers) {
-            t.render(spritebatch);
+            t.render(spritebatch, shapeRenderer);
 
         }
 
