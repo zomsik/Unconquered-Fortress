@@ -22,7 +22,7 @@ public class Enemy extends Actor {
 
     private Animation<TextureRegion> currentAnimation;
     private Animation<TextureRegion>[] animationArr;
-    private int enemySize;
+    private float enemySize;
 
     private Vector2 position;
 
@@ -145,6 +145,9 @@ public class Enemy extends Actor {
 
     }
 
+    public float getEnemySize(){
+        return enemySize;
+    }
 
     public boolean isAtEnd()
     {
@@ -189,13 +192,13 @@ public class Enemy extends Actor {
 
 
 
-        batch.draw(currentAnimation.getKeyFrame(stateTime, true), position.x, position.y ,scale*enemySize, scale*enemySize);
+        batch.draw(currentAnimation.getKeyFrame(stateTime, true), position.x, position.y+scale*enemySize/2 ,scale*enemySize, scale*enemySize);
 
         batch.end();
         ShapeRenderer shapeRenderer = new ShapeRenderer();
         shapeRenderer.setColor(Color.RED);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.circle(position.x+enemySize*scale/2, position.y+enemySize*scale/2,1);
+        shapeRenderer.circle(position.x+enemySize*scale/2, position.y+enemySize*scale/2+scale*enemySize/2,1);
         shapeRenderer.end();
         batch.begin();
 

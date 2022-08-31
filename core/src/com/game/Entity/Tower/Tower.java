@@ -88,7 +88,7 @@ public class Tower extends Actor {
         for (int i = 0; i < 4; i++) {
             animationSprites[i] = spritePosition[0][i];
         }
-        this.towerAnimation = new Animation<>(0.125f, animationSprites);
+        this.towerAnimation = new Animation<>(reloadTime/4, animationSprites);
 
         this.bulletDamage = bulletDamage;
 
@@ -166,8 +166,8 @@ public class Tower extends Actor {
             // else find new enemy
             for (Enemy e: enemies)
             {
-                if (range>=Vector2.dst(position.x+towerTextureSize*scale/2,position.y+towerTextureSize*scale/2,e.getPosition().x+towerTextureSize*scale/2,e.getPosition().y+towerTextureSize*scale/2)) {
-                    towerBullets.add(new Bullet(e, bulletDamage, bulletSpeed, bulletTexture, bulletTextureSize, position, scale));
+                if (range>=Vector2.dst(position.x+towerTextureSize*scale/2,position.y+towerTextureSize*scale/2,e.getPosition().x+e.getEnemySize()*scale/2,e.getPosition().y+e.getEnemySize()*scale/2)) {
+                    towerBullets.add(new Bullet(e, e.getEnemySize(), bulletDamage, bulletSpeed, bulletTexture, bulletTextureSize, position, scale));
                     stateTime = 0f;
                     timeToShoot = reloadTime;
 
