@@ -51,6 +51,7 @@ public class TowerManager {
     }
 
 
+
     public void update(float deltaTime) {
 
         for (Tower t : towers) {

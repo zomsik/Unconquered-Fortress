@@ -617,7 +617,7 @@ public class GameScreen implements Screen {
                 spritebatch.begin();
                 towerManager.render(spritebatch, shapeRenderer);
                 enemyManager.render(spritebatch);
-                font.draw(spritebatch, "FPS=" + Gdx.graphics.getFramesPerSecond(), 0, hudCamera.viewportHeight);
+                font.draw(spritebatch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, hudCamera.viewportHeight);
                 spritebatch.end();
 
                 break;

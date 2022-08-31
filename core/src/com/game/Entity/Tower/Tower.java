@@ -19,6 +19,7 @@ import com.game.Entity.Enemy.Enemy;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class Tower extends Actor {
 
@@ -98,8 +99,6 @@ public class Tower extends Actor {
         this.rotation = 0;
 
         //this.setBounds(position.x,position.y,towerTextureSize,towerTextureSize);
-
-
 
 
         this.addListener(new ClickListener() {
@@ -192,6 +191,7 @@ public class Tower extends Actor {
 
                     break;
                 }
+
             }
 
         }
@@ -216,8 +216,12 @@ public class Tower extends Actor {
         }
 
 
+        if(Objects.equals(name, "meleeTower")){
+            batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x+8, position.y+16, towerTextureSize/2, towerTextureSize/3,towerTextureSize,towerTextureSize,scale,scale,rotation);
 
-        batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x, position.y, towerTextureSize/2, towerTextureSize/2,towerTextureSize,towerTextureSize,scale,scale,rotation);
+        }else{
+            batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x, position.y, towerTextureSize/2, towerTextureSize/2,towerTextureSize,towerTextureSize,scale,scale,rotation);
+        }
 
 
 
