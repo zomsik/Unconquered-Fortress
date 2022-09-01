@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Null;
 import com.game.Entity.Bullet;
 import com.game.Entity.Enemy.Enemy;
 
@@ -40,6 +41,7 @@ public class Tower extends Actor {
 
 
     private Animation<TextureRegion> towerAnimation;
+    private Animation<TextureRegion> towerAnimation2;
 
     private float timeToShoot;
     private float reloadTime;
@@ -55,7 +57,7 @@ public class Tower extends Actor {
     }
 
 
-    public Tower(String name, String path, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, float reloadTime, float bulletSpeed, float range, float bulletDamage){
+    public Tower(String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, float reloadTime, float bulletSpeed, float range, float bulletDamage){
         this.name = name;
 
         this.isMouseEntered = false;
@@ -85,10 +87,16 @@ public class Tower extends Actor {
         TextureRegion[][] spritePosition = TextureRegion.split(spriteMap, 64, 64); // frame width and height get from extended class
         TextureRegion[] animationSprites = new TextureRegion[4];
 
+        Texture spriteMap2 = new Texture(Gdx.files.internal(path2));
+        TextureRegion[][] spritePosition2 = TextureRegion.split(spriteMap2, 64, 64); // frame width and height get from extended class
+        TextureRegion[] animationSprites2 = new TextureRegion[4];
+
         for (int i = 0; i < 4; i++) {
             animationSprites[i] = spritePosition[0][i];
+            animationSprites2[i] = spritePosition2[0][i];
         }
         this.towerAnimation = new Animation<>(reloadTime/4, animationSprites);
+        this.towerAnimation2 = new Animation<>(reloadTime/4, animationSprites2);
 
         this.bulletDamage = bulletDamage;
 
@@ -217,6 +225,8 @@ public class Tower extends Actor {
 
         if(Gdx.graphics.getHeight()>720){
             if(Objects.equals(name, "meleeTower")){
+                //Chce zrobić jakby podstawę dla miecza, która nie będzie się obracać i obracalny miecz, chociaż pewnie i podstawa będzie animowana, bo mam pomysł na takie ładujące się runy cały czas
+                batch.draw(towerAnimation2.getKeyFrame(stateTime, true), position.x, position.y);
                 batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x, position.y+16, towerTextureSize/2, towerTextureSize/3,towerTextureSize,towerTextureSize,scale,scale,rotation);
 
             }else{
