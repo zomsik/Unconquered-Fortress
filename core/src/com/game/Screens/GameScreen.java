@@ -72,6 +72,7 @@ public class GameScreen implements Screen {
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     private float scale;
+    private boolean shouldRenderPreview = false;
 
     private int[][] buildArr;
 
@@ -393,10 +394,15 @@ public class GameScreen implements Screen {
         }
     }
     public void mouseEnterMapTile() {
-        //System.out.println("x: "+lastClickedMapTile.getX()+", y: "+ lastClickedMapTile.getY());
+        if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0 && chosenOperation!=null)
+            shouldRenderPreview = true;
+
+
     }
+
     public void mouseExitMapTile() {
-        //System.out.println("x: "+lastClickedMapTile.getX()+", y: "+ lastClickedMapTile.getY());
+        if (shouldRenderPreview)
+            shouldRenderPreview = false;
     }
 
     @Override
@@ -618,6 +624,10 @@ public class GameScreen implements Screen {
                 towerManager.render(spritebatch, shapeRenderer);
                 enemyManager.render(spritebatch);
                 font.draw(spritebatch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, hudCamera.viewportHeight);
+
+                if (shouldRenderPreview)
+                    GameFunctions.renderPreviewBuilding(spritebatch, shapeRenderer, lastClickedMapTile, chosenOperation, scale);
+
                 spritebatch.end();
 
                 break;

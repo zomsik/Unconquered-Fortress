@@ -210,7 +210,7 @@ public class Tower extends Actor {
             batch.end();
             shapeRenderer.setColor(Color.GREEN);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            shapeRenderer.circle(position.x+towerTextureSize/2, position.y+towerTextureSize/2, range);
+            shapeRenderer.circle(position.x+scale*towerTextureSize/2, position.y+scale*towerTextureSize/2, range);
             shapeRenderer.end();
             batch.begin();
         }

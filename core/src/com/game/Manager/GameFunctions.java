@@ -2,7 +2,12 @@ package com.game.Manager;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -263,18 +268,18 @@ public class GameFunctions {
     public static ArrayList<Enemy> createTestEnemyWave(JSONObject actualGame, float scale) {
         ArrayList<Enemy> enemies = new ArrayList<>();
 
+        enemies.add(new Warrior());
         enemies.add(new Flying());
         enemies.add(new Summoner());
+        enemies.add(new Assassin());
+        enemies.add(new Warrior());
         enemies.add(new Flying());
         enemies.add(new Summoner());
+        enemies.add(new Assassin());
+        enemies.add(new Warrior());
         enemies.add(new Flying());
         enemies.add(new Summoner());
-        enemies.add(new Flying());
-        enemies.add(new Summoner());
-        enemies.add(new Flying());
-        enemies.add(new Summoner());
-        enemies.add(new Flying());
-        enemies.add(new Summoner());
+        enemies.add(new Assassin());
 
         return enemies;
     }
@@ -380,5 +385,48 @@ public class GameFunctions {
     }
 
 
+    public static void renderPreviewBuilding(SpriteBatch spritebatch, ShapeRenderer shapeRenderer, LastClickedTile tile, String chosenOperation, float scale) {
+        float range=0;
+        TextureRegion towerPreview = new TextureRegion();
+        float towerTextureSize=64;
+
+        Vector2 position = new Vector2(tile.getX() * scale * 64 + Gdx.graphics.getWidth() / 20,(9 - tile.getY()) * scale * 64 + (Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 30 * 16) / 2);
+
+
+        switch (chosenOperation) {
+            case "sword":
+                towerPreview = new TextureRegion(new Texture(Gdx.files.internal("assets/game/towers/meleePreview.png")));
+                range = 80*scale;
+                break;
+            case "bow":
+                towerPreview = new TextureRegion(new Texture(Gdx.files.internal("assets/game/towers/crossbowPreview.png")));
+                range = 200*scale;
+                break;
+            case "mage":
+                towerPreview = new TextureRegion(new Texture(Gdx.files.internal("assets/game/towers/magePreview.png")));
+                range = 200*scale;
+                break;
+            case "cannon":
+                towerPreview = new TextureRegion(new Texture(Gdx.files.internal("assets/game/towers/cannonPreview.png")));
+                range = 200*scale;
+                break;
+
+        }
+        System.out.println("rysuję");
+        spritebatch.draw(towerPreview, position.x, position.y,towerTextureSize*scale,towerTextureSize*scale );
+
+        spritebatch.end();
+
+        shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.circle(position.x+scale*towerTextureSize/2, position.y+scale*towerTextureSize/2, range);
+        shapeRenderer.end();
+
+        spritebatch.begin();
+
+
+
+
+    }
 }
 
