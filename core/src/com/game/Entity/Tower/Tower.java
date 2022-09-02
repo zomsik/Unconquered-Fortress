@@ -86,17 +86,22 @@ public class Tower extends Actor {
         Texture spriteMap = new Texture(Gdx.files.internal(path));
         TextureRegion[][] spritePosition = TextureRegion.split(spriteMap, 64, 64); // frame width and height get from extended class
         TextureRegion[] animationSprites = new TextureRegion[4];
+        Texture spriteMap2;
+        if(path2 != null){
+            spriteMap2 = new Texture(Gdx.files.internal(path2));
+        }else{
+            spriteMap2 = new Texture(Gdx.files.internal("assets/game/towers/nullPath.png"));
+        }
 
-        Texture spriteMap2 = new Texture(Gdx.files.internal(path2));
         TextureRegion[][] spritePosition2 = TextureRegion.split(spriteMap2, 64, 64); // frame width and height get from extended class
         TextureRegion[] animationSprites2 = new TextureRegion[4];
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < animationSprites.length; i++) {
             animationSprites[i] = spritePosition[0][i];
             animationSprites2[i] = spritePosition2[0][i];
         }
-        this.towerAnimation = new Animation<>(reloadTime/4, animationSprites);
-        this.towerAnimation2 = new Animation<>(reloadTime/4, animationSprites2);
+        this.towerAnimation = new Animation<>(reloadTime/animationSprites.length, animationSprites);
+        this.towerAnimation2 = new Animation<>(reloadTime/animationSprites.length, animationSprites2);
 
         this.bulletDamage = bulletDamage;
 
@@ -223,23 +228,15 @@ public class Tower extends Actor {
             batch.begin();
         }
 
-        if(Gdx.graphics.getHeight()>720){
             if(Objects.equals(name, "meleeTower")){
                 //Chce zrobić jakby podstawę dla miecza, która nie będzie się obracać i obracalny miecz, chociaż pewnie i podstawa będzie animowana, bo mam pomysł na takie ładujące się runy cały czas
-                batch.draw(towerAnimation2.getKeyFrame(stateTime, true), position.x, position.y);
-                batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x, position.y+16, towerTextureSize/2, towerTextureSize/3,towerTextureSize,towerTextureSize,scale,scale,rotation);
+                batch.draw(towerAnimation2.getKeyFrame(stateTime, true), position.x, position.y,towerTextureSize, towerTextureSize);
+                batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x, position.y, towerTextureSize/2, towerTextureSize/2,towerTextureSize,towerTextureSize,scale,scale,rotation);
 
             }else{
                 batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x, position.y, towerTextureSize/2, towerTextureSize/2,towerTextureSize,towerTextureSize,scale,scale,rotation);
             }
-        }else{
-            if(Objects.equals(name, "meleeTower")){
-                batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x-8, position.y+8, towerTextureSize/2, towerTextureSize/3,towerTextureSize,towerTextureSize,scale,scale,rotation);
 
-            }else{
-                batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x, position.y, towerTextureSize/2, towerTextureSize/2,towerTextureSize,towerTextureSize,scale,scale,rotation);
-            }
-        }
 
 
 
