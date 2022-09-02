@@ -2,6 +2,7 @@ package com.game.Manager;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.game.Entity.Enemy.*;
 import com.game.Screens.GameScreen;
 import org.json.JSONArray;
@@ -90,7 +92,6 @@ public class GameFunctions {
         Table t = new Table();
         t.setBounds(Gdx.graphics.getWidth()/20 , (Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2 , 960 , 640);
         t.setTransform(true);
-
         System.out.println(Gdx.graphics.getWidth()/10*8);
         System.out.println(Gdx.graphics.getWidth()/30*16);
 
@@ -202,9 +203,10 @@ public class GameFunctions {
 
     public static Table getOperationsTable(Image[][] arr, float scale)
     {
+        Texture bg = new Texture(new FileHandle("assets/shopBackground.png"));
         Table t = new Table();
-        t.setBounds(Gdx.graphics.getWidth()/10*9, Gdx.graphics.getHeight()/10*3, 128, 256);
-
+        t.setBounds(Gdx.graphics.getWidth()-224, Gdx.graphics.getHeight()/10*3, 224, 350);
+        t.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
         t.setTransform(true);
 
 

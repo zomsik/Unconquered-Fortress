@@ -1,0 +1,26 @@
+
+statsCover.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+leftStatsCover
+  rotate: false
+  xy: 0, 0
+  size: 92, 24
+  orig: 92, 24
+  offset: 0, 0
+  index: -1
+rightStatsCover
+  rotate: false
+  xy: 92, 0
+  size: 92, 24
+  orig: 92, 24
+  offset: 0, 0
+  index: -1
+middleStatsCover
+  rotate: false
+  xy: 188, 0
+  size: 12, 24
+  orig: 12, 24
+  offset: 0, 0
+  index: -1
