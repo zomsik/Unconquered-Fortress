@@ -203,10 +203,10 @@ public class GameFunctions {
 
     public static Table getOperationsTable(Image[][] arr, float scale)
     {
-        Texture bg = new Texture(new FileHandle("assets/shopBackground.png"));
+
         Table t = new Table();
-        t.setBounds(Gdx.graphics.getWidth()-224, Gdx.graphics.getHeight()/10*3, 224, 350);
-        t.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
+        //t.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
+        t.setBounds(Gdx.graphics.getWidth()-224*scale, (Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+16*scale, 224, 350);
         t.setTransform(true);
 
 
@@ -303,9 +303,6 @@ public class GameFunctions {
         // 4 - summoner
         System.out.print(wave + ": ");
         int enemyPoints = 50 + (wave/10 + wave)*5;
-
-
-
 
         if (wave % 10 == 5)
         {

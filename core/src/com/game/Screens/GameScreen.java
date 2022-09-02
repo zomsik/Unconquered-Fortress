@@ -38,13 +38,13 @@ public class GameScreen implements Screen {
     private Stage stage, pauseStage, gameOverStage;
     private Texture background;
     private BitmapFont font;
-    private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack, taButtonsPause;
-    private Skin images, images_default, dialog, images_map, images_buildings, images_pause;
+    private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack, taButtonsPause, taStatsCover;
+    private Skin images, images_default, dialog, images_map, images_buildings, images_pause, images_stats;
     private TextButton  bSaveDialog, bExitDialog, bTest, bNextWave, bResume, bPauseMenu;
 
     private Table table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_dialogGameOver, table_enemies, table_stats, table_menuPause;
-    private TextField hpTextField, moneyTextField, GameOverTitle;
-    private TextField.TextFieldStyle statsTextFieldStyle;
+    private TextField hpTextField,hpTextValue, goldTextField, goldTextValue, GameOverTitle;
+    private TextField.TextFieldStyle statsTextFieldStyle, rightStatsTextFieldStyle, leftStatsTextFieldStyle;
     private ArrayList<String> resolutions;
     private ArrayList<String> languages;
     private FreeTypeFontGenerator generator;
@@ -102,7 +102,7 @@ public class GameScreen implements Screen {
         this.buildArr = new int[15][10];
         scale = (float) (Gdx.graphics.getWidth() / 1280.0);
 
-
+        System.out.println("Skala: " + scale);
         lastClickedMapTile = new LastClickedTile();
         lastClickedOperationTile = new LastClickedTile();
         resolutionsClass = new Resolutions();
@@ -144,19 +144,33 @@ public class GameScreen implements Screen {
         base = new Base();
 
         textFieldStyleManager.setTextFieldStyle(statsTextFieldStyle, images, font, "textBar", Color.WHITE);
+        textFieldStyleManager.setTextFieldStyle(rightStatsTextFieldStyle, images_stats, font, "rightStatsCover", Color.WHITE);
+        textFieldStyleManager.setTextFieldStyle(leftStatsTextFieldStyle, images_stats, font, "leftStatsCover", Color.WHITE);
 
         GameOverTitle = new TextField("Lose", textFieldStyleManager.returnTextFieldStyle(statsTextFieldStyle));
         GameOverTitle.setAlignment(Align.center);
 
-        hpTextField = new TextField("Hp: "+base.getHealth(), textFieldStyleManager.returnTextFieldStyle(statsTextFieldStyle));
+        hpTextField = new TextField("Hp: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        hpTextValue = new TextField(String.valueOf(base.getHealth()), textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
         hpTextField.setAlignment(Align.center);
+        hpTextValue.setAlignment(Align.center);
 
-        moneyTextField = new TextField("Money: "+base.getMoney(), textFieldStyleManager.returnTextFieldStyle(statsTextFieldStyle));
-        moneyTextField.setAlignment(Align.center);
+        goldTextField = new TextField("Money: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        goldTextValue = new TextField(String.valueOf(base.getMoney()), textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        goldTextField.setAlignment(Align.center);
+        goldTextValue.setAlignment(Align.center);
 
-        table_stats.setBounds(100,Gdx.graphics.getHeight()/10*9,300,100);
-        table_stats.add(hpTextField);
-        table_stats.add(moneyTextField);
+        Texture table_statsBackgound = new Texture(new FileHandle("assets/statsBackground.png"));
+
+        table_stats.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
+        table_stats.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackgound)));
+        table_stats.add(hpTextField).width((200*scale)/2-6*scale);
+        table_stats.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        table_stats.add(hpTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        table_stats.row();
+        table_stats.add(goldTextField).width((200*scale)/2-6*scale);
+        table_stats.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        table_stats.add(goldTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
 
         if(Gdx.graphics.getHeight() == 900){
             table_menuPause.setBounds(Gdx.graphics.getWidth()/20*18,(Gdx.graphics.getHeight()/40*38-2), Gdx.graphics.getWidth()/50*3,Gdx.graphics.getHeight()/40*3);
@@ -185,6 +199,8 @@ public class GameScreen implements Screen {
 
         operationsArr = GameFunctions.getOperationsArr(this);
         table_operations = GameFunctions.getOperationsTable(operationsArr, scale);
+        Texture bg = new Texture(new FileHandle("assets/shopBackground.png"));
+        table_operations.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
         operationsSelectedArr = GameFunctions.getOperationsSelectedArr();
         table_operationsSelected = GameFunctions.getOperationsTable(operationsSelectedArr, scale);
 
@@ -192,10 +208,10 @@ public class GameScreen implements Screen {
         table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
 
         buildingsArr = GameFunctions.loadPlacedBuildings(this, buildingsArr, actualGame.getJSONArray("buildings"));
-        table_nextWave.add(bNextWave).width(Gdx.graphics.getWidth()/10);
-        table_nextWave.row();
-        table_nextWave.add(bTest).width(Gdx.graphics.getWidth()/10);
-        table_nextWave.setBounds(Gdx.graphics.getWidth()/10*9,Gdx.graphics.getHeight()/10*1,Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight()/10);
+        table_nextWave.add(bNextWave).width(224*scale).padBottom(8*scale);
+        //table_nextWave.row();
+        //table_nextWave.add(bTest).width(Gdx.graphics.getWidth()/10);
+        table_nextWave.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2,224*scale,48*scale);
         table_nextWave.debug();
 
         table_menuPause.add(bPauseMenu).height(Gdx.graphics.getHeight()/40*3).width(Gdx.graphics.getWidth()/50*3);
@@ -603,8 +619,8 @@ public class GameScreen implements Screen {
 
 
 
-        hpTextField.setText("Hp: " + base.getHealth());
-        moneyTextField.setText("Money: " + base.getMoney());
+        hpTextValue.setText(String.valueOf(base.getHealth()));
+        goldTextValue.setText(String.valueOf(base.getMoney()));
                 //spawnEnemies
                 //enemyManager.draw();
                 //updateEnemiesPosition
@@ -716,10 +732,12 @@ public class GameScreen implements Screen {
         taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");
         taDialogBack = new TextureAtlas("assets/dialog/skin_dialog.pack");
         taButtonsPause = new TextureAtlas("assets/buttons/buttons_pause.pack");
+        taStatsCover = new TextureAtlas("assets/buttons/statsCover.pack");
         images = new Skin(taButtonsSettings);
         images_default = new Skin(taButtonsDefault);
         dialog = new Skin(taDialogBack);
         images_pause = new Skin(taButtonsPause);
+        images_stats = new Skin(taStatsCover);
 
         images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         images_buildings = new Skin(new TextureAtlas("assets/icons/buildings.pack"));
@@ -743,6 +761,8 @@ public class GameScreen implements Screen {
         textButtonStyle_bPauseMenu = new TextButton.TextButtonStyle();
         textFieldStyle = new TextField.TextFieldStyle();
         statsTextFieldStyle = new TextField.TextFieldStyle();
+        leftStatsTextFieldStyle = new TextField.TextFieldStyle();
+        rightStatsTextFieldStyle = new TextField.TextFieldStyle();
         sliderStyle = new Slider.SliderStyle();
 
         backgroundMusic = game.getMusic();

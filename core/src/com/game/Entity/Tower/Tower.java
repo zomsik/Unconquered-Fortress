@@ -87,17 +87,21 @@ public class Tower extends Actor {
         TextureRegion[][] spritePosition = TextureRegion.split(spriteMap, 64, 64); // frame width and height get from extended class
         TextureRegion[] animationSprites = new TextureRegion[4];
         Texture spriteMap2;
-        if(path2 != null){
+        TextureRegion[][] spritePosition2 = new TextureRegion[0][];
+        TextureRegion[] animationSprites2 = new TextureRegion[0];
+        if(path2!=null)
+        {
             spriteMap2 = new Texture(Gdx.files.internal(path2));
-        }else{
-            spriteMap2 = new Texture(Gdx.files.internal("assets/game/towers/nullPath.png"));
+            spritePosition2 = TextureRegion.split(spriteMap2, 64, 64); // frame width and height get from extended class
+            animationSprites2 = new TextureRegion[4];
         }
 
-        TextureRegion[][] spritePosition2 = TextureRegion.split(spriteMap2, 64, 64); // frame width and height get from extended class
-        TextureRegion[] animationSprites2 = new TextureRegion[4];
+
 
         for (int i = 0; i < animationSprites.length; i++) {
             animationSprites[i] = spritePosition[0][i];
+        }
+        for (int i = 0; i < animationSprites2.length; i++) {
             animationSprites2[i] = spritePosition2[0][i];
         }
         this.towerAnimation = new Animation<>(reloadTime/animationSprites.length, animationSprites);
