@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
     private Skin images, images_default, dialog, images_map, images_buildings, images_pause, images_stats;
     private TextButton  bSaveDialog, bExitDialog, bTest, bNextWave, bResume, bPauseMenu;
 
-    private Table table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_dialogGameOver, table_enemies, table_stats, table_menuPause;
+    private Table table_info, table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_dialogGameOver, table_enemies, table_stats, table_menuPause;
     private TextField hpTextField,hpTextValue, goldTextField, goldTextValue, GameOverTitle;
     private TextField.TextFieldStyle statsTextFieldStyle, rightStatsTextFieldStyle, leftStatsTextFieldStyle;
     private ArrayList<String> resolutions;
@@ -80,8 +80,10 @@ public class GameScreen implements Screen {
     private EnemyManager enemyManager;
     private TowerManager towerManager;
 
+
     public LastClickedTile lastClickedMapTile, lastClickedOperationTile;
 
+    private StatsTableManager statsTableManager;
     private Base base;
 
     OrthographicCamera hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -137,40 +139,14 @@ public class GameScreen implements Screen {
         table_map = worldManager.drawWorld(mapArr, scale);
 
         hudCamera.position.set(hudCamera.viewportWidth / 2.0f, hudCamera.viewportHeight / 2.0f, 1.0f);
-        // add inicjalization like position of the base and the enemy tile x,y
-        //width of the tile as well
-        //enemyManager = new EnemyManager(worldManager.getEnemySpawnerPosition()[1],worldManager.getEnemySpawnerPosition()[0], new Vector2(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()), scale, worldManager.getPath());
 
         base = new Base();
+        statsTableManager = new StatsTableManager(base,scale);
+        table_info = statsTableManager.getStatsTable();
 
         textFieldStyleManager.setTextFieldStyle(statsTextFieldStyle, images, font, "textBar", Color.WHITE);
-        textFieldStyleManager.setTextFieldStyle(rightStatsTextFieldStyle, images_stats, font, "rightStatsCover", Color.WHITE);
-        textFieldStyleManager.setTextFieldStyle(leftStatsTextFieldStyle, images_stats, font, "leftStatsCover", Color.WHITE);
-
         GameOverTitle = new TextField("Lose", textFieldStyleManager.returnTextFieldStyle(statsTextFieldStyle));
         GameOverTitle.setAlignment(Align.center);
-
-        hpTextField = new TextField("Hp: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
-        hpTextValue = new TextField(String.valueOf(base.getHealth()), textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-        hpTextField.setAlignment(Align.center);
-        hpTextValue.setAlignment(Align.center);
-
-        goldTextField = new TextField("Money: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
-        goldTextValue = new TextField(String.valueOf(base.getMoney()), textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-        goldTextField.setAlignment(Align.center);
-        goldTextValue.setAlignment(Align.center);
-
-        Texture table_statsBackgound = new Texture(new FileHandle("assets/statsBackground.png"));
-
-        table_stats.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
-        table_stats.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackgound)));
-        table_stats.add(hpTextField).width((200*scale)/2-6*scale);
-        table_stats.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
-        table_stats.add(hpTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
-        table_stats.row();
-        table_stats.add(goldTextField).width((200*scale)/2-6*scale);
-        table_stats.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
-        table_stats.add(goldTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
 
         if(Gdx.graphics.getHeight() == 900){
             table_menuPause.setBounds(Gdx.graphics.getWidth()/20*18,(Gdx.graphics.getHeight()/40*38-2), Gdx.graphics.getWidth()/50*3,Gdx.graphics.getHeight()/40*3);
@@ -236,10 +212,17 @@ public class GameScreen implements Screen {
         }
     }
     public void mouseEnterOperation() {
-        System.out.println("Najechano: "+lastClickedOperationTile.getName());
+        statsTableManager.setNewBuildingTable(lastClickedOperationTile.getName());
+
+        table_info.remove();
+        table_info = statsTableManager.getNewBuildingTable();
+        stage.addActor(table_info);
+
     }
     public void mouseExitOperation() {
-        //System.out.println("x: "+lastClickedMapTile.getX()+", y: "+ lastClickedMapTile.getY());
+        table_info.remove();
+        table_info = statsTableManager.getStatsTable();
+        stage.addActor(table_info);
     }
 
     public void mouseClickBuildingTile() {
@@ -598,7 +581,8 @@ public class GameScreen implements Screen {
         stage.addActor(table_map);
         stage.addActor(table_buildings);
         stage.addActor(table_nextWave);
-        stage.addActor(table_stats);
+        //stage.addActor(table_stats);
+        stage.addActor(table_info);
         //
         stage.addActor(table_menuPause);
 
@@ -619,12 +603,12 @@ public class GameScreen implements Screen {
 
 
 
-        hpTextValue.setText(String.valueOf(base.getHealth()));
-        goldTextValue.setText(String.valueOf(base.getMoney()));
+
                 //spawnEnemies
                 //enemyManager.draw();
                 //updateEnemiesPosition
                 if (base.getHealth() <= 0) {
+                    statsTableManager.update();
                     //przegrana
                     //stop game
 
@@ -634,6 +618,7 @@ public class GameScreen implements Screen {
 
         switch(state) {
             case Running:
+                statsTableManager.update();
                 towerManager.update(delta);
                 enemyManager.update(delta);
                 spritebatch.begin();
@@ -751,6 +736,8 @@ public class GameScreen implements Screen {
         table_enemies = new Table(images_map);
         table_stats = new Table(images_default);
         table_menuPause = new Table(images_default);
+        table_info = new Table();
+
 
         textFieldStyleManager = new TextFieldStyleManager();
 
