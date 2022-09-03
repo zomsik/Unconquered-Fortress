@@ -277,7 +277,7 @@ public class GameFunctions {
         ArrayList<Enemy> enemies = new ArrayList<>();
 
         enemies.add(new Warrior());
-        enemies.add(new Flying());
+       /* enemies.add(new Flying());
         enemies.add(new Summoner());
         enemies.add(new Assassin());
         enemies.add(new Warrior());
@@ -287,7 +287,7 @@ public class GameFunctions {
         enemies.add(new Warrior());
         enemies.add(new Flying());
         enemies.add(new Summoner());
-        enemies.add(new Assassin());
+        enemies.add(new Assassin());*/
 
         return enemies;
     }

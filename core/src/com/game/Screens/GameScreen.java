@@ -140,8 +140,8 @@ public class GameScreen implements Screen {
 
         hudCamera.position.set(hudCamera.viewportWidth / 2.0f, hudCamera.viewportHeight / 2.0f, 1.0f);
 
-        base = new Base();
-        statsTableManager = new StatsTableManager(base,scale);
+        base = new Base(actualGame);
+        statsTableManager = new StatsTableManager(base,scale, languageManager);
         table_info = statsTableManager.getStatsTable();
 
         textFieldStyleManager.setTextFieldStyle(statsTextFieldStyle, images, font, "textBar", Color.WHITE);

@@ -1,16 +1,25 @@
 package com.game.Entity;
 
+import org.json.JSONObject;
+
 public class Base {
     private int maxHealth;
     private int health;
     private int armor;
     private int money;
+    private int diamonds;
+    private int wave;
 
-    public Base(){
+    private String difficulty;
+
+    public Base(JSONObject actualGame){
         this.money = 0;
+        this.diamonds = 0;
         this.maxHealth = 100;
         this.health = 100;
         this.armor = 100;
+        this.difficulty = actualGame.getString("difficulty");
+        this.wave = 0;
     }
 
     public Base(int maxHealth, int health, int armor){
@@ -68,5 +77,32 @@ public class Base {
     public void setMoney(int money) {
         this.money = money;
     }
+    public void increaseDiamonds(int diamonds) {
+        this.diamonds += diamonds;
+    }
+
+    public int getDiamonds() {
+        return diamonds;
+    }
+
+    public void setDiamonds(int diamonds) {
+        this.diamonds = diamonds;
+    }
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void increaseWave(int wave) {
+        this.wave += wave;
+    }
+
+    public int getWave() {
+        return wave;
+    }
+
+    public void setWave(int wave) {
+        this.wave = wave;
+    }
+
 
 }

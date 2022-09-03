@@ -37,6 +37,7 @@
   "ResponseErrorConnectionWithServer": "Connection error with the server",
   "ResponseClientInternalError": "Internal client error",
   "difficulty_field" : "Difficulty: ",
+  "short_difficulty_field" : "Difficulty: ",
   "finishedmaps_field": "Finished maps: ",
   "wave_field" : "Wave: ",
   "gold_field" : "Gold: ",
@@ -62,6 +63,7 @@
   "easy" : "easy",
   "hard" : "hard",
   "bResume": "Resume",
-  "bNextWave": "Next Wave"
+  "bNextWave": "Next Wave",
+  "hp_field": "HP: "
 
 }

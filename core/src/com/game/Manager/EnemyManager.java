@@ -105,9 +105,12 @@ public class EnemyManager {
                     timeLeftToSpawn.remove(index);
                     spawningDelay.remove(index);
                     enemyWavesToSpawn.remove(index);
+
                 }
             }
-
+            if(enemyWavesToSpawn.size() == 0){
+                base.increaseWave(1);
+            }
 
         }
 

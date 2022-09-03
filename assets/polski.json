@@ -37,6 +37,7 @@
   "ResponseErrorConnectionWithServer": "Błąd połączenia z serwerem",
   "ResponseClientInternalError": "Wewnętrzny bład klienta",
   "difficulty_field" : "Poziom trudności: ",
+  "short_difficulty_field" : "Trudność: ",
   "finishedmaps_field": "Ukończone mapy: ",
   "wave_field" : "Fala: ",
   "gold_field" : "Złoto: ",
@@ -62,6 +63,7 @@
   "easy" : "łatwy",
   "hard" : "trudny",
   "bResume": "Wznów",
-  "bNextWave": "Następna fala"
+  "bNextWave": "Następna fala",
+  "hp_field": "PŻ: "
 
 }
