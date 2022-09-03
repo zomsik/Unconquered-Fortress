@@ -434,7 +434,7 @@ public class GameScreen implements Screen {
                 //enemyManager.addWaveToSpawn(GameFunctions.createRandomEnemyWave(actualGame));
 
                 enemyManager.addWaveToSpawn(GameFunctions.createTestEnemyWave(actualGame, scale));
-
+                base.increaseWave(1);
 
                 //actualGame.put("wave",actualGame.getInt("wave")+1);
                 //System.out.println("");

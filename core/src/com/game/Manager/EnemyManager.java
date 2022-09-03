@@ -108,9 +108,7 @@ public class EnemyManager {
 
                 }
             }
-            if(enemyWavesToSpawn.size() == 0){
-                base.increaseWave(1);
-            }
+
 
         }
 
