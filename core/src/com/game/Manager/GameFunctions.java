@@ -229,7 +229,6 @@ public class GameFunctions {
             t.row();
 
         }
-
         t.setScale(scale);
         return t;
     }
