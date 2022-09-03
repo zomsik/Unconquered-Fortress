@@ -130,19 +130,21 @@ public class GameFunctions {
         arr[0][1] = new Image(images_buildings, "bow");
         arr[1][0] = new Image(images_buildings, "mage");
         arr[1][1] = new Image(images_buildings, "cannon");
-        arr[2][0] = new Image(images_buildings, "clean");
-        arr[2][1] = new Image(images_buildings, "sell");
-        arr[3][0] = new Image(images_buildings, "stickyRoad");
-        arr[3][1] = new Image(images_buildings, "roadNeedles");
+        arr[2][0] = new Image(images_buildings, "stickyRoad");
+        arr[2][1] = new Image(images_buildings, "roadNeedles");
+        arr[3][0] = new Image(images_buildings, "clean");
+        arr[3][1] = new Image(images_buildings, "sell");
+
 
         arr[0][0].setName("sword");
         arr[0][1].setName("bow");
         arr[1][0].setName("mage");
         arr[1][1].setName("cannon");
-        arr[2][0].setName("clean");
-        arr[2][1].setName("sell");
-        arr[3][0].setName("stickyRoad");
-        arr[3][1].setName("roadNeedles");
+        arr[2][0].setName("stickyRoad");
+        arr[2][1].setName("roadNeedles");
+        arr[3][0].setName("clean");
+        arr[3][1].setName("sell");
+
 
         for(int i = 0; i<4; i++)
             for(int j = 0; j<2; j++) {
@@ -181,19 +183,19 @@ public class GameFunctions {
         arr[0][1] = new Image(images_buildings, "bow");
         arr[1][0] = new Image(images_buildings, "mage");
         arr[1][1] = new Image(images_buildings, "cannon");
-        arr[2][0] = new Image(images_buildings, "clean");
-        arr[2][1] = new Image(images_buildings, "sell");
-        arr[3][0] = new Image(images_buildings, "stickyRoad");
-        arr[3][1] = new Image(images_buildings, "roadNeedles");
+        arr[2][0] = new Image(images_buildings, "stickyRoad");
+        arr[2][1] = new Image(images_buildings, "roadNeedles");
+        arr[3][0] = new Image(images_buildings, "clean");
+        arr[3][1] = new Image(images_buildings, "sell");
 
         arr[0][0].setName("sword");
         arr[0][1].setName("bow");
         arr[1][0].setName("mage");
         arr[1][1].setName("cannon");
-        arr[2][0].setName("clean");
-        arr[2][1].setName("sell");
-        arr[3][0].setName("stickyRoad");
-        arr[3][1].setName("roadNeedles");
+        arr[2][0].setName("stickyRoad");
+        arr[2][1].setName("roadNeedles");
+        arr[3][0].setName("clean");
+        arr[3][1].setName("sell");
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 2; j++) {
