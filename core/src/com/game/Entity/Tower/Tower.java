@@ -233,8 +233,7 @@ public class Tower extends Actor {
         }
 
             if(Objects.equals(name, "meleeTower")){
-                //Chce zrobić jakby podstawę dla miecza, która nie będzie się obracać i obracalny miecz, chociaż pewnie i podstawa będzie animowana, bo mam pomysł na takie ładujące się runy cały czas
-                batch.draw(towerAnimation2.getKeyFrame(stateTime, true), position.x, position.y,towerTextureSize, towerTextureSize);
+                batch.draw(towerAnimation2.getKeyFrame(stateTime, true), position.x, position.y,towerTextureSize/2, towerTextureSize/2,towerTextureSize, towerTextureSize,scale,scale,0);
                 batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x, position.y, towerTextureSize/2, towerTextureSize/2,towerTextureSize,towerTextureSize,scale,scale,rotation);
 
             }else{
