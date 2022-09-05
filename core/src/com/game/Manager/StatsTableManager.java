@@ -248,10 +248,10 @@ public class StatsTableManager {
         {
             upgradePriceTextValue.setText(String.valueOf(towerUpgraded.getInt("cost")));
             upgradeLvlTextValue.setText(towerNow.getInt("lvl") + " -> " + towerUpgraded.getInt("lvl"));
-            upgradeDmgTextValue.setText(towerNow.getFloat("dmg") + " -> " + towerUpgraded.getFloat("dmg"));
-            upgradeRangeTextValue.setText(towerNow.getFloat("range") + " -> " + towerUpgraded.getFloat("range"));
-            upgradeReloadTextValue.setText(towerNow.getFloat("reload") + " -> " + towerUpgraded.getFloat("reload"));
-            upgradeSpeedTextValue.setText(towerNow.getFloat("bulletSpeed") + " -> " + towerUpgraded.getFloat("bulletSpeed"));
+            upgradeDmgTextValue.setText((int)towerNow.getFloat("dmg") + " -> " + (int)towerUpgraded.getFloat("dmg"));
+            upgradeRangeTextValue.setText((int)towerNow.getFloat("range") + " -> " + (int)towerUpgraded.getFloat("range"));
+            upgradeReloadTextValue.setText((int)towerNow.getFloat("reload") + " -> " + (int)towerUpgraded.getFloat("reload"));
+            upgradeSpeedTextValue.setText((int)towerNow.getFloat("bulletSpeed") + " -> " + (int)towerUpgraded.getFloat("bulletSpeed"));
 
         }
         else
@@ -259,9 +259,9 @@ public class StatsTableManager {
             upgradePriceTextValue.setText("---");
             upgradeLvlTextValue.setText("Max");
             upgradeDmgTextValue.setText(String.valueOf(towerNow.getInt("dmg")));
-            upgradeRangeTextValue.setText(String.valueOf(towerNow.getFloat("range")));
-            upgradeReloadTextValue.setText(String.valueOf(towerNow.getFloat("reload")));
-            upgradeSpeedTextValue.setText(String.valueOf(towerNow.getFloat("bulletSpeed")));
+            upgradeRangeTextValue.setText(String.valueOf((int)towerNow.getFloat("range")));
+            upgradeReloadTextValue.setText(String.valueOf((int)towerNow.getFloat("reload")));
+            upgradeSpeedTextValue.setText(String.valueOf((int)towerNow.getFloat("bulletSpeed")));
         }
     }
 
