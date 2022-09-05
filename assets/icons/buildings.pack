@@ -75,8 +75,8 @@ empty
   index: -1
 separator
   rotate: false
-  xy: 641, 0
-  size: 180, 8
-  orig: 180, 8
+  xy: 640, 0
+  size: 224, 8
+  orig: 224, 8
   offset: 0, 0
   index: -1
