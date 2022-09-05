@@ -13,13 +13,15 @@ public class Base {
     private int infoToDisplay;
     private int infoToDisplayLvl;
     private String infoToDisplayName;
+    private JSONObject infoToDisplayObjectNow, infoToDisplayObjectUpgraded;
 
     private String difficulty;
 
     public Base(JSONObject actualGame){
         this.infoToDisplay = 0;
-        this.infoToDisplayLvl = 0;
         this.infoToDisplayName = "";
+        this.infoToDisplayObjectNow = null;
+        this.infoToDisplayObjectUpgraded = null;
 
         this.money = 0;
         this.diamonds = 0;
@@ -55,10 +57,11 @@ public class Base {
         this.infoToDisplay = infoToDisplay;
     }
 
-    public void setInfoToDisplay(int infoToDisplay, String name, int lvl) {
+    public void setInfoToDisplay(int infoToDisplay, String name, JSONObject towerNow, JSONObject towerUpgrade) {
         this.infoToDisplay = infoToDisplay;
         infoToDisplayName = name;
-        infoToDisplayLvl = lvl;
+        infoToDisplayObjectNow = towerNow;
+        infoToDisplayObjectUpgraded = towerUpgrade;
     }
 
     public void setInfoToDisplay(int infoToDisplay, String name) {
@@ -66,7 +69,13 @@ public class Base {
         infoToDisplayName = name;
     }
 
+    public JSONObject getInfoToDisplayObjectNow() {
+        return infoToDisplayObjectNow;
+    }
 
+    public JSONObject getInfoToDisplayObjectUpgraded() {
+        return infoToDisplayObjectUpgraded;
+    }
 
     public void damageBase(int dmg){
         this.health = this.health - dmg;

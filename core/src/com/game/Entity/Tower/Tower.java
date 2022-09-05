@@ -2,7 +2,6 @@ package com.game.Entity.Tower;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,19 +10,21 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.*;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Null;
 import com.game.Entity.Base;
 import com.game.Entity.Bullet;
 import com.game.Entity.Enemy.Enemy;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
 public class Tower extends Actor {
+
+    private JSONArray towerLevels;
 
     private String name;
 
@@ -59,30 +60,33 @@ public class Tower extends Actor {
     }
 
 
-    public Tower(Base base, String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, float reloadTime, float bulletSpeed, float range, float bulletDamage){
+    public Tower(JSONObject towerLevelsAll, Base base, String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, float reloadTime, float bulletSpeed, float range, float bulletDamage){
         this.name = name;
+
+        this.towerLevels = towerLevelsAll.getJSONArray(name);
+
+        JSONObject turretFirstLevel = this.towerLevels.getJSONObject(0);
 
         this.base = base;
         this.isMouseEntered = false;
-        this.timeToShoot=0;
-        this.reloadTime= reloadTime;
+        this.timeToShoot = 0;
+        this.reloadTime = turretFirstLevel.getFloat("reload");
         this.scale = scale;
         this.towerBullets = new ArrayList<>();
 
         this.tileX = tileX;
         this.tileY = tileY;
-        //this.towerTexture = towerTexture;
 
-        this.stateTime = 1f;
+        this.stateTime = 100f;
 
         this.bulletTexture = bulletTexture;
         this.towerTextureSize = towerTextureSize;
         this.bulletTextureSize = bulletTextureSize;
 
-        this.bulletSpeed = bulletSpeed*scale;
-        this.range = range*scale;
+        this.bulletSpeed = turretFirstLevel.getFloat("bulletSpeed")*scale;
+        this.range = turretFirstLevel.getFloat("range")*scale;
 
-        this.lvl = 1;
+        this.lvl = turretFirstLevel.getInt("lvl");
         this.enemyToFollow = null;
 
 
@@ -107,10 +111,10 @@ public class Tower extends Actor {
         for (int i = 0; i < animationSprites2.length; i++) {
             animationSprites2[i] = spritePosition2[0][i];
         }
-        this.towerAnimation = new Animation<>(reloadTime/animationSprites.length, animationSprites);
-        this.towerAnimation2 = new Animation<>(reloadTime/animationSprites.length, animationSprites2);
+        this.towerAnimation = new Animation<>(turretFirstLevel.getFloat("reload")/animationSprites.length, animationSprites);
+        this.towerAnimation2 = new Animation<>(turretFirstLevel.getFloat("reload")/animationSprites.length, animationSprites2);
 
-        this.bulletDamage = bulletDamage;
+        this.bulletDamage = turretFirstLevel.getFloat("dmg");
 
 
 
@@ -124,23 +128,22 @@ public class Tower extends Actor {
         this.addListener(new ClickListener() {
 
             public void clicked(InputEvent event, float x, float y) {
-                if (base.getMoney()>=40)
-                {
-                    base.decreaseMoney(40);
-                    lvl+=1;
-                }
-                System.out.println("upgrade");
+                TowerLevelUp();
+
             }
 
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 isMouseEntered = true;
-                base.setInfoToDisplay(2, name, lvl);
+                if (getLvl() < getTowerLevels().length())
+                    getBase().setInfoToDisplay(2, getName(), getTowerLevels().getJSONObject(getLvl()-1), getTowerLevels().getJSONObject(getLvl()));
+                else
+                    getBase().setInfoToDisplay(2, getName(), getTowerLevels().getJSONObject(getLvl()-1), null);
 
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 isMouseEntered = false;
-                base.setInfoToDisplay(0);
+                getBase().setInfoToDisplay(0);
             }
 
         });
@@ -149,11 +152,50 @@ public class Tower extends Actor {
 
 
 
+    }
 
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
+
+    public Base getBase() {
+        return base;
+    }
+
+
+    public void TowerLevelUp() {
+        System.out.println(lvl);
+        if (lvl < towerLevels.length())
+        {
+            if (base.getMoney() >= towerLevels.getJSONObject(lvl).getInt("cost")) {
+                JSONObject lvlUp = towerLevels.getJSONObject(lvl);
+                base.decreaseMoney(lvlUp.getInt("cost"));
+                reloadTime = lvlUp.getFloat("reload");
+                bulletDamage = lvlUp.getFloat("dmg");
+                bulletSpeed = lvlUp.getFloat("bulletSpeed");
+                range = lvlUp.getFloat("range");
+                lvl = lvlUp.getInt("lvl");
+            }
+        }
 
     }
 
+
+    public JSONArray getTowerLevels() {
+        return towerLevels;
+    }
+
+
+    public int getLvl() {
+        return lvl;
+    }
+
+    public void setLvl(int lvl) {
+        this.lvl = lvl;
+    }
 
     public int getTileX() { return tileX;}
     public int getTileY() { return tileY;}

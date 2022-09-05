@@ -141,6 +141,18 @@ public class FileReader {
         return j;
     }
 
+    public JSONObject downloadFileAsJSONObject(String jsonPath){
+
+        JSONObject j = new JSONObject();
+        try {
+            return new JSONObject(new String(Files.readAllBytes(Paths.get(jsonPath))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return j;
+    }
+
     public void setSave(JSONObject save){
         String jsonPath = null;
         switch (save.getInt("profileNumber")) {

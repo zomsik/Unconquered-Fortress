@@ -93,6 +93,7 @@ public class GameScreen implements Screen {
 
     private State state = State.Running;
 
+    private JSONObject turretLevels;
 
     public GameScreen (Main game, JSONObject save, boolean isLocal){
         this.game = game;
@@ -114,6 +115,8 @@ public class GameScreen implements Screen {
         actualGame = save;
         if (!isLocal)
             actualGame.put("login",game.getLogin());
+
+        turretLevels = fileReader.downloadFileAsJSONObject("assets/towers.json");
 
         //reading stats etc
         if(actualGame.getString("difficulty").equals("normal")){
@@ -275,7 +278,7 @@ public class GameScreen implements Screen {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
                 //warunki wybudowania swordTowera
-                Tower t = new MeleeTower(base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
+                Tower t = new MeleeTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
                 towerManager.buyTower(t);
                 stage.addActor(t);
                 buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
@@ -299,9 +302,10 @@ public class GameScreen implements Screen {
         if (Objects.equals(chosenOperation,"bow")) {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
+
                 //warunki wybudowania bowTowera
 
-                Tower t = new BowTower(base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
+                Tower t = new BowTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
                 towerManager.buyTower(t);
                 stage.addActor(t);
                 buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
@@ -324,7 +328,7 @@ public class GameScreen implements Screen {
         if (Objects.equals(chosenOperation,"mage")) {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
-                Tower t = new MageTower(base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
+                Tower t = new MageTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
                 towerManager.buyTower(t);
                 stage.addActor(t);
                 //towerManager.buyTower(new MageTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale));
@@ -348,10 +352,15 @@ public class GameScreen implements Screen {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
 
-                Tower t = new CannonTower(base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
-                towerManager.buyTower(t);
-                stage.addActor(t);
-                buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
+                if (base.getMoney()>= turretLevels.getJSONArray("cannonTower").getJSONObject(0).getInt("cost"))
+                {
+                    base.decreaseMoney(turretLevels.getJSONArray("cannonTower").getJSONObject(0).getInt("cost"));
+                    Tower t = new CannonTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
+                    towerManager.buyTower(t);
+                    stage.addActor(t);
+                    buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
+                }
+
                 //warunki wybudowania cannonTowera
 
                 /*JSONArray placedBuildings = actualGame.getJSONArray("buildings");
@@ -596,7 +605,7 @@ public class GameScreen implements Screen {
 
         if (statsTableManager.getInfoToDisplay()!=base.getInfoToDisplay())
         {
-            statsTableManager.setInfoToDisplay(base.getInfoToDisplay(), base.getInfoToDisplayLvl() ,base.getInfoToDisplayName());
+            statsTableManager.setInfoToDisplay(base.getInfoToDisplay(), base.getInfoToDisplayObjectNow(),  base.getInfoToDisplayObjectUpgraded(), base.getInfoToDisplayLvl() ,base.getInfoToDisplayName());
             table_info.remove();
             table_info = statsTableManager.getInfoTable();
             stage.addActor(table_info);

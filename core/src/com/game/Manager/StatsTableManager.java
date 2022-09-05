@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.game.Entity.Base;
+import org.json.JSONObject;
 
 public class StatsTableManager {
     private Base base;
@@ -25,7 +26,7 @@ public class StatsTableManager {
     private TextFieldStyleManager textFieldStyleManager;
     private TextField hpTextField, hpTextValue, goldTextField, goldTextValue, diamondTextField, diamondTextValue, waveTextField, waveTextValue, difficultyTextField, difficultyTextValue;
     private TextField operationTitleTextField, operationTitleTextValue;
-    private TextField upgradeTitleTextField, upgradeTitleTextValue, upgradeLvlTextField, upgradeLvlTextValue;
+    private TextField upgradeTitleTextField, upgradeTitleTextValue, upgradeLvlTextField, upgradeLvlTextValue, upgradeDmgTextField, upgradeDmgTextValue, upgradeRangeTextField, upgradeRangeTextValue, upgradeReloadTextField, upgradeReloadTextValue, upgradeSpeedTextField, upgradeSpeedTextValue;
 
     private TextField.TextFieldStyle statsTextFieldStyle, rightStatsTextFieldStyle, leftStatsTextFieldStyle;
     private Skin images, images_stats;
@@ -35,12 +36,15 @@ public class StatsTableManager {
 
     private int infoToDisplay, infoToDisplayLvl;
     private String infoToDisplayName;
+    private JSONObject infoToDisplayObjectNow,infoToDisplayObjectUpgraded;
 
     public StatsTableManager(Base base, float scale, LanguageManager languageManager){
         this.base = base;
         this.scale = scale;
 
         this.infoToDisplay = 0;
+        this.infoToDisplayObjectNow = null;
+        this.infoToDisplayObjectUpgraded = null;
 
         statsTable = new Table();
         operationTable = new Table();
@@ -138,11 +142,27 @@ public class StatsTableManager {
         upgradeTitleTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
         upgradeLvlTextField = new TextField("Lvl: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         upgradeLvlTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        upgradeDmgTextField = new TextField("Damage: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        upgradeDmgTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        upgradeRangeTextField = new TextField("Range: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        upgradeRangeTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        upgradeReloadTextField = new TextField("Reload: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        upgradeReloadTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        upgradeSpeedTextField = new TextField("Speed: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        upgradeSpeedTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
 
         upgradeTitleTextField.setAlignment(Align.center);
         upgradeTitleTextValue.setAlignment(Align.center);
         upgradeLvlTextField.setAlignment(Align.center);
         upgradeLvlTextValue.setAlignment(Align.center);
+        upgradeDmgTextField.setAlignment(Align.center);
+        upgradeDmgTextValue.setAlignment(Align.center);
+        upgradeRangeTextField.setAlignment(Align.center);
+        upgradeRangeTextValue.setAlignment(Align.center);
+        upgradeReloadTextField.setAlignment(Align.center);
+        upgradeReloadTextValue.setAlignment(Align.center);
+        upgradeSpeedTextField.setAlignment(Align.center);
+        upgradeSpeedTextValue.setAlignment(Align.center);
 
         upgradeTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
         upgradeTable.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackground)));
@@ -153,17 +173,35 @@ public class StatsTableManager {
         upgradeTable.add(upgradeLvlTextField).width((200*scale)/2-6*scale);
         upgradeTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
         upgradeTable.add(upgradeLvlTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
-
+        upgradeTable.row().padBottom(4*scale);
+        upgradeTable.add(upgradeDmgTextField).width((200*scale)/2-6*scale);
+        upgradeTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        upgradeTable.add(upgradeDmgTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        upgradeTable.row().padBottom(4*scale);
+        upgradeTable.add(upgradeRangeTextField).width((200*scale)/2-6*scale);
+        upgradeTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        upgradeTable.add(upgradeRangeTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        upgradeTable.row().padBottom(4*scale);
+        upgradeTable.add(upgradeReloadTextField).width((200*scale)/2-6*scale);
+        upgradeTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        upgradeTable.add(upgradeReloadTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        upgradeTable.row().padBottom(4*scale);
+        upgradeTable.add(upgradeSpeedTextField).width((200*scale)/2-6*scale);
+        upgradeTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        upgradeTable.add(upgradeSpeedTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
     }
 
     public int getInfoToDisplay() {
         return infoToDisplay;
     }
 
-    public void setInfoToDisplay(int infoToDisplay, int lvl, String name) {
+
+    public void setInfoToDisplay(int infoToDisplay, JSONObject towerNow, JSONObject towerUpgrade, int lvl, String name) {
         this.infoToDisplay = infoToDisplay;
         this.infoToDisplayLvl = lvl;
         this.infoToDisplayName = name;
+        this.infoToDisplayObjectNow = towerNow;
+        this.infoToDisplayObjectUpgraded = towerUpgrade;
     }
 
 
@@ -177,7 +215,7 @@ public class StatsTableManager {
                 t = operationTable;
             }
             case 2 -> {
-                setUpgradeTable(infoToDisplayName,infoToDisplayLvl);
+                setUpgradeTable(infoToDisplayName,infoToDisplayObjectNow, infoToDisplayObjectUpgraded);
                 t = upgradeTable;
             }
 
@@ -195,9 +233,25 @@ public class StatsTableManager {
         operationTitleTextValue.setText(name);
     }
 
-    public void setUpgradeTable(String name, int lvl){
+    public void setUpgradeTable(String name, JSONObject towerNow, JSONObject towerUpgraded){
         upgradeTitleTextValue.setText(name);
-        upgradeLvlTextValue.setText(lvl + " -> "+ (lvl+1));
+        if (towerUpgraded!=null)
+        {
+            upgradeLvlTextValue.setText(towerNow.getInt("lvl") + " -> " + towerUpgraded.getInt("lvl"));
+            upgradeDmgTextValue.setText(towerNow.getFloat("dmg") + " -> " + towerUpgraded.getFloat("dmg"));
+            upgradeRangeTextValue.setText(towerNow.getFloat("range") + " -> " + towerUpgraded.getFloat("range"));
+            upgradeReloadTextValue.setText(towerNow.getFloat("reload") + " -> " + towerUpgraded.getFloat("reload"));
+            upgradeSpeedTextValue.setText(towerNow.getFloat("bulletSpeed") + " -> " + towerUpgraded.getFloat("bulletSpeed"));
+
+        }
+        else
+        {
+            upgradeLvlTextValue.setText("Max");
+            upgradeDmgTextValue.setText(String.valueOf(towerNow.getInt("dmg")));
+            upgradeRangeTextValue.setText(String.valueOf(towerNow.getFloat("range")));
+            upgradeReloadTextValue.setText(String.valueOf(towerNow.getFloat("reload")));
+            upgradeSpeedTextValue.setText(String.valueOf(towerNow.getFloat("bulletSpeed")));
+        }
     }
 
 
