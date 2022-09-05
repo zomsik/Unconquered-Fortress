@@ -212,6 +212,8 @@ public class GameFunctions {
         t.setBounds(Gdx.graphics.getWidth()-224*scale, (Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+16*scale, 224, 350);
         t.setTransform(true);
 
+        Skin images_buildings = new Skin(new TextureAtlas("assets/icons/buildings.pack"));
+
         for (int i = 0; i<3; i++)
         {
             for (int j = 0; j<2; j++)
@@ -222,10 +224,12 @@ public class GameFunctions {
             t.row();
 
         }
-        t.add(arr[3][0]).padTop(8*scale);
-        t.add(arr[3][1]).padTop(8*scale);;
+        t.add(new Image(images_buildings, "separator")).colspan(2).align(Align.left).padTop(8);
         t.row();
-        t.add(bNextWave).align(Align.center).height(32*scale).width(128*scale).colspan(2).padTop(8*scale);
+        t.add(arr[3][0]).padTop(8);
+        t.add(arr[3][1]).padTop(8);
+        t.row();
+        t.add(bNextWave).align(Align.center).height(32).width(128).colspan(2).padTop(8);
         t.setScale(scale);
         return t;
     }
