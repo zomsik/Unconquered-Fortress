@@ -26,7 +26,7 @@ public class StatsTableManager {
     private TextFieldStyleManager textFieldStyleManager;
     private TextField hpTextField, hpTextValue, goldTextField, goldTextValue, diamondTextField, diamondTextValue, waveTextField, waveTextValue, difficultyTextField, difficultyTextValue;
     private TextField operationTitleTextField, operationTitleTextValue;
-    private TextField upgradeTitleTextField, upgradeTitleTextValue, upgradeLvlTextField, upgradeLvlTextValue, upgradeDmgTextField, upgradeDmgTextValue, upgradeRangeTextField, upgradeRangeTextValue, upgradeReloadTextField, upgradeReloadTextValue, upgradeSpeedTextField, upgradeSpeedTextValue;
+    private TextField upgradePriceTextField, upgradePriceTextValue,upgradeTitleTextField, upgradeTitleTextValue, upgradeLvlTextField, upgradeLvlTextValue, upgradeDmgTextField, upgradeDmgTextValue, upgradeRangeTextField, upgradeRangeTextValue, upgradeReloadTextField, upgradeReloadTextValue, upgradeSpeedTextField, upgradeSpeedTextValue;
 
     private TextField.TextFieldStyle statsTextFieldStyle, rightStatsTextFieldStyle, leftStatsTextFieldStyle;
     private Skin images, images_stats;
@@ -103,24 +103,25 @@ public class StatsTableManager {
 
         statsTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
         statsTable.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackground)));
+        statsTable.row().padBottom(4*scale);
         statsTable.add(hpTextField).width((200*scale)/2-6*scale);
-        statsTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        statsTable.add(new Image(images_stats, "middleStatsCover"));
         statsTable.add(hpTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
         statsTable.row().padBottom(4*scale);
         statsTable.add(waveTextField).width((200*scale)/2-6*scale);
-        statsTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        statsTable.add(new Image(images_stats, "middleStatsCover"));
         statsTable.add(waveTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
         statsTable.row().padBottom(4*scale);;
         statsTable.add(goldTextField).width((200*scale)/2-6*scale);
-        statsTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        statsTable.add(new Image(images_stats, "middleStatsCover"));
         statsTable.add(goldTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
         statsTable.row().padBottom(4*scale);;
         statsTable.add(diamondTextField).width((200*scale)/2-6*scale);
-        statsTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        statsTable.add(new Image(images_stats, "middleStatsCover"));
         statsTable.add(diamondTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
         statsTable.row().padBottom(4*scale);;
         statsTable.add(difficultyTextField).width((200*scale)/2-6*scale);
-        statsTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        statsTable.add(new Image(images_stats, "middleStatsCover"));
         statsTable.add(difficultyTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
 
         //Operation Table
@@ -133,11 +134,12 @@ public class StatsTableManager {
         operationTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
         operationTable.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackground)));
         operationTable.add(operationTitleTextField).width((200*scale)/2-6*scale);
-        operationTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        operationTable.add(new Image(images_stats, "middleStatsCover"));
         operationTable.add(operationTitleTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
 
         // Upgrade Table
-
+        upgradePriceTextField = new TextField("Price: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        upgradePriceTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
         upgradeTitleTextField = new TextField("Upgrade: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         upgradeTitleTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
         upgradeLvlTextField = new TextField("Lvl: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
@@ -153,6 +155,8 @@ public class StatsTableManager {
 
         upgradeTitleTextField.setAlignment(Align.center);
         upgradeTitleTextValue.setAlignment(Align.center);
+        upgradePriceTextField.setAlignment(Align.center);
+        upgradePriceTextValue.setAlignment(Align.center);
         upgradeLvlTextField.setAlignment(Align.center);
         upgradeLvlTextValue.setAlignment(Align.center);
         upgradeDmgTextField.setAlignment(Align.center);
@@ -166,28 +170,33 @@ public class StatsTableManager {
 
         upgradeTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
         upgradeTable.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackground)));
+        upgradeTable.row().padBottom(4*scale);
         upgradeTable.add(upgradeTitleTextField).width((200*scale)/2-6*scale);
-        upgradeTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        upgradeTable.add(new Image(images_stats, "middleStatsCover"));
         upgradeTable.add(upgradeTitleTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
         upgradeTable.row().padBottom(4*scale);
+        upgradeTable.add(upgradePriceTextField).width((200*scale)/2-6*scale);
+        upgradeTable.add(new Image(images_stats, "middleStatsCover"));
+        upgradeTable.add(upgradePriceTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        upgradeTable.row().padBottom(4*scale);
         upgradeTable.add(upgradeLvlTextField).width((200*scale)/2-6*scale);
-        upgradeTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        upgradeTable.add(new Image(images_stats, "middleStatsCover"));
         upgradeTable.add(upgradeLvlTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
         upgradeTable.row().padBottom(4*scale);
         upgradeTable.add(upgradeDmgTextField).width((200*scale)/2-6*scale);
-        upgradeTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        upgradeTable.add(new Image(images_stats, "middleStatsCover"));
         upgradeTable.add(upgradeDmgTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
         upgradeTable.row().padBottom(4*scale);
         upgradeTable.add(upgradeRangeTextField).width((200*scale)/2-6*scale);
-        upgradeTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        upgradeTable.add(new Image(images_stats, "middleStatsCover"));
         upgradeTable.add(upgradeRangeTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
         upgradeTable.row().padBottom(4*scale);
         upgradeTable.add(upgradeReloadTextField).width((200*scale)/2-6*scale);
-        upgradeTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        upgradeTable.add(new Image(images_stats, "middleStatsCover"));
         upgradeTable.add(upgradeReloadTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
         upgradeTable.row().padBottom(4*scale);
         upgradeTable.add(upgradeSpeedTextField).width((200*scale)/2-6*scale);
-        upgradeTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        upgradeTable.add(new Image(images_stats, "middleStatsCover"));
         upgradeTable.add(upgradeSpeedTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
     }
 
@@ -237,6 +246,7 @@ public class StatsTableManager {
         upgradeTitleTextValue.setText(name);
         if (towerUpgraded!=null)
         {
+            upgradePriceTextValue.setText(String.valueOf(towerNow.getInt("cost")));
             upgradeLvlTextValue.setText(towerNow.getInt("lvl") + " -> " + towerUpgraded.getInt("lvl"));
             upgradeDmgTextValue.setText(towerNow.getFloat("dmg") + " -> " + towerUpgraded.getFloat("dmg"));
             upgradeRangeTextValue.setText(towerNow.getFloat("range") + " -> " + towerUpgraded.getFloat("range"));
@@ -246,6 +256,7 @@ public class StatsTableManager {
         }
         else
         {
+            upgradePriceTextValue.setText("---");
             upgradeLvlTextValue.setText("Max");
             upgradeDmgTextValue.setText(String.valueOf(towerNow.getInt("dmg")));
             upgradeRangeTextValue.setText(String.valueOf(towerNow.getFloat("range")));
