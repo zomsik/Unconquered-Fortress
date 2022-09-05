@@ -81,6 +81,7 @@ public class Enemy extends Actor {
         return money;
     }
 
+
     public void dealDmg(float damage)
     {
         health -= damage;
@@ -193,7 +194,6 @@ public class Enemy extends Actor {
 
 
         batch.draw(currentAnimation.getKeyFrame(stateTime, true), position.x, position.y+scale*enemySize/2 ,scale*enemySize, scale*enemySize);
-
         batch.end();
         ShapeRenderer shapeRenderer = new ShapeRenderer();
         shapeRenderer.setColor(Color.RED);
@@ -209,6 +209,10 @@ public class Enemy extends Actor {
 
     public int getDmg() {
         return dmg;
+    }
+
+    public int getHealth() {
+        return health;
     }
 }
 

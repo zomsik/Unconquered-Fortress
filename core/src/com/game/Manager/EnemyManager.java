@@ -129,6 +129,7 @@ public class EnemyManager {
             {
                 base.increaseMoney(e.getMoney());
                 eIterator.remove();
+
             }
 
         }
@@ -141,7 +142,6 @@ public class EnemyManager {
 
         for (Enemy e : enemies) {
             e.render(spritebatch);
-
         }
 
 

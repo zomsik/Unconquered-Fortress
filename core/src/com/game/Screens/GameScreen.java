@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
     private BitmapFont font;
     private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack, taButtonsPause, taStatsCover;
     private Skin images, images_default, dialog, images_map, images_buildings, images_pause, images_stats;
-    private TextButton  bSaveDialog, bExitDialog, bTest, bNextWave, bResume, bPauseMenu;
+    private TextButton  bSaveDialog, bExitDialog, bTest, bNextWave, bResume, bPauseMenu, bUpgrade;
 
     private Table table_info, table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_dialogGameOver, table_enemies, table_stats, table_menuPause;
     private TextField hpTextField,hpTextValue, goldTextField, goldTextValue, GameOverTitle;
@@ -166,16 +166,16 @@ public class GameScreen implements Screen {
         bTest = new TextButton("test", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bNextWave = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bNextWave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bResume = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bResume"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-
+        bUpgrade = new TextButton("Upgrade", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bPauseMenu, images_pause, font, "ButtonPauseUp", "ButtonPauseDown");
         bPauseMenu = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bPauseMenu));
 
         operationsArr = GameFunctions.getOperationsArr(this);
-        table_operations = GameFunctions.getOperationsTable(operationsArr, scale);
+        table_operations = GameFunctions.getOperationsTable(operationsArr, scale, bUpgrade);
         Texture bg = new Texture(new FileHandle("assets/shopBackground.png"));
         table_operations.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
         operationsSelectedArr = GameFunctions.getOperationsSelectedArr();
-        table_operationsSelected = GameFunctions.getOperationsTable(operationsSelectedArr, scale);
+        table_operationsSelected = GameFunctions.getOperationsTable(operationsSelectedArr, scale, bUpgrade);
 
         buildingsArr = GameFunctions.getEmptyBuildingsArr();
         table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);

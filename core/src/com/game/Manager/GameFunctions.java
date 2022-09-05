@@ -16,10 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.game.Entity.Base;
@@ -209,17 +206,13 @@ public class GameFunctions {
     }
 
 
-    public static Table getOperationsTable(Image[][] arr, float scale)
+    public static Table getOperationsTable(Image[][] arr, float scale, TextButton bNextWave)
     {
-
         Table t = new Table();
-        //t.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
         t.setBounds(Gdx.graphics.getWidth()-224*scale, (Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+16*scale, 224, 350);
         t.setTransform(true);
 
-
-
-        for (int i = 0; i<4; i++)
+        for (int i = 0; i<3; i++)
         {
             for (int j = 0; j<2; j++)
             {
@@ -229,6 +222,10 @@ public class GameFunctions {
             t.row();
 
         }
+        t.add(arr[3][0]).padTop(8*scale);
+        t.add(arr[3][1]).padTop(8*scale);;
+        t.row();
+        t.add(bNextWave).align(Align.center).height(32*scale).width(128*scale).colspan(2).padTop(8*scale);
         t.setScale(scale);
         return t;
     }

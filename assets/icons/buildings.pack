@@ -73,3 +73,10 @@ empty
   orig: 64, 64
   offset: 0, 0
   index: -1
+separator
+  rotate: false
+  xy: 641, 0
+  size: 180, 8
+  orig: 180, 8
+  offset: 0, 0
+  index: -1
