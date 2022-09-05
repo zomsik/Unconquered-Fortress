@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Null;
+import com.game.Entity.Base;
 import com.game.Entity.Bullet;
 import com.game.Entity.Enemy.Enemy;
 
@@ -50,6 +51,7 @@ public class Tower extends Actor {
     private ArrayList<Bullet> towerBullets;
 
     private float stateTime;
+    private Base base;
 
     private boolean isMouseEntered;
     public Tower(){
@@ -57,9 +59,10 @@ public class Tower extends Actor {
     }
 
 
-    public Tower(String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, float reloadTime, float bulletSpeed, float range, float bulletDamage){
+    public Tower(Base base, String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, float reloadTime, float bulletSpeed, float range, float bulletDamage){
         this.name = name;
 
+        this.base = base;
         this.isMouseEntered = false;
         this.timeToShoot=0;
         this.reloadTime= reloadTime;
@@ -126,11 +129,13 @@ public class Tower extends Actor {
 
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 isMouseEntered = true;
+                base.setInfoToDisplay(2);
 
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 isMouseEntered = false;
+                base.setInfoToDisplay(0);
             }
 
         });
@@ -224,6 +229,7 @@ public class Tower extends Actor {
 
         if (isMouseEntered)
         {
+
             batch.end();
             shapeRenderer.setColor(Color.GREEN);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);

@@ -208,7 +208,10 @@ public class GameScreen implements Screen {
 
         }
     }
+
     public void mouseEnterOperation() {
+        base.setInfoToDisplay(1);
+
         statsTableManager.setNewBuildingTable(lastClickedOperationTile.getName());
 
         table_info.remove();
@@ -217,6 +220,8 @@ public class GameScreen implements Screen {
 
     }
     public void mouseExitOperation() {
+        base.setInfoToDisplay(0);
+
         table_info.remove();
         table_info = statsTableManager.getStatsTable();
         stage.addActor(table_info);
@@ -278,7 +283,7 @@ public class GameScreen implements Screen {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
                 //warunki wybudowania swordTowera
-                Tower t = new MeleeTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
+                Tower t = new MeleeTower(base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
                 towerManager.buyTower(t);
                 stage.addActor(t);
                 buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
@@ -304,7 +309,7 @@ public class GameScreen implements Screen {
 
                 //warunki wybudowania bowTowera
 
-                Tower t = new BowTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
+                Tower t = new BowTower(base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
                 towerManager.buyTower(t);
                 stage.addActor(t);
                 buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
@@ -327,7 +332,7 @@ public class GameScreen implements Screen {
         if (Objects.equals(chosenOperation,"mage")) {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
-                Tower t = new MageTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
+                Tower t = new MageTower(base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
                 towerManager.buyTower(t);
                 stage.addActor(t);
                 //towerManager.buyTower(new MageTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale));
@@ -351,7 +356,7 @@ public class GameScreen implements Screen {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
 
-                Tower t = new CannonTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
+                Tower t = new CannonTower(base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
                 towerManager.buyTower(t);
                 stage.addActor(t);
                 buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;

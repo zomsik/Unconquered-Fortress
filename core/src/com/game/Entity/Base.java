@@ -10,9 +10,13 @@ public class Base {
     private int diamonds;
     private int wave;
 
+    private int infoToDisplay;
+
     private String difficulty;
 
     public Base(JSONObject actualGame){
+        infoToDisplay = 0;
+
         this.money = 0;
         this.diamonds = 0;
         this.maxHealth = 100;
@@ -28,6 +32,14 @@ public class Base {
         this.health = health;
         this.armor = armor;
 
+    }
+
+    public int getInfoToDisplay() {
+        return infoToDisplay;
+    }
+
+    public void setInfoToDisplay(int infoToDisplay) {
+        this.infoToDisplay = infoToDisplay;
     }
 
     public void damageBase(int dmg){

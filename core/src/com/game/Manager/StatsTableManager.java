@@ -31,10 +31,12 @@ public class StatsTableManager {
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private BitmapFont font;
 
+    private int infoToDisplay;
 
     public StatsTableManager(Base base, float scale, LanguageManager languageManager){
         this.base = base;
         this.scale = scale;
+        this.infoToDisplay = 0;
 
         statsTable = new Table();
         newBuildingTable = new Table();
@@ -127,6 +129,26 @@ public class StatsTableManager {
 
 
 
+    }
+
+    public int getInfoToDisplay() {
+        return infoToDisplay;
+    }
+
+    public void setInfoToDisplay(int infoToDisplay) {
+        this.infoToDisplay = infoToDisplay;
+    }
+
+
+    public Table getInfoTable()
+    {
+        Table t = statsTable;
+        switch (infoToDisplay) {
+            case 0 -> t = statsTable;
+            case 1 -> t = newBuildingTable;
+
+        }
+        return t;
     }
 
     public Table getStatsTable(){
