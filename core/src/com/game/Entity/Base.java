@@ -11,11 +11,15 @@ public class Base {
     private int wave;
 
     private int infoToDisplay;
+    private int infoToDisplayLvl;
+    private String infoToDisplayName;
 
     private String difficulty;
 
     public Base(JSONObject actualGame){
-        infoToDisplay = 0;
+        this.infoToDisplay = 0;
+        this.infoToDisplayLvl = 0;
+        this.infoToDisplayName = "";
 
         this.money = 0;
         this.diamonds = 0;
@@ -38,9 +42,31 @@ public class Base {
         return infoToDisplay;
     }
 
+    public int getInfoToDisplayLvl() {
+        return infoToDisplayLvl;
+    }
+
+    public String getInfoToDisplayName() {
+        return infoToDisplayName;
+    }
+
+
     public void setInfoToDisplay(int infoToDisplay) {
         this.infoToDisplay = infoToDisplay;
     }
+
+    public void setInfoToDisplay(int infoToDisplay, String name, int lvl) {
+        this.infoToDisplay = infoToDisplay;
+        infoToDisplayName = name;
+        infoToDisplayLvl = lvl;
+    }
+
+    public void setInfoToDisplay(int infoToDisplay, String name) {
+        this.infoToDisplay = infoToDisplay;
+        infoToDisplayName = name;
+    }
+
+
 
     public void damageBase(int dmg){
         this.health = this.health - dmg;
@@ -82,6 +108,10 @@ public class Base {
         this.money += money;
     }
 
+    public void decreaseMoney(int money) {
+        this.money -= money;
+    }
+
     public int getMoney() {
         return money;
     }
@@ -115,6 +145,7 @@ public class Base {
     public void setWave(int wave) {
         this.wave = wave;
     }
+
 
 
 }

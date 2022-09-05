@@ -210,21 +210,13 @@ public class GameScreen implements Screen {
     }
 
     public void mouseEnterOperation() {
-        base.setInfoToDisplay(1);
+        base.setInfoToDisplay(1,lastClickedOperationTile.getName());
 
-        statsTableManager.setNewBuildingTable(lastClickedOperationTile.getName());
-
-        table_info.remove();
-        table_info = statsTableManager.getNewBuildingTable();
-        stage.addActor(table_info);
+        //statsTableManager.setNewBuildingTable(lastClickedOperationTile.getName());
 
     }
     public void mouseExitOperation() {
         base.setInfoToDisplay(0);
-
-        table_info.remove();
-        table_info = statsTableManager.getStatsTable();
-        stage.addActor(table_info);
     }
 
     public void mouseClickBuildingTile() {
@@ -395,7 +387,7 @@ public class GameScreen implements Screen {
         }
     }
     public void mouseEnterMapTile() {
-        if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0 && chosenOperation!=null)
+        if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0 && (Objects.equals(chosenOperation,"sword") || Objects.equals(chosenOperation,"bow") || Objects.equals(chosenOperation,"mage") || Objects.equals(chosenOperation,"cannon")))
             shouldRenderPreview = true;
 
 
@@ -602,7 +594,13 @@ public class GameScreen implements Screen {
         stage.draw();
 
 
-
+        if (statsTableManager.getInfoToDisplay()!=base.getInfoToDisplay())
+        {
+            statsTableManager.setInfoToDisplay(base.getInfoToDisplay(), base.getInfoToDisplayLvl() ,base.getInfoToDisplayName());
+            table_info.remove();
+            table_info = statsTableManager.getInfoTable();
+            stage.addActor(table_info);
+        }
 
 
 

@@ -124,12 +124,17 @@ public class Tower extends Actor {
         this.addListener(new ClickListener() {
 
             public void clicked(InputEvent event, float x, float y) {
+                if (base.getMoney()>=40)
+                {
+                    base.decreaseMoney(40);
+                    lvl+=1;
+                }
                 System.out.println("upgrade");
             }
 
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 isMouseEntered = true;
-                base.setInfoToDisplay(2);
+                base.setInfoToDisplay(2, name, lvl);
 
             }
 

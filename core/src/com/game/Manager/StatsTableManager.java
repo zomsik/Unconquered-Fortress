@@ -15,31 +15,37 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.game.Entity.Base;
-import org.json.JSONObject;
 
 public class StatsTableManager {
     private Base base;
     private float scale;
 
-    private Table statsTable,newBuildingTable, upgradeTable;
+    private Table statsTable, operationTable, upgradeTable;
 
     private TextFieldStyleManager textFieldStyleManager;
-    private TextField hpTextField, hpTextValue, goldTextField, goldTextValue, diamondTextField, diamondTextValue, waveTextField, waveTextValue, difficultyTextField, difficultyTextValue, newBuildingTextField, newBuildingTextValue;
+    private TextField hpTextField, hpTextValue, goldTextField, goldTextValue, diamondTextField, diamondTextValue, waveTextField, waveTextValue, difficultyTextField, difficultyTextValue;
+    private TextField operationTitleTextField, operationTitleTextValue;
+    private TextField upgradeTitleTextField, upgradeTitleTextValue, upgradeLvlTextField, upgradeLvlTextValue;
+
     private TextField.TextFieldStyle statsTextFieldStyle, rightStatsTextFieldStyle, leftStatsTextFieldStyle;
     private Skin images, images_stats;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private BitmapFont font;
 
-    private int infoToDisplay;
+    private int infoToDisplay, infoToDisplayLvl;
+    private String infoToDisplayName;
 
     public StatsTableManager(Base base, float scale, LanguageManager languageManager){
         this.base = base;
         this.scale = scale;
+
         this.infoToDisplay = 0;
 
         statsTable = new Table();
-        newBuildingTable = new Table();
+        operationTable = new Table();
+        upgradeTable = new Table();
+
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = (int) (10*scale);
@@ -113,21 +119,40 @@ public class StatsTableManager {
         statsTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
         statsTable.add(difficultyTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
 
-        //New Building Table
+        //Operation Table
 
-        newBuildingTextField = new TextField("Operacja: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
-        newBuildingTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-        newBuildingTextField.setAlignment(Align.center);
-        newBuildingTextValue.setAlignment(Align.center);
+        operationTitleTextField = new TextField("Operacja: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        operationTitleTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        operationTitleTextField.setAlignment(Align.center);
+        operationTitleTextValue.setAlignment(Align.center);
 
-        newBuildingTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
-        newBuildingTable.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackground)));
-        newBuildingTable.add(newBuildingTextField).width((200*scale)/2-6*scale);
-        newBuildingTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
-        newBuildingTable.add(newBuildingTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        operationTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
+        operationTable.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackground)));
+        operationTable.add(operationTitleTextField).width((200*scale)/2-6*scale);
+        operationTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        operationTable.add(operationTitleTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
 
+        // Upgrade Table
 
+        upgradeTitleTextField = new TextField("Upgrade: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        upgradeTitleTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        upgradeLvlTextField = new TextField("Lvl: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        upgradeLvlTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
 
+        upgradeTitleTextField.setAlignment(Align.center);
+        upgradeTitleTextValue.setAlignment(Align.center);
+        upgradeLvlTextField.setAlignment(Align.center);
+        upgradeLvlTextValue.setAlignment(Align.center);
+
+        upgradeTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
+        upgradeTable.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackground)));
+        upgradeTable.add(upgradeTitleTextField).width((200*scale)/2-6*scale);
+        upgradeTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        upgradeTable.add(upgradeTitleTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        upgradeTable.row().padBottom(4*scale);
+        upgradeTable.add(upgradeLvlTextField).width((200*scale)/2-6*scale);
+        upgradeTable.add(new Image(images_stats, "middleStatsCover")).width(12*scale);
+        upgradeTable.add(upgradeLvlTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
 
     }
 
@@ -135,8 +160,10 @@ public class StatsTableManager {
         return infoToDisplay;
     }
 
-    public void setInfoToDisplay(int infoToDisplay) {
+    public void setInfoToDisplay(int infoToDisplay, int lvl, String name) {
         this.infoToDisplay = infoToDisplay;
+        this.infoToDisplayLvl = lvl;
+        this.infoToDisplayName = name;
     }
 
 
@@ -145,7 +172,14 @@ public class StatsTableManager {
         Table t = statsTable;
         switch (infoToDisplay) {
             case 0 -> t = statsTable;
-            case 1 -> t = newBuildingTable;
+            case 1 -> {
+                setOperationTable(infoToDisplayName);
+                t = operationTable;
+            }
+            case 2 -> {
+                setUpgradeTable(infoToDisplayName,infoToDisplayLvl);
+                t = upgradeTable;
+            }
 
         }
         return t;
@@ -157,17 +191,21 @@ public class StatsTableManager {
     }
 
 
-    public void setNewBuildingTable(String name){
-        newBuildingTextValue.setText(name);
+    public void setOperationTable(String name){
+        operationTitleTextValue.setText(name);
     }
 
-    public Table getNewBuildingTable(){
+    public void setUpgradeTable(String name, int lvl){
+        upgradeTitleTextValue.setText(name);
+        upgradeLvlTextValue.setText(lvl + " -> "+ (lvl+1));
+    }
 
-        return newBuildingTable;
+
+    public Table getOperationTable(){
+        return operationTable;
     }
 
     public Table getUpgradeTable(){
-
         return upgradeTable;
     }
 
