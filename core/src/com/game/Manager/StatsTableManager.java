@@ -246,7 +246,7 @@ public class StatsTableManager {
         upgradeTitleTextValue.setText(name);
         if (towerUpgraded!=null)
         {
-            upgradePriceTextValue.setText(String.valueOf(towerNow.getInt("cost")));
+            upgradePriceTextValue.setText(String.valueOf(towerUpgraded.getInt("cost")));
             upgradeLvlTextValue.setText(towerNow.getInt("lvl") + " -> " + towerUpgraded.getInt("lvl"));
             upgradeDmgTextValue.setText(towerNow.getFloat("dmg") + " -> " + towerUpgraded.getFloat("dmg"));
             upgradeRangeTextValue.setText(towerNow.getFloat("range") + " -> " + towerUpgraded.getFloat("range"));
