@@ -11,7 +11,6 @@ public class Base {
     private int wave;
 
     private int infoToDisplay;
-    private int infoToDisplayLvl;
     private String infoToDisplayName;
     private JSONObject infoToDisplayObjectNow, infoToDisplayObjectUpgraded;
 
@@ -42,10 +41,6 @@ public class Base {
 
     public int getInfoToDisplay() {
         return infoToDisplay;
-    }
-
-    public int getInfoToDisplayLvl() {
-        return infoToDisplayLvl;
     }
 
     public String getInfoToDisplayName() {

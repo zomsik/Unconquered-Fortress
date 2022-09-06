@@ -34,7 +34,7 @@ public class StatsTableManager {
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private BitmapFont font;
 
-    private int infoToDisplay, infoToDisplayLvl;
+    private int infoToDisplay;
     private String infoToDisplayName;
     private JSONObject infoToDisplayObjectNow,infoToDisplayObjectUpgraded;
 
@@ -247,9 +247,8 @@ public class StatsTableManager {
     }
 
 
-    public void setInfoToDisplay(int infoToDisplay, JSONObject towerNow, JSONObject towerUpgrade, int lvl, String name) {
+    public void setInfoToDisplay(int infoToDisplay, JSONObject towerNow, JSONObject towerUpgrade, String name) {
         this.infoToDisplay = infoToDisplay;
-        this.infoToDisplayLvl = lvl;
         this.infoToDisplayName = name;
         this.infoToDisplayObjectNow = towerNow;
         this.infoToDisplayObjectUpgraded = towerUpgrade;
