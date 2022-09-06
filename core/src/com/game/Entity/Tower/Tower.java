@@ -288,6 +288,13 @@ public class Tower extends Actor {
             shapeRenderer.setColor(Color.GREEN);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.circle(position.x+scale*towerTextureSize/2, position.y+scale*towerTextureSize/2, range);
+
+            if (lvl < towerLevels.length())
+            {
+                shapeRenderer.setColor(Color.BLUE);
+                shapeRenderer.circle(position.x+scale*towerTextureSize/2, position.y+scale*towerTextureSize/2, towerLevels.getJSONObject(lvl).getFloat("range"));
+            }
+
             shapeRenderer.end();
             batch.begin();
         }

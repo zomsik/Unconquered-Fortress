@@ -155,7 +155,7 @@ public class GameScreen implements Screen {
         }
 
         table_menuPause.debug();
-        enemyManager = new EnemyManager(base, scale, GameFunctions.calulatePath(worldManager.getPath(), scale));
+        enemyManager = new EnemyManager(base, scale, GameFunctions.calculatePath(worldManager.getPath(), scale));
         towerManager = new TowerManager(enemyManager.getEnemies());
 
 
@@ -213,10 +213,11 @@ public class GameScreen implements Screen {
     }
 
     public void mouseEnterOperation() {
-        base.setInfoToDisplay(1,lastClickedOperationTile.getName());
+        if (Objects.equals(lastClickedOperationTile.getName(), "melee") || Objects.equals(lastClickedOperationTile.getName(), "crossbow") || Objects.equals(lastClickedOperationTile.getName(), "mage")|| Objects.equals(lastClickedOperationTile.getName(), "cannon"))
+            base.setInfoToDisplay(1,lastClickedOperationTile.getName(),turretLevels.getJSONArray(lastClickedOperationTile.getName()+"Tower").getJSONObject(0),null);
         //statsTableManager.setNewBuildingTable(lastClickedOperationTile.getName());
-
     }
+
     public void mouseExitOperation() {
         base.setInfoToDisplay(0);
     }
@@ -273,7 +274,7 @@ public class GameScreen implements Screen {
             }
         }
 
-        if (Objects.equals(chosenOperation,"sword")) {
+        if (Objects.equals(chosenOperation,"melee")) {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
                 //warunki wybudowania swordTowera
                 if (base.getMoney()>= turretLevels.getJSONArray("meleeTower").getJSONObject(0).getInt("cost")){
@@ -301,7 +302,7 @@ public class GameScreen implements Screen {
         }
 
 
-        if (Objects.equals(chosenOperation,"bow")) {
+        if (Objects.equals(chosenOperation,"crossbow")) {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
 
@@ -403,7 +404,7 @@ public class GameScreen implements Screen {
         }
     }
     public void mouseEnterMapTile() {
-        if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0 && (Objects.equals(chosenOperation,"sword") || Objects.equals(chosenOperation,"bow") || Objects.equals(chosenOperation,"mage") || Objects.equals(chosenOperation,"cannon")))
+        if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0 && (Objects.equals(chosenOperation,"melee") || Objects.equals(chosenOperation,"crossbow") || Objects.equals(chosenOperation,"mage") || Objects.equals(chosenOperation,"cannon")))
             shouldRenderPreview = true;
 
 
@@ -643,7 +644,7 @@ public class GameScreen implements Screen {
                 font.draw(spritebatch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, hudCamera.viewportHeight);
 
                 if (shouldRenderPreview)
-                    GameFunctions.renderPreviewBuilding(spritebatch, shapeRenderer, lastClickedMapTile, chosenOperation, scale);
+                    GameFunctions.renderPreviewBuilding(spritebatch, shapeRenderer, lastClickedMapTile, turretLevels, chosenOperation, scale);
 
                 spritebatch.end();
 

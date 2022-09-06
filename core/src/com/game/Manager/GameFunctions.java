@@ -133,8 +133,8 @@ public class GameFunctions {
         arr[3][1] = new Image(images_buildings, "sell");
 
 
-        arr[0][0].setName("sword");
-        arr[0][1].setName("bow");
+        arr[0][0].setName("melee");
+        arr[0][1].setName("crossbow");
         arr[1][0].setName("mage");
         arr[1][1].setName("cannon");
         arr[2][0].setName("stickyRoad");
@@ -185,8 +185,8 @@ public class GameFunctions {
         arr[3][0] = new Image(images_buildings, "clean");
         arr[3][1] = new Image(images_buildings, "sell");
 
-        arr[0][0].setName("sword");
-        arr[0][1].setName("bow");
+        arr[0][0].setName("melee");
+        arr[0][1].setName("crossbow");
         arr[1][0].setName("mage");
         arr[1][1].setName("cannon");
         arr[2][0].setName("stickyRoad");
@@ -374,7 +374,7 @@ public class GameFunctions {
     }
 
 
-    public static ArrayList<Vector2> calulatePath(List<int[]> path, float scale) {
+    public static ArrayList<Vector2> calculatePath(List<int[]> path, float scale) {
 
         ArrayList<Vector2> v = new ArrayList<>();
 
@@ -392,33 +392,13 @@ public class GameFunctions {
     }
 
 
-    public static void renderPreviewBuilding(SpriteBatch spritebatch, ShapeRenderer shapeRenderer, LastClickedTile tile, String chosenOperation, float scale) {
-        float range=0;
+    public static void renderPreviewBuilding(SpriteBatch spritebatch, ShapeRenderer shapeRenderer, LastClickedTile tile, JSONObject turretLevels, String chosenOperation, float scale) {
+        float range = turretLevels.getJSONArray(chosenOperation+"Tower").getJSONObject(0).getFloat("range")*scale;
         TextureRegion towerPreview = new TextureRegion();
         float towerTextureSize=64;
 
         Vector2 position = new Vector2(tile.getX() * scale * 64 + Gdx.graphics.getWidth() / 20,(9 - tile.getY()) * scale * 64 + (Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 30 * 16) / 2);
-
-
-        switch (chosenOperation) {
-            case "sword":
-                towerPreview = new TextureRegion(new Texture(Gdx.files.internal("assets/game/towers/meleePreview.png")));
-                range = 80*scale;
-                break;
-            case "bow":
-                towerPreview = new TextureRegion(new Texture(Gdx.files.internal("assets/game/towers/crossbowPreview.png")));
-                range = 200*scale;
-                break;
-            case "mage":
-                towerPreview = new TextureRegion(new Texture(Gdx.files.internal("assets/game/towers/magePreview.png")));
-                range = 200*scale;
-                break;
-            case "cannon":
-                towerPreview = new TextureRegion(new Texture(Gdx.files.internal("assets/game/towers/cannonPreview.png")));
-                range = 200*scale;
-                break;
-
-        }
+        towerPreview = new TextureRegion(new Texture(Gdx.files.internal("assets/game/towers/"+chosenOperation+"Preview.png")));
 
         spritebatch.draw(towerPreview, position.x, position.y,towerTextureSize*scale,towerTextureSize*scale );
 
