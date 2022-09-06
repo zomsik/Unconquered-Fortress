@@ -25,7 +25,7 @@ public class StatsTableManager {
 
     private TextFieldStyleManager textFieldStyleManager;
     private TextField hpTextField, hpTextValue, goldTextField, goldTextValue, diamondTextField, diamondTextValue, waveTextField, waveTextValue, difficultyTextField, difficultyTextValue;
-    private TextField operationTitleTextField, operationTitleTextValue;
+    private TextField operationPriceTextField, operationPriceTextValue, operationTitleTextField, operationTitleTextValue, operationDmgTextField, operationDmgTextValue, operationRangeTextField, operationRangeTextValue, operationReloadTextField, operationReloadTextValue, operationSpeedTextField, operationSpeedTextValue;
     private TextField upgradePriceTextField, upgradePriceTextValue,upgradeTitleTextField, upgradeTitleTextValue, upgradeLvlTextField, upgradeLvlTextValue, upgradeDmgTextField, upgradeDmgTextValue, upgradeRangeTextField, upgradeRangeTextValue, upgradeReloadTextField, upgradeReloadTextValue, upgradeSpeedTextField, upgradeSpeedTextValue;
 
     private TextField.TextFieldStyle statsTextFieldStyle, rightStatsTextFieldStyle, leftStatsTextFieldStyle;
@@ -126,16 +126,58 @@ public class StatsTableManager {
 
         //Operation Table
 
-        operationTitleTextField = new TextField("Operacja: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        operationTitleTextField = new TextField("Upgrade: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         operationTitleTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        operationPriceTextField = new TextField("Price: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        operationPriceTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        operationDmgTextField = new TextField("Damage: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        operationDmgTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        operationRangeTextField = new TextField("Range: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        operationRangeTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        operationReloadTextField = new TextField("Reload: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        operationReloadTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        operationSpeedTextField = new TextField("Speed: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        operationSpeedTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+
         operationTitleTextField.setAlignment(Align.center);
         operationTitleTextValue.setAlignment(Align.center);
+        operationPriceTextField.setAlignment(Align.center);
+        operationPriceTextValue.setAlignment(Align.center);
+        operationDmgTextField.setAlignment(Align.center);
+        operationDmgTextValue.setAlignment(Align.center);
+        operationRangeTextField.setAlignment(Align.center);
+        operationRangeTextValue.setAlignment(Align.center);
+        operationReloadTextField.setAlignment(Align.center);
+        operationReloadTextValue.setAlignment(Align.center);
+        operationSpeedTextField.setAlignment(Align.center);
+        operationSpeedTextValue.setAlignment(Align.center);
 
         operationTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
         operationTable.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackground)));
+        operationTable.row().padBottom(4*scale);
         operationTable.add(operationTitleTextField).width((200*scale)/2-6*scale);
         operationTable.add(new Image(images_stats, "middleStatsCover"));
         operationTable.add(operationTitleTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        operationTable.row().padBottom(4*scale);
+        operationTable.add(operationPriceTextField).width((200*scale)/2-6*scale);
+        operationTable.add(new Image(images_stats, "middleStatsCover"));
+        operationTable.add(operationPriceTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        operationTable.row().padBottom(4*scale);
+        operationTable.add(operationDmgTextField).width((200*scale)/2-6*scale);
+        operationTable.add(new Image(images_stats, "middleStatsCover"));
+        operationTable.add(operationDmgTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        operationTable.row().padBottom(4*scale);
+        operationTable.add(operationRangeTextField).width((200*scale)/2-6*scale);
+        operationTable.add(new Image(images_stats, "middleStatsCover"));
+        operationTable.add(operationRangeTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        operationTable.row().padBottom(4*scale);
+        operationTable.add(operationReloadTextField).width((200*scale)/2-6*scale);
+        operationTable.add(new Image(images_stats, "middleStatsCover"));
+        operationTable.add(operationReloadTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        operationTable.row().padBottom(4*scale);
+        operationTable.add(operationSpeedTextField).width((200*scale)/2-6*scale);
+        operationTable.add(new Image(images_stats, "middleStatsCover"));
+        operationTable.add(operationSpeedTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
 
         // Upgrade Table
         upgradePriceTextField = new TextField("Price: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
@@ -220,7 +262,7 @@ public class StatsTableManager {
         switch (infoToDisplay) {
             case 0 -> t = statsTable;
             case 1 -> {
-                setOperationTable(infoToDisplayName);
+                setOperationTable(infoToDisplayName, infoToDisplayObjectNow);
                 t = operationTable;
             }
             case 2 -> {
@@ -238,8 +280,14 @@ public class StatsTableManager {
     }
 
 
-    public void setOperationTable(String name){
+    public void setOperationTable(String name, JSONObject towerNow){
+
         operationTitleTextValue.setText(name);
+        operationPriceTextValue.setText(String.valueOf(towerNow.getInt("cost")));
+        operationDmgTextValue.setText(String.valueOf((int)towerNow.getFloat("dmg")));
+        operationRangeTextValue.setText(String.valueOf((int)towerNow.getFloat("range")));
+        operationReloadTextValue.setText(String.valueOf((int)towerNow.getFloat("reload")));
+        operationSpeedTextValue.setText(String.valueOf((int)towerNow.getFloat("bulletSpeed")));
     }
 
     public void setUpgradeTable(String name, JSONObject towerNow, JSONObject towerUpgraded){

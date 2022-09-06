@@ -23,8 +23,8 @@ public class Base {
         this.infoToDisplayObjectNow = null;
         this.infoToDisplayObjectUpgraded = null;
 
-        this.money = 0;
-        this.diamonds = 0;
+        this.money = actualGame.getInt("gold");
+        this.diamonds = actualGame.getInt("diamonds");
         this.maxHealth = 100;
         this.health = 100;
         this.armor = 100;

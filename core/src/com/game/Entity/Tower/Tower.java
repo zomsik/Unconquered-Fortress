@@ -49,6 +49,7 @@ public class Tower extends Actor {
     private float reloadTime;
     private float rotation;
     private int lvl;
+    private int price;
     private ArrayList<Bullet> towerBullets;
 
     private float stateTime;
@@ -89,6 +90,7 @@ public class Tower extends Actor {
         this.lvl = turretFirstLevel.getInt("lvl");
         this.enemyToFollow = null;
 
+        this.price = turretFirstLevel.getInt("cost");
 
         Texture spriteMap = new Texture(Gdx.files.internal(path));
         TextureRegion[][] spritePosition = TextureRegion.split(spriteMap, 64, 64); // frame width and height get from extended class
@@ -183,6 +185,11 @@ public class Tower extends Actor {
 
     }
 
+    public void buyTower(){
+        if (base.getMoney() >= price){
+            base.decreaseMoney(price);
+        }
+    }
 
     public JSONArray getTowerLevels() {
         return towerLevels;

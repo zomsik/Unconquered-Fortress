@@ -2,8 +2,11 @@ package com.game.Manager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.game.Entity.Base;
 import com.game.Entity.Enemy.Enemy;
 import com.game.Entity.Tower.Tower;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,18 +21,20 @@ public class TowerManager {
     public TowerManager(){
         towers = new ArrayList<>();
 
+
     }
 
     public TowerManager(ArrayList<Enemy> enemies){
         this.enemies = enemies;
         towers = new ArrayList<>();
 
-
     }
 
 
     public void buyTower(Tower t) {
+
         towers.add(t);
+        t.buyTower();
     }
 
     public void sellTower(int x, int y) {
