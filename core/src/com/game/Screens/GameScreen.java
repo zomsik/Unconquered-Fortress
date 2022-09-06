@@ -611,7 +611,7 @@ public class GameScreen implements Screen {
         stage.draw();
 
 
-        if ((statsTableManager.getInfoToDisplay()!=base.getInfoToDisplay()) || (statsTableManager.getInfoToDisplay()==base.getInfoToDisplay() && chosenOperation!=base.getInfoToDisplayName()))
+        if ((statsTableManager.getInfoToDisplay()!=base.getInfoToDisplay()) || (base.getInfoToDisplay()==1 && chosenOperation!=base.getInfoToDisplayName()))
         {
             statsTableManager.setInfoToDisplay(base.getInfoToDisplay(), base.getInfoToDisplayObjectNow(),  base.getInfoToDisplayObjectUpgraded(), base.getInfoToDisplayName());
             table_info.remove();
