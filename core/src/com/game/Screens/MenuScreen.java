@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -47,7 +48,7 @@ public class MenuScreen implements Screen  {
     public Stage stage;
     public Table table_bExit, table_bPlay, table_bSettings, table_bLogin, table_bCredits, table_dialogLogin, table_dialogRegister;
     private TextButton.TextButtonStyle textButtonStyle_bDialogExit, textButtonStyle_tDialogStayLogged, textButtonStyle_bExit, textButtonStyle_bPlay, textButtonStyle_bSettings, textButtonStyle_bCredits, textButtonStyle_bLogin, textButtonStyle_bDialogLogin, textButtonStyle_cDialogStayLogged;
-    private TextField.TextFieldStyle textFieldStyle, formTextFieldStyle, titleTextFieldStyle, errorTextFieldStyle;
+    private TextField.TextFieldStyle textFieldStyle, formTextFieldStyle, titleTextFieldStyle, errorTextFieldStyle, texttitleTextFieldStyle;
     private ConnectionManager connectionManager;
     private ButtonStyleManager buttonStyleManager;
     private TextFieldStyleManager textFieldStyleManager;
@@ -74,8 +75,11 @@ public class MenuScreen implements Screen  {
     private UpgradeManager upgradeManager;
     private TextTooltip.TextTooltipStyle textTooltipStyle;
     private TextTooltip tooltip;
+    private float scale;
+    private Pixmap cursorColor;
     public MenuScreen(Main game){
         this.game = game;
+
         initSettingsUI();
         buttonStyleManager = new ButtonStyleManager();
         textFieldStyleManager = new TextFieldStyleManager();
@@ -104,7 +108,7 @@ public class MenuScreen implements Screen  {
 
         }
 
-
+        scale = (float) (Gdx.graphics.getWidth() / 1280.0);
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bExit, images, fontTitle, "tempmain", "tempmain");
         bExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bExit));
@@ -120,6 +124,7 @@ public class MenuScreen implements Screen  {
         backgroundMusic.setVolume(fileReader.getVolumeValue()/100);
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
+
     }
     @Override
     public void show() {
@@ -156,6 +161,7 @@ public class MenuScreen implements Screen  {
         bUpgrade.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
                 isDialog = true;
                 Texture bg;
                 if(Gdx.graphics.getWidth() < 721){
@@ -173,7 +179,6 @@ public class MenuScreen implements Screen  {
                 upgradeManager.setUpgradeTable(table_upgrade);
                 upgradeManager.setUpgradeDialog(upgradeDialog, table_upgrade, labelStyle);
                 initUpgrades();
-
                 stage.addActor(upgradeManager.returnUpgradeTable());
                 upgradeDialog.add(upgradeManager.returnUpgradeTable());
                 upgradeDialog.show(stage);
@@ -515,7 +520,6 @@ public class MenuScreen implements Screen  {
                         tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
-
                 upgradeManager.getGear().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
@@ -635,7 +639,6 @@ public class MenuScreen implements Screen  {
                         tooltip.exit(event, x, y, pointer, fromActor);
                     }
                 });
-
                 upgradeManager.getShield().addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
@@ -947,33 +950,33 @@ public class MenuScreen implements Screen  {
             }
         });
 
-        buttonStyleManager.setTextButtonStyle(textButtonStyle_bDialogExit, images_settings, fontText, "checkbox_on", "checkbox_on");
-        bDialogExit = new TextButton(null,buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogExit));
-        bDialogExit2 = new TextButton(null,buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogExit));
-
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bDialogExit, images_default, fontText, "defaultButton", "defaultButton");
+        bDialogExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"),buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogExit));
+        bDialogExit2 = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"),buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogExit));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogStayLogged, images_settings, fontText, "checkbox_off", "checkbox_off");
         cDialogStayLogged = new TextButton(null, buttonStyleManager.returnTextButtonStyle(textButtonStyle_cDialogStayLogged));
 
+        textFieldStyleManager.setTextFieldStyleCursor(formTextFieldStyle, images_settings, fontText, "textBar", Color.WHITE);
         textFieldStyleManager.setTextFieldStyle(textFieldStyle, images_settings, fontText, "textBar", Color.WHITE);
-        textFieldStyleManager.setTextFieldStyle(formTextFieldStyle, images_settings, fontText, "textBar", Color.WHITE);
         textFieldStyleManager.setTextFieldStyle(titleTextFieldStyle, images_settings, fontTitle, "empty_background", Color.BLACK);
-        textFieldStyleManager.setTextFieldStyle(errorTextFieldStyle, images_settings, fontText, "textBar", Color.RED);
-
+        textFieldStyleManager.setTextFieldStyle(errorTextFieldStyle, images_settings, fontText, "textBar", Color.valueOf("8f0500"));
+        textFieldStyleManager.setTextFieldStyle(texttitleTextFieldStyle, images_settings, fontText, "empty_background", Color.WHITE);
 
         tDialogLoginTextTitle= new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginTitle"), textFieldStyleManager.returnTextFieldStyle(titleTextFieldStyle));
         tDialogLoginStayLogged = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginStayLogged"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-        tDialogLoginTextLogin = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginTextLogin"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-        tDialogLoginTextPassword = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginTextPassword"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tDialogLoginTextLogin = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginTextLogin"), textFieldStyleManager.returnTextFieldStyle(texttitleTextFieldStyle));
+        tDialogLoginTextPassword = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginTextPassword"), textFieldStyleManager.returnTextFieldStyle(texttitleTextFieldStyle));
 
         fDialogLoginLogin = new TextField(null, textFieldStyleManager.returnTextFieldStyle(formTextFieldStyle));
+        fDialogLoginLogin.setAlignment(Align.center);
         fDialogLoginPassword = new TextField(null, textFieldStyleManager.returnTextFieldStyle(formTextFieldStyle));
-
+        fDialogLoginPassword.setAlignment(Align.center);
         tDialogLoginErrors = new TextField(null,textFieldStyleManager.returnTextFieldStyle(errorTextFieldStyle));
 
-
         tDialogLoginTextTitle.setDisabled(true);
-        tDialogLoginTextTitle.setAlignment(Align.right);
-        tDialogLoginTextTitle.setSize(150,30);
+        tDialogLoginTextTitle.setAlignment(Align.center);
+        tDialogLoginTextTitle.setSize(256,32);
+
         tDialogLoginTextLogin.setDisabled(true);
         tDialogLoginTextLogin.setAlignment(Align.center);
         tDialogLoginTextPassword.setDisabled(true);
@@ -983,21 +986,25 @@ public class MenuScreen implements Screen  {
         fDialogLoginPassword.setPasswordCharacter('*');
 
         tDialogLoginErrors.setDisabled(true);
-
+        tDialogLoginErrors.setAlignment(Align.center);
 
         tDialogRegisterTextTitle = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTitle"), textFieldStyleManager.returnTextFieldStyle(titleTextFieldStyle));
-        tDialogRegisterTextLogin = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTextLogin"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-        tDialogRegisterTextMail = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTextMail"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-        tDialogRegisterTextPassword = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTextPassword"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-        tDialogRegisterTextRepeatPassword = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTextRepeatPassword"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tDialogRegisterTextLogin = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTextLogin"), textFieldStyleManager.returnTextFieldStyle(texttitleTextFieldStyle));
+        tDialogRegisterTextMail = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTextMail"), textFieldStyleManager.returnTextFieldStyle(texttitleTextFieldStyle));
+        tDialogRegisterTextPassword = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTextPassword"), textFieldStyleManager.returnTextFieldStyle(texttitleTextFieldStyle));
+        tDialogRegisterTextRepeatPassword = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTextRepeatPassword"), textFieldStyleManager.returnTextFieldStyle(texttitleTextFieldStyle));
 
         fDialogRegisterLogin = new TextField(null, textFieldStyleManager.returnTextFieldStyle(formTextFieldStyle));
+        fDialogRegisterLogin.setAlignment(Align.center);
         fDialogRegisterMail = new TextField(null, textFieldStyleManager.returnTextFieldStyle(formTextFieldStyle));
+        fDialogRegisterMail.setAlignment(Align.center);
         fDialogRegisterPassword = new TextField(null, textFieldStyleManager.returnTextFieldStyle(formTextFieldStyle));
+        fDialogRegisterPassword.setAlignment(Align.center);
         fDialogRegisterRepeatPassword  = new TextField(null, textFieldStyleManager.returnTextFieldStyle(formTextFieldStyle));
+        fDialogRegisterRepeatPassword.setAlignment(Align.center);
 
         tDialogRegisterErrors = new TextField(null,textFieldStyleManager.returnTextFieldStyle(errorTextFieldStyle));
-
+        tDialogRegisterErrors.setAlignment(Align.center);
 
         tDialogRegisterTextTitle.setDisabled(true);
         tDialogRegisterTextTitle.setAlignment(Align.right);
@@ -1019,59 +1026,63 @@ public class MenuScreen implements Screen  {
         tDialogRegisterErrors.setDisabled(true);
 
 
-        Texture bg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
+        Texture bg = new Texture(new FileHandle("assets/dialog/loginregisterDialog.png"));
         menuDialog = new Dialog("", new Window.WindowStyle(fontTitle, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
             public void result(Object obj) {
                 menuDialog.cancel();
             }
         };
-        menuDialog.getButtonTable().debug();
-
+        //menuDialog.getButtonTable().debug();
+        tDialogLoginErrors.setVisible(false);
+        tDialogRegisterErrors.setVisible(false);
         // Login Dialog
-        table_dialogLogin.setWidth(350);
-        table_dialogLogin.setX(200);
-        table_dialogLogin.setY(300);
-        table_dialogLogin.row().colspan(2);
-        table_dialogLogin.add(bDialogExit).expand().align(Align.top);
-        table_dialogLogin.row().colspan(2);
-        table_dialogLogin.add(tDialogLoginTextTitle).expand().fillX().align(Align.top);
-        table_dialogLogin.row();
-        table_dialogLogin.add(tDialogLoginTextLogin);
-        table_dialogLogin.add(fDialogLoginLogin).pad(10).align(Align.center);
-        table_dialogLogin.row();
-        table_dialogLogin.add(tDialogLoginTextPassword);
-        table_dialogLogin.add(fDialogLoginPassword).pad(10).align(Align.center);
-        table_dialogLogin.row();
+        table_dialogLogin.setBounds(0,0,360,420);
+        table_dialogLogin.row().colspan(2).width(256).align(Align.center).padBottom(12);
+        table_dialogLogin.add(tDialogLoginTextTitle).align(Align.top|Align.center).width(256);
+        table_dialogLogin.row().padBottom(12);
+        table_dialogLogin.add(tDialogLoginTextLogin).align(Align.center);
+        table_dialogLogin.add(fDialogLoginLogin).align(Align.center);
+        table_dialogLogin.row().padBottom(12);
+        table_dialogLogin.add(tDialogLoginTextPassword).align(Align.center);
+        table_dialogLogin.add(fDialogLoginPassword).align(Align.center);
+        table_dialogLogin.row().padBottom(12);
         table_dialogLogin.add(cDialogStayLogged);
         table_dialogLogin.add(tDialogLoginStayLogged);
-        table_dialogLogin.row().colspan(2);
-        table_dialogLogin.add(tDialogLoginErrors);
+        table_dialogLogin.row().padBottom(12);
+        table_dialogLogin.add(tDialogLoginErrors).colspan(2).width(256);
+        table_dialogLogin.row().padBottom(12);
+        table_dialogLogin.add(bDialogLogin).colspan(2).padBottom(78);
+        table_dialogLogin.row();
+        table_dialogLogin.add(bDialogExit).width(128).height(32).align(Align.right);
+        table_dialogLogin.add(bDialogLoginRegister).width(128).height(32).align(Align.left);
 
         // Register Dialog
-        table_dialogRegister.setWidth(350);
-        table_dialogRegister.setX(200);
-        table_dialogRegister.setY(300);
-        table_dialogRegister.row().colspan(2);
-        table_dialogRegister.add(bDialogExit2).expand().align(Align.top);
-        table_dialogRegister.row().colspan(2);
-        table_dialogRegister.add(tDialogRegisterTextTitle).expand().fillX().align(Align.top);
+        table_dialogRegister.setBounds(0,0,360,420);
+        table_dialogRegister.row().colspan(2).width(256).align(Align.center).padBottom(12);
+        table_dialogRegister.add(tDialogRegisterTextTitle).align(Align.top|Align.center).width(256);
+        table_dialogRegister.row().padBottom(12);
+        table_dialogRegister.add(tDialogRegisterTextLogin).align(Align.center);
+        table_dialogRegister.add(fDialogRegisterLogin).align(Align.center);
+        table_dialogRegister.row().padBottom(12);
+        table_dialogRegister.add(tDialogRegisterTextMail).align(Align.center);
+        table_dialogRegister.add(fDialogRegisterMail).align(Align.center);
+        table_dialogRegister.row().padBottom(12);
+        table_dialogRegister.add(tDialogRegisterTextPassword).align(Align.center);
+        table_dialogRegister.add(fDialogRegisterPassword).align(Align.center);
+        table_dialogRegister.row().padBottom(12);
+        table_dialogRegister.add(tDialogRegisterTextRepeatPassword).align(Align.center);
+        table_dialogRegister.add(fDialogRegisterRepeatPassword).align(Align.center);
+        table_dialogRegister.row().padBottom(12);
+        table_dialogRegister.add(tDialogRegisterErrors).width(256).colspan(2);
+        table_dialogRegister.row().padBottom(12);
+        table_dialogRegister.add(bDialogRegister).colspan(2).padBottom(34);
         table_dialogRegister.row();
-        table_dialogRegister.add(tDialogRegisterTextLogin);
-        table_dialogRegister.add(fDialogRegisterLogin).pad(10).align(Align.center);
-        table_dialogRegister.row();
-        table_dialogRegister.add(tDialogRegisterTextMail);
-        table_dialogRegister.add(fDialogRegisterMail).pad(10).align(Align.center);
-        table_dialogRegister.row();
-        table_dialogRegister.add(tDialogRegisterTextPassword);
-        table_dialogRegister.add(fDialogRegisterPassword).pad(10).align(Align.center);
-        table_dialogRegister.row();
-        table_dialogRegister.add(tDialogRegisterTextRepeatPassword);
-        table_dialogRegister.add(fDialogRegisterRepeatPassword).pad(10).align(Align.center);
-        table_dialogRegister.row().colspan(2);
-        table_dialogRegister.add(tDialogRegisterErrors);
+        table_dialogRegister.add(bDialogExit2).width(128).height(32).align(Align.right);
+        table_dialogRegister.add(bDialogRegisterLogin).width(128).height(32).align(Align.left);
 
-        table_dialogLogin.debug();
-        table_dialogRegister.debug();
+
+        //table_dialogLogin.debug();
+        //table_dialogRegister.debug();
 
 
 
@@ -1096,9 +1107,10 @@ public class MenuScreen implements Screen  {
                 tDialogLoginErrors.setText(null);
                 menuDialog.removeActor(table_dialogRegister);
                 menuDialog.addActor(table_dialogLogin);
-                menuDialog.getButtonTable().clearChildren();
-                menuDialog.button(bDialogLogin);
-                menuDialog.button(bDialogLoginRegister);
+                //menuDialog.getButtonTable().clearChildren();
+                //menuDialog.button(bDialogLogin);
+                //menuDialog.button(bDialogExit);
+                //menuDialog.button(bDialogLoginRegister);
                 menuDialog.show(stage);
 
             }
@@ -1134,16 +1146,19 @@ public class MenuScreen implements Screen  {
 
                 if (fDialogLoginLogin.getText().isEmpty() || fDialogLoginPassword.getText().isEmpty())
                 {
+                    tDialogLoginErrors.setVisible(true);
                     tDialogLoginErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorEmptyFields"));
                     return;
                 }
                 if (fDialogLoginLogin.getText().length() < 5 || fDialogLoginLogin.getText().length() > 20 )
                 {
+                    tDialogLoginErrors.setVisible(true);
                     tDialogLoginErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfLogin"));
                     return;
                 }
                 if (fDialogLoginPassword.getText().length() < 5 || fDialogLoginPassword.getText().length() > 20 )
                 {
+                    tDialogLoginErrors.setVisible(true);
                     tDialogLoginErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfPassword"));
                     return;
                 }
@@ -1204,8 +1219,8 @@ public class MenuScreen implements Screen  {
                 menuDialog.removeActor(table_dialogLogin);
                 menuDialog.addActor(table_dialogRegister);
                 menuDialog.getButtonTable().clearChildren();
-                menuDialog.button(bDialogRegister);
-                menuDialog.button(bDialogRegisterLogin);
+                //menuDialog.button(bDialogRegister);
+                //menuDialog.button(bDialogRegisterLogin);
             }
         });
 
@@ -1216,16 +1231,19 @@ public class MenuScreen implements Screen  {
             public void clicked(InputEvent event, float x, float y){
                 if (fDialogRegisterLogin.getText().isEmpty() || fDialogRegisterMail.getText().isEmpty() || fDialogRegisterPassword.getText().isEmpty() || fDialogRegisterRepeatPassword.getText().isEmpty())
                 {
+                    tDialogRegisterErrors.setVisible(true);
                     tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorEmptyFields"));
                     return;
                 }
                 if (fDialogRegisterLogin.getText().length() < 5 || fDialogRegisterLogin.getText().length() > 20 )
                 {
+                    tDialogRegisterErrors.setVisible(true);
                     tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfLogin"));
                     return;
                 }
                 if (fDialogRegisterPassword.getText().length() < 5 || fDialogRegisterPassword.getText().length() > 20 )
                 {
+                    tDialogRegisterErrors.setVisible(true);
                     tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfPassword"));
                     return;
                 }
@@ -1233,7 +1251,7 @@ public class MenuScreen implements Screen  {
                 {
                     System.out.println(fDialogRegisterPassword.getText());
                     System.out.println(fDialogRegisterRepeatPassword.getText());
-
+                    tDialogRegisterErrors.setVisible(true);
                     tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorRepeatPasswordDifferent"));
                     return;
                 }
@@ -1280,8 +1298,8 @@ public class MenuScreen implements Screen  {
                 menuDialog.removeActor(table_dialogRegister);
                 menuDialog.addActor(table_dialogLogin);
                 menuDialog.getButtonTable().clearChildren();
-                menuDialog.button(bDialogLogin);
-                menuDialog.button(bDialogLoginRegister);
+                //menuDialog.button(bDialogLogin);
+                //menuDialog.button(bDialogLoginRegister);
             }
         });
         bPlay.addListener(new ClickListener(){
@@ -1421,6 +1439,7 @@ public class MenuScreen implements Screen  {
         formTextFieldStyle = new TextField.TextFieldStyle();
         errorTextFieldStyle = new TextField.TextFieldStyle();
         titleTextFieldStyle = new TextField.TextFieldStyle();
+        texttitleTextFieldStyle = new TextField.TextFieldStyle();
         textButtonStyle_bExit = new TextButton.TextButtonStyle();
         textButtonStyle_bPlay = new TextButton.TextButtonStyle();
         textButtonStyle_bSettings = new TextButton.TextButtonStyle();

@@ -280,7 +280,6 @@ public class StatsTableManager {
 
 
     public void setOperationTable(String name, JSONObject towerNow){
-
         operationTitleTextValue.setText(name);
         operationPriceTextValue.setText(String.valueOf(towerNow.getInt("cost")));
         operationDmgTextValue.setText(String.valueOf((int)towerNow.getFloat("dmg")));
