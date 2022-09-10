@@ -15,6 +15,7 @@ public class Base {
     private JSONObject infoToDisplayObjectNow, infoToDisplayObjectUpgraded;
 
     private String difficulty;
+    private int cleanPrice;
 
     public Base(JSONObject actualGame){
         this.infoToDisplay = 0;
@@ -29,6 +30,7 @@ public class Base {
         this.armor = 100;
         this.difficulty = actualGame.getString("difficulty");
         this.wave = 0;
+        this.cleanPrice = 200;
     }
 
     public Base(int maxHealth, int health, int armor){
@@ -150,6 +152,7 @@ public class Base {
         this.wave = wave;
     }
 
-
-
+    public int getCleanPrice() {
+        return cleanPrice;
+    }
 }

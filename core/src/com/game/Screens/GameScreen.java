@@ -86,7 +86,7 @@ public class GameScreen implements Screen {
 
     OrthographicCamera hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-    private Dialog eventDialog;
+    private Dialog eventDialog, infoDialog;
     private TextButton bBackDialog;
 
     public enum State{
@@ -168,7 +168,7 @@ public class GameScreen implements Screen {
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
         bSaveDialog  = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bExitDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-        bTest = new TextButton("test", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        //bTest = new TextButton("test", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bNextWave = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bNextWave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bResume = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bResume"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bUpgrade = new TextButton("Upgrade", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
@@ -178,8 +178,8 @@ public class GameScreen implements Screen {
 
         operationsArr = GameFunctions.getOperationsArr(this);
         table_operations = GameFunctions.getOperationsTable(operationsArr, scale, bUpgrade);
-        Texture bg = new Texture(new FileHandle("assets/shopBackground.png"));
-        table_operations.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
+        Texture shopBackground = new Texture(new FileHandle("assets/shopBackground.png"));
+        table_operations.setBackground(new TextureRegionDrawable(new TextureRegion(shopBackground)));
         operationsSelectedArr = GameFunctions.getOperationsSelectedArr();
         table_operationsSelected = GameFunctions.getOperationsTable(operationsSelectedArr, scale, bUpgrade);
 
@@ -286,6 +286,8 @@ public class GameScreen implements Screen {
                     stage.addActor(t);
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
 
+                }else{
+                    showInfoDialog();
                 }
 
 
@@ -315,6 +317,8 @@ public class GameScreen implements Screen {
                     towerManager.buyTower(t);
                     stage.addActor(t);
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
+                }else{
+                    showInfoDialog();
                 }
 
 
@@ -342,6 +346,8 @@ public class GameScreen implements Screen {
                     stage.addActor(t);
                     //towerManager.buyTower(new MageTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale));
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
+                }else{
+                    showInfoDialog();
                 }
 
                 //warunki wybudowania mageTowera
@@ -370,6 +376,8 @@ public class GameScreen implements Screen {
                     towerManager.buyTower(t);
                     stage.addActor(t);
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
+                }else{
+                    showInfoDialog();
                 }
 
                 //warunki wybudowania cannonTowera
@@ -390,23 +398,27 @@ public class GameScreen implements Screen {
 
         if (Objects.equals(chosenOperation,"clean")) {
             if (Objects.equals(lastClickedMapTile.getName(), "obstacle")) {
+                if(base.getMoney()>=base.getCleanPrice()){
+                    //jeśli masz kasę itd warunki, może dialog etc
+                    base.decreaseMoney(base.getCleanPrice());
+                    JSONArray terr = actualGame.getJSONArray("terrainModifications");
 
-                //jeśli masz kasę itd warunki, może dialog etc
+                    terr.put(new JSONObject().put("tileName","grass").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()));
+                    actualGame.put("terrainModifications", terr);
 
-                JSONArray terr = actualGame.getJSONArray("terrainModifications");
+                    table_map = worldManager.changeTileAndRedrawWorld(this, mapArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "grass", scale);
 
-                terr.put(new JSONObject().put("tileName","grass").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()));
-                actualGame.put("terrainModifications", terr);
-
-                table_map = worldManager.changeTileAndRedrawWorld(this, mapArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "grass", scale);
-
-                /////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
-                stage.addActor(table_map);
-                showEventDialog();
-                //table_buildings.toFront();*/
+                    stage.addActor(table_map);
+                    showEventDialog();
+                    //table_buildings.toFront();*/
+                }else{
+                    showInfoDialog();
+                }
+
 
 
             }
@@ -417,6 +429,20 @@ public class GameScreen implements Screen {
             shouldRenderPreview = true;
 
 
+    }
+
+    public void showInfoDialog(){
+            Texture infoDialogBackground = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
+            infoDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(infoDialogBackground)))) {
+                public void result(Object obj) {
+                    System.out.println("result " + obj);
+                }
+            };
+            Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+            infoDialog.text("Brak wystarczającej ilości złota", labelStyle);
+            infoDialog.button(bBackDialog).padBottom(16);
+            infoDialog.show(pauseStage);
+            state = State.Paused;
     }
     public void showEventDialog(){
         Texture eventDialogBackground = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
@@ -522,7 +548,7 @@ public class GameScreen implements Screen {
 
 
         //buck
-        bTest.addListener(new ClickListener() {
+       /* bTest.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
@@ -539,7 +565,7 @@ public class GameScreen implements Screen {
 
 
             }
-        });
+        });*/
 
 
 
