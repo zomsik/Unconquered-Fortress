@@ -29,6 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 
 public class GameScreen implements Screen {
     private Main game;
@@ -85,7 +86,8 @@ public class GameScreen implements Screen {
 
     OrthographicCamera hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-
+    private Dialog eventDialog;
+    private TextButton bBackDialog;
 
     public enum State{
         Running, Paused, Resumed, GameOver
@@ -172,6 +174,7 @@ public class GameScreen implements Screen {
         bUpgrade = new TextButton("Upgrade", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bPauseMenu, images_pause, font, "ButtonPauseUp", "ButtonPauseDown");
         bPauseMenu = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bPauseMenu));
+        bBackDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
 
         operationsArr = GameFunctions.getOperationsArr(this);
         table_operations = GameFunctions.getOperationsTable(operationsArr, scale, bUpgrade);
@@ -396,7 +399,13 @@ public class GameScreen implements Screen {
                 actualGame.put("terrainModifications", terr);
 
                 table_map = worldManager.changeTileAndRedrawWorld(this, mapArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "grass", scale);
+
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
                 stage.addActor(table_map);
+                showEventDialog();
                 //table_buildings.toFront();*/
 
 
@@ -409,7 +418,41 @@ public class GameScreen implements Screen {
 
 
     }
+    public void showEventDialog(){
+        Texture eventDialogBackground = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
+        eventDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(eventDialogBackground)))) {
+            public void result(Object obj) {
+                System.out.println("result " + obj);
+            }
+        };
+        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+        Random eventRandom = new Random();
+        int eventChance = eventRandom.nextInt(0,4);
+        if(eventChance==0){
+            eventDialog.text("Dostałeś golda, EO", labelStyle);
+            base.increaseMoney(50);
+            eventDialog.button(bBackDialog).padBottom(16);
+            //eventDialog.show(stage);
+            eventDialog.show(pauseStage);
+            state = State.Paused;
+        }else if(eventChance==1){
+            eventDialog.text("Dostałeś na głowę, EO", labelStyle);
+            base.damageBase(5);
+            eventDialog.button(bBackDialog).padBottom(16);
+            //eventDialog.show(stage);
+            eventDialog.show(pauseStage);
+            state = State.Paused;
+        }else if(eventChance==2){
+            eventDialog.text("Znalazłeś diamonda, EO", labelStyle);
+            base.increaseDiamonds(1);
+            eventDialog.button(bBackDialog).padBottom(16);
+            //eventDialog.show(stage);
+            eventDialog.show(pauseStage);
+            state = State.Paused;
+        } else{
 
+        }
+    }
     public void mouseExitMapTile() {
         if (shouldRenderPreview)
             shouldRenderPreview = false;
@@ -433,6 +476,7 @@ public class GameScreen implements Screen {
                 gameOverDialog.cancel();
             }
         };
+
 
 
         bNextWave.addListener(new ClickListener() {
@@ -531,6 +575,14 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new MenuScreen(game));
+            }
+        });
+
+        bBackDialog.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                eventDialog.hide();
+                state = State.Resumed;
             }
         });
         table_dialogPause.setBounds(0,0, 256, 460);

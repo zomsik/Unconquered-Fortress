@@ -1043,11 +1043,13 @@ public class WorldManager {
             public void clicked(InputEvent event, float x, float y) {
                 this.setLastClickedTile(gameScreen.lastClickedMapTile);
                 gameScreen.mouseClickMapTile();
+
             }
 
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 this.setLastClickedTile(gameScreen.lastClickedMapTile);
                 gameScreen.mouseEnterMapTile();
+
 
             }
             public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
