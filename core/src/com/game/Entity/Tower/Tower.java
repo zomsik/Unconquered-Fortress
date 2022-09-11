@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Null;
 import com.game.Entity.Base;
 import com.game.Entity.Bullet;
 import com.game.Entity.Enemy.Enemy;
+import com.game.Screens.GameScreen;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -61,12 +62,12 @@ public class Tower extends Actor {
     }
 
     private int bulletSplash;
+    private GameScreen gameScreen;
 
-    public Tower(JSONObject towerLevelsAll, Base base, String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, float reloadTime, float bulletSpeed, float range, float bulletDamage, int bulletSplash){
+    public Tower(JSONObject towerLevelsAll, Base base, String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, float reloadTime, float bulletSpeed, float range, float bulletDamage, int bulletSplash, GameScreen gameScreen){
         this.name = name;
-
         this.towerLevels = towerLevelsAll.getJSONArray(name);
-
+        this.gameScreen = gameScreen;
         JSONObject turretFirstLevel = this.towerLevels.getJSONObject(0);
 
         this.base = base;
@@ -181,6 +182,8 @@ public class Tower extends Actor {
                 bulletSpeed = lvlUp.getFloat("bulletSpeed");
                 range = lvlUp.getFloat("range");
                 lvl = lvlUp.getInt("lvl");
+            }else{
+                gameScreen.showInfoDialog();
             }
         }
 
@@ -308,7 +311,7 @@ public class Tower extends Actor {
             batch.begin();
         }
 
-            if(Objects.equals(name, "meleeTower")){
+            if(Objects.equals(name, "meleeTower") || Objects.equals(name, "mageTower")){
                 batch.draw(towerAnimation2.getKeyFrame(stateTime, true), position.x+32*(scale-1), position.y+32*(scale-1),towerTextureSize/2, towerTextureSize/2,towerTextureSize, towerTextureSize,scale,scale,0);
                 batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x+32*(scale-1), position.y+32*(scale-1), towerTextureSize/2, towerTextureSize/2,towerTextureSize,towerTextureSize,scale,scale,rotation);
 

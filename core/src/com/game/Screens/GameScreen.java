@@ -281,7 +281,7 @@ public class GameScreen implements Screen {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
                 //warunki wybudowania swordTowera
                 if (base.getMoney()>= turretLevels.getJSONArray("meleeTower").getJSONObject(0).getInt("cost")){
-                    Tower t = new MeleeTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
+                    Tower t = new MeleeTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale, this);
                     towerManager.buyTower(t);
                     stage.addActor(t);
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
@@ -313,7 +313,7 @@ public class GameScreen implements Screen {
 
                 //warunki wybudowania bowTowera
                 if (base.getMoney()>= turretLevels.getJSONArray("crossbowTower").getJSONObject(0).getInt("cost")){
-                    Tower t = new BowTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
+                    Tower t = new BowTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale, this);
                     towerManager.buyTower(t);
                     stage.addActor(t);
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
@@ -341,7 +341,7 @@ public class GameScreen implements Screen {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
                 if (base.getMoney()>= turretLevels.getJSONArray("mageTower").getJSONObject(0).getInt("cost"))
                 {
-                    Tower t = new MageTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
+                    Tower t = new MageTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale, this);
                     towerManager.buyTower(t);
                     stage.addActor(t);
                     //towerManager.buyTower(new MageTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale));
@@ -372,7 +372,7 @@ public class GameScreen implements Screen {
                 if (base.getMoney()>= turretLevels.getJSONArray("cannonTower").getJSONObject(0).getInt("cost"))
                 {
                     base.decreaseMoney(turretLevels.getJSONArray("cannonTower").getJSONObject(0).getInt("cost"));
-                    Tower t = new CannonTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale);
+                    Tower t = new CannonTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale,this);
                     towerManager.buyTower(t);
                     stage.addActor(t);
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
