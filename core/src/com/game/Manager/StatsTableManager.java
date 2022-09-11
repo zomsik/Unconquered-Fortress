@@ -25,8 +25,8 @@ public class StatsTableManager {
 
     private TextFieldStyleManager textFieldStyleManager;
     private TextField hpTextField, hpTextValue, goldTextField, goldTextValue, diamondTextField, diamondTextValue, waveTextField, waveTextValue, difficultyTextField, difficultyTextValue;
-    private TextField operationPriceTextField, operationPriceTextValue, operationTitleTextField, operationTitleTextValue, operationDmgTextField, operationDmgTextValue, operationRangeTextField, operationRangeTextValue, operationReloadTextField, operationReloadTextValue, operationSpeedTextField, operationSpeedTextValue;
-    private TextField upgradePriceTextField, upgradePriceTextValue,upgradeTitleTextField, upgradeTitleTextValue, upgradeLvlTextField, upgradeLvlTextValue, upgradeDmgTextField, upgradeDmgTextValue, upgradeRangeTextField, upgradeRangeTextValue, upgradeReloadTextField, upgradeReloadTextValue, upgradeSpeedTextField, upgradeSpeedTextValue;
+    private TextField operationPriceTextField, operationPriceTextValue, operationTitleTextField, operationTitleTextValue, operationDmgTextField, operationDmgTextValue, operationRangeTextField, operationRangeTextValue, operationReloadTextField, operationReloadTextValue, operationSplashTextField, operationSplashTextValue;
+    private TextField upgradePriceTextField, upgradePriceTextValue,upgradeTitleTextField, upgradeTitleTextValue, upgradeLvlTextField, upgradeLvlTextValue, upgradeDmgTextField, upgradeDmgTextValue, upgradeRangeTextField, upgradeRangeTextValue, upgradeReloadTextField, upgradeReloadTextValue, upgradeSplashTextField, upgradeSplashTextValue;
 
     private TextField.TextFieldStyle statsTextFieldStyle, rightStatsTextFieldStyle, leftStatsTextFieldStyle;
     private Skin images, images_stats;
@@ -136,8 +136,8 @@ public class StatsTableManager {
         operationRangeTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
         operationReloadTextField = new TextField("Reload: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         operationReloadTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-        operationSpeedTextField = new TextField("Speed: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
-        operationSpeedTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        operationSplashTextField = new TextField("Splash: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        operationSplashTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
 
         operationTitleTextField.setAlignment(Align.center);
         operationTitleTextValue.setAlignment(Align.center);
@@ -149,8 +149,8 @@ public class StatsTableManager {
         operationRangeTextValue.setAlignment(Align.center);
         operationReloadTextField.setAlignment(Align.center);
         operationReloadTextValue.setAlignment(Align.center);
-        operationSpeedTextField.setAlignment(Align.center);
-        operationSpeedTextValue.setAlignment(Align.center);
+        operationSplashTextField.setAlignment(Align.center);
+        operationSplashTextValue.setAlignment(Align.center);
 
         operationTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
         operationTable.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackground)));
@@ -175,9 +175,9 @@ public class StatsTableManager {
         operationTable.add(new Image(images_stats, "middleStatsCover"));
         operationTable.add(operationReloadTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
         operationTable.row().padBottom(4*scale);
-        operationTable.add(operationSpeedTextField).width((200*scale)/2-6*scale);
+        operationTable.add(operationSplashTextField).width((200*scale)/2-6*scale);
         operationTable.add(new Image(images_stats, "middleStatsCover"));
-        operationTable.add(operationSpeedTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        operationTable.add(operationSplashTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
 
         // Upgrade Table
         upgradePriceTextField = new TextField("Price: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
@@ -192,8 +192,8 @@ public class StatsTableManager {
         upgradeRangeTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
         upgradeReloadTextField = new TextField("Reload: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         upgradeReloadTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-        upgradeSpeedTextField = new TextField("Speed: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
-        upgradeSpeedTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        upgradeSplashTextField = new TextField("Splash: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        upgradeSplashTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
 
         upgradeTitleTextField.setAlignment(Align.center);
         upgradeTitleTextValue.setAlignment(Align.center);
@@ -207,8 +207,8 @@ public class StatsTableManager {
         upgradeRangeTextValue.setAlignment(Align.center);
         upgradeReloadTextField.setAlignment(Align.center);
         upgradeReloadTextValue.setAlignment(Align.center);
-        upgradeSpeedTextField.setAlignment(Align.center);
-        upgradeSpeedTextValue.setAlignment(Align.center);
+        upgradeSplashTextField.setAlignment(Align.center);
+        upgradeSplashTextValue.setAlignment(Align.center);
 
         upgradeTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
         upgradeTable.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackground)));
@@ -237,9 +237,9 @@ public class StatsTableManager {
         upgradeTable.add(new Image(images_stats, "middleStatsCover"));
         upgradeTable.add(upgradeReloadTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
         upgradeTable.row().padBottom(4*scale);
-        upgradeTable.add(upgradeSpeedTextField).width((200*scale)/2-6*scale);
+        upgradeTable.add(upgradeSplashTextField).width((200*scale)/2-6*scale);
         upgradeTable.add(new Image(images_stats, "middleStatsCover"));
-        upgradeTable.add(upgradeSpeedTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        upgradeTable.add(upgradeSplashTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
     }
 
     public int getInfoToDisplay() {
@@ -285,7 +285,7 @@ public class StatsTableManager {
         operationDmgTextValue.setText(String.valueOf((int)towerNow.getFloat("dmg")));
         operationRangeTextValue.setText(String.valueOf((int)towerNow.getFloat("range")));
         operationReloadTextValue.setText(String.valueOf((int)towerNow.getFloat("reload")));
-        operationSpeedTextValue.setText(String.valueOf((int)towerNow.getFloat("bulletSpeed")));
+        operationSplashTextValue.setText(String.valueOf((int)towerNow.getFloat("splash")));
     }
 
     public void setUpgradeTable(String name, JSONObject towerNow, JSONObject towerUpgraded){
@@ -297,7 +297,7 @@ public class StatsTableManager {
             upgradeDmgTextValue.setText((int)towerNow.getFloat("dmg") + " -> " + (int)towerUpgraded.getFloat("dmg"));
             upgradeRangeTextValue.setText((int)towerNow.getFloat("range") + " -> " + (int)towerUpgraded.getFloat("range"));
             upgradeReloadTextValue.setText((int)towerNow.getFloat("reload") + " -> " + (int)towerUpgraded.getFloat("reload"));
-            upgradeSpeedTextValue.setText((int)towerNow.getFloat("bulletSpeed") + " -> " + (int)towerUpgraded.getFloat("bulletSpeed"));
+            upgradeSplashTextValue.setText((int)towerNow.getFloat("splash") + " -> " + (int)towerUpgraded.getFloat("splash"));
 
         }
         else
@@ -307,7 +307,7 @@ public class StatsTableManager {
             upgradeDmgTextValue.setText(String.valueOf(towerNow.getInt("dmg")));
             upgradeRangeTextValue.setText(String.valueOf((int)towerNow.getFloat("range")));
             upgradeReloadTextValue.setText(String.valueOf((int)towerNow.getFloat("reload")));
-            upgradeSpeedTextValue.setText(String.valueOf((int)towerNow.getFloat("bulletSpeed")));
+            upgradeSplashTextValue.setText(String.valueOf((int)towerNow.getFloat("splash")));
         }
     }
 

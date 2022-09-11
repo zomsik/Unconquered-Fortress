@@ -64,7 +64,7 @@ public class Tower extends Actor {
     private int bulletSplash;
     private GameScreen gameScreen;
 
-    public Tower(JSONObject towerLevelsAll, Base base, String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, float reloadTime, float bulletSpeed, float range, float bulletDamage, int bulletSplash, GameScreen gameScreen){
+    public Tower(JSONObject towerLevelsAll, Base base, String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, float reloadTime, float bulletSpeed, float range, float bulletDamage, GameScreen gameScreen){
         this.name = name;
         this.towerLevels = towerLevelsAll.getJSONArray(name);
         this.gameScreen = gameScreen;
@@ -76,7 +76,7 @@ public class Tower extends Actor {
         this.reloadTime = turretFirstLevel.getFloat("reload");
         this.scale = scale;
         this.towerBullets = new ArrayList<>();
-        this.bulletSplash = bulletSplash;
+        this.bulletSplash = turretFirstLevel.getInt("splash");
         this.tileX = tileX;
         this.tileY = tileY;
 
@@ -180,6 +180,7 @@ public class Tower extends Actor {
                 reloadTime = lvlUp.getFloat("reload");
                 bulletDamage = lvlUp.getFloat("dmg");
                 bulletSpeed = lvlUp.getFloat("bulletSpeed");
+                bulletSplash = lvlUp.getInt("splash");
                 range = lvlUp.getFloat("range");
                 lvl = lvlUp.getInt("lvl");
             }else{
