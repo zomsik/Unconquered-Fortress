@@ -10,7 +10,7 @@ public class CannonTower extends Tower{
 
     public CannonTower(JSONObject turretLevels, Base base, int tileX, int tileY, float scale)
     {
-        super(turretLevels, base, "cannonTower", "assets/game/towers/cannonTower.png", null, 64, new TextureRegion(new Texture(Gdx.files.internal("assets/game/bullets/arrow64.png"))), 64, tileX, tileY, scale, 2f, 200, 200, 20);
+        super(turretLevels, base, "cannonTower", "assets/game/towers/cannonTower.png", null, 64, new TextureRegion(new Texture(Gdx.files.internal("assets/game/bullets/arrow64.png"))), 64, tileX, tileY, scale, 2f, 200, 200, 20,50);
 
     }
 

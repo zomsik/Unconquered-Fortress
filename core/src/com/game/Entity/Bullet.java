@@ -57,6 +57,7 @@ public class Bullet {
         return bulletDamage;
     }
 
+
     public void update(float deltaTime) {
         double x = Math.abs(position.x - enemyToFollow.getPosition().x);
         double distance = Vector2.dst(position.x,position.y,enemyToFollow.getPosition().x,enemyToFollow.getPosition().y+enemySize*scale/2);

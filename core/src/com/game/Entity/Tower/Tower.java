@@ -60,8 +60,9 @@ public class Tower extends Actor {
         this.enemyToFollow = null;
     }
 
+    private int bulletSplash;
 
-    public Tower(JSONObject towerLevelsAll, Base base, String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, float reloadTime, float bulletSpeed, float range, float bulletDamage){
+    public Tower(JSONObject towerLevelsAll, Base base, String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, float reloadTime, float bulletSpeed, float range, float bulletDamage, int bulletSplash){
         this.name = name;
 
         this.towerLevels = towerLevelsAll.getJSONArray(name);
@@ -74,7 +75,7 @@ public class Tower extends Actor {
         this.reloadTime = turretFirstLevel.getFloat("reload");
         this.scale = scale;
         this.towerBullets = new ArrayList<>();
-
+        this.bulletSplash = bulletSplash;
         this.tileX = tileX;
         this.tileY = tileY;
 
@@ -225,6 +226,14 @@ public class Tower extends Actor {
             if (b.isOnEnemy())
             {
                 b.getEnemyToFollow().dealDmg(b.getBulletDamage());
+                if(bulletSplash>0){
+                    for(Enemy e:enemies){
+                        if(e.getPosition().y <= b.getEnemyToFollow().getPosition().y+bulletSplash && e.getPosition().y >= b.getEnemyToFollow().getPosition().y-bulletSplash && e.getPosition().x <= b.getEnemyToFollow().getPosition().x+bulletSplash && e.getPosition().x >= b.getEnemyToFollow().getPosition().x-bulletSplash){
+                            e.dealDmg(b.getBulletDamage()/2);
+                        }
+                    }
+                }
+
                 bIterator.remove();
             }
 
