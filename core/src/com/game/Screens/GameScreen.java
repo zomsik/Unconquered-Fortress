@@ -87,7 +87,7 @@ public class GameScreen implements Screen {
     OrthographicCamera hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
     private Dialog eventDialog, infoDialog;
-    private TextButton bBackDialog;
+    private TextButton bBackEventDialog, bBackInfoDialog;
 
     public enum State{
         Running, Paused, Resumed, GameOver
@@ -174,8 +174,8 @@ public class GameScreen implements Screen {
         bUpgrade = new TextButton("Upgrade", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bPauseMenu, images_pause, font, "ButtonPauseUp", "ButtonPauseDown");
         bPauseMenu = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bPauseMenu));
-        bBackDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-
+        bBackEventDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bBackInfoDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         operationsArr = GameFunctions.getOperationsArr(this);
         table_operations = GameFunctions.getOperationsTable(operationsArr, scale, bUpgrade);
         Texture shopBackground = new Texture(new FileHandle("assets/shopBackground.png"));
@@ -440,7 +440,7 @@ public class GameScreen implements Screen {
             };
             Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
             infoDialog.text("Brak wystarczającej ilości złota", labelStyle);
-            infoDialog.button(bBackDialog).padBottom(16);
+            infoDialog.button(bBackInfoDialog).padBottom(16);
             infoDialog.show(pauseStage);
             state = State.Paused;
     }
@@ -457,21 +457,21 @@ public class GameScreen implements Screen {
         if(eventChance==0){
             eventDialog.text("Dostałeś golda, EO", labelStyle);
             base.increaseMoney(50);
-            eventDialog.button(bBackDialog).padBottom(16);
+            eventDialog.button(bBackEventDialog).padBottom(16);
             //eventDialog.show(stage);
             eventDialog.show(pauseStage);
             state = State.Paused;
         }else if(eventChance==1){
             eventDialog.text("Dostałeś na głowę, EO", labelStyle);
             base.damageBase(5);
-            eventDialog.button(bBackDialog).padBottom(16);
+            eventDialog.button(bBackEventDialog).padBottom(16);
             //eventDialog.show(stage);
             eventDialog.show(pauseStage);
             state = State.Paused;
         }else if(eventChance==2){
             eventDialog.text("Znalazłeś diamonda, EO", labelStyle);
             base.increaseDiamonds(1);
-            eventDialog.button(bBackDialog).padBottom(16);
+            eventDialog.button(bBackEventDialog).padBottom(16);
             //eventDialog.show(stage);
             eventDialog.show(pauseStage);
             state = State.Paused;
@@ -604,10 +604,17 @@ public class GameScreen implements Screen {
             }
         });
 
-        bBackDialog.addListener(new ClickListener() {
+        bBackEventDialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 eventDialog.hide();
+                state = State.Resumed;
+            }
+        });
+        bBackInfoDialog.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                infoDialog.hide();
                 state = State.Resumed;
             }
         });
