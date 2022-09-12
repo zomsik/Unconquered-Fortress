@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.game.Entity.Base;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,6 +158,9 @@ public class Enemy extends Actor {
 
     public void update(float deltaTime){
 
+        stateTime += deltaTime;
+
+
         if(path.size() > 0 && MoveToPoint(path.get(0), deltaTime)) {
             path.remove(0);
 
@@ -189,8 +193,6 @@ public class Enemy extends Actor {
 
 
     public void render(SpriteBatch batch){
-        stateTime += Gdx.graphics.getDeltaTime();
-
 
 
         batch.draw(currentAnimation.getKeyFrame(stateTime, true), position.x, position.y+scale*enemySize/2 ,scale*enemySize, scale*enemySize);

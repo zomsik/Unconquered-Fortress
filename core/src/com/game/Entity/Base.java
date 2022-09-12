@@ -1,6 +1,9 @@
 package com.game.Entity;
 
+import com.game.Screens.GameScreen;
 import org.json.JSONObject;
+
+import java.util.Iterator;
 
 public class Base {
     private int maxHealth;
@@ -17,11 +20,38 @@ public class Base {
     private String difficulty;
     private int cleanPrice;
 
+    private JSONObject multiplayers;
+
+
+
+    public enum State{
+        Running, Paused, Resumed, GameOver
+    }
+
+    private State state;
+
+
     public Base(JSONObject actualGame){
         this.infoToDisplay = 0;
         this.infoToDisplayName = "";
         this.infoToDisplayObjectNow = null;
         this.infoToDisplayObjectUpgraded = null;
+
+        state = State.Running;
+
+        multiplayers = new JSONObject();
+        multiplayers.put("damageMultiplayer",1f);
+        multiplayers.put("attackSpeedMultiplayer",1f);
+        multiplayers.put("moreProjectilesMultiplayer",1f);
+        multiplayers.put("rangeMultiplayer",1f);
+        multiplayers.put("bonusHealth",1f);
+        multiplayers.put("healthRegeneration",1f);
+        multiplayers.put("reductionMultiplayer",1f);
+        multiplayers.put("goldMultiplayer",1f);
+        multiplayers.put("diamondsMultiplayer",1f);
+        multiplayers.put("discountMultiplayer",1f);
+        multiplayers.put("costMultiplayer",1f);
+        multiplayers.put("luckMultiplayer",1f);
 
         this.money = actualGame.getInt("gold");
         this.diamonds = actualGame.getInt("diamonds");
@@ -41,6 +71,19 @@ public class Base {
 
     }
 
+
+    public void setPassiveUpgrade(JSONObject upgrade) {
+        this.diamonds -= upgrade.getInt("cost");
+
+        String multiplayer = String.valueOf(upgrade.keySet().toArray()[upgrade.keySet().size() -1]);
+        multiplayers.put(multiplayer, multiplayers.getFloat(multiplayer)+upgrade.getFloat(multiplayer));
+
+        System.out.println(multiplayers.getFloat(multiplayer));
+    }
+
+
+
+
     public int getInfoToDisplay() {
         return infoToDisplay;
     }
@@ -49,6 +92,14 @@ public class Base {
         return infoToDisplayName;
     }
 
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
 
     public void setInfoToDisplay(int infoToDisplay) {
         this.infoToDisplay = infoToDisplay;

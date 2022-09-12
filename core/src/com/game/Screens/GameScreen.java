@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.game.Entity.Enemy.Enemy;
@@ -77,7 +78,7 @@ public class GameScreen implements Screen {
     private ArrayList<Enemy> ee = new ArrayList<>();
     private EnemyManager enemyManager;
     private TowerManager towerManager;
-
+    private UpgradeManager upgradeManager;
 
     public LastClickedTile lastClickedMapTile, lastClickedOperationTile;
 
@@ -86,14 +87,21 @@ public class GameScreen implements Screen {
 
     OrthographicCamera hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-    private Dialog eventDialog, infoDialog;
+    private Dialog eventDialog, infoDialog, upgradeDialog;
     private TextButton bBackEventDialog, bBackInfoDialog;
 
+    /*
     public enum State{
         Running, Paused, Resumed, GameOver
     }
 
     private State state = State.Running;
+    */
+
+
+
+
+
 
     private JSONObject turretLevels;
 
@@ -113,6 +121,8 @@ public class GameScreen implements Screen {
         if(fileReader.getLanguageValue() != null){languageManager = new LanguageManager(fileReader.getLanguageValue());}else{languageManager = new LanguageManager("English");}
 
         initSettingsUI();
+
+
 
         actualGame = save;
         if (!isLocal)
@@ -159,6 +169,22 @@ public class GameScreen implements Screen {
         table_menuPause.debug();
         enemyManager = new EnemyManager(base, scale, GameFunctions.calculatePath(worldManager.getPath(), scale));
         towerManager = new TowerManager(enemyManager.getEnemies());
+
+
+
+
+        if(Gdx.graphics.getWidth() < 721)
+            upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/upgrade_dialog_720.png"))))));
+        else
+            upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/upgrade_dialog.png"))))));
+
+        upgradeManager = new UpgradeManager(languageManager, font, base, fileReader.downloadFileAsJSONObject("assets/upgrades.json"));
+        upgradeDialog.add(upgradeManager.returnUpgradeTable());
+
+
+
+
+
 
 
         buttonStyleManager = new ButtonStyleManager();
@@ -442,7 +468,7 @@ public class GameScreen implements Screen {
             infoDialog.text("Brak wystarczającej ilości złota", labelStyle);
             infoDialog.button(bBackInfoDialog).padBottom(16);
             infoDialog.show(pauseStage);
-            state = State.Paused;
+            base.setState(Base.State.Paused);
     }
     public void showEventDialog(){
         Texture eventDialogBackground = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
@@ -460,21 +486,21 @@ public class GameScreen implements Screen {
             eventDialog.button(bBackEventDialog).padBottom(16);
             //eventDialog.show(stage);
             eventDialog.show(pauseStage);
-            state = State.Paused;
+            base.setState(Base.State.Paused);
         }else if(eventChance==1){
             eventDialog.text("Dostałeś na głowę, EO", labelStyle);
             base.damageBase(5);
             eventDialog.button(bBackEventDialog).padBottom(16);
             //eventDialog.show(stage);
             eventDialog.show(pauseStage);
-            state = State.Paused;
+            base.setState(Base.State.Paused);
         }else if(eventChance==2){
             eventDialog.text("Znalazłeś diamonda, EO", labelStyle);
             base.increaseDiamonds(1);
             eventDialog.button(bBackEventDialog).padBottom(16);
             //eventDialog.show(stage);
             eventDialog.show(pauseStage);
-            state = State.Paused;
+            base.setState(Base.State.Paused);
         } else{
 
         }
@@ -502,6 +528,17 @@ public class GameScreen implements Screen {
                 gameOverDialog.cancel();
             }
         };
+
+
+        bUpgrade.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("sd");
+               // upgradeDialog.add(upgradeManager.returnUpgradeTable());
+                upgradeDialog.show(stage);
+
+            }
+        });
 
 
 
@@ -608,14 +645,16 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 eventDialog.hide();
-                state = State.Resumed;
+                eventDialog.remove();
+                base.setState(Base.State.Resumed);
             }
         });
         bBackInfoDialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 infoDialog.hide();
-                state = State.Resumed;
+                infoDialog.remove();
+                base.setState(Base.State.Resumed);
             }
         });
         table_dialogPause.setBounds(0,0, 256, 460);
@@ -638,7 +677,7 @@ public class GameScreen implements Screen {
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
                     pauseDialog.show(pauseStage);
-                    state = State.Paused;
+                    base.setState(Base.State.Paused);
                     return true;
                 }
                 return super.keyDown(event, keycode);
@@ -650,7 +689,8 @@ public class GameScreen implements Screen {
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
                     pauseDialog.hide();
-                    state = State.Resumed;
+                    pauseDialog.remove();
+                    base.setState(Base.State.Resumed);
 
                     return true;
                 }
@@ -662,14 +702,14 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 pauseDialog.show(pauseStage);
-                state = State.Paused;
+                base.setState(Base.State.Paused);
             }
         });
         bResume.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 pauseDialog.hide();
-                state = State.Resumed;
+                base.setState(Base.State.Resumed);
             }
         });
         stage.addActor(table_operations);
@@ -714,11 +754,11 @@ public class GameScreen implements Screen {
                     //przegrana
                     //stop game
 
-                    state = State.GameOver;
+                    base.setState(Base.State.GameOver);
                 }
 
 
-        switch(state) {
+        switch(base.getState()) {
             case Running:
                 statsTableManager.update();
                 towerManager.update(delta);
@@ -749,7 +789,7 @@ public class GameScreen implements Screen {
                 spritebatch.end();
 
                 Gdx.input.setInputProcessor(stage);
-                state = State.Running;
+                base.setState(Base.State.Running);
                 break;
             case GameOver:
                 gameOverDialog.show(gameOverStage);
