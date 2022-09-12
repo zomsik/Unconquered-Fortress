@@ -15,6 +15,17 @@ import java.util.List;
 
 public class WorldManager {
     private Random random;
+
+    public int getErrorCounter() {
+        return errorCounter;
+    }
+
+    public void setErrorCounter(int errorCounter) {
+        this.errorCounter = errorCounter;
+    }
+
+    private int errorCounter = 0;
+
     static int[][] dirs = {{1, 0},{0, 1},{-1, 0},{0, -1}};
 
     static int[] start;
@@ -169,8 +180,8 @@ public class WorldManager {
         shuffleDirs(seed);
         boolean[][] visited = new boolean[arr.length][arr[0].length];
         List<int[]> path = new ArrayList<>();
-        int checker = 0;
-        dfs(arr, visited, start, end, path, seed, checker);
+        int errorCounter = 1;
+        dfs(arr, visited, start, end, path, seed, errorCounter);
         return path;
     }
     static void shuffleDirs(int seed) {
@@ -182,10 +193,13 @@ public class WorldManager {
             dirs[j] = t;
         }
     }
-    static boolean dfs(int[][] grid, boolean[][] visited, int[] cur, int[] end, List<int[]> res, int seed, int checker){
-        checker++;
-        if(checker>100){
-            seed++;
+    static boolean dfs(int[][] grid, boolean[][] visited, int[] cur, int[] end, List<int[]> res, int seed, int errorCounter){
+        errorCounter+=1;
+        System.out.println(errorCounter);
+        if(errorCounter > 45){
+            res.clear();
+            System.out.println("Wygenerowałem ponad 100 prób");
+            return true;
         }
             if (cur[0] == end[0] && cur[1] == end[1]) {
                 res.add(new int[]{cur[0], cur[1]});
@@ -201,7 +215,7 @@ public class WorldManager {
                 int ni = cur[0] + dir[0];
                 int nj = cur[1] + dir[1];
                 if (ni >= 0 && ni < grid.length && nj >= 0 && nj < grid[0].length && !visited[ni][nj] && visited.length<50)
-                    if (dfs(grid, visited, new int[]{ni, nj}, end, res, seed, checker)) {
+                    if (dfs(grid, visited, new int[]{ni, nj}, end, res, seed, errorCounter)) {
                         return true;
                     }
             }
@@ -268,7 +282,8 @@ public class WorldManager {
 
     static int[][] overwritePath(int[][] arr, List<int[]> res){
         for(int i=0; i<res.size(); i++){
-                if(i==res.size()-1){
+            //TODO path size może być równy 2 wtedy res.get(i-2)[0] wywali błąd
+            if(i==res.size()-1){
                 if((res.get(i-1)[0] < res.get(i)[0] && res.get(i-1)[1] == res.get(i)[1]) && (res.get(i-1)[0] == res.get(i-2)[0] && res.get(i-1)[1] > res.get(i-2)[1])){
                     arr[res.get(i-1)[0]][res.get(i-1)[1]] = 16;
                 }else if((res.get(i-1)[0] == res.get(i)[0] && res.get(i-1)[1] > res.get(i)[1]) && (res.get(i-1)[0] < res.get(i-2)[0] && res.get(i-1)[1] == res.get(i-2)[1])){
@@ -438,6 +453,8 @@ public class WorldManager {
                     List<int[]> res = randomWalk(arr, start, end, seed);
                     System.out.println("7");
                     while (res.size() == 0) {
+                        System.out.println("7.5");
+                        seed+=1;
                         res = randomWalk(arr, start, end, seed);
                     }
                     System.out.println("8");
@@ -496,6 +513,8 @@ public class WorldManager {
                     List<int[]> res = randomWalk(arr, start, end, seed);
                     System.out.println("7");
                     while (res.size() == 0) {
+                        System.out.println("7.5");
+                        seed+=1;
                         res = randomWalk(arr, start, end, seed);
                     }
                     System.out.println("8");
@@ -561,6 +580,8 @@ public class WorldManager {
                     List<int[]> res = randomWalk(arr, start, end, seed);
                     System.out.println("7");
                     while (res.size() == 0) {
+                        System.out.println("7.5");
+                        seed+=1;
                         res = randomWalk(arr, start, end, seed);
                     }
                     System.out.println("8");
@@ -618,6 +639,8 @@ public class WorldManager {
                     List<int[]> res = randomWalk(arr, start, end, seed);
                     System.out.println("7");
                     while (res.size() == 0) {
+                        System.out.println("7.5");
+                        seed+=1;
                         res = randomWalk(arr, start, end, seed);
                     }
                     System.out.println("8");
@@ -675,79 +698,54 @@ public class WorldManager {
             {
                 if (y==0) {
                     imageArr[i][j] = new Image(images_map, "grass");
-                    //imageArr[i][j].setHeight(90);
-                    //imageArr[i][j].setWidth(90);
                     imageArr[i][j].setName("grass");
                 }
                 else if (y==2) {
                     imageArr[i][j] = getRotatedWater(arr,i,j);
-                    //imageArr[i][j].setHeight(90);
-                    //imageArr[i][j].setWidth(90);
                     imageArr[i][j].setName("water");
                 }
                 else if (y==5) {
                     imageArr[i][j] = new Image(images_map, "obstacle");
-                    //imageArr[i][j].setHeight(90);
-                    //imageArr[i][j].setWidth(90);
                     imageArr[i][j].setName("obstacle");
                     System.out.println(imageArr[i][j].getWidth() + " : " + imageArr[i][j].getHeight());
                 }
                 else if (y==6) {
                     imageArr[i][j] = getRotatedMountain(arr,i,j);
-                    //imageArr[i][j].setHeight(90);
-                    //imageArr[i][j].setWidth(90);
                     imageArr[i][j].setName("mountain");
                 }
                 else if (y==8){
                     imageArr[i][j] = getRotatedEnemyBase(arr,i,j);
-                    //imageArr[i][j].setHeight(90);
-                    //imageArr[i][j].setWidth(90);
                     imageArr[i][j].setName("enemy");
 
                 }
                 else if (y==9){
                     imageArr[i][j] = getRotatedBase(arr,i,j);
-                    //imageArr[i][j].setHeight(90);
-                    //imageArr[i][j].setWidth(90);
                     imageArr[i][j].setName("base");
                 }
                 else if (y==11)
                 {
                     imageArr[i][j] = new Image(images_map, "pathLeftRight");
-                    //imageArr[i][j].setHeight(90);
-                    //imageArr[i][j].setWidth(90);
                 }
                 else if (y==12){
                     imageArr[i][j] = new Image(images_map, "pathUpDown");
-                    //imageArr[i][j].setHeight(90);
-                    //imageArr[i][j].setWidth(90);
                 }
                 else if (y==13){
                     imageArr[i][j] = new Image(images_map, "pathUpRight");
-                    //imageArr[i][j].setHeight(90);
-                    //imageArr[i][j].setWidth(90);
                 }
                 else if (y==14)
                 {
                     imageArr[i][j] = new Image(images_map, "pathLeftUp");
-                    //imageArr[i][j].setHeight(90);
-                    //imageArr[i][j].setWidth(90);
                 }
                 else if (y==15)
                 {
                     imageArr[i][j] = new Image(images_map, "pathDownRight");
-                    //imageArr[i][j].setHeight(90);
-                    //imageArr[i][j].setWidth(90);
                 }
 
                 else if (y==16)
                 {
                     imageArr[i][j] = new Image(images_map, "pathLeftDown");
-                    //imageArr[i][j].setHeight(90);
-                    //imageArr[i][j].setWidth(90);
                 }
 
-                //imageArr[i][j].setSize(100,100);
 
                 imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
                     public void clicked(InputEvent event, float x, float y) {
