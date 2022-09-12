@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.game.Entity.Enemy.Enemy;
@@ -77,7 +78,7 @@ public class GameScreen implements Screen {
     private ArrayList<Enemy> ee = new ArrayList<>();
     private EnemyManager enemyManager;
     private TowerManager towerManager;
-
+    private UpgradeManager upgradeManager;
 
     public LastClickedTile lastClickedMapTile, lastClickedOperationTile;
 
@@ -86,7 +87,7 @@ public class GameScreen implements Screen {
 
     OrthographicCamera hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-    private Dialog eventDialog, infoDialog;
+    private Dialog eventDialog, infoDialog, upgradeDialog;
     private TextButton bBackEventDialog, bBackInfoDialog;
 
     /*
@@ -96,6 +97,11 @@ public class GameScreen implements Screen {
 
     private State state = State.Running;
     */
+
+
+
+
+
 
     private JSONObject turretLevels;
 
@@ -115,6 +121,8 @@ public class GameScreen implements Screen {
         if(fileReader.getLanguageValue() != null){languageManager = new LanguageManager(fileReader.getLanguageValue());}else{languageManager = new LanguageManager("English");}
 
         initSettingsUI();
+
+
 
         actualGame = save;
         if (!isLocal)
@@ -161,6 +169,22 @@ public class GameScreen implements Screen {
         table_menuPause.debug();
         enemyManager = new EnemyManager(base, scale, GameFunctions.calculatePath(worldManager.getPath(), scale));
         towerManager = new TowerManager(enemyManager.getEnemies());
+
+
+
+
+        if(Gdx.graphics.getWidth() < 721)
+            upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/upgrade_dialog_720.png"))))));
+        else
+            upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/upgrade_dialog.png"))))));
+
+        upgradeManager = new UpgradeManager(languageManager, font, base, fileReader.downloadFileAsJSONObject("assets/upgrades.json"));
+        upgradeDialog.add(upgradeManager.returnUpgradeTable());
+
+
+
+
+
 
 
         buttonStyleManager = new ButtonStyleManager();
@@ -506,6 +530,17 @@ public class GameScreen implements Screen {
         };
 
 
+        bUpgrade.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("sd");
+               // upgradeDialog.add(upgradeManager.returnUpgradeTable());
+                upgradeDialog.show(stage);
+
+            }
+        });
+
+
 
         bNextWave.addListener(new ClickListener() {
             @Override
@@ -610,6 +645,7 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 eventDialog.hide();
+                eventDialog.remove();
                 base.setState(Base.State.Resumed);
             }
         });
@@ -617,6 +653,7 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 infoDialog.hide();
+                infoDialog.remove();
                 base.setState(Base.State.Resumed);
             }
         });
@@ -652,6 +689,7 @@ public class GameScreen implements Screen {
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
                     pauseDialog.hide();
+                    pauseDialog.remove();
                     base.setState(Base.State.Resumed);
 
                     return true;
