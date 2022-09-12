@@ -89,11 +89,13 @@ public class GameScreen implements Screen {
     private Dialog eventDialog, infoDialog;
     private TextButton bBackEventDialog, bBackInfoDialog;
 
+    /*
     public enum State{
         Running, Paused, Resumed, GameOver
     }
 
     private State state = State.Running;
+    */
 
     private JSONObject turretLevels;
 
@@ -442,7 +444,7 @@ public class GameScreen implements Screen {
             infoDialog.text("Brak wystarczającej ilości złota", labelStyle);
             infoDialog.button(bBackInfoDialog).padBottom(16);
             infoDialog.show(pauseStage);
-            state = State.Paused;
+            base.setState(Base.State.Paused);
     }
     public void showEventDialog(){
         Texture eventDialogBackground = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
@@ -460,21 +462,21 @@ public class GameScreen implements Screen {
             eventDialog.button(bBackEventDialog).padBottom(16);
             //eventDialog.show(stage);
             eventDialog.show(pauseStage);
-            state = State.Paused;
+            base.setState(Base.State.Paused);
         }else if(eventChance==1){
             eventDialog.text("Dostałeś na głowę, EO", labelStyle);
             base.damageBase(5);
             eventDialog.button(bBackEventDialog).padBottom(16);
             //eventDialog.show(stage);
             eventDialog.show(pauseStage);
-            state = State.Paused;
+            base.setState(Base.State.Paused);
         }else if(eventChance==2){
             eventDialog.text("Znalazłeś diamonda, EO", labelStyle);
             base.increaseDiamonds(1);
             eventDialog.button(bBackEventDialog).padBottom(16);
             //eventDialog.show(stage);
             eventDialog.show(pauseStage);
-            state = State.Paused;
+            base.setState(Base.State.Paused);
         } else{
 
         }
@@ -608,14 +610,14 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 eventDialog.hide();
-                state = State.Resumed;
+                base.setState(Base.State.Resumed);
             }
         });
         bBackInfoDialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 infoDialog.hide();
-                state = State.Resumed;
+                base.setState(Base.State.Resumed);
             }
         });
         table_dialogPause.setBounds(0,0, 256, 460);
@@ -638,7 +640,7 @@ public class GameScreen implements Screen {
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
                     pauseDialog.show(pauseStage);
-                    state = State.Paused;
+                    base.setState(Base.State.Paused);
                     return true;
                 }
                 return super.keyDown(event, keycode);
@@ -650,7 +652,7 @@ public class GameScreen implements Screen {
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
                     pauseDialog.hide();
-                    state = State.Resumed;
+                    base.setState(Base.State.Resumed);
 
                     return true;
                 }
@@ -662,14 +664,14 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 pauseDialog.show(pauseStage);
-                state = State.Paused;
+                base.setState(Base.State.Paused);
             }
         });
         bResume.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 pauseDialog.hide();
-                state = State.Resumed;
+                base.setState(Base.State.Resumed);
             }
         });
         stage.addActor(table_operations);
@@ -714,11 +716,11 @@ public class GameScreen implements Screen {
                     //przegrana
                     //stop game
 
-                    state = State.GameOver;
+                    base.setState(Base.State.GameOver);
                 }
 
 
-        switch(state) {
+        switch(base.getState()) {
             case Running:
                 statsTableManager.update();
                 towerManager.update(delta);
@@ -749,7 +751,7 @@ public class GameScreen implements Screen {
                 spritebatch.end();
 
                 Gdx.input.setInputProcessor(stage);
-                state = State.Running;
+                base.setState(Base.State.Running);
                 break;
             case GameOver:
                 gameOverDialog.show(gameOverStage);

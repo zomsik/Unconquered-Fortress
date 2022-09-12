@@ -1,5 +1,6 @@
 package com.game.Entity;
 
+import com.game.Screens.GameScreen;
 import org.json.JSONObject;
 
 public class Base {
@@ -17,11 +18,19 @@ public class Base {
     private String difficulty;
     private int cleanPrice;
 
+    public enum State{
+        Running, Paused, Resumed, GameOver
+    }
+
+    private State state;
+
     public Base(JSONObject actualGame){
         this.infoToDisplay = 0;
         this.infoToDisplayName = "";
         this.infoToDisplayObjectNow = null;
         this.infoToDisplayObjectUpgraded = null;
+
+        state = State.Running;
 
         this.money = actualGame.getInt("gold");
         this.diamonds = actualGame.getInt("diamonds");
@@ -49,6 +58,14 @@ public class Base {
         return infoToDisplayName;
     }
 
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
 
     public void setInfoToDisplay(int infoToDisplay) {
         this.infoToDisplay = infoToDisplay;
