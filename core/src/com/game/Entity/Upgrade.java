@@ -9,13 +9,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Upgrade {
     private String upgradeName;
     private int level;
     private int maxLevel;
     private boolean isMaxLevel;
-    private Image name;
+    private Image image;
     private JSONArray upgradeArray;
+    private String unlockedIcon;
+
+    private ArrayList<Upgrade> nextUpgrades;
+    private List<Integer> levelToUnlockUpgrades;
+
 
     /*
     private float damageMultiplayer;
@@ -33,42 +41,25 @@ public class Upgrade {
 
      */
 
-
-    public Upgrade(String upgradeName, int level, int maxLevel, Image name){
+    public Upgrade(String upgradeName, int level, JSONArray upgradeArray, Skin skin, String unlockedIcon) {
         this.upgradeName = upgradeName;
         this.level = level;
-        this.maxLevel = maxLevel;
-        this.name = name;
-
-
-        if (level<0) {
-            isMaxLevel = true;
-            name.setDrawable(new Skin(new TextureAtlas("assets/icons/upgrade_icons.pack")),"upgradeIcons_lock");
-        }
-        else {
-            this.isMaxLevel = false;
-        }
-
-        name.setTouchable(Touchable.enabled);
-    }
-
-
-    public Upgrade(String upgradeName, int level, int maxLevel, Image name, JSONArray upgradeArray) {
-        this.upgradeName = upgradeName;
-        this.level = level;
-        this.maxLevel = maxLevel;
-        this.name = name;
+        this.maxLevel = upgradeArray.length();
+        this.image = new Image(skin, "upgradeIcons_lock");
         this.upgradeArray = upgradeArray;
+        this.unlockedIcon = unlockedIcon;
 
-        if (level<0) {
-            isMaxLevel = true;
-            name.setDrawable(new Skin(new TextureAtlas("assets/icons/upgrade_icons.pack")),"upgradeIcons_lock");
-        }
-        else {
+        this.isMaxLevel = true;
+
+        this.nextUpgrades = new ArrayList<>();
+        this.levelToUnlockUpgrades = new ArrayList<>();
+
+        if (level>=0) {
             this.isMaxLevel = false;
+            this.image.setDrawable(skin, unlockedIcon);
         }
 
-        name.setTouchable(Touchable.enabled);
+        image.setTouchable(Touchable.enabled);
     }
 
 
@@ -76,10 +67,10 @@ public class Upgrade {
         return level;
     }
 
-    public void unlock(Skin images_upgrades, String unlockedIcon) {
+    public void unlock(Skin images_upgrades) {
         isMaxLevel=false;
         level = 0;
-        name.setDrawable(images_upgrades, unlockedIcon);
+        image.setDrawable(images_upgrades, unlockedIcon);
     }
 
 
@@ -89,7 +80,7 @@ public class Upgrade {
 
             if (level == maxLevel) {
                 isMaxLevel=true;
-                name.setDrawable(new Skin(new TextureAtlas("assets/icons/upgrade_icons.pack")), "upgradeIcons_bought");
+                image.setDrawable(new Skin(new TextureAtlas("assets/icons/upgrade_icons.pack")), "upgradeIcons_bought");
             }
         }
 
@@ -126,6 +117,34 @@ public class Upgrade {
 
     public JSONObject getUpgrade() {
         return upgradeArray.getJSONObject(level);
+    }
+
+    public void addNextUpgrade(Upgrade nextUpgrade, int levelToUnlock) {
+        nextUpgrades.add(nextUpgrade);
+        levelToUnlockUpgrades.add(levelToUnlock);
+
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public int getLevelToUnlock() {
+        return levelToUnlockUpgrades.get(0);
+    }
+
+    public Upgrade getNextUpgrade() {
+        return nextUpgrades.get(0);
+    }
+
+    public void removeUnlocked() {
+        nextUpgrades.remove(0);
+        levelToUnlockUpgrades.remove(0);
+
+    }
+
+    public int getUnlocksLeft() {
+        return nextUpgrades.size();
     }
 
 }

@@ -60,20 +60,6 @@ public class MenuScreen implements Screen  {
 
     public boolean isDialog = false;
 
-    private TextButton bUpgrade;
-    private Table table_upgrade, table_upgradeButton;
-    private Dialog upgradeDialog;
-    private Skin images_upgrades;
-    private TextureAtlas taUpgrades;
-    private Image fork, scythe, dagger, sword, battleAxe, mace, sceptre, book, bow, crossbow, cannon, betterCannon, cannonBall;
-    private Image sonar, gear;
-    private Image health, betterHealth, betterBetterHealth, shield, regeneration;
-    private Image gold, diamonds, betterGold, betterDiamonds, upgrade, betterUpgrade, hammer, discount10, discount20, discount30;
-    private Image luck;
-    private Upgrade uFork, uScythe, uDagger, uSword, uBattleAxe, uMace, uBow, uCrossBow, uCannon, uCannonBall, uBetterCannon, uSceptre, uBook, uGear, uSonar, uHealth, uBetterHealth, uBetterBetterHealth, uRegeneration, uShield, uGold, uBetterGold, uDiamonds, uBetterDiamonds, uDiscount10, uDiscount20, uDiscount30, uUpgrade, uHammer, uBetterUpgrade, uLuck;
-    private UpgradeManager upgradeManager;
-    private TextTooltip.TextTooltipStyle textTooltipStyle;
-    private TextTooltip tooltip;
     private float scale;
     private Pixmap cursorColor;
     public MenuScreen(Main game){
@@ -151,11 +137,6 @@ public class MenuScreen implements Screen  {
         bDialogLoginRegister = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bRegister"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogLogin));
         bDialogRegister = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bRegister"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogLogin));
         bDialogRegisterLogin = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bLogin"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogLogin));
-
-        bUpgrade = new TextButton("Upgrades", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogLogin));
-        table_upgradeButton.setBounds(0,0,100,100);
-        table_upgradeButton.add(bUpgrade);
-        stage.addActor(table_upgradeButton);
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bDialogExit, images_default, fontText, "defaultButton", "defaultButton");
         bDialogExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"),buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogExit));
@@ -658,50 +639,6 @@ public class MenuScreen implements Screen  {
         textButtonStyle_bDialogExit =  new TextButton.TextButtonStyle();
         backgroundMusic = game.getMusic();
 
-        table_upgrade = new Table(images);
-        table_upgradeButton = new Table(images);
-        taUpgrades = new TextureAtlas("assets/icons/upgrade_icons.pack");//<- to delete
-        images_upgrades = new Skin(taUpgrades);
-
-        Drawable tooltipBackground = new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/settings_dialog.png"))));
-        textTooltipStyle = new TextTooltip.TextTooltipStyle();
-        textTooltipStyle.label = new Label.LabelStyle(fontText, Color.WHITE);
-        textTooltipStyle.background = tooltipBackground;
-        textTooltipStyle.wrapWidth = 400; //nie może być 100.0f
-
     }
 
-    private void initUpgrades(){
-        uFork = upgradeManager.getuFork();
-        uScythe = upgradeManager.getuScythe();
-        uDagger = upgradeManager.getuDagger();
-        uSword = upgradeManager.getuSword();
-        uBattleAxe = upgradeManager.getuBattleAxe();
-        uMace = upgradeManager.getuMace();
-        uBow = upgradeManager.getuBow();
-        uCrossBow = upgradeManager.getuCrossBow();
-        uCannon = upgradeManager.getuCannon();
-        uBetterCannon = upgradeManager.getuBetterCannon();
-        uCannonBall = upgradeManager.getuCannonBall();
-        uSceptre = upgradeManager.getuScythe();
-        uBook = upgradeManager.getuBook();
-        uGear = upgradeManager.getuGear();
-        uSonar = upgradeManager.getuSonar();
-        uHealth = upgradeManager.getuHealth();
-        uBetterHealth = upgradeManager.getuBetterHealth();
-        uBetterBetterHealth = upgradeManager.getuBetterBetterHealth();
-        uRegeneration = upgradeManager.getuRegeneration();
-        uShield = upgradeManager.getuShield();
-        uGold = upgradeManager.getuGold();
-        uBetterGold = upgradeManager.getuBetterGold();
-        uDiamonds = upgradeManager.getuDiamonds();
-        uBetterDiamonds = upgradeManager.getuBetterDiamonds();
-        uDiscount10 = upgradeManager.getuDiscount10();
-        uDiscount20 = upgradeManager.getuDiscount20();
-        uDiscount30 = upgradeManager.getuDiscount30();
-        uUpgrade = upgradeManager.getuUpgrade();
-        uHammer = upgradeManager.getuHammer();
-        uBetterUpgrade = upgradeManager.getuBetterUpgrade();
-        uLuck = upgradeManager.getuLuck();
-    }
 }
