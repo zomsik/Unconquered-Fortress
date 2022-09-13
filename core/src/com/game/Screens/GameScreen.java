@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -533,12 +534,22 @@ public class GameScreen implements Screen {
         bUpgrade.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("sd");
                // upgradeDialog.add(upgradeManager.returnUpgradeTable());
-                upgradeDialog.show(stage);
+                upgradeDialog.show(pauseStage);
+                base.setState(Base.State.Paused);
 
             }
-        });
+
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                base.setInfoToDisplay(4);
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                base.setInfoToDisplay(0);
+            }
+
+
+    });
 
 
 
@@ -709,6 +720,7 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 pauseDialog.hide();
+                pauseDialog.remove();
                 base.setState(Base.State.Resumed);
             }
         });
@@ -741,7 +753,10 @@ public class GameScreen implements Screen {
             statsTableManager.setInfoToDisplay(base.getInfoToDisplay(), base.getInfoToDisplayObjectNow(),  base.getInfoToDisplayObjectUpgraded(), base.getInfoToDisplayName());
             table_info.remove();
             table_info = statsTableManager.getInfoTable();
-            stage.addActor(table_info);
+            if (base.getState() == Base.State.Running)
+                stage.addActor(table_info);
+            else if (base.getState() == Base.State.Paused)
+                pauseStage.addActor(table_info);
         }
 
 
@@ -775,6 +790,7 @@ public class GameScreen implements Screen {
 
                 break;
             case Paused:
+                statsTableManager.update();
                 spritebatch.begin();
                 towerManager.render(spritebatch, shapeRenderer);
                 enemyManager.render(spritebatch);

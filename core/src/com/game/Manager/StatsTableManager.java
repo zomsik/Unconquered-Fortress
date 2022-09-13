@@ -21,13 +21,13 @@ public class StatsTableManager {
     private Base base;
     private float scale;
 
-    private Table statsTable, operationTable, upgradeTable;
+    private Table statsTable, operationTable, upgradeTable, multipliersTable;
 
     private TextFieldStyleManager textFieldStyleManager;
     private TextField hpTextField, hpTextValue, goldTextField, goldTextValue, diamondTextField, diamondTextValue, waveTextField, waveTextValue, difficultyTextField, difficultyTextValue;
     private TextField operationPriceTextField, operationPriceTextValue, operationTitleTextField, operationTitleTextValue, operationDmgTextField, operationDmgTextValue, operationRangeTextField, operationRangeTextValue, operationReloadTextField, operationReloadTextValue, operationSplashTextField, operationSplashTextValue;
     private TextField upgradePriceTextField, upgradePriceTextValue,upgradeTitleTextField, upgradeTitleTextValue, upgradeLvlTextField, upgradeLvlTextValue, upgradeDmgTextField, upgradeDmgTextValue, upgradeRangeTextField, upgradeRangeTextValue, upgradeReloadTextField, upgradeReloadTextValue, upgradeSplashTextField, upgradeSplashTextValue;
-
+    private TextField damageMultiplier, damageMultiplierValue;
     private TextField.TextFieldStyle statsTextFieldStyle, rightStatsTextFieldStyle, leftStatsTextFieldStyle;
     private Skin images, images_stats;
     private FreeTypeFontGenerator generator;
@@ -49,6 +49,7 @@ public class StatsTableManager {
         statsTable = new Table();
         operationTable = new Table();
         upgradeTable = new Table();
+        multipliersTable = new Table();
 
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -240,6 +241,28 @@ public class StatsTableManager {
         upgradeTable.add(upgradeSplashTextField).width((200*scale)/2-6*scale);
         upgradeTable.add(new Image(images_stats, "middleStatsCover"));
         upgradeTable.add(upgradeSplashTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
+
+
+        // Multipliers Table
+
+
+        damageMultiplier = new TextField("dmgMultiplier: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        damageMultiplierValue = new TextField("1.0", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+
+        damageMultiplier.setAlignment(Align.center);
+        damageMultiplierValue.setAlignment(Align.center);
+
+        multipliersTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
+        multipliersTable.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackground)));
+        multipliersTable.row().padBottom(4*scale);
+        multipliersTable.add(damageMultiplier).width((200*scale)/2-6*scale);
+        multipliersTable.add(new Image(images_stats, "middleStatsCover"));
+        multipliersTable.add(damageMultiplierValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        multipliersTable.row().padBottom(4*scale);
+
+
+
+
     }
 
     public int getInfoToDisplay() {
@@ -268,6 +291,13 @@ public class StatsTableManager {
                 setUpgradeTable(infoToDisplayName,infoToDisplayObjectNow, infoToDisplayObjectUpgraded);
                 t = upgradeTable;
             }
+            case 4 -> {
+                setMultipliersTable();
+                t = multipliersTable;
+            }
+
+
+
 
         }
         return t;
@@ -276,6 +306,12 @@ public class StatsTableManager {
     public Table getStatsTable(){
 
         return statsTable;
+    }
+
+    public void setMultipliersTable(){
+        JSONObject multipliers = base.getMultipliers();
+
+        damageMultiplierValue.setText(String.valueOf(multipliers.getFloat("damageMultiplier")));;
     }
 
 

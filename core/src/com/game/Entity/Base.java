@@ -1,6 +1,5 @@
 package com.game.Entity;
 
-import com.game.Screens.GameScreen;
 import org.json.JSONObject;
 
 import java.util.Iterator;
@@ -20,7 +19,7 @@ public class Base {
     private String difficulty;
     private int cleanPrice;
 
-    private JSONObject multiplayers;
+    private JSONObject multipliers;
 
 
 
@@ -39,19 +38,19 @@ public class Base {
 
         state = State.Running;
 
-        multiplayers = new JSONObject();
-        multiplayers.put("damageMultiplayer",1f);
-        multiplayers.put("attackSpeedMultiplayer",1f);
-        multiplayers.put("moreProjectilesMultiplayer",1f);
-        multiplayers.put("rangeMultiplayer",1f);
-        multiplayers.put("bonusHealth",1f);
-        multiplayers.put("healthRegeneration",1f);
-        multiplayers.put("reductionMultiplayer",1f);
-        multiplayers.put("goldMultiplayer",1f);
-        multiplayers.put("diamondsMultiplayer",1f);
-        multiplayers.put("discountMultiplayer",1f);
-        multiplayers.put("costMultiplayer",1f);
-        multiplayers.put("luckMultiplayer",1f);
+        multipliers = new JSONObject();
+        multipliers.put("damageMultiplier",1f);
+        multipliers.put("attackSpeedMultiplier",1f);
+        multipliers.put("moreProjectilesMultiplier",1f);
+        multipliers.put("rangeMultiplier",1f);
+        multipliers.put("bonusHealth",1f);
+        multipliers.put("healthRegeneration",1f);
+        multipliers.put("reductionMultiplier",1f);
+        multipliers.put("goldMultiplier",1f);
+        multipliers.put("diamondsMultiplier",1f);
+        multipliers.put("discountMultiplier",1f);
+        multipliers.put("costMultiplier",1f);
+        multipliers.put("luckMultiplier",1f);
 
         this.money = actualGame.getInt("gold");
         this.diamonds = actualGame.getInt("diamonds");
@@ -75,10 +74,15 @@ public class Base {
     public void setPassiveUpgrade(JSONObject upgrade) {
         this.diamonds -= upgrade.getInt("cost");
 
-        String multiplayer = String.valueOf(upgrade.keySet().toArray()[upgrade.keySet().size() -1]);
-        multiplayers.put(multiplayer, multiplayers.getFloat(multiplayer)+upgrade.getFloat(multiplayer));
+        JSONObject addMultipliers = upgrade.getJSONObject("multipliers");
 
-        System.out.println(multiplayers.getFloat(multiplayer));
+        Iterator<?> keys = addMultipliers.keys();
+
+        while( keys.hasNext() ) {
+            String key = (String) keys.next();
+            multipliers.put(key, multipliers.getFloat(key)+addMultipliers.getFloat(key));
+        }
+
     }
 
 
@@ -135,6 +139,9 @@ public class Base {
     }
 
 
+    public JSONObject getMultipliers() {
+        return multipliers;
+    }
 
 
     public int getMaxHealth() {

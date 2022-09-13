@@ -259,7 +259,7 @@ public class UpgradeManager {
         uSword.addNextUpgrade(uBattleAxe,1);
         uBattleAxe.addNextUpgrade(uCannon,1);
         uBattleAxe.addNextUpgrade(uMace,1);
-        uBow.addNextUpgrade(uCrossbow,1);
+        uBow.addNextUpgrade(uCrossbow, uBow.getMaxLevel());
         uCannon.addNextUpgrade(uCannonBall,1);
         uCannonBall.addNextUpgrade(uBetterCannon,1);
         uSceptre.addNextUpgrade(uBook,1);
