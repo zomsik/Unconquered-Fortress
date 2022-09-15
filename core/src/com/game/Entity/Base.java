@@ -40,6 +40,10 @@ public class Base {
 
         multipliers = new JSONObject();
         multipliers.put("damageMultiplier",1f);
+        multipliers.put("damageMultipliermeleeTower",1f);
+        multipliers.put("damageMultipliermageTower",1f);
+        multipliers.put("damageMultipliercrossbowTower",1f);
+        multipliers.put("damageMultipliercannonTower",1f);
         multipliers.put("attackSpeedMultiplier",1f);
         multipliers.put("moreProjectilesMultiplier",1f);
         multipliers.put("rangeMultiplier",1f);

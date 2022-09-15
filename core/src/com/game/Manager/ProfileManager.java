@@ -86,10 +86,11 @@ public class ProfileManager {
         j.put("difficulty", difficulty);
         j.put("finishedMaps",0);
         j.put("wave",0);
-        j.put("gold",0);
-        j.put("diamonds",0);
+        j.put("gold",1000);
+        j.put("diamonds",500);
         j.put("terrainModifications", new JSONArray());
         j.put("buildings", new JSONArray());
+        j.put("unlockedUpgrades", new JSONArray());
 
         return j;
 

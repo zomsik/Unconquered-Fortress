@@ -229,7 +229,7 @@ public class Tower extends Actor {
             b.update(deltaTime);
             if (b.isOnEnemy())
             {
-                b.getEnemyToFollow().dealDmg(b.getBulletDamage());
+                b.getEnemyToFollow().dealDmg(b.getBulletDamage()*base.getMultipliers().getFloat("damageMultiplier")*base.getMultipliers().getFloat("damageMultiplier"+name) );
                 if(bulletSplash>0){
                     for(Enemy e:enemies){
                         if(e.getPosition().y <= b.getEnemyToFollow().getPosition().y+bulletSplash && e.getPosition().y >= b.getEnemyToFollow().getPosition().y-bulletSplash && e.getPosition().x <= b.getEnemyToFollow().getPosition().x+bulletSplash && e.getPosition().x >= b.getEnemyToFollow().getPosition().x-bulletSplash){

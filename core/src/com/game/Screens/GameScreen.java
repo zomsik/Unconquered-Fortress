@@ -179,7 +179,7 @@ public class GameScreen implements Screen {
         else
             upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/upgrade_dialog.png"))))));
 
-        upgradeManager = new UpgradeManager(languageManager, font, base, fileReader.downloadFileAsJSONObject("assets/upgrades.json"));
+        upgradeManager = new UpgradeManager(languageManager, font, base, fileReader.downloadFileAsJSONObject("assets/upgrades.json"), actualGame.getJSONArray("unlockedUpgrades"));
         upgradeDialog.add(upgradeManager.returnUpgradeTable());
 
 

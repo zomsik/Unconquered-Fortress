@@ -18,9 +18,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.game.Entity.Base;
 import com.game.Entity.Upgrade;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class UpgradeManager {
     private Upgrade uFork, uScythe, uDagger, uSword, uBattleAxe, uMace, uBow, uCrossbow, uCannon, uCannonBall, uBetterCannon, uSceptre, uBook, uGear, uSonar, uHealth, uBetterHealth, uBetterBetterHealth, uRegeneration, uShield, uGold, uBetterGold, uDiamonds, uBetterDiamonds, uDiscount10, uDiscount20, uDiscount30, uUpgrade, uHammer, uBetterUpgrade, uLuck;
@@ -38,11 +40,14 @@ public class UpgradeManager {
 
     private JSONObject upgrades;
 
-    public UpgradeManager(LanguageManager languageManager, BitmapFont font, Base base, JSONObject upgrades){
+    private JSONArray unlockedUpgrades;
+
+    public UpgradeManager(LanguageManager languageManager, BitmapFont font, Base base, JSONObject upgrades, JSONArray unlockedUpgrades){
         this.images_upgrades = new Skin(new TextureAtlas("assets/icons/upgrade_icons.pack"));;
         this.languageManager = languageManager;
         this.base = base;
         this.upgrades = upgrades;
+        this.unlockedUpgrades = unlockedUpgrades;
 
         Drawable tooltipBackground = new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/settings_dialog.png"))));
         textTooltipStyle = new TextTooltip.TextTooltipStyle();
@@ -54,6 +59,8 @@ public class UpgradeManager {
 
         createUpgradeTable();
         initListeners();
+
+        loadUpgrades();
 
 
 
@@ -330,6 +337,9 @@ public class UpgradeManager {
                             base.setPassiveUpgrade(u.getUpgrade());
 
                             u.levelUp();
+
+                            unlockedUpgrades.put(u.getUpgradeName());
+
                             int j = u.getUnlocksLeft();
                             for (int i=0; i<j; i++)
                             {
@@ -359,6 +369,38 @@ public class UpgradeManager {
             });
 
         }
+
+    }
+
+    private Upgrade findUpgrade(String upgradeName) {
+        for (Upgrade u: upgradeList)
+        {
+            if (Objects.equals(u.getUpgradeName(), upgradeName))
+                return u;
+        }
+        return null;
+    }
+
+
+    private void loadUpgrades() {
+
+        for (int k=0; k < unlockedUpgrades.length(); k++) {
+            Upgrade upgrade = findUpgrade(unlockedUpgrades.getString(k));
+            base.setPassiveUpgrade(upgrade.getUpgrade());
+            upgrade.levelUp();
+
+
+            int j = upgrade.getUnlocksLeft();
+            for (int i=0; i<j; i++)
+            {
+                if(upgrade.getLevel() == upgrade.getLevelToUnlock()){
+                    upgrade.getNextUpgrade().unlock(images_upgrades);
+                    upgrade.removeUnlocked();
+                }
+            }
+
+        }
+
 
     }
 
