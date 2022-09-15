@@ -10,6 +10,13 @@ grass
   orig: 64, 64
   offset: 0, 0
   index: -1
+grass_flowers
+  rotate: false
+  xy: 384, 0
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 water
   rotate: false
   xy: 64, 0
@@ -41,6 +48,13 @@ mountain
 obstacle
   rotate: false
   xy: 320, 0
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+obstacle_2
+  rotate: false
+  xy: 384, 64
   size: 64, 64
   orig: 64, 64
   offset: 0, 0

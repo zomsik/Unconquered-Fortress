@@ -700,16 +700,28 @@ public class WorldManager {
             for (int y : x)
             {
                 if (y==0) {
-                    imageArr[i][j] = new Image(images_map, "grass");
-                    imageArr[i][j].setName("grass");
+                    if(random.nextInt(0,2) == 0){
+                        imageArr[i][j] = new Image(images_map, "grass");
+                        imageArr[i][j].setName("grass");
+                    }else{
+                        imageArr[i][j] = new Image(images_map, "grass_flowers");
+                        imageArr[i][j].setName("grass");
+                    }
+
                 }
                 else if (y==2) {
                     imageArr[i][j] = getRotatedWater(arr,i,j);
                     imageArr[i][j].setName("water");
                 }
                 else if (y==5) {
-                    imageArr[i][j] = new Image(images_map, "obstacle");
-                    imageArr[i][j].setName("obstacle");
+                    if(random.nextInt(0,2) == 0){
+                        imageArr[i][j] = new Image(images_map, "obstacle");
+                        imageArr[i][j].setName("obstacle");
+                    }else{
+                        imageArr[i][j] = new Image(images_map, "obstacle_2");
+                        imageArr[i][j].setName("obstacle");
+                    }
+
                     System.out.println(imageArr[i][j].getWidth() + " : " + imageArr[i][j].getHeight());
                 }
                 else if (y==6) {
