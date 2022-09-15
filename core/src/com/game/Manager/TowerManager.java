@@ -24,9 +24,9 @@ public class TowerManager {
 
     }
 
-    public TowerManager(ArrayList<Enemy> enemies){
+    public TowerManager(ArrayList<Enemy> enemies, ArrayList<Tower> buildings){
         this.enemies = enemies;
-        towers = new ArrayList<>();
+        this.towers = buildings;
 
     }
 
@@ -53,6 +53,22 @@ public class TowerManager {
 
         }
 
+    }
+
+    public JSONArray getTowers() {
+        JSONArray j = new JSONArray();
+
+        for (Tower tower: towers)
+        {
+            JSONObject t = new JSONObject();
+            t.put("name", tower.getName());
+            t.put("x", tower.getTileX());
+            t.put("y", tower.getTileY());
+            t.put("level", tower.getLvl());
+            j.put(t);
+        }
+
+        return j;
     }
 
 

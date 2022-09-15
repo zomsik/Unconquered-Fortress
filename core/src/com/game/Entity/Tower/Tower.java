@@ -169,6 +169,18 @@ public class Tower extends Actor {
         return base;
     }
 
+    public void setLevel(int lvl) {
+
+        JSONObject lvlUp = towerLevels.getJSONObject(lvl-1);
+        this.reloadTime = lvlUp.getFloat("reload");
+        this.bulletDamage = lvlUp.getFloat("dmg");
+        this.bulletSpeed = lvlUp.getFloat("bulletSpeed");
+        this.bulletSplash = lvlUp.getInt("splash");
+        this.range = lvlUp.getFloat("range");
+        this.lvl = lvlUp.getInt("lvl");
+
+
+    }
 
     public void TowerLevelUp() {
         System.out.println(lvl);

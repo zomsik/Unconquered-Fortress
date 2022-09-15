@@ -110,7 +110,10 @@ public class GameScreen implements Screen {
         this.game = game;
         this.isLocal = isLocal;
 
-        this.buildArr = new int[15][10];
+
+
+
+
         scale = (float) (Gdx.graphics.getWidth() / 1280.0);
 
         System.out.println("Skala: " + scale);
@@ -131,6 +134,11 @@ public class GameScreen implements Screen {
 
         turretLevels = fileReader.downloadFileAsJSONObject("assets/towers.json");
 
+
+
+
+        base = new Base(actualGame);
+
         //reading stats etc
         if(actualGame.getString("difficulty").equals("normal")){
             worldManager.createWorld(this, actualGame.getInt("seed"), 46);
@@ -147,13 +155,48 @@ public class GameScreen implements Screen {
         mapArr = worldManager.loadTerrainModifications(this, mapArr, actualGame.getJSONArray("terrainModifications"));
 
 
+        this.buildArr = new int[15][10];
+
+        JSONArray buildings = actualGame.getJSONArray("buildings");
+        ArrayList<Tower> towersLoad = new ArrayList<>();
+        for (int b=0; b<buildings.length(); b++)
+        {
+            buildArr[buildings.getJSONObject(b).getInt("x")][buildings.getJSONObject(b).getInt("y")] = 1;
+
+            switch(buildings.getJSONObject(b).getString("name"))
+            {
+                case "meleeTower" -> {
+                    Tower t = new MeleeTower(turretLevels, base, buildings.getJSONObject(b).getInt("x"),buildings.getJSONObject(b).getInt("y"),scale, this);
+                    t.setLevel(buildings.getJSONObject(b).getInt("level"));
+                    towersLoad.add(t);
+                }
+                case "mageTower" -> {
+                    Tower t = new MageTower(turretLevels, base, buildings.getJSONObject(b).getInt("x"),buildings.getJSONObject(b).getInt("y"),scale, this);
+                    t.setLevel(buildings.getJSONObject(b).getInt("level"));
+                    towersLoad.add(t);
+                }
+                case "crossbowTower" -> {
+                    Tower t = new BowTower(turretLevels, base, buildings.getJSONObject(b).getInt("x"),buildings.getJSONObject(b).getInt("y"),scale, this);
+                    t.setLevel(buildings.getJSONObject(b).getInt("level"));
+                    towersLoad.add(t);
+                }
+                case "cannonTower" -> {
+                    Tower t = new CannonTower(turretLevels, base, buildings.getJSONObject(b).getInt("x"),buildings.getJSONObject(b).getInt("y"),scale, this);
+                    t.setLevel(buildings.getJSONObject(b).getInt("level"));
+                    towersLoad.add(t);
+                }
+
+            }
+
+
+        }
+
 
 
         table_map = worldManager.drawWorld(mapArr, scale);
 
         hudCamera.position.set(hudCamera.viewportWidth / 2.0f, hudCamera.viewportHeight / 2.0f, 1.0f);
 
-        base = new Base(actualGame);
         statsTableManager = new StatsTableManager(base,scale, languageManager);
         table_info = statsTableManager.getStatsTable();
 
@@ -169,7 +212,7 @@ public class GameScreen implements Screen {
 
         table_menuPause.debug();
         enemyManager = new EnemyManager(base, scale, GameFunctions.calculatePath(worldManager.getPath(), scale));
-        towerManager = new TowerManager(enemyManager.getEnemies());
+        towerManager = new TowerManager(enemyManager.getEnemies(), towersLoad);
 
 
 
@@ -210,10 +253,10 @@ public class GameScreen implements Screen {
         operationsSelectedArr = GameFunctions.getOperationsSelectedArr();
         table_operationsSelected = GameFunctions.getOperationsTable(operationsSelectedArr, scale, bUpgrade);
 
-        buildingsArr = GameFunctions.getEmptyBuildingsArr();
-        table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
+        //buildingsArr = GameFunctions.getEmptyBuildingsArr();
+        //table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
 
-        buildingsArr = GameFunctions.loadPlacedBuildings(this, buildingsArr, actualGame.getJSONArray("buildings"));
+        //buildingsArr = GameFunctions.loadPlacedBuildings(this, buildingsArr, actualGame.getJSONArray("buildings"));
         table_nextWave.add(bNextWave).width(224*scale).padBottom(8*scale);
         //table_nextWave.row();
         //table_nextWave.add(bTest).width(Gdx.graphics.getWidth()/10);
@@ -631,7 +674,8 @@ public class GameScreen implements Screen {
 
                 if (isLocal)
                 {
-                fileReader.setSave(actualGame);
+                    actualGame.put("buildings",towerManager.getTowers());
+                    fileReader.setSave(actualGame);
                 }
                 else
                 {
