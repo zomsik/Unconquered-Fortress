@@ -23,6 +23,9 @@ public class WorldManager {
     public void setErrorCounter(int errorCounter) {
         this.errorCounter = errorCounter;
     }
+    public void increaseErrorCounter(int x) {
+        this.errorCounter+=x;
+    }
 
     private int errorCounter = 0;
 
@@ -176,12 +179,12 @@ public class WorldManager {
             return generateWater(arr, randomI, randomJ, randomWaterSize, randomAxis, randomCorner, randomDeep, seed);
         }
     }
-    static List<int[]> randomWalk(int[][] arr, int[] start, int[] end, int seed){
+    List<int[]> randomWalk(int[][] arr, int[] start, int[] end, int seed){
         shuffleDirs(seed);
         boolean[][] visited = new boolean[arr.length][arr[0].length];
         List<int[]> path = new ArrayList<>();
         int errorCounter = 1;
-        dfs(arr, visited, start, end, path, seed, errorCounter);
+        dfs(arr, visited, start, end, path, seed);
         return path;
     }
     static void shuffleDirs(int seed) {
@@ -193,12 +196,13 @@ public class WorldManager {
             dirs[j] = t;
         }
     }
-    static boolean dfs(int[][] grid, boolean[][] visited, int[] cur, int[] end, List<int[]> res, int seed, int errorCounter){
-        errorCounter+=1;
-        System.out.println(errorCounter);
-        if(errorCounter > 45){
+    boolean dfs(int[][] grid, boolean[][] visited, int[] cur, int[] end, List<int[]> res, int seed){
+        increaseErrorCounter(1);
+        System.out.println(getErrorCounter());
+        if(getErrorCounter() > 150){
             res.clear();
             System.out.println("Wygenerowałem ponad 100 prób");
+            setErrorCounter(0);
             return true;
         }
             if (cur[0] == end[0] && cur[1] == end[1]) {
@@ -215,7 +219,7 @@ public class WorldManager {
                 int ni = cur[0] + dir[0];
                 int nj = cur[1] + dir[1];
                 if (ni >= 0 && ni < grid.length && nj >= 0 && nj < grid[0].length && !visited[ni][nj] && visited.length<50)
-                    if (dfs(grid, visited, new int[]{ni, nj}, end, res, seed, errorCounter)) {
+                    if (dfs(grid, visited, new int[]{ni, nj}, end, res, seed)) {
                         return true;
                     }
             }
@@ -350,7 +354,7 @@ public class WorldManager {
         return arr;
     }
 
-    public static Image[][] createWorld(GameScreen gameScreen, int seed, int difficulty){
+    public Image[][] createWorld(GameScreen gameScreen, int seed, int difficulty){
         //wygenerowanie seeda
         //final ThreadLocal<Random> RANDOM_THREAD_LOCAL = ThreadLocal.withInitial(Random::new);
         Random random = new Random(seed);

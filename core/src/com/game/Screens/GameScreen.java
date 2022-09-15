@@ -898,6 +898,7 @@ public class GameScreen implements Screen {
 
     }
     private void initSettingsUI(){
+        worldManager = new WorldManager();
         background = new Texture("background.png");
         resolutions = new ArrayList<>();
         resolutions = resolutionsClass.getResolutionsArrayList();

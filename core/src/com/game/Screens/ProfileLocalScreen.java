@@ -163,6 +163,10 @@ public class ProfileLocalScreen implements Screen {
         Image local02 = new Image(icon);
         Image local03 = new Image(icon);
 
+        Texture iconDelete = new Texture(new FileHandle("assets/icons/delete.png"));
+        Image delete01 = new Image(icon);
+        Image delete02 = new Image(icon);
+        Image delete03 = new Image(icon);
 
         newGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(dialogBg)))) {
             public void result(Object obj) {
