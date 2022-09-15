@@ -675,6 +675,8 @@ public class GameScreen implements Screen {
                 if (isLocal)
                 {
                     actualGame.put("buildings",towerManager.getTowers());
+                    actualGame.put("gold",base.getMoney());
+                    actualGame.put("wave",base.getWave());
                     fileReader.setSave(actualGame);
                 }
                 else

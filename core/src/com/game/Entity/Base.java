@@ -59,10 +59,10 @@ public class Base {
         this.money = actualGame.getInt("gold");
         this.diamonds = actualGame.getInt("diamonds");
         this.maxHealth = 100;
-        this.health = 100;
+        this.health = actualGame.getInt("health");
         this.armor = 100;
         this.difficulty = actualGame.getString("difficulty");
-        this.wave = 0;
+        this.wave = actualGame.getInt("wave");
         this.cleanPrice = 200;
     }
 
