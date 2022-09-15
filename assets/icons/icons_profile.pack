@@ -17,3 +17,10 @@ local
   orig: 32, 32
   offset: 0, 0
   index: -1
+delete
+  rotate: false
+  xy: 70, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
