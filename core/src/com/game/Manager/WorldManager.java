@@ -286,7 +286,6 @@ public class WorldManager {
 
     static int[][] overwritePath(int[][] arr, List<int[]> res){
         for(int i=0; i<res.size(); i++){
-            //TODO path size może być równy 2 wtedy res.get(i-2)[0] wywali błąd
             if(i==res.size()-1){
                 if((res.get(i-1)[0] < res.get(i)[0] && res.get(i-1)[1] == res.get(i)[1]) && (res.get(i-1)[0] == res.get(i-2)[0] && res.get(i-1)[1] > res.get(i-2)[1])){
                     arr[res.get(i-1)[0]][res.get(i-1)[1]] = 16;
@@ -456,7 +455,7 @@ public class WorldManager {
                     System.out.println("6");
                     List<int[]> res = randomWalk(arr, start, end, seed);
                     System.out.println("7");
-                    while (res.size() == 0) {
+                    while (res.size() <5) {
                         System.out.println("7.5");
                         seed+=1;
                         res = randomWalk(arr, start, end, seed);
@@ -516,7 +515,7 @@ public class WorldManager {
                     System.out.println("6");
                     List<int[]> res = randomWalk(arr, start, end, seed);
                     System.out.println("7");
-                    while (res.size() == 0) {
+                    while (res.size() <5) {
                         System.out.println("7.5");
                         seed+=1;
                         res = randomWalk(arr, start, end, seed);
@@ -583,7 +582,7 @@ public class WorldManager {
                     System.out.println("6");
                     List<int[]> res = randomWalk(arr, start, end, seed);
                     System.out.println("7");
-                    while (res.size() == 0) {
+                    while (res.size() <5) {
                         System.out.println("7.5");
                         seed+=1;
                         res = randomWalk(arr, start, end, seed);
@@ -642,7 +641,7 @@ public class WorldManager {
                     System.out.println("6");
                     List<int[]> res = randomWalk(arr, start, end, seed);
                     System.out.println("7");
-                    while (res.size() == 0) {
+                    while (res.size() <5) {
                         System.out.println("7.5");
                         seed+=1;
                         res = randomWalk(arr, start, end, seed);
