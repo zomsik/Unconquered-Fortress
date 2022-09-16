@@ -18,11 +18,13 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.game.Entity.Enemy.Enemy;
 import com.game.Entity.Base;
+import com.game.Entity.RoadObstacle.RoadNeedles;
+import com.game.Entity.RoadObstacle.RoadObstacle;
+import com.game.Entity.RoadObstacle.RoadSticky;
 import com.game.Entity.Tower.*;
 import com.game.Main;
 import com.game.Manager.*;
@@ -80,6 +82,7 @@ public class GameScreen implements Screen {
     private EnemyManager enemyManager;
     private TowerManager towerManager;
     private UpgradeManager upgradeManager;
+    private RoadObstaclesManager roadObstaclesManager;
 
     public LastClickedTile lastClickedMapTile, lastClickedOperationTile;
 
@@ -185,10 +188,30 @@ public class GameScreen implements Screen {
                     t.setLevel(buildings.getJSONObject(b).getInt("level"));
                     towersLoad.add(t);
                 }
+            }
+        }
+
+
+        JSONArray roadObstacles = actualGame.getJSONArray("roadObstacles");
+        ArrayList<RoadObstacle> roadObstaclesLoad = new ArrayList<>();
+        for (int b=0; b<roadObstacles.length(); b++)
+        {
+            buildArr[roadObstacles.getJSONObject(b).getInt("x")][roadObstacles.getJSONObject(b).getInt("y")] = 1;
+
+            switch(roadObstacles.getJSONObject(b).getString("name"))
+            {
+                case "roadSticky" -> {
+                    RoadObstacle t = new RoadSticky( roadObstacles.getJSONObject(b).getInt("x"),roadObstacles.getJSONObject(b).getInt("y"), scale, this);
+                    t.setUsesLeft(roadObstacles.getJSONObject(b).getInt("usesLeft"));
+                    roadObstaclesLoad.add(t);
+                }
+                case "roadNeedles" -> {
+                    RoadObstacle t = new RoadNeedles( roadObstacles.getJSONObject(b).getInt("x"),roadObstacles.getJSONObject(b).getInt("y"), scale, this);
+                    t.setUsesLeft(roadObstacles.getJSONObject(b).getInt("usesLeft"));
+                    roadObstaclesLoad.add(t);
+                }
 
             }
-
-
         }
 
 
@@ -213,6 +236,7 @@ public class GameScreen implements Screen {
         table_menuPause.debug();
         enemyManager = new EnemyManager(base, scale, GameFunctions.calculatePath(worldManager.getPath(), scale));
         towerManager = new TowerManager(enemyManager.getEnemies(), towersLoad);
+        roadObstaclesManager = new RoadObstaclesManager(enemyManager.getEnemies(), roadObstaclesLoad);
 
 
 
@@ -347,15 +371,56 @@ public class GameScreen implements Screen {
             }
         }
 
+        if (Objects.equals(chosenOperation,"stickyRoad")) {
+            if (Objects.equals(lastClickedMapTile.getName(), "path") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
+                if (base.getMoney() >= 50)
+                {
+                    base.decreaseMoney(50);
+                    RoadObstacle r = new RoadSticky( lastClickedMapTile.getX(),lastClickedMapTile.getY(), scale, this);
+                    roadObstaclesManager.buyObstacle(r);
+                    stage.addActor(r);
+                    buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
+
+                }else{
+                    showInfoDialog();
+                }
+
+            }
+        }
+
+        if (Objects.equals(chosenOperation,"roadNeedles")) {
+            if (Objects.equals(lastClickedMapTile.getName(), "path") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
+                if (base.getMoney() >= 50)
+                {
+                    base.decreaseMoney(50);
+                    RoadObstacle r = new RoadNeedles( lastClickedMapTile.getX(),lastClickedMapTile.getY(), scale, this);
+                    roadObstaclesManager.buyObstacle(r);
+                    stage.addActor(r);
+                    buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
+
+                }else{
+                    showInfoDialog();
+                }
+
+            }
+        }
+
+
+
+
+
+
+
         if (Objects.equals(chosenOperation,"melee")) {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
                 //warunki wybudowania swordTowera
-                if (base.getMoney()>= turretLevels.getJSONArray("meleeTower").getJSONObject(0).getInt("cost")){
+                if (base.getMoney()>= turretLevels.getJSONArray("meleeTower").getJSONObject(0).getInt("cost"))
+                {
+                    base.decreaseMoney(turretLevels.getJSONArray("meleeTower").getJSONObject(0).getInt("cost"));
                     Tower t = new MeleeTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale, this);
                     towerManager.buyTower(t);
                     stage.addActor(t);
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
-
                 }else{
                     showInfoDialog();
                 }
@@ -382,7 +447,9 @@ public class GameScreen implements Screen {
 
 
                 //warunki wybudowania bowTowera
-                if (base.getMoney()>= turretLevels.getJSONArray("crossbowTower").getJSONObject(0).getInt("cost")){
+                if (base.getMoney()>= turretLevels.getJSONArray("crossbowTower").getJSONObject(0).getInt("cost"))
+                {
+                    base.decreaseMoney(turretLevels.getJSONArray("crossbowTower").getJSONObject(0).getInt("cost"));
                     Tower t = new BowTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale, this);
                     towerManager.buyTower(t);
                     stage.addActor(t);
@@ -411,24 +478,14 @@ public class GameScreen implements Screen {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
                 if (base.getMoney()>= turretLevels.getJSONArray("mageTower").getJSONObject(0).getInt("cost"))
                 {
+                    base.decreaseMoney(turretLevels.getJSONArray("mageTower").getJSONObject(0).getInt("cost"));
                     Tower t = new MageTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale, this);
                     towerManager.buyTower(t);
                     stage.addActor(t);
-                    //towerManager.buyTower(new MageTower(lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale));
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
-                }else{
+                }else {
                     showInfoDialog();
                 }
-
-                //warunki wybudowania mageTowera
-                /*
-                JSONArray placedBuildings = actualGame.getJSONArray("buildings");
-                placedBuildings.put(new JSONObject().put("buildingName","mage").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()).put("level",1));
-                actualGame.put("buildings", placedBuildings);
-
-                buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "mage");
-                table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
-                stage.addActor(table_buildings);*/
 
 
             }
@@ -674,6 +731,7 @@ public class GameScreen implements Screen {
                 actualGame.put("buildings",towerManager.getTowers());
                 actualGame.put("gold",base.getMoney());
                 actualGame.put("wave",base.getWave());
+                actualGame.put("roadObstacles", roadObstaclesManager.getRoadObstacles());
 
                 if (isLocal)
                 {
@@ -849,10 +907,12 @@ public class GameScreen implements Screen {
 
         switch(base.getState()) {
             case Running:
+                roadObstaclesManager.update(delta);
                 statsTableManager.update();
                 towerManager.update(delta);
                 enemyManager.update(delta);
                 spritebatch.begin();
+                roadObstaclesManager.render(spritebatch);
                 towerManager.render(spritebatch, shapeRenderer);
                 enemyManager.render(spritebatch);
                 font.draw(spritebatch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, hudCamera.viewportHeight);
@@ -866,6 +926,7 @@ public class GameScreen implements Screen {
             case Paused:
                 statsTableManager.update();
                 spritebatch.begin();
+                roadObstaclesManager.render(spritebatch);
                 towerManager.render(spritebatch, shapeRenderer);
                 enemyManager.render(spritebatch);
                 spritebatch.end();
@@ -874,6 +935,7 @@ public class GameScreen implements Screen {
                 break;
             case Resumed:
                 spritebatch.begin();
+                roadObstaclesManager.render(spritebatch);
                 towerManager.render(spritebatch, shapeRenderer);
                 enemyManager.render(spritebatch);
                 spritebatch.end();
@@ -884,6 +946,7 @@ public class GameScreen implements Screen {
             case GameOver:
                 gameOverDialog.show(gameOverStage);
                 spritebatch.begin();
+                roadObstaclesManager.render(spritebatch);
                 towerManager.render(spritebatch, shapeRenderer);
                 enemyManager.render(spritebatch);
                 spritebatch.end();

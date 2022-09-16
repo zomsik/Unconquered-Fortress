@@ -92,6 +92,7 @@ public class ProfileManager {
         j.put("terrainModifications", new JSONArray());
         j.put("buildings", new JSONArray());
         j.put("unlockedUpgrades", new JSONArray());
+        j.put("roadObstacles", new JSONArray());
 
         return j;
 

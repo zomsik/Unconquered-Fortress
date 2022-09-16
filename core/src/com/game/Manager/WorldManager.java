@@ -740,25 +740,30 @@ public class WorldManager {
                 else if (y==11)
                 {
                     imageArr[i][j] = new Image(images_map, "pathLeftRight");
+                    imageArr[i][j].setName("path");
                 }
                 else if (y==12){
                     imageArr[i][j] = new Image(images_map, "pathUpDown");
+                    imageArr[i][j].setName("path");
                 }
                 else if (y==13){
                     imageArr[i][j] = new Image(images_map, "pathUpRight");
+                    imageArr[i][j].setName("path");
                 }
                 else if (y==14)
                 {
                     imageArr[i][j] = new Image(images_map, "pathLeftUp");
+                    imageArr[i][j].setName("path");
                 }
                 else if (y==15)
                 {
                     imageArr[i][j] = new Image(images_map, "pathDownRight");
+                    imageArr[i][j].setName("path");
                 }
-
                 else if (y==16)
                 {
                     imageArr[i][j] = new Image(images_map, "pathLeftDown");
+                    imageArr[i][j].setName("path");
                 }
 
 

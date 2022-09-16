@@ -32,9 +32,7 @@ public class TowerManager {
 
 
     public void buyTower(Tower t) {
-
         towers.add(t);
-        t.buyTower();
     }
 
     public void sellTower(int x, int y) {

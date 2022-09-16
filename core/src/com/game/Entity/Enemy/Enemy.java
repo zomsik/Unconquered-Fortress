@@ -216,6 +216,10 @@ public class Enemy extends Actor {
     public int getHealth() {
         return health;
     }
+
+    public void changeSpeed(float v) {
+        this.speed = speed*v;
+    }
 }
 
 
