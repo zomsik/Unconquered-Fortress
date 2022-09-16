@@ -329,7 +329,7 @@ public class UpgradeManager {
             u.getImage().addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-
+                    System.out.println("kliklem na:" + u.getUpgradeName());
                     if (!u.isMaxLevel())
                     {
                         if (base.getDiamonds()>=u.getCostToUpgrade())
@@ -353,7 +353,9 @@ public class UpgradeManager {
 
                 }
 
+                @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                    System.out.println("weszłem na:" + u.getUpgradeName());
                     Label information;
                     information = u.returnInformation(textTooltipStyle.label);
                     tooltip = new TextTooltip("", textTooltipStyle);
@@ -362,6 +364,7 @@ public class UpgradeManager {
                     tooltip.enter(event, -72, y, pointer, fromActor);
                 }
 
+                @Override
                 public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                     tooltip.exit(event, x, y, pointer, fromActor);
                 }

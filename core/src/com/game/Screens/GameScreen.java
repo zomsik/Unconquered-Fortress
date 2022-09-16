@@ -557,6 +557,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
 
+
         Gdx.input.setInputProcessor(stage);
 
         Texture bg = new Texture(new FileHandle("assets/profile_banner.png"));
@@ -670,13 +671,13 @@ public class GameScreen implements Screen {
         bSaveDialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("zapisano");
+                actualGame.put("buildings",towerManager.getTowers());
+                actualGame.put("gold",base.getMoney());
+                actualGame.put("wave",base.getWave());
 
                 if (isLocal)
                 {
-                    actualGame.put("buildings",towerManager.getTowers());
-                    actualGame.put("gold",base.getMoney());
-                    actualGame.put("wave",base.getWave());
+
                     fileReader.setSave(actualGame);
                 }
                 else
@@ -745,9 +746,32 @@ public class GameScreen implements Screen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
-                    pauseDialog.hide();
-                    pauseDialog.remove();
+
+                    if (pauseDialog!=null)
+                        if (pauseDialog.isVisible()) {
+                            pauseDialog.hide();
+                            pauseDialog.remove();
+                    }
+                    if (upgradeDialog!=null)
+                        if (upgradeDialog.isVisible()) {
+                            upgradeDialog.hide();
+                            upgradeDialog.remove();
+                    }
+
+                    if (eventDialog!=null)
+                        if (eventDialog.isVisible()) {
+                            eventDialog.hide();
+                            eventDialog.remove();
+                    }
+
+                    if (infoDialog!=null)
+                        if (infoDialog.isVisible()) {
+                            infoDialog.hide();
+                            infoDialog.remove();
+                    }
+
                     base.setState(Base.State.Resumed);
+                    updateInfoDisplay();
 
                     return true;
                 }
@@ -783,6 +807,16 @@ public class GameScreen implements Screen {
 
     }
 
+    public void updateInfoDisplay(){
+        statsTableManager.setInfoToDisplay(base.getInfoToDisplay(), base.getInfoToDisplayObjectNow(),  base.getInfoToDisplayObjectUpgraded(), base.getInfoToDisplayName());
+        table_info.remove();
+        table_info = statsTableManager.getInfoTable();
+        if (base.getState() == Base.State.Running || base.getState() == Base.State.Resumed)
+            stage.addActor(table_info);
+        else if (base.getState() == Base.State.Paused)
+            pauseStage.addActor(table_info);
+    }
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1,0,0,1);
@@ -794,16 +828,10 @@ public class GameScreen implements Screen {
         stage.draw();
 
 
-        if ((statsTableManager.getInfoToDisplay()!=base.getInfoToDisplay()) || (base.getInfoToDisplay()==1 && chosenOperation!=base.getInfoToDisplayName()))
-        {
-            statsTableManager.setInfoToDisplay(base.getInfoToDisplay(), base.getInfoToDisplayObjectNow(),  base.getInfoToDisplayObjectUpgraded(), base.getInfoToDisplayName());
-            table_info.remove();
-            table_info = statsTableManager.getInfoTable();
-            if (base.getState() == Base.State.Running)
-                stage.addActor(table_info);
-            else if (base.getState() == Base.State.Paused)
-                pauseStage.addActor(table_info);
-        }
+        if ((statsTableManager.getInfoToDisplay()!=base.getInfoToDisplay()) || (base.getInfoToDisplay()==1 && chosenOperation!=base.getInfoToDisplayName()) )
+            updateInfoDisplay();
+
+
 
 
 
