@@ -35,6 +35,7 @@ public class Enemy extends Actor {
     private List<Vector2> path;
 
     private String moveDirection;
+
     public Enemy(){
 
     }
@@ -97,6 +98,7 @@ public class Enemy extends Actor {
         return position;
     }
 
+
     public void initEnemy(java.util.List<Vector2> path, float scale) {
 
         this.scale = scale;
@@ -115,7 +117,6 @@ public class Enemy extends Actor {
 
     private boolean MoveToPoint(Vector2 finalPoint, float deltaTime)
     {
-
         if (position.equals(finalPoint))
             return true;
 
@@ -197,18 +198,18 @@ public class Enemy extends Actor {
 
         batch.draw(currentAnimation.getKeyFrame(stateTime, true), position.x, position.y+scale*enemySize/2 ,scale*enemySize, scale*enemySize);
         batch.end();
-        ShapeRenderer shapeRenderer2 = new ShapeRenderer();
-        shapeRenderer2.setColor(Color.RED);
-        shapeRenderer2.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer2.rect(position.x, position.y+enemySize*scale*3/2, enemySize*scale,10);
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.rect(position.x, position.y+enemySize*scale*3/2, enemySize*health/startHealth*scale,10);
-
+        ShapeRenderer healthbar_outline = new ShapeRenderer();
+        healthbar_outline.setColor(Color.RED);
+        healthbar_outline.begin(ShapeRenderer.ShapeType.Line);
+        healthbar_outline.rect(position.x, position.y+enemySize*scale*3/2, enemySize*scale,10);
+        ShapeRenderer healthbar = new ShapeRenderer();
+        healthbar.setColor(Color.RED);
+        healthbar.begin(ShapeRenderer.ShapeType.Filled);
+        healthbar.rect(position.x, position.y+enemySize*scale*3/2, enemySize*health/startHealth*scale,10);
         //shapeRenderer.circle(position.x+enemySize*scale/2, position.y+enemySize*scale/2+scale*enemySize/2,1);
-        shapeRenderer.end();
-        shapeRenderer2.end();
+
+        healthbar.end();
+        healthbar_outline.end();
         batch.begin();
 
 
@@ -227,6 +228,8 @@ public class Enemy extends Actor {
     public void changeSpeed(float v) {
         this.speed = speed*v;
     }
+
+
 }
 
 

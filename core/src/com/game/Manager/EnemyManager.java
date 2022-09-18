@@ -1,6 +1,8 @@
 package com.game.Manager;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.game.Entity.Enemy.Enemy;
 import com.game.Entity.Base;
@@ -146,4 +148,5 @@ public class EnemyManager {
 
 
     }
+
 }
