@@ -6,7 +6,7 @@ public class RoadSticky extends RoadObstacle {
 
     public RoadSticky(int tileX, int tileY, float scale, GameScreen gameScreen)
     {
-        super("roadSticky", "assets/game/towers/magePreview.png", tileX, tileY, scale, gameScreen);
+        super("roadSticky", "assets/game/towers/road_sticky.png", tileX, tileY, scale, gameScreen);
 
     }
 

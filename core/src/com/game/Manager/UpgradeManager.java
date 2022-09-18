@@ -56,16 +56,12 @@ public class UpgradeManager {
         textTooltipStyle.wrapWidth = 400; //nie może być 100.0f
 
         initUpgrades();
-
-        createUpgradeTable();
         initListeners();
 
+        createUpgradeTable();
         loadUpgrades();
 
-
-
     }
-
     public Table returnUpgradeTable(){
         return  table_upgrade;
     }
@@ -356,18 +352,22 @@ public class UpgradeManager {
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                     System.out.println("weszłem na:" + u.getUpgradeName());
-                    Label information;
+                    base.setInfoToDisplay(4);
+                    /*Label information;
                     information = u.returnInformation(textTooltipStyle.label);
                     tooltip = new TextTooltip("", textTooltipStyle);
                     tooltip.setActor(information);
                     tooltip.setInstant(true);
-                    tooltip.enter(event, -72, y, pointer, fromActor);
+                    tooltip.enter(event, -72, y, pointer, fromActor);*/
                 }
 
                 @Override
                 public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    tooltip.exit(event, x, y, pointer, fromActor);
+                    System.out.println("wyszedłem");
+                    base.setInfoToDisplay(4);
+                    /*tooltip.exit(event, x, y, pointer, fromActor);*/
                 }
+
 
             });
 
@@ -406,6 +406,5 @@ public class UpgradeManager {
 
 
     }
-
 
 }

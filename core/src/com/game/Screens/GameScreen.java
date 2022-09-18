@@ -246,8 +246,7 @@ public class GameScreen implements Screen {
         else
             upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/upgrade_dialog.png"))))));
 
-        upgradeManager = new UpgradeManager(languageManager, font, base, fileReader.downloadFileAsJSONObject("assets/upgrades.json"), actualGame.getJSONArray("unlockedUpgrades"));
-        upgradeDialog.add(upgradeManager.returnUpgradeTable());
+
 
 
 
@@ -554,8 +553,6 @@ public class GameScreen implements Screen {
     public void mouseEnterMapTile() {
         if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0 && (Objects.equals(chosenOperation,"melee") || Objects.equals(chosenOperation,"crossbow") || Objects.equals(chosenOperation,"mage") || Objects.equals(chosenOperation,"cannon")))
             shouldRenderPreview = true;
-
-
     }
 
     public void showInfoDialog(){
@@ -636,18 +633,23 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                // upgradeDialog.add(upgradeManager.returnUpgradeTable());
-                upgradeDialog.show(pauseStage);
                 base.setState(Base.State.Paused);
+                upgradeManager = new UpgradeManager(languageManager, font, base, fileReader.downloadFileAsJSONObject("assets/upgrades.json"), actualGame.getJSONArray("unlockedUpgrades"));
+                upgradeDialog.add(upgradeManager.returnUpgradeTable());
+                upgradeDialog.show(pauseStage);
 
             }
 
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                base.setInfoToDisplay(4);
+
+            //////////////////////////// imo nie potrzebne ///////////////////////////
+
+           /* public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                //base.setInfoToDisplay(4);
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                base.setInfoToDisplay(0);
-            }
+                //base.setInfoToDisplay(0);
+            }*/
 
 
     });
@@ -748,6 +750,8 @@ public class GameScreen implements Screen {
 
 
             }
+
+
         });
 
         bExitDialog.addListener(new ClickListener() {
@@ -814,6 +818,7 @@ public class GameScreen implements Screen {
                         if (upgradeDialog.isVisible()) {
                             upgradeDialog.hide();
                             upgradeDialog.remove();
+                            upgradeDialog.clear();
                     }
 
                     if (eventDialog!=null)
@@ -851,6 +856,7 @@ public class GameScreen implements Screen {
                 pauseDialog.remove();
                 base.setState(Base.State.Resumed);
             }
+
         });
         stage.addActor(table_operations);
         stage.addActor(table_operationsSelected);
@@ -861,7 +867,6 @@ public class GameScreen implements Screen {
         stage.addActor(table_info);
         //
         stage.addActor(table_menuPause);
-
 
     }
 
@@ -924,6 +929,8 @@ public class GameScreen implements Screen {
 
                 break;
             case Paused:
+                Gdx.input.setInputProcessor(pauseStage);
+                pauseStage.act(delta);
                 statsTableManager.update();
                 spritebatch.begin();
                 roadObstaclesManager.render(spritebatch);
@@ -931,7 +938,7 @@ public class GameScreen implements Screen {
                 enemyManager.render(spritebatch);
                 spritebatch.end();
                 pauseStage.draw();
-                Gdx.input.setInputProcessor(pauseStage);
+
                 break;
             case Resumed:
                 spritebatch.begin();
