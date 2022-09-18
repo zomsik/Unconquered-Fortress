@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Enemy extends Actor {
-    private int health;
+    private int health, startHealth;
     private int dmg;
 
 
@@ -42,7 +42,7 @@ public class Enemy extends Actor {
     public Enemy(int health,String path, String name, int enemySize){
         this.enemySize = enemySize;
         this.health = health;
-
+        this.startHealth = health;
         this.dmg = 7;
         this.money = 15;
 
@@ -197,11 +197,18 @@ public class Enemy extends Actor {
 
         batch.draw(currentAnimation.getKeyFrame(stateTime, true), position.x, position.y+scale*enemySize/2 ,scale*enemySize, scale*enemySize);
         batch.end();
+        ShapeRenderer shapeRenderer2 = new ShapeRenderer();
+        shapeRenderer2.setColor(Color.RED);
+        shapeRenderer2.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer2.rect(position.x, position.y+enemySize*scale*3/2, enemySize*scale,10);
         ShapeRenderer shapeRenderer = new ShapeRenderer();
         shapeRenderer.setColor(Color.RED);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.circle(position.x+enemySize*scale/2, position.y+enemySize*scale/2+scale*enemySize/2,1);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.rect(position.x, position.y+enemySize*scale*3/2, enemySize*health/startHealth*scale,10);
+
+        //shapeRenderer.circle(position.x+enemySize*scale/2, position.y+enemySize*scale/2+scale*enemySize/2,1);
         shapeRenderer.end();
+        shapeRenderer2.end();
         batch.begin();
 
 
