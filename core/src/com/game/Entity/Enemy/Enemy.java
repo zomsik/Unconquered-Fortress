@@ -198,18 +198,16 @@ public class Enemy extends Actor {
 
         batch.draw(currentAnimation.getKeyFrame(stateTime, true), position.x, position.y+scale*enemySize/2 ,scale*enemySize, scale*enemySize);
         batch.end();
-        ShapeRenderer healthbar_outline = new ShapeRenderer();
-        healthbar_outline.setColor(Color.RED);
-        healthbar_outline.begin(ShapeRenderer.ShapeType.Line);
-        healthbar_outline.rect(position.x, position.y+enemySize*scale*3/2, enemySize*scale,10);
         ShapeRenderer healthbar = new ShapeRenderer();
         healthbar.setColor(Color.RED);
+        healthbar.begin(ShapeRenderer.ShapeType.Line);
+        healthbar.rect(position.x, position.y+enemySize*scale*3/2, enemySize*scale,10);
+        healthbar.end();
         healthbar.begin(ShapeRenderer.ShapeType.Filled);
         healthbar.rect(position.x, position.y+enemySize*scale*3/2, enemySize*health/startHealth*scale,10);
         //shapeRenderer.circle(position.x+enemySize*scale/2, position.y+enemySize*scale/2+scale*enemySize/2,1);
-
         healthbar.end();
-        healthbar_outline.end();
+
         batch.begin();
 
 
