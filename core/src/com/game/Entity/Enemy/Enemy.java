@@ -61,11 +61,13 @@ public class Enemy extends Actor {
         TextureRegion[] animationSprites;
 
 
+
+
         for (int j=0; j<4; j++) {
 
-            animationSprites = new TextureRegion[4];
+            animationSprites = new TextureRegion[spritePosition[j].length];
 
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < spritePosition[j].length; i++) {
                 animationSprites[i] = spritePosition[j][i];
 
             }
