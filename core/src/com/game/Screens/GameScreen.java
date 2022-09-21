@@ -919,7 +919,7 @@ public class GameScreen implements Screen {
                 spritebatch.begin();
                 roadObstaclesManager.render(spritebatch);
                 towerManager.render(spritebatch, shapeRenderer);
-                enemyManager.render(spritebatch);
+                enemyManager.render(spritebatch, shapeRenderer);
                 font.draw(spritebatch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, hudCamera.viewportHeight);
 
                 if (shouldRenderPreview)
@@ -935,7 +935,7 @@ public class GameScreen implements Screen {
                 spritebatch.begin();
                 roadObstaclesManager.render(spritebatch);
                 towerManager.render(spritebatch, shapeRenderer);
-                enemyManager.render(spritebatch);
+                enemyManager.render(spritebatch, shapeRenderer);
                 spritebatch.end();
                 pauseStage.draw();
 
@@ -944,7 +944,7 @@ public class GameScreen implements Screen {
                 spritebatch.begin();
                 roadObstaclesManager.render(spritebatch);
                 towerManager.render(spritebatch, shapeRenderer);
-                enemyManager.render(spritebatch);
+                enemyManager.render(spritebatch, shapeRenderer);
                 spritebatch.end();
 
                 Gdx.input.setInputProcessor(stage);
@@ -955,7 +955,7 @@ public class GameScreen implements Screen {
                 spritebatch.begin();
                 roadObstaclesManager.render(spritebatch);
                 towerManager.render(spritebatch, shapeRenderer);
-                enemyManager.render(spritebatch);
+                enemyManager.render(spritebatch, shapeRenderer);
                 spritebatch.end();
                 gameOverStage.draw();
                 Gdx.input.setInputProcessor(gameOverStage);

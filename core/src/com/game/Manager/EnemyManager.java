@@ -140,10 +140,10 @@ public class EnemyManager {
     }
 
 
-    public void render(SpriteBatch spritebatch) {
+    public void render(SpriteBatch spritebatch, ShapeRenderer shapeRenderer) {
 
         for (Enemy e : enemies) {
-            e.render(spritebatch);
+            e.render(spritebatch, shapeRenderer);
         }
 
 
