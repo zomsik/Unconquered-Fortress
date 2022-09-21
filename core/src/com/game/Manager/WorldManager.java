@@ -29,13 +29,13 @@ public class WorldManager {
 
     private int errorCounter = 0;
 
-    static int[][] dirs = {{1, 0},{0, 1},{-1, 0},{0, -1}};
+    private final int[][] dirs = {{1, 0},{0, 1},{-1, 0},{0, -1}};
 
-    static int[] start;
-    static int[] end;
-    static List<int[]> pathToMove = new ArrayList<>();
+    private int[] start;
+    private int[] end;
+    private List<int[]> pathToMove = new ArrayList<>();
 
-    static int[][] generateWater(int[][] arr, int randomI, int randomJ, int randomWaterSize, int randomAxis, int randomCorner, int randomDeep, int seed){
+    private int[][] generateWater(int[][] arr, int randomI, int randomJ, int randomWaterSize, int randomAxis, int randomCorner, int randomDeep, int seed){
         Random random = new Random(seed);
         boolean isReturn = false;
         switch (randomCorner) {
@@ -179,7 +179,7 @@ public class WorldManager {
             return generateWater(arr, randomI, randomJ, randomWaterSize, randomAxis, randomCorner, randomDeep, seed);
         }
     }
-    List<int[]> randomWalk(int[][] arr, int[] start, int[] end, int seed){
+    private List<int[]> randomWalk(int[][] arr, int[] start, int[] end, int seed){
         shuffleDirs(seed);
         boolean[][] visited = new boolean[arr.length][arr[0].length];
         List<int[]> path = new ArrayList<>();
@@ -187,7 +187,7 @@ public class WorldManager {
         dfs(arr, visited, start, end, path, seed);
         return path;
     }
-    static void shuffleDirs(int seed) {
+    private void shuffleDirs(int seed) {
         Random random = new Random(seed);
         for(int i=0;i<dirs.length;i++) {
             int j = random.nextInt(i+1);
@@ -196,7 +196,7 @@ public class WorldManager {
             dirs[j] = t;
         }
     }
-    boolean dfs(int[][] grid, boolean[][] visited, int[] cur, int[] end, List<int[]> res, int seed){
+    private boolean dfs(int[][] grid, boolean[][] visited, int[] cur, int[] end, List<int[]> res, int seed){
         increaseErrorCounter(1);
         System.out.println(getErrorCounter());
         if(getErrorCounter() > 150){
@@ -228,7 +228,7 @@ public class WorldManager {
             return false;
     }
 
-    static int[][] generatePath(int[][] arr, List<int[]> res){
+    private int[][] generatePath(int[][] arr, List<int[]> res){
         for(int i=0; i<10; i++){
             for(int j=0; j<15; j++){
                 for(int k=0; k<res.size(); k++){
@@ -241,7 +241,7 @@ public class WorldManager {
         return arr;
     }
 
-    static int[][] generateObstacles(int[][] arr, int seed, int difficulty){
+    private int[][] generateObstacles(int[][] arr, int seed, int difficulty){
         Random random = new Random(seed);
         switch (difficulty){
             case 51:{
@@ -284,7 +284,7 @@ public class WorldManager {
         return arr;
     }
 
-    static int[][] overwritePath(int[][] arr, List<int[]> res){
+    private int[][] overwritePath(int[][] arr, List<int[]> res){
         for(int i=0; i<res.size(); i++){
             if(i==res.size()-1){
                 if((res.get(i-1)[0] < res.get(i)[0] && res.get(i-1)[1] == res.get(i)[1]) && (res.get(i-1)[0] == res.get(i-2)[0] && res.get(i-1)[1] > res.get(i-2)[1])){
@@ -798,7 +798,7 @@ public class WorldManager {
         return imageArr;
     }
 
-    private static Image getRotatedWater(int[][] arr, int i, int j) {
+    private Image getRotatedWater(int[][] arr, int i, int j) {
         Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
 
         boolean isWaterLeft = false;
@@ -874,7 +874,7 @@ public class WorldManager {
         return new Image(images_map, "water");
     }
 
-    private static Image getRotatedMountain(int[][] arr, int i, int j) {
+    private Image getRotatedMountain(int[][] arr, int i, int j) {
         Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
 
         boolean isMountainLeft = false;
@@ -907,7 +907,7 @@ public class WorldManager {
     }
 
 
-    private static Image getRotatedEnemyBase(int[][] arr, int i, int j) {
+    private Image getRotatedEnemyBase(int[][] arr, int i, int j) {
         Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
 
         if(i==0)
@@ -959,7 +959,7 @@ public class WorldManager {
         return new Image(images_map, "enemyToDown");
     }
 
-    private static Image getRotatedBase(int[][] arr, int i, int j) {
+    private Image getRotatedBase(int[][] arr, int i, int j) {
         Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
 
         if(i==0)
@@ -1012,7 +1012,7 @@ public class WorldManager {
     }
 
 
-    public static Image[][] loadTerrainModifications (GameScreen gameScreen, Image[][] mapArr, JSONArray terrArr)
+    public Image[][] loadTerrainModifications (GameScreen gameScreen, Image[][] mapArr, JSONArray terrArr)
     {
         Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         System.out.println(terrArr.length());
@@ -1050,7 +1050,7 @@ public class WorldManager {
     }
 
 
-    public static Table changeTileAndRedrawWorld (GameScreen gameScreen, Image[][] mapArr, int x, int y, String tileName, float scale)
+    public Table changeTileAndRedrawWorld (GameScreen gameScreen, Image[][] mapArr, int x, int y, String tileName, float scale)
     {
         Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         mapArr[y][x].setDrawable(images_map, tileName);
@@ -1082,7 +1082,7 @@ public class WorldManager {
     }
 
 
-    public static Table drawWorld(Image[][] imageArr, float scale){
+    public Table drawWorld(Image[][] imageArr, float scale){
 
         //Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         Table t = new Table();
@@ -1106,13 +1106,13 @@ public class WorldManager {
     }
 
 
-    public static int[] getEnemySpawnerPosition() {
+    public int[] getEnemySpawnerPosition() {
         return end;
     }
 
 
 
-    public static List<int[]> getPath() {
+    public List<int[]> getPath() {
         return pathToMove;
     }
 

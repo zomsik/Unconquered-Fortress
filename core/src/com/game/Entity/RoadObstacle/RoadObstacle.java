@@ -7,8 +7,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.game.Entity.Base;
 import com.game.Entity.Enemy.Enemy;
 import com.game.Screens.GameScreen;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,6 +23,7 @@ import java.util.Objects;
 public class RoadObstacle extends Actor {
 
     private String name;
+    private Base base;
     private int tileX,tileY;
     private float scale;
     private TextureRegion texture;
@@ -28,8 +33,11 @@ public class RoadObstacle extends Actor {
     private List<Integer> attackedEnemies;
     private ArrayList<Enemy> slowedEnemies;
 
-    public RoadObstacle(String name, String path, int tileX, int tileY, float scale, GameScreen gameScreen) {
+
+    public RoadObstacle(String name, Base base, String path, int tileX, int tileY, float scale, GameScreen gameScreen) {
         this.name = name;
+        this.base = base;
+
 
         this.usesLeft = 10;
 
@@ -46,8 +54,36 @@ public class RoadObstacle extends Actor {
         this.position = new Vector2(tileX * scale * 64 + Gdx.graphics.getWidth() / 20,(9 - tileY) * scale * 64 + (Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 30 * 16) / 2);
 
 
+        this.addListener(new ClickListener() {
+
+
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                getBase().setUsesLeft(getUsesLeft());
+                if(getUsesLeft()>0)
+                    getBase().setInfoToDisplay(5, getName());
+                else
+                    getBase().setInfoToDisplay(0);
+
+
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+
+                getBase().setInfoToDisplay(0);
+            }
+
+        });
+
+        this.setBounds(position.x,position.y,textureSize,textureSize);
+
+
+
+
     }
 
+    public Base getBase() {
+        return base;
+    }
 
     public void setUsesLeft(int usesLeft) {
         this.usesLeft = usesLeft;
@@ -93,6 +129,7 @@ public class RoadObstacle extends Actor {
                     }
 
                     usesLeft-=1;
+
                     break;
 
                 }

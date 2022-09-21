@@ -17,6 +17,7 @@ public class TowerManager {
     private ArrayList<Enemy> enemies;
 
     private float scale;
+    private boolean isDisabledListeners;
 
     public TowerManager(){
         towers = new ArrayList<>();
@@ -24,10 +25,10 @@ public class TowerManager {
 
     }
 
-    public TowerManager(ArrayList<Enemy> enemies, ArrayList<Tower> buildings){
+    public TowerManager(ArrayList<Enemy> enemies){
         this.enemies = enemies;
-        this.towers = buildings;
-
+        towers = new ArrayList<>();
+        isDisabledListeners = false;
     }
 
 
@@ -91,6 +92,23 @@ public class TowerManager {
 
     }
 
+    public void disableListeners() {
+        isDisabledListeners = true;
+        for (Tower t : towers) {
+            t.disableListeners();
+        }
+    }
 
+    public void enableListeners() {
+        isDisabledListeners = false;
+        for (Tower t : towers) {
+            t.enableListeners();
+        }
+    }
+
+
+    public boolean getIsDisabledListeners(){
+        return isDisabledListeners;
+    }
 
 }

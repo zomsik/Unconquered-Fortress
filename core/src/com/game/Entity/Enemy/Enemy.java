@@ -203,6 +203,7 @@ public class Enemy extends Actor {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.rect(position.x, position.y+enemySize*scale*3/2, enemySize*scale,10);
         shapeRenderer.end();
+
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.rect(position.x, position.y+enemySize*scale*3/2, enemySize*health/startHealth*scale,10);
         shapeRenderer.end();

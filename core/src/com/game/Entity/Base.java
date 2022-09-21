@@ -21,6 +21,8 @@ public class Base {
 
     private JSONObject multipliers;
 
+    private int usesLeft;
+
 
 
     public enum State{
@@ -89,7 +91,14 @@ public class Base {
 
     }
 
+    public int getUsesLeft() {
+        return usesLeft;
+    }
 
+    public void setUsesLeft(int uses)
+    {
+        usesLeft = uses;
+    }
 
 
     public int getInfoToDisplay() {

@@ -351,21 +351,19 @@ public class UpgradeManager {
 
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    System.out.println("weszłem na:" + u.getUpgradeName());
                     base.setInfoToDisplay(4);
-                    /*Label information;
+                    Label information;
                     information = u.returnInformation(textTooltipStyle.label);
                     tooltip = new TextTooltip("", textTooltipStyle);
                     tooltip.setActor(information);
                     tooltip.setInstant(true);
-                    tooltip.enter(event, -72, y, pointer, fromActor);*/
+                    tooltip.enter(event, -72, y, pointer, fromActor);
                 }
 
                 @Override
                 public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    System.out.println("wyszedłem");
-                    base.setInfoToDisplay(4);
-                    /*tooltip.exit(event, x, y, pointer, fromActor);*/
+                    base.setInfoToDisplay(0);
+                    tooltip.exit(event, x, y, pointer, fromActor);
                 }
 
 

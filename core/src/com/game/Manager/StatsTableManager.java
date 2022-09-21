@@ -21,13 +21,14 @@ public class StatsTableManager {
     private Base base;
     private float scale;
 
-    private Table statsTable, operationTable, upgradeTable, multipliersTable;
+    private Table statsTable, operationTable, upgradeTable, multipliersTable, obstacleTable;
 
     private TextFieldStyleManager textFieldStyleManager;
     private TextField hpTextField, hpTextValue, goldTextField, goldTextValue, diamondTextField, diamondTextValue, waveTextField, waveTextValue, difficultyTextField, difficultyTextValue;
     private TextField operationPriceTextField, operationPriceTextValue, operationTitleTextField, operationTitleTextValue, operationDmgTextField, operationDmgTextValue, operationRangeTextField, operationRangeTextValue, operationReloadTextField, operationReloadTextValue, operationSplashTextField, operationSplashTextValue;
     private TextField upgradePriceTextField, upgradePriceTextValue,upgradeTitleTextField, upgradeTitleTextValue, upgradeLvlTextField, upgradeLvlTextValue, upgradeDmgTextField, upgradeDmgTextValue, upgradeRangeTextField, upgradeRangeTextValue, upgradeReloadTextField, upgradeReloadTextValue, upgradeSplashTextField, upgradeSplashTextValue;
     private TextField damageMultiplier, damageMultiplierValue;
+    private TextField obstacleUses, obstacleUsesValue;
     private TextField.TextFieldStyle statsTextFieldStyle, rightStatsTextFieldStyle, leftStatsTextFieldStyle;
     private Skin images, images_stats;
     private FreeTypeFontGenerator generator;
@@ -50,6 +51,7 @@ public class StatsTableManager {
         operationTable = new Table();
         upgradeTable = new Table();
         multipliersTable = new Table();
+        obstacleTable = new Table();
 
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -261,6 +263,20 @@ public class StatsTableManager {
         multipliersTable.row().padBottom(4*scale);
 
 
+        // Obstacle Table
+
+
+        obstacleUses = new TextField("Uses left: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        obstacleUsesValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+
+        obstacleTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
+        obstacleTable.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackground)));
+        obstacleTable.row().padBottom(4*scale);
+        obstacleTable.add(obstacleUses).width((200*scale)/2-6*scale);
+        obstacleTable.add(new Image(images_stats, "middleStatsCover"));
+        obstacleTable.add(obstacleUsesValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        obstacleTable.row().padBottom(4*scale);
+
 
 
     }
@@ -295,6 +311,10 @@ public class StatsTableManager {
                 setMultipliersTable();
                 t = multipliersTable;
             }
+            case 5 -> {
+                setObstacleTable();
+                t = obstacleTable;
+            }
 
 
 
@@ -312,6 +332,11 @@ public class StatsTableManager {
         JSONObject multipliers = base.getMultipliers();
 
         damageMultiplierValue.setText(String.valueOf(multipliers.getFloat("damageMultiplier")));;
+    }
+
+    public void setObstacleTable(){
+
+        obstacleUsesValue.setText(String.valueOf(base.getUsesLeft()));
     }
 
 
@@ -362,6 +387,12 @@ public class StatsTableManager {
         goldTextValue.setText(String.valueOf(base.getMoney()));
         diamondTextValue.setText(String.valueOf(base.getDiamonds()));
         waveTextValue.setText(String.valueOf(base.getWave()));
+
+        if (infoToDisplay==5)
+        {
+            obstacleUsesValue.setText(String.valueOf(base.getUsesLeft()));
+        }
+
     }
 
 }

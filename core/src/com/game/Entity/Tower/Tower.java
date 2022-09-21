@@ -158,6 +158,15 @@ public class Tower extends Actor {
 
     }
 
+    public void enableListeners(){
+        this.setTouchable(Touchable.enabled);
+    }
+
+    public void disableListeners(){
+        this.setTouchable(Touchable.disabled);
+    }
+
+
 
     @Override
     public String getName() {
@@ -183,7 +192,6 @@ public class Tower extends Actor {
     }
 
     public void TowerLevelUp() {
-        System.out.println(lvl);
         if (lvl < towerLevels.length())
         {
             if (base.getMoney() >= towerLevels.getJSONObject(lvl).getInt("cost")) {

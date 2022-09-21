@@ -275,7 +275,7 @@ public class GameFunctions {
     }
 
 
-    public static ArrayList<Enemy> createTestEnemyWave(JSONObject actualGame, float scale) {
+    public static ArrayList<Enemy> createTestEnemyWave() {
         ArrayList<Enemy> enemies = new ArrayList<>();
 
         enemies.add(new Warrior());

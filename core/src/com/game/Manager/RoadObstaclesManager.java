@@ -16,10 +16,14 @@ import java.util.Iterator;
 public class RoadObstaclesManager {
     private ArrayList<Enemy> enemies;
     private ArrayList<RoadObstacle> roadObstacles;
+    private int[][] buildArr;
 
-    public RoadObstaclesManager(ArrayList<Enemy> enemies, ArrayList<RoadObstacle> roadObstacles){
+    public RoadObstaclesManager(ArrayList<Enemy> enemies, int[][] buildArr){
         this.enemies = enemies;
-        this.roadObstacles = roadObstacles;
+        this.roadObstacles = new ArrayList<>();
+        this.buildArr = buildArr;
+
+
 
     }
 
@@ -54,6 +58,7 @@ public class RoadObstaclesManager {
 
             if (r.getUsesLeft() <= 0)
             {
+                buildArr[r.getTileX()][r.getTileY()]=0;
                 rIterator.remove();
             }
 
@@ -69,4 +74,14 @@ public class RoadObstaclesManager {
     }
 
 
+    public void initObstacles(ArrayList<RoadObstacle> roadObstaclesLoad) {
+        this.roadObstacles = roadObstaclesLoad;
+    }
+
+    public int[][] getArr() {
+        return buildArr;
+    }
+
+
 }
+
