@@ -50,7 +50,7 @@ public class Tower extends Actor {
     private float reloadTime;
     private float rotation;
     private int lvl;
-    private int price;
+    private int worth;
     private ArrayList<Bullet> towerBullets;
 
     private float stateTime;
@@ -74,6 +74,7 @@ public class Tower extends Actor {
         this.isMouseEntered = false;
         this.timeToShoot = 0;
         this.reloadTime = turretFirstLevel.getFloat("reload");
+        this.worth = turretFirstLevel.getInt("cost");
         this.scale = scale;
         this.towerBullets = new ArrayList<>();
         this.bulletSplash = turretFirstLevel.getInt("splash");
@@ -92,7 +93,6 @@ public class Tower extends Actor {
         this.lvl = turretFirstLevel.getInt("lvl");
         this.enemyToFollow = null;
 
-        this.price = turretFirstLevel.getInt("cost");
 
         Texture spriteMap = new Texture(Gdx.files.internal(path));
         TextureRegion[][] spritePosition = TextureRegion.split(spriteMap, 64, 64); // frame width and height get from extended class
@@ -188,6 +188,9 @@ public class Tower extends Actor {
         this.range = lvlUp.getFloat("range");
         this.lvl = lvlUp.getInt("lvl");
 
+        this.worth = 0;
+        for (int j=0 ; j<lvl; j++)
+            this.worth += towerLevels.getJSONObject(j).getInt("cost");
 
     }
 
@@ -196,6 +199,7 @@ public class Tower extends Actor {
         {
             if (base.getMoney() >= towerLevels.getJSONObject(lvl).getInt("cost")) {
                 JSONObject lvlUp = towerLevels.getJSONObject(lvl);
+                worth += lvlUp.getInt("cost");
                 base.decreaseMoney(lvlUp.getInt("cost"));
                 reloadTime = lvlUp.getFloat("reload");
                 bulletDamage = lvlUp.getFloat("dmg");
@@ -340,4 +344,7 @@ public class Tower extends Actor {
 
     }
 
+    public int getSellWorth() {
+        return worth/2;
+    }
 }

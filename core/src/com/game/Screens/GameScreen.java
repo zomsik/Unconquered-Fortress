@@ -166,10 +166,8 @@ public class GameScreen implements Screen {
 
         enemyManager = new EnemyManager(base, scale, GameFunctions.calculatePath(worldManager.getPath(), scale));
         towerManager = new TowerManager(enemyManager.getEnemies());
-
-
-
         roadObstaclesManager = new RoadObstaclesManager(enemyManager.getEnemies(), buildArr);
+
 
         table_map = worldManager.drawWorld(mapArr, scale);
 
@@ -250,7 +248,7 @@ public class GameScreen implements Screen {
         ArrayList<RoadObstacle> roadObstaclesLoad = new ArrayList<>();
         for (int b=0; b<roadObstacles.length(); b++)
         {
-            buildArr[roadObstacles.getJSONObject(b).getInt("x")][roadObstacles.getJSONObject(b).getInt("y")] = 1;
+            buildArr[roadObstacles.getJSONObject(b).getInt("x")][roadObstacles.getJSONObject(b).getInt("y")] = 2;
 
             switch(roadObstacles.getJSONObject(b).getString("name"))
             {
@@ -400,21 +398,28 @@ public class GameScreen implements Screen {
         if (Objects.equals(chosenOperation,"sell")) {
 
             if (buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] == 1) {
+                base.increaseMoney(towerManager.getSellWorth(lastClickedMapTile.getX(),lastClickedMapTile.getY()));
                 towerManager.sellTower(lastClickedMapTile.getX(),lastClickedMapTile.getY());
                 buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] = 0;
-
             }
+
+            if (buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] == 2) {
+                base.increaseMoney(roadObstaclesManager.getSellWorth(lastClickedMapTile.getX(),lastClickedMapTile.getY()));
+                roadObstaclesManager.sellRoadObstacle(lastClickedMapTile.getX(),lastClickedMapTile.getY());
+                buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] = 0;
+            }
+
         }
 
         if (Objects.equals(chosenOperation,"stickyRoad")) {
             if (Objects.equals(lastClickedMapTile.getName(), "path") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
-                if (base.getMoney() >= 50)
+                if (base.getMoney() >= 100)
                 {
-                    base.decreaseMoney(50);
+                    base.decreaseMoney(100);
                     RoadObstacle r = new RoadSticky(base, lastClickedMapTile.getX(),lastClickedMapTile.getY(), scale, this);
                     roadObstaclesManager.buyObstacle(r);
                     stage.addActor(r);
-                    buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
+                    buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=2;
 
                 }else{
                     showInfoDialog();
@@ -425,13 +430,13 @@ public class GameScreen implements Screen {
 
         if (Objects.equals(chosenOperation,"roadNeedles")) {
             if (Objects.equals(lastClickedMapTile.getName(), "path") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
-                if (base.getMoney() >= 50)
+                if (base.getMoney() >= 100)
                 {
-                    base.decreaseMoney(50);
+                    base.decreaseMoney(100);
                     RoadObstacle r = new RoadNeedles(base, lastClickedMapTile.getX(),lastClickedMapTile.getY(), scale, this);
                     roadObstaclesManager.buyObstacle(r);
                     stage.addActor(r);
-                    buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
+                    buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=2;
 
                 }else{
                     showInfoDialog();
@@ -592,6 +597,20 @@ public class GameScreen implements Screen {
 
         if (Objects.equals(lastClickedMapTile.getName(), "path") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0 && (Objects.equals(chosenOperation,"roadNeedles") || Objects.equals(chosenOperation,"stickyRoad")))
             shouldRenderPreview = true;
+
+        if (Objects.equals(chosenOperation,"sell")) {
+
+            if (buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] == 1) {
+                System.out.println(towerManager.getSellWorth(lastClickedMapTile.getX(),lastClickedMapTile.getY()));
+            }
+
+            if (buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] == 2) {
+                System.out.println(roadObstaclesManager.getSellWorth(lastClickedMapTile.getX(),lastClickedMapTile.getY()));
+            }
+
+        }
+
+
     }
 
     public void showInfoDialog(){
@@ -914,6 +933,8 @@ public class GameScreen implements Screen {
 
         loadTowers();
         loadObstacles();
+        towerManager.enableListeners();
+        roadObstaclesManager.enableListeners();
 
     }
 

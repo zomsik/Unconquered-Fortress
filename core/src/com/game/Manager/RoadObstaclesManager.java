@@ -85,6 +85,20 @@ public class RoadObstaclesManager {
         return buildArr;
     }
 
+    public void sellRoadObstacle(int x, int y) {
+        roadObstacles.removeIf(r -> r.getTileX() == x && r.getTileY() == y);
+    }
+
+    public int getSellWorth(int x, int y) {
+
+        for (RoadObstacle r : roadObstacles)
+            if (r.getTileX() == x && r.getTileY() == y)
+                return r.getSellWorth();
+
+        return 0;
+    }
+
+
 
     public void disableListeners() {
         isDisabledListeners = true;

@@ -119,7 +119,9 @@ public class RoadObstacle extends Actor {
         this.setTouchable(Touchable.disabled);
     }
 
-
+    public int getSellWorth() {
+        return 5*usesLeft;
+    }
 
     public void update(float deltaTime, ArrayList<Enemy> enemies){
 

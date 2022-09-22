@@ -2,7 +2,6 @@ package com.game.Manager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.game.Entity.Base;
 import com.game.Entity.Enemy.Enemy;
 import com.game.Entity.Tower.Tower;
 import org.json.JSONArray;
@@ -38,20 +37,17 @@ public class TowerManager {
 
     public void sellTower(int x, int y) {
 
-        Iterator<Tower> tIterator = towers.iterator();
-        while (tIterator.hasNext()) {
-            Tower t = tIterator.next();
+        towers.removeIf(t -> t.getTileX() == x && t.getTileY() == y);
+    }
 
-            if(t.getTileX() == x && t.getTileY() == y)
-            {
-                //increase money for selling
-                // return money for example public float sellTower
-                tIterator.remove();
-                return;
+    public int getSellWorth(int x, int y) {
+
+        for (Tower t : towers) {
+            if (t.getTileX() == x && t.getTileY() == y) {
+                return t.getSellWorth();
             }
-
         }
-
+        return 0;
     }
 
     public JSONArray getTowers() {
