@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.Entity.Base;
 import com.game.Entity.Enemy.Enemy;
@@ -38,7 +39,6 @@ public class RoadObstacle extends Actor {
         this.name = name;
         this.base = base;
 
-
         this.usesLeft = 10;
 
         this.tileX = tileX;
@@ -59,26 +59,31 @@ public class RoadObstacle extends Actor {
 
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 getBase().setUsesLeft(getUsesLeft());
+                getBase().setRoadObstacleId(getThis().hashCode());
+
                 if(getUsesLeft()>0)
                     getBase().setInfoToDisplay(5, getName());
-                else
-                    getBase().setInfoToDisplay(0);
 
 
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-
+                getBase().setRoadObstacleId(0);
                 getBase().setInfoToDisplay(0);
             }
 
         });
 
         this.setBounds(position.x,position.y,textureSize,textureSize);
+        this.disableListeners();
 
 
 
 
+    }
+
+    private RoadObstacle getThis() {
+        return this;
     }
 
     public Base getBase() {
@@ -106,6 +111,15 @@ public class RoadObstacle extends Actor {
         return usesLeft;
     }
 
+    public void enableListeners(){
+        this.setTouchable(Touchable.enabled);
+    }
+
+    public void disableListeners(){
+        this.setTouchable(Touchable.disabled);
+    }
+
+
 
     public void update(float deltaTime, ArrayList<Enemy> enemies){
 
@@ -129,6 +143,11 @@ public class RoadObstacle extends Actor {
                     }
 
                     usesLeft-=1;
+                    if (getBase().getRoadObstacleId()==this.hashCode())
+                    {
+                        getBase().setUsesLeft(usesLeft);
+                    }
+
 
                     break;
 

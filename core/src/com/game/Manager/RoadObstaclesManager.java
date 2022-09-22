@@ -18,11 +18,13 @@ public class RoadObstaclesManager {
     private ArrayList<RoadObstacle> roadObstacles;
     private int[][] buildArr;
 
+    private boolean isDisabledListeners;
+
     public RoadObstaclesManager(ArrayList<Enemy> enemies, int[][] buildArr){
         this.enemies = enemies;
         this.roadObstacles = new ArrayList<>();
         this.buildArr = buildArr;
-
+        this.isDisabledListeners = false;
 
 
     }
@@ -82,6 +84,28 @@ public class RoadObstaclesManager {
     public int[][] getArr() {
         return buildArr;
     }
+
+
+    public void disableListeners() {
+        isDisabledListeners = true;
+        for (RoadObstacle r : roadObstacles) {
+            r.disableListeners();
+        }
+    }
+
+    public void enableListeners() {
+        isDisabledListeners = false;
+        for (RoadObstacle r : roadObstacles) {
+            r.enableListeners();
+        }
+    }
+
+
+    public boolean getIsDisabledListeners(){
+        return isDisabledListeners;
+    }
+
+
 
 
 }

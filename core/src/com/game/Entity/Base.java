@@ -22,6 +22,7 @@ public class Base {
     private JSONObject multipliers;
 
     private int usesLeft;
+    private int roadObstacleId;
 
 
 
@@ -133,6 +134,16 @@ public class Base {
         this.infoToDisplay = infoToDisplay;
         infoToDisplayName = name;
     }
+
+    public void setRoadObstacleId(int hashCode) {
+        roadObstacleId = hashCode;
+    }
+
+    public int getRoadObstacleId() {
+        return roadObstacleId;
+    }
+
+
 
     public JSONObject getInfoToDisplayObjectNow() {
         return infoToDisplayObjectNow;

@@ -269,6 +269,9 @@ public class StatsTableManager {
         obstacleUses = new TextField("Uses left: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         obstacleUsesValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
 
+        obstacleUses.setAlignment(Align.center);
+        obstacleUsesValue.setAlignment(Align.center);
+
         obstacleTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
         obstacleTable.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackground)));
         obstacleTable.row().padBottom(4*scale);

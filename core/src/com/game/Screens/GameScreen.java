@@ -316,19 +316,25 @@ public class GameScreen implements Screen {
             chosenOperation = null;
             chosenOperationX = -1;
             chosenOperationY = -1;
+
+            if (towerManager.getIsDisabledListeners() || roadObstaclesManager.getIsDisabledListeners()) {
+                towerManager.enableListeners();
+                roadObstaclesManager.enableListeners();
+            }
         }
         else {
-            if (chosenOperation!=null)
+            if (chosenOperation != null)
                 operationsSelectedArr[chosenOperationY][chosenOperationX].setDrawable(images_buildings, "empty");
             chosenOperation = lastClickedOperationTile.getName();
             chosenOperationX = lastClickedOperationTile.getX();
             chosenOperationY = lastClickedOperationTile.getY();
             operationsSelectedArr[chosenOperationY][chosenOperationX].setDrawable(images_buildings, "chosen");
 
-            if (Objects.equals(chosenOperation, "sell"))
+            if (!towerManager.getIsDisabledListeners() || !roadObstaclesManager.getIsDisabledListeners())
+            {
                 towerManager.disableListeners();
-            else if (!Objects.equals(chosenOperation, "sell") && towerManager.getIsDisabledListeners() )
-                towerManager.enableListeners();
+                roadObstaclesManager.disableListeners();
+            }
         }
 
 

@@ -153,7 +153,7 @@ public class Tower extends Actor {
         });
 
         this.setBounds(position.x,position.y,towerTextureSize,towerTextureSize);
-
+        this.disableListeners();
 
 
     }
