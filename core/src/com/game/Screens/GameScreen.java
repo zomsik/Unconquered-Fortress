@@ -583,6 +583,9 @@ public class GameScreen implements Screen {
     public void mouseEnterMapTile() {
         if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0 && (Objects.equals(chosenOperation,"melee") || Objects.equals(chosenOperation,"crossbow") || Objects.equals(chosenOperation,"mage") || Objects.equals(chosenOperation,"cannon")))
             shouldRenderPreview = true;
+
+        if (Objects.equals(lastClickedMapTile.getName(), "path") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0 && (Objects.equals(chosenOperation,"roadNeedles") || Objects.equals(chosenOperation,"stickyRoad")))
+            shouldRenderPreview = true;
     }
 
     public void showInfoDialog(){
@@ -963,6 +966,7 @@ public class GameScreen implements Screen {
 
                 if (shouldRenderPreview)
                     GameFunctions.renderPreviewBuilding(spritebatch, shapeRenderer, lastClickedMapTile, turretLevels, chosenOperation, scale);
+
 
                 spritebatch.end();
 

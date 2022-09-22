@@ -25,10 +25,8 @@ import com.game.Screens.GameScreen;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 public class GameFunctions {
 
@@ -393,25 +391,25 @@ public class GameFunctions {
 
 
     public static void renderPreviewBuilding(SpriteBatch spritebatch, ShapeRenderer shapeRenderer, LastClickedTile tile, JSONObject turretLevels, String chosenOperation, float scale) {
-        float range = turretLevels.getJSONArray(chosenOperation+"Tower").getJSONObject(0).getFloat("range")*scale;
-        TextureRegion towerPreview = new TextureRegion();
-        float towerTextureSize=64;
 
+        TextureRegion preview = new TextureRegion(new Texture(Gdx.files.internal("assets/game/towers/"+chosenOperation+"Preview.png")));
+        float textureSize = 64;
         Vector2 position = new Vector2(tile.getX() * scale * 64 + Gdx.graphics.getWidth() / 20,(9 - tile.getY()) * scale * 64 + (Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 30 * 16) / 2);
-        towerPreview = new TextureRegion(new Texture(Gdx.files.internal("assets/game/towers/"+chosenOperation+"Preview.png")));
+        spritebatch.draw(preview, position.x, position.y,textureSize*scale,textureSize*scale );
 
-        spritebatch.draw(towerPreview, position.x, position.y,towerTextureSize*scale,towerTextureSize*scale );
+        if ((!Objects.equals(chosenOperation, "roadNeedles") && !Objects.equals(chosenOperation, "stickyRoad"))) {
 
-        spritebatch.end();
+            float range = turretLevels.getJSONArray(chosenOperation + "Tower").getJSONObject(0).getFloat("range") * scale;
 
-        shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.circle(position.x+scale*towerTextureSize/2, position.y+scale*towerTextureSize/2, range);
-        shapeRenderer.end();
+            spritebatch.end();
 
-        spritebatch.begin();
+            shapeRenderer.setColor(Color.GREEN);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.circle(position.x+scale*textureSize/2, position.y+scale*textureSize/2, range);
+            shapeRenderer.end();
 
-
+            spritebatch.begin();
+        }
 
 
     }
