@@ -33,6 +33,7 @@ public class RoadObstacle extends Actor {
     private int textureSize;
     private List<Integer> attackedEnemies;
     private ArrayList<Enemy> slowedEnemies;
+    private boolean isOnMap;
 
 
     public RoadObstacle(String name, Base base, String path, int tileX, int tileY, float scale, GameScreen gameScreen) {
@@ -45,6 +46,7 @@ public class RoadObstacle extends Actor {
         this.tileY = tileY;
         this.scale = scale;
         this.textureSize = 64;
+        this.isOnMap = true;
 
         attackedEnemies = new ArrayList<>();
         slowedEnemies = new ArrayList<>();
@@ -53,9 +55,14 @@ public class RoadObstacle extends Actor {
 
         this.position = new Vector2(tileX * scale * 64 + Gdx.graphics.getWidth() / 20,(9 - tileY) * scale * 64 + (Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 30 * 16) / 2);
 
-
         this.addListener(new ClickListener() {
 
+            private boolean isClicked = false;
+
+            public void clicked(InputEvent event, float x, float y) {
+                isClicked = true;
+
+            }
 
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 getBase().setUsesLeft(getUsesLeft());
@@ -68,8 +75,12 @@ public class RoadObstacle extends Actor {
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                getBase().setRoadObstacleId(0);
-                getBase().setInfoToDisplay(0);
+                if(!isClicked) {
+                    getBase().setRoadObstacleId(0);
+                    getBase().setInfoToDisplay(0);
+                }
+                isClicked=false;
+
             }
 
         });
@@ -80,6 +91,18 @@ public class RoadObstacle extends Actor {
 
 
 
+    }
+
+    public ArrayList<Enemy> getSlowedEnemies() {
+        return slowedEnemies;
+    }
+
+    public boolean getIsOnMap() {
+        return isOnMap;
+    }
+
+    public void setIsOnMap(boolean onMap) {
+        isOnMap = onMap;
     }
 
     private RoadObstacle getThis() {

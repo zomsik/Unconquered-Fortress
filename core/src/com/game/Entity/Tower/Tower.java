@@ -130,9 +130,11 @@ public class Tower extends Actor {
 
 
         this.addListener(new ClickListener() {
+            private boolean isClicked = false;
 
             public void clicked(InputEvent event, float x, float y) {
                 TowerLevelUp();
+                isClicked = true;
 
             }
 
@@ -146,8 +148,11 @@ public class Tower extends Actor {
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                isMouseEntered = false;
-                getBase().setInfoToDisplay(0);
+                if(!isClicked) {
+                    isMouseEntered = false;
+                    getBase().setInfoToDisplay(0);
+                }
+                isClicked=false;
             }
 
         });

@@ -60,9 +60,14 @@ public class RoadObstaclesManager {
 
             if (r.getUsesLeft() <= 0)
             {
-                buildArr[r.getTileX()][r.getTileY()]=0;
-                r.setBounds(0,0,0,0);
-                rIterator.remove();
+                if (r.getIsOnMap()) {
+                    r.setIsOnMap(false);
+                    buildArr[r.getTileX()][r.getTileY()] = 0;
+                    r.setBounds(0, 0, 0, 0);
+                    r.
+                }
+                if(r.getSlowedEnemies().size()==0)
+                    rIterator.remove();
             }
 
         }
