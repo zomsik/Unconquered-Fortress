@@ -64,6 +64,7 @@
   "hard" : "hard",
   "bResume": "Resume",
   "bNextWave": "Next Wave",
-  "hp_field": "HP: "
+  "hp_field": "HP: ",
+  "bReplay": "Replay"
 
 }

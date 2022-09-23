@@ -64,6 +64,7 @@
   "hard" : "trudny",
   "bResume": "Wznów",
   "bNextWave": "Następna fala",
-  "hp_field": "PŻ: "
+  "hp_field": "PŻ: ",
+  "bReplay": "Powtórz"
 
 }

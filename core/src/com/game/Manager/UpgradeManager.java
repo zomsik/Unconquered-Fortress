@@ -210,11 +210,14 @@ public class UpgradeManager {
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
         table_upgrade.add(uLuck.getImage());
-        table_upgrade.padBottom(16*scale);
-        table_upgrade.padRight(16*scale);
+        table_upgrade.padBottom(16);
+        table_upgrade.padLeft(16);
+        table_upgrade.padRight(16);
+
+        table_upgrade.setScale(scale);
     }
 
-    public Dialog returnUpgradeDialog(){
+/*    public Dialog returnUpgradeDialog(){
         return upgradeDialog;
     }
     public void setUpgradeDialog(Dialog upgradeDialog, Table table_upgrade, Label.LabelStyle labelStyle){
@@ -223,7 +226,7 @@ public class UpgradeManager {
         upgradeDialog.text(languageManager.getValue(languageManager.getLanguage(), "upgrade_dialog_field_text"), labelStyle);
         upgradeDialog.add(table_upgrade);
         upgradeDialog.row();
-    }
+    }*/
 
     private void initUpgrades(){
         upgradeList = new ArrayList<>();
