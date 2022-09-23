@@ -407,6 +407,7 @@ public class MenuScreen implements Screen  {
                 menuDialog.removeActor(table_dialogLogin);
                 menuDialog.addActor(table_dialogRegister);
                 menuDialog.getButtonTable().clearChildren();
+                tDialogRegisterErrors.setVisible(false);
                 //menuDialog.button(bDialogRegister);
                 //menuDialog.button(bDialogRegisterLogin);
             }
@@ -486,6 +487,7 @@ public class MenuScreen implements Screen  {
                 menuDialog.removeActor(table_dialogRegister);
                 menuDialog.addActor(table_dialogLogin);
                 menuDialog.getButtonTable().clearChildren();
+                tDialogLoginErrors.setVisible(false);
                 //menuDialog.button(bDialogLogin);
                 //menuDialog.button(bDialogLoginRegister);
             }

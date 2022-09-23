@@ -668,14 +668,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
-
         Gdx.input.setInputProcessor(stage);
 
-
-
-
-
+        upgradeManager = new UpgradeManager(languageManager, font, base, fileReader.downloadFileAsJSONObject("assets/upgrades.json"), actualGame.getJSONArray("unlockedUpgrades"));
 
         Texture bg = new Texture(new FileHandle("assets/profile_banner.png"));
 
@@ -697,7 +692,6 @@ public class GameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                // upgradeDialog.add(upgradeManager.returnUpgradeTable());
                 base.setState(Base.State.Paused);
-                upgradeManager = new UpgradeManager(languageManager, font, base, fileReader.downloadFileAsJSONObject("assets/upgrades.json"), actualGame.getJSONArray("unlockedUpgrades"));
                 upgradeDialog.add(upgradeManager.returnUpgradeTable());
                 upgradeDialog.show(pauseStage);
 
