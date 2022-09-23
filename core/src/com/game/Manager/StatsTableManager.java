@@ -249,7 +249,7 @@ public class StatsTableManager {
 
 
         damageMultiplier = new TextField("dmgMultiplier: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
-        damageMultiplierValue = new TextField("1.0", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        damageMultiplierValue = new TextField("1.0", textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
 
         damageMultiplier.setAlignment(Align.center);
         damageMultiplierValue.setAlignment(Align.center);
@@ -267,7 +267,7 @@ public class StatsTableManager {
 
 
         obstacleUses = new TextField("Uses left: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
-        obstacleUsesValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        obstacleUsesValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
 
         obstacleUses.setAlignment(Align.center);
         obstacleUsesValue.setAlignment(Align.center);
