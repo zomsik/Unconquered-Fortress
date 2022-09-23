@@ -188,22 +188,10 @@ public class GameScreen implements Screen {
 
         table_menuPause.debug();
 
-
-
-
-
-        if(Gdx.graphics.getWidth() < 721)
-            upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/upgrade_dialog_720.png"))))));
-        else
-            upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/upgrade_dialog.png"))))));
-
-
-
-
-
-
-
-
+        upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/upgrade_dialog_720.png"))))));
+        upgradeDialog.row();
+        upgradeDialog.setBounds(0,0, Gdx.graphics.getWidth()/10*8,Gdx.graphics.getHeight()/10*8);
+        upgradeDialog.debug();
 
         buttonStyleManager = new ButtonStyleManager();
         textFieldStyleManager = new TextFieldStyleManager();
@@ -670,7 +658,7 @@ public class GameScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        upgradeManager = new UpgradeManager(languageManager, font, base, fileReader.downloadFileAsJSONObject("assets/upgrades.json"), actualGame.getJSONArray("unlockedUpgrades"));
+        upgradeManager = new UpgradeManager(languageManager, font, base, fileReader.downloadFileAsJSONObject("assets/upgrades.json"), actualGame.getJSONArray("unlockedUpgrades"), scale);
 
         Texture bg = new Texture(new FileHandle("assets/profile_banner.png"));
 
@@ -692,6 +680,9 @@ public class GameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                // upgradeDialog.add(upgradeManager.returnUpgradeTable());
                 base.setState(Base.State.Paused);
+                Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+                upgradeDialog.text(languageManager.getValue(languageManager.getLanguage(), "upgrade_dialog_field_text"), labelStyle);
+                upgradeDialog.setScale(scale);
                 upgradeDialog.add(upgradeManager.returnUpgradeTable());
                 upgradeDialog.show(pauseStage);
 

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -42,12 +43,15 @@ public class UpgradeManager {
 
     private JSONArray unlockedUpgrades;
 
-    public UpgradeManager(LanguageManager languageManager, BitmapFont font, Base base, JSONObject upgrades, JSONArray unlockedUpgrades){
+    private float scale;
+
+    public UpgradeManager(LanguageManager languageManager, BitmapFont font, Base base, JSONObject upgrades, JSONArray unlockedUpgrades, float scale){
         this.images_upgrades = new Skin(new TextureAtlas("assets/icons/upgrade_icons.pack"));;
         this.languageManager = languageManager;
         this.base = base;
         this.upgrades = upgrades;
         this.unlockedUpgrades = unlockedUpgrades;
+        this.scale = scale;
 
         Drawable tooltipBackground = new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/settings_dialog.png"))));
         textTooltipStyle = new TextTooltip.TextTooltipStyle();
@@ -68,7 +72,9 @@ public class UpgradeManager {
 
     public void createUpgradeTable(){
         this.table_upgrade = new Table();
-        table_upgrade.setBounds(0,0,Gdx.graphics.getWidth()/10*8, Gdx.graphics.getHeight()/10*7);
+
+        table_upgrade.setBounds(0,0, Gdx.graphics.getWidth()/10*8,Gdx.graphics.getHeight()/10*8);
+
         table_upgrade.add(uFork.getImage());
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
         table_upgrade.add(uScythe.getImage());
@@ -204,7 +210,8 @@ public class UpgradeManager {
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
         table_upgrade.add(uLuck.getImage());
-        table_upgrade.padBottom(16);
+        table_upgrade.padBottom(16*scale);
+        table_upgrade.padRight(16*scale);
     }
 
     public Dialog returnUpgradeDialog(){
@@ -212,7 +219,7 @@ public class UpgradeManager {
     }
     public void setUpgradeDialog(Dialog upgradeDialog, Table table_upgrade, Label.LabelStyle labelStyle){
         this.upgradeDialog = upgradeDialog;
-        upgradeDialog.setBounds(0,0, Gdx.graphics.getWidth()/10*8,Gdx.graphics.getHeight()/10*8);
+        //upgradeDialog.setBounds(0,0, Gdx.graphics.getWidth()/10*8,Gdx.graphics.getHeight()/10*8);
         upgradeDialog.text(languageManager.getValue(languageManager.getLanguage(), "upgrade_dialog_field_text"), labelStyle);
         upgradeDialog.add(table_upgrade);
         upgradeDialog.row();
