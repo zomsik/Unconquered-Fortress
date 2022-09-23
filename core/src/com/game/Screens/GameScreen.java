@@ -953,8 +953,12 @@ public class GameScreen implements Screen {
         stage.draw();
 
 
-        if ((statsTableManager.getInfoToDisplay()!=base.getInfoToDisplay()) || (base.getInfoToDisplay()==1 && chosenOperation!=base.getInfoToDisplayName()) )
+        if ((statsTableManager.getInfoToDisplay()!=base.getInfoToDisplay()) || (base.getInfoToDisplay()==1 && chosenOperation!=base.getInfoToDisplayName()) || base.isShouldUpdateInfo())
+        {
+            if (base.isShouldUpdateInfo())
+                base.setShouldUpdateInfo(false);
             updateInfoDisplay();
+        }
 
 
 

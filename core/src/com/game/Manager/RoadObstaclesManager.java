@@ -64,7 +64,7 @@ public class RoadObstaclesManager {
                     r.setIsOnMap(false);
                     buildArr[r.getTileX()][r.getTileY()] = 0;
                     r.setBounds(0, 0, 0, 0);
-                    r.
+                    r.clearImage();
                 }
                 if(r.getSlowedEnemies().size()==0)
                     rIterator.remove();

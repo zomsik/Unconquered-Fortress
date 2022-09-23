@@ -93,6 +93,10 @@ public class RoadObstacle extends Actor {
 
     }
 
+    public void clearImage(){
+        this.texture.setTexture(new Texture(Gdx.files.internal("assets/game/towers/clearImage.png")));
+    }
+
     public ArrayList<Enemy> getSlowedEnemies() {
         return slowedEnemies;
     }

@@ -323,8 +323,11 @@ public class UpgradeManager {
         for (Upgrade u: upgradeList)
         {
             u.getImage().addListener(new ClickListener(){
+                private boolean isClicked = false;
+
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    isClicked = true;
                     System.out.println("kliklem na:" + u.getUpgradeName());
                     if (!u.isMaxLevel())
                     {
@@ -347,10 +350,17 @@ public class UpgradeManager {
                         }
                     }
 
+
+
                 }
 
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                    if (tooltip!=null) {
+                        tooltip.exit(event, x, y, pointer, fromActor);
+                        tooltip=null;
+                    }
+
                     base.setInfoToDisplay(4);
                     Label information;
                     information = u.returnInformation(textTooltipStyle.label);
@@ -362,7 +372,12 @@ public class UpgradeManager {
 
                 @Override
                 public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    base.setInfoToDisplay(0);
+                    if (!isClicked) {
+                        base.setInfoToDisplay(0);
+                    } else {
+                        base.setShouldUpdateInfo(true);
+                        isClicked = false;
+                    }
                     tooltip.exit(event, x, y, pointer, fromActor);
                 }
 
@@ -371,6 +386,18 @@ public class UpgradeManager {
 
         }
 
+    }
+
+    public TextTooltip getTooltip() {
+        return tooltip;
+    }
+
+    public void setTooltip(TextTooltip tooltip) {
+        this.tooltip = tooltip;
+    }
+
+    public UpgradeManager getThis(){
+        return this;
     }
 
     private Upgrade findUpgrade(String upgradeName) {

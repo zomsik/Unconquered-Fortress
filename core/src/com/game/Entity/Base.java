@@ -23,7 +23,7 @@ public class Base {
 
     private int usesLeft;
     private int roadObstacleId;
-
+    private boolean shouldUpdateInfo;
 
 
     public enum State{
@@ -38,6 +38,7 @@ public class Base {
         this.infoToDisplayName = "";
         this.infoToDisplayObjectNow = null;
         this.infoToDisplayObjectUpgraded = null;
+        this.shouldUpdateInfo = false;
 
         state = State.Running;
 
@@ -90,6 +91,15 @@ public class Base {
             multipliers.put(key, multipliers.getFloat(key)+addMultipliers.getFloat(key));
         }
 
+    }
+
+
+    public boolean isShouldUpdateInfo() {
+        return shouldUpdateInfo;
+    }
+
+    public void setShouldUpdateInfo(boolean shouldUpdateInfo) {
+        this.shouldUpdateInfo = shouldUpdateInfo;
     }
 
     public int getUsesLeft() {
