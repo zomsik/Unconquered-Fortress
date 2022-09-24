@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
     private BitmapFont font;
     private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack, taButtonsPause, taStatsCover;
     private Skin images, images_default, dialog, images_map, images_buildings, images_pause, images_stats;
-    private TextButton  bSaveDialog, bExitDialog, bTest, bNextWave, bResume, bPauseMenu, bUpgrade;
+    private TextButton  bSaveDialog, bExitDialog, bSaveAndExitDialog, bTest, bNextWave, bResume, bPauseMenu, bUpgrade;
 
     private Table table_info, table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_dialogGameOver, table_enemies, table_stats, table_menuPause;
     private TextField hpTextField,hpTextValue, goldTextField, goldTextValue, GameOverTitle;
@@ -184,6 +184,7 @@ public class GameScreen implements Screen {
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
         bSaveDialog  = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bExitDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bSaveAndExitDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSaveAndExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         //bTest = new TextButton("test", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bNextWave = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bNextWave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bResume = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bResume"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
@@ -767,23 +768,16 @@ public class GameScreen implements Screen {
         bSaveDialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                actualGame.put("buildings",towerManager.getTowers());
-                actualGame.put("gold",base.getMoney());
-                actualGame.put("wave",base.getWave());
-                actualGame.put("roadObstacles", roadObstaclesManager.getRoadObstacles());
+                saveGame();
+            }
 
-                if (isLocal)
-                {
 
-                    fileReader.setSave(actualGame);
-                }
-                else
-                {
-
-                    JSONObject saveResponse = connectionManager.requestSend(actualGame, "api/uploadSave");
-                    System.out.println(saveResponse);
-
-                }
+        });
+        bSaveAndExitDialog.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                saveGame();
+                game.setScreen(new MenuScreen(game));
 
 
             }
@@ -836,7 +830,9 @@ public class GameScreen implements Screen {
         table_dialogPause.row();
         table_dialogPause.add(bSaveDialog).width(table_dialogPause.getWidth()/20*16).padRight(table_dialogPause.getWidth()/10);
         table_dialogPause.row();
-        table_dialogPause.add(bExitDialog).padBottom(table_dialogPause.getHeight()/2).width(table_dialogPause.getWidth()/20*16).padRight(table_dialogPause.getWidth()/10);
+        table_dialogPause.add(bSaveAndExitDialog).width(table_dialogPause.getWidth()/20*16).padRight(table_dialogPause.getWidth()/10);
+        table_dialogPause.row();
+        table_dialogPause.add(bExitDialog).padBottom(table_dialogPause.getHeight()/2-16).width(table_dialogPause.getWidth()/20*16).padRight(table_dialogPause.getWidth()/10);
         table_dialogPause.row();
         pauseDialog.add(table_dialogPause);
 
@@ -856,6 +852,10 @@ public class GameScreen implements Screen {
                 if (keycode == Input.Keys.ESCAPE) {
                     pauseDialog.show(pauseStage);
                     base.setState(Base.State.Paused);
+                    return true;
+                }
+                if(keycode == Input.Keys.F5){
+                    saveGame();
                     return true;
                 }
                 return super.keyDown(event, keycode);
@@ -932,7 +932,23 @@ public class GameScreen implements Screen {
         roadObstaclesManager.enableListeners();
 
     }
+    public void saveGame(){
+        actualGame.put("buildings",towerManager.getTowers());
+        actualGame.put("gold",base.getMoney());
+        actualGame.put("wave",base.getWave());
+        actualGame.put("roadObstacles", roadObstaclesManager.getRoadObstacles());
 
+        if (isLocal)
+        {
+            fileReader.setSave(actualGame);
+        }
+        else
+        {
+            JSONObject saveResponse = connectionManager.requestSend(actualGame, "api/uploadSave");
+            System.out.println(saveResponse);
+
+        }
+    }
     public void updateInfoDisplay(){
         statsTableManager.setInfoToDisplay(base.getInfoToDisplay(), base.getInfoToDisplayObjectNow(),  base.getInfoToDisplayObjectUpgraded(), base.getInfoToDisplayName());
         table_info.remove();

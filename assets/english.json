@@ -104,6 +104,7 @@
   "upgrade": "Upgrade",
   "hammer": "Hammer",
   "betterUpgrade": "Reinforcement",
-  "luck": "Luck"
+  "luck": "Luck",
+  "bSaveAndExit": "Save and Exit"
 
 }
