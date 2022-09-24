@@ -1,5 +1,6 @@
 package com.game.Manager;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -22,10 +23,8 @@ import java.util.Random;
 public class ProfileManager {
 
     public static Table createProfileTable(JSONObject save, BitmapFont font, LanguageManager languageManager, int x, String icon){
-
         Table t = new Table();
         t.setBounds(x, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
-        t.debug();
         t.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/profile_banner.png")))));
 
         TextField.TextFieldStyle tFS = new TextField.TextFieldStyle();
@@ -42,9 +41,11 @@ public class ProfileManager {
         tGold.setAlignment(Align.left);
         TextField tDiamonds = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") + save.getInt("diamonds"), tSM.returnTextFieldStyle(tFS));
         tDiamonds.setAlignment(Align.left);
-        t.add(new Image(new Texture(new FileHandle(icon)))).width(t.getHeight()/20).height(t.getHeight()/20).align(Align.right).padTop(16).padRight(8);
-
-         t.row();
+        Image local = new Image(new Texture(new FileHandle(icon)));
+        local.setHeight(32);
+        local.setWidth(32);
+        t.add(local).align(Align.right).padRight(1);
+        t.row();
         t.add(tDifficulty).width(t.getWidth()/10*9).height(t.getHeight()/10).padLeft(t.getWidth()/10*2);
         t.row();
         t.add(tFinishedMaps).width(t.getWidth()/10*9).height(t.getHeight()/10).padLeft(t.getWidth()/10*2);
@@ -53,8 +54,7 @@ public class ProfileManager {
         t.row();
         t.add(tGold).width(t.getWidth()/10*9).height(t.getHeight()/10).padLeft(t.getWidth()/10*2);
         t.row();
-        t.add(tDiamonds).width(t.getWidth()/10*9).height(t.getHeight()/10).padBottom(t.getHeight()/2-t.getHeight()/10).padLeft(t.getWidth()/10*2);
-
+        t.add(tDiamonds).width(t.getWidth()/10*9).height(t.getHeight()/10).padBottom(t.getHeight()/2-t.getHeight()/10-20).padLeft(t.getWidth()/10*2);
         return t;
     }
 
@@ -118,12 +118,16 @@ public class ProfileManager {
 
     }
 
-    public static Table getDeleteTable(int x) {
+    public static Table getDeleteTable(int x, int y, int width, int height, float scale) {
 
-
+        Image bin = new Image(new Texture("assets/icons/delete.png"));
+        bin.setWidth(width);
+        bin.setHeight(height);
         Table binTable = new Table();
-        binTable.setBounds(x, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
-        binTable.add(new Image(new Texture("assets/icons/delete.png"))).width(binTable.getHeight()/20).height(binTable.getHeight()/20).align(Align.right).padTop(16).padRight(8);
+        binTable.setBounds(x-9*scale, y-12*scale, bin.getWidth(),  bin.getHeight());
+
+
+        binTable.add(bin);
 
         return binTable;
     }

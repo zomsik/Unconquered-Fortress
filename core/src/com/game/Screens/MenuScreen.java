@@ -61,6 +61,8 @@ public class MenuScreen implements Screen  {
     public boolean isDialog = false;
 
     private float scale;
+
+
     private Pixmap cursorColor;
     public MenuScreen(Main game){
         this.game = game;
@@ -94,7 +96,7 @@ public class MenuScreen implements Screen  {
         }
 
         scale = (float) (Gdx.graphics.getWidth() / 1280.0);
-
+        game.setScale(scale);
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bExit, images, fontTitle, "tempmain", "tempmain");
         bExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bExit));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bPlay, images, fontTitle, "tempmain", "tempmain");
