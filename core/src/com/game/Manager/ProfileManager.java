@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.game.Entity.Base;
 import org.json.JSONObject;
 import org.json.simple.JSONArray;
 
@@ -99,4 +100,20 @@ public class ProfileManager {
     }
 
 
+    public static JSONObject getReplaySave(JSONObject actualGame, Base base) {
+
+
+        actualGame.put("finishedMaps",actualGame.getInt("finishedMaps")+1);
+        actualGame.put("diamonds", base.getDiamonds());
+        actualGame.put("wave",0);
+        actualGame.put("health",100);
+        actualGame.put("gold",1000);
+        actualGame.put("terrainModifications", new JSONArray());
+        actualGame.put("buildings", new JSONArray());
+        actualGame.put("roadObstacles", new JSONArray());
+
+        return actualGame;
+
+
+    }
 }
