@@ -343,7 +343,7 @@ public class UpgradeManager {
                     {
                         if (base.getDiamonds()>=u.getCostToUpgrade())
                         {
-                            base.setPassiveUpgrade(u.getUpgrade());
+                            base.setPassiveUpgrade(u.getUpgrade(),false);
 
                             u.levelUp();
 
@@ -424,7 +424,7 @@ public class UpgradeManager {
 
         for (int k=0; k < unlockedUpgrades.length(); k++) {
             Upgrade upgrade = findUpgrade(unlockedUpgrades.getString(k));
-            base.setPassiveUpgrade(upgrade.getUpgrade());
+            base.setPassiveUpgrade(upgrade.getUpgrade(),true);
             upgrade.levelUp();
 
 

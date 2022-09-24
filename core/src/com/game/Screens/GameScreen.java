@@ -807,7 +807,8 @@ public class GameScreen implements Screen {
         bGameOverReplay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game, actualGame, isLocal));
+
+                game.setScreen(new GameScreen(game, ProfileManager.getReplaySave(actualGame,base), isLocal));
             }
         });
 

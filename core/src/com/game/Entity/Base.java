@@ -79,8 +79,9 @@ public class Base {
     }
 
 
-    public void setPassiveUpgrade(JSONObject upgrade) {
-        this.diamonds -= upgrade.getInt("cost");
+    public void setPassiveUpgrade(JSONObject upgrade, boolean isLoaded) {
+        if (!isLoaded)
+            this.diamonds -= upgrade.getInt("cost");
 
         JSONObject addMultipliers = upgrade.getJSONObject("multipliers");
 
