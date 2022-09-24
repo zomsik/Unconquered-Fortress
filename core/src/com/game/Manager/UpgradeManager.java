@@ -214,7 +214,7 @@ public class UpgradeManager {
         table_upgrade.padLeft(16);
         table_upgrade.padRight(16);
 
-        table_upgrade.setScale(scale);
+        //table_upgrade.setScale(scale);
     }
 
 /*    public Dialog returnUpgradeDialog(){
@@ -377,7 +377,7 @@ public class UpgradeManager {
                     tooltip = new TextTooltip("", textTooltipStyle);
                     tooltip.setActor(information);
                     tooltip.setInstant(true);
-                    tooltip.enter(event, -72, y, pointer, fromActor);
+                    tooltip.enter(event, 32*scale, 32*scale*1.5f, pointer, fromActor);
                 }
 
                 @Override
