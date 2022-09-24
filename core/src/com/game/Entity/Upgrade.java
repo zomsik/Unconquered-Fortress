@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.game.Manager.LanguageManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -23,6 +24,7 @@ public class Upgrade {
 
     private ArrayList<Upgrade> nextUpgrades;
     private List<Integer> levelToUnlockUpgrades;
+    private LanguageManager languageManager;
 
 
     /*
@@ -41,13 +43,15 @@ public class Upgrade {
 
      */
 
-    public Upgrade(String upgradeName, int level, JSONArray upgradeArray, Skin skin, String unlockedIcon) {
+    public Upgrade(String upgradeName, int level, JSONArray upgradeArray, Skin skin, String unlockedIcon, LanguageManager languageManager) {
+
         this.upgradeName = upgradeName;
         this.level = level;
         this.maxLevel = upgradeArray.length();
         this.image = new Image(skin, "upgradeIcons_lock");
         this.upgradeArray = upgradeArray;
         this.unlockedIcon = unlockedIcon;
+        this.languageManager = languageManager;
 
         this.isMaxLevel = true;
 
@@ -93,12 +97,12 @@ public class Upgrade {
     public Label returnInformation(Label.LabelStyle labelStyle){
 
         if(this.level<0) {
-            return new Label("Najpierw musisz odblować poprzednie ulepszenie.", labelStyle);
+            return new Label(languageManager.getValue(languageManager.getLanguage(), "upgrade_First_Unlock"), labelStyle);
         }else if (level==maxLevel) {
-            return new Label("Maksymalny poziom.", labelStyle);
+            return new Label(languageManager.getValue(languageManager.getLanguage(), "upgrade_Max_level"), labelStyle);
         }
         else {
-            return new Label("Upgrade: " + this.upgradeName + "\nLevel:" + this.level + "/" + this.maxLevel + "\nDamage multiplayer: 000",labelStyle);
+            return new Label(languageManager.getValue(languageManager.getLanguage(), "upgrade_Upgrade") + languageManager.getValue(languageManager.getLanguage(), this.upgradeName) + "\n"+languageManager.getValue(languageManager.getLanguage(), "upgrade_Level") + this.level + "/" + this.maxLevel + "\n"+languageManager.getValue(languageManager.getLanguage(), "upgrade_Multiplayer"),labelStyle);
         }
 
     }
