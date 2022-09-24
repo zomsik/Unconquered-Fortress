@@ -379,7 +379,7 @@ public class UpgradeManager {
                     tooltip.setInstant(true);
                     tooltip.enter(event, 32*scale, 32*scale*1.5f, pointer, fromActor);
                 }
-
+//EO
                 @Override
                 public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                     if (!isClicked) {
