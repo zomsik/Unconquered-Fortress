@@ -39,8 +39,9 @@ public class ProfileLocalScreen implements Screen {
     private BitmapFont font, font_profile;
     private TextureAtlas taButtonsDefault, taEmptyTextfield, taButtonsProfile, taDialog;
     private Skin images_default, images_empty, image_profiles, images_settings; //<- to delete
-    private TextButton bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogEasyDifficulty, cDialogNormalDifficulty, cDialogHardDifficulty;
-    private Table table_profile_01, table_profile_02, table_profile_03, table_default, table_next, table_Dialog;
+    private TextButton bDeleteDialogDelete, bDeleteDialogCancel, bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogEasyDifficulty, cDialogNormalDifficulty, cDialogHardDifficulty;
+    private Table table_profile_01, table_profile_02, table_profile_03, table_default, table_next, table_Dialog, table_deleteDialog;
+    private Table delete1, delete2, delete3;
     private TextField tDialogEasyDifficulty, tDialogNormalDifficulty, tDialogHardDifficulty;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
@@ -52,12 +53,13 @@ public class ProfileLocalScreen implements Screen {
     private JSONObject save1, save2, save3;
 
     private JSONObject loadResponse;
-    private Dialog newGameDialog;
+    private Dialog newGameDialog, deleteGameDialog;
     private String chosenDifficulty = null;
     private int chosenProfile;
 
     private boolean isDialog = false;//<- to delete or leave
-    private Image attack01, attack02, attack03, attack04, attack05, health01, health02, health03, income01, income02;
+    private int saveToDelete;
+
     public ProfileLocalScreen(Main game){
         this.game = game;
         fileReader = new FileReader();
@@ -78,6 +80,10 @@ public class ProfileLocalScreen implements Screen {
 
         bDialogCreate = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bDialogCreate"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
         bDialogCancel = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bDialogCancel"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+
+        bDeleteDialogDelete = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bDelete"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        bDeleteDialogCancel = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bDialogCancel"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+
 
         //TODO Dialog Seed input
 
@@ -120,29 +126,6 @@ public class ProfileLocalScreen implements Screen {
                 }
             }).start();
 
-            /*
-            try {
-                new Thread(() -> {
-                    loadResponse = connectionManager.requestSend(loadSaves, "api/downloadSaves");
-
-                    System.out.println(loadResponse.getInt("status"));
-
-                    if (loadResponse.getInt("status") == 200 || loadResponse.getInt("status") == 201)
-                    {
-                        stage.addActor(table_next);
-                    }
-                    else {
-                        System.out.println(languageManager.getValue(languageManager.getLanguage(), loadResponse.getString("message")));
-                    }
-
-
-                }){{start();}}.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            */
-
             bOtherScreen.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -154,19 +137,8 @@ public class ProfileLocalScreen implements Screen {
         }
 
 
-
-
         Texture bg = new Texture(new FileHandle("assets/profile_banner.png"));
         Texture dialogBg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
-        Texture icon = new Texture(new FileHandle("assets/icons/local.png"));
-        Image local01 = new Image(icon);
-        Image local02 = new Image(icon);
-        Image local03 = new Image(icon);
-
-        Texture iconDelete = new Texture(new FileHandle("assets/icons/delete.png"));
-        Image delete01 = new Image(icon);
-        Image delete02 = new Image(icon);
-        Image delete03 = new Image(icon);
 
         newGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(dialogBg)))) {
             public void result(Object obj) {
@@ -177,8 +149,11 @@ public class ProfileLocalScreen implements Screen {
         tDialogNormalDifficulty  = new TextField(languageManager.getValue(languageManager.getLanguage(), "tNormalDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogHardDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "tHardDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
 
-
-
+        deleteGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(dialogBg)))) {
+            public void result(Object obj) {
+                deleteGameDialog.cancel();
+            }
+        };
 
         table_Dialog.setWidth(350);
         table_Dialog.setX(200);
@@ -191,10 +166,18 @@ public class ProfileLocalScreen implements Screen {
         table_Dialog.row();
         table_Dialog.add(cDialogHardDifficulty);
         table_Dialog.add(tDialogHardDifficulty);
-        newGameDialog.addActor(table_Dialog);
 
+        table_deleteDialog.setWidth(350);
+        table_deleteDialog.setX(200);
+        table_deleteDialog.setY(300);
+
+        newGameDialog.addActor(table_Dialog);
         newGameDialog.button(bDialogCancel);
         newGameDialog.button(bDialogCreate);
+
+        deleteGameDialog.addActor(table_deleteDialog);
+        deleteGameDialog.button(bDeleteDialogDelete);
+        deleteGameDialog.button(bDeleteDialogCancel);
 
         cDialogEasyDifficulty.addListener(new ClickListener() {
             @Override
@@ -247,9 +230,19 @@ public class ProfileLocalScreen implements Screen {
             }
         });
 
+        bDeleteDialogDelete.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                deleteSave(saveToDelete);
+            }
+        });
 
-        //
-
+        bDeleteDialogCancel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                deleteGameDialog.hide();
+            }
+        });
 
         table_profile_01.setBounds(Gdx.graphics.getWidth()/10*2, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
         table_profile_01.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
@@ -264,6 +257,16 @@ public class ProfileLocalScreen implements Screen {
             save1 = fileReader.downloadSaveAsJSONObject("save/save01l.json");
             save1.put("profileNumber",1);
             table_profile_01 = ProfileManager.createProfileTable(save1, font_profile, languageManager, Gdx.graphics.getWidth()/10*2, "assets/icons/local.png");
+            delete1 = ProfileManager.getDeleteTable(Gdx.graphics.getWidth()/10*2);
+
+            delete1.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    saveToDelete=1;
+                    deleteGameDialog.show(stage);
+                }
+            });
+
             table_profile_01.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -289,11 +292,19 @@ public class ProfileLocalScreen implements Screen {
             save2 = fileReader.downloadSaveAsJSONObject("save/save02l.json");
             save2.put("profileNumber",2);
             table_profile_02 = ProfileManager.createProfileTable(save2, font_profile, languageManager, Gdx.graphics.getWidth()/10*4, "assets/icons/local.png");
+            delete2 = ProfileManager.getDeleteTable(Gdx.graphics.getWidth()/10*4);
+
+            delete2.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    saveToDelete=2;
+                    deleteGameDialog.show(stage);
+                }
+            });
+
             table_profile_02.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    System.out.println("zostałem wybrany");
-                    //wyłapuje tylko na textfieldach, a nie na całym table_profile
                     GameState.setGameState(GameState.PLAYING);
                     game.setScreen(new GameScreen(game, save2, true));
 
@@ -314,6 +325,17 @@ public class ProfileLocalScreen implements Screen {
             save3 = fileReader.downloadSaveAsJSONObject("save/save03l.json");
             save3.put("profileNumber",3);
             table_profile_03 = ProfileManager.createProfileTable(save3, font_profile, languageManager, Gdx.graphics.getWidth()/10*6, "assets/icons/local.png");
+            delete3 = ProfileManager.getDeleteTable(Gdx.graphics.getWidth()/10*6);
+
+            delete3.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    saveToDelete=3;
+                    deleteGameDialog.show(stage);
+
+                }
+            });
+
             table_profile_03.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -340,6 +362,9 @@ public class ProfileLocalScreen implements Screen {
         stage.addActor(table_profile_01);
         stage.addActor(table_profile_02);
         stage.addActor(table_profile_03);
+        stage.addActor(delete1);
+        stage.addActor(delete2);
+        stage.addActor(delete3);
         stage.addActor(table_default);
 
 
@@ -365,6 +390,13 @@ public class ProfileLocalScreen implements Screen {
 
     }
 
+    public void deleteSave(int saveNumber){
+        fileReader.deleteSave(saveNumber);
+        game.setScreen(new ProfileLocalScreen(game));
+
+
+    }
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1,0,0,1);
@@ -376,6 +408,9 @@ public class ProfileLocalScreen implements Screen {
             table_profile_01.setVisible(false);
             table_profile_02.setVisible(false);
             table_profile_03.setVisible(false);
+            delete1.setVisible(false);
+            delete2.setVisible(false);
+            delete3.setVisible(false);
             table_default.setVisible(false);
             table_next.setVisible(false);
         }else{
@@ -383,6 +418,9 @@ public class ProfileLocalScreen implements Screen {
             table_profile_01.setVisible(true);
             table_profile_02.setVisible(true);
             table_profile_03.setVisible(true);
+            delete1.setVisible(true);
+            delete2.setVisible(true);
+            delete3.setVisible(true);
             table_default.setVisible(true);
             table_next.setVisible(true);
         }
@@ -449,10 +487,14 @@ public class ProfileLocalScreen implements Screen {
         images_settings = new Skin(new TextureAtlas("assets/buttons/buttons_settings.pack"));
         table_default = new Table(images_default);
         table_next = new Table(images_default);
+        table_deleteDialog = new Table();
         table_Dialog = new Table(images_settings);
         table_profile_01 = new Table();
         table_profile_02 = new Table();
         table_profile_03 = new Table();
+        delete1 = new Table();
+        delete2 = new Table();
+        delete3 = new Table();
         textButtonStyle_bBack = new TextButton.TextButtonStyle();
         textButtonStyle_bSave = new TextButton.TextButtonStyle();
         textButtonStyle_bNext = new TextButton.TextButtonStyle();

@@ -11,7 +11,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
 
@@ -175,4 +177,13 @@ public class FileReader {
     }
 
 
+    public void deleteSave(int saveNumber) {
+        Path path = FileSystems.getDefault().getPath("save/save0"+saveNumber+"l.json");
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException x) {
+            System.err.println(x);
+        }
+
+    }
 }

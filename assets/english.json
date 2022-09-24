@@ -7,6 +7,7 @@
   "bCredits" : "Credits",
   "bExit" : "Exit",
   "bBack" : "Back",
+  "bDelete": "Delete",
   "bSave": "Save",
   "resolution_field_text" : "Resolution",
   "volume_field_text" : "Volume: ",

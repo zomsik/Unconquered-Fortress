@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.game.Entity.Base;
@@ -23,6 +25,7 @@ public class ProfileManager {
 
         Table t = new Table();
         t.setBounds(x, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
+        t.debug();
         t.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/profile_banner.png")))));
 
         TextField.TextFieldStyle tFS = new TextField.TextFieldStyle();
@@ -40,7 +43,8 @@ public class ProfileManager {
         TextField tDiamonds = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") + save.getInt("diamonds"), tSM.returnTextFieldStyle(tFS));
         tDiamonds.setAlignment(Align.left);
         t.add(new Image(new Texture(new FileHandle(icon)))).width(t.getHeight()/20).height(t.getHeight()/20).align(Align.right).padTop(16).padRight(8);
-        t.row();
+
+         t.row();
         t.add(tDifficulty).width(t.getWidth()/10*9).height(t.getHeight()/10).padLeft(t.getWidth()/10*2);
         t.row();
         t.add(tFinishedMaps).width(t.getWidth()/10*9).height(t.getHeight()/10).padLeft(t.getWidth()/10*2);
@@ -50,9 +54,6 @@ public class ProfileManager {
         t.add(tGold).width(t.getWidth()/10*9).height(t.getHeight()/10).padLeft(t.getWidth()/10*2);
         t.row();
         t.add(tDiamonds).width(t.getWidth()/10*9).height(t.getHeight()/10).padBottom(t.getHeight()/2-t.getHeight()/10).padLeft(t.getWidth()/10*2);
-        //t.debug();
-        t.setTouchable(Touchable.enabled);
-
 
         return t;
     }
@@ -115,5 +116,15 @@ public class ProfileManager {
         return actualGame;
 
 
+    }
+
+    public static Table getDeleteTable(int x) {
+
+
+        Table binTable = new Table();
+        binTable.setBounds(x, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
+        binTable.add(new Image(new Texture("assets/icons/delete.png"))).width(binTable.getHeight()/20).height(binTable.getHeight()/20).align(Align.right).padTop(16).padRight(8);
+
+        return binTable;
     }
 }
