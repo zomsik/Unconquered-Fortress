@@ -214,6 +214,7 @@ public class UpgradeManager {
         table_upgrade.padLeft(16);
         table_upgrade.padRight(16);
 
+
         //table_upgrade.setScale(scale);
     }
 
