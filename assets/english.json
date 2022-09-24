@@ -65,6 +65,8 @@
   "bResume": "Resume",
   "bNextWave": "Next Wave",
   "hp_field": "HP: ",
-  "bReplay": "Replay"
+  "bReplay": "Replay",
+  "Lose": "Lose",
+  "bUpgrade": "Upgrade"
 
 }

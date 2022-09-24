@@ -463,4 +463,6 @@ public class ProfileLocalScreen implements Screen {
         textButtonStyle_cDialogDifficultyUnchecked  = new TextButton.TextButtonStyle();
 
     }
+
+
 }

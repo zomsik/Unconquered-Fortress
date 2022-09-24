@@ -115,10 +115,6 @@ public class GameScreen implements Screen {
         this.game = game;
         this.isLocal = isLocal;
 
-
-
-
-
         scale = (float) (Gdx.graphics.getWidth() / 1280.0);
 
         System.out.println("Skala: " + scale);
@@ -131,21 +127,13 @@ public class GameScreen implements Screen {
 
         initSettingsUI();
 
-
-
         actualGame = save;
         if (!isLocal)
             actualGame.put("login",game.getLogin());
 
         turretLevels = fileReader.downloadFileAsJSONObject("assets/towers.json");
 
-
-
-
         base = new Base(actualGame);
-
-
-
 
         //reading stats etc
         if(actualGame.getString("difficulty").equals("normal")){
@@ -159,17 +147,13 @@ public class GameScreen implements Screen {
             mapArr = worldManager.createWorld(this, actualGame.getInt("seed"), 51);
         }
 
-
         mapArr = worldManager.loadTerrainModifications(this, mapArr, actualGame.getJSONArray("terrainModifications"));
 
-
         this.buildArr = new int[15][10];
-
 
         enemyManager = new EnemyManager(base, scale, GameFunctions.calculatePath(worldManager.getPath(), scale));
         towerManager = new TowerManager(enemyManager.getEnemies());
         roadObstaclesManager = new RoadObstaclesManager(enemyManager.getEnemies(), buildArr);
-
 
         table_map = worldManager.drawWorld(mapArr, scale);
 
@@ -178,8 +162,8 @@ public class GameScreen implements Screen {
         statsTableManager = new StatsTableManager(base,scale, languageManager);
         table_info = statsTableManager.getStatsTable();
 
-        textFieldStyleManager.setTextFieldStyle(statsTextFieldStyle, images, font, "textBar", Color.WHITE);
-        GameOverTitle = new TextField("Lose", textFieldStyleManager.returnTextFieldStyle(statsTextFieldStyle));
+        textFieldStyleManager.setTextFieldStyle(statsTextFieldStyle, images, font, "empty_background", Color.WHITE);
+        GameOverTitle = new TextField(languageManager.getValue(languageManager.getLanguage(), "Lose"), textFieldStyleManager.returnTextFieldStyle(statsTextFieldStyle));
         GameOverTitle.setAlignment(Align.center);
 
         if(Gdx.graphics.getHeight() == 900){
@@ -188,13 +172,10 @@ public class GameScreen implements Screen {
             table_menuPause.setBounds(Gdx.graphics.getWidth()/20*18,(Gdx.graphics.getHeight()/40*37), Gdx.graphics.getWidth()/50*3,Gdx.graphics.getHeight()/40*3);
         }
 
-        table_menuPause.debug();
-
         upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/upgrade_dialog_720.png"))))));
         upgradeDialog.setBounds(0,0,Gdx.graphics.getWidth()/8, Gdx.graphics.getHeight()/8);
         upgradeDialog.setScale(scale);
         upgradeDialog.row();
-        upgradeDialog.debug();
 
         buttonStyleManager = new ButtonStyleManager();
         textFieldStyleManager = new TextFieldStyleManager();
@@ -206,7 +187,7 @@ public class GameScreen implements Screen {
         //bTest = new TextButton("test", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bNextWave = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bNextWave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bResume = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bResume"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-        bUpgrade = new TextButton("Upgrade", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bUpgrade = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bUpgrade"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bPauseMenu, images_pause, font, "ButtonPauseUp", "ButtonPauseDown");
         bPauseMenu = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bPauseMenu));
         bBackEventDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
@@ -229,7 +210,6 @@ public class GameScreen implements Screen {
         //table_nextWave.row();
         //table_nextWave.add(bTest).width(Gdx.graphics.getWidth()/10);
         table_nextWave.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2,224*scale,48*scale);
-        table_nextWave.debug();
 
         table_menuPause.add(bPauseMenu).height(Gdx.graphics.getHeight()/40*3).width(Gdx.graphics.getWidth()/50*3);
     }
@@ -337,7 +317,6 @@ public class GameScreen implements Screen {
     public void mouseEnterOperation() {
         if (Objects.equals(lastClickedOperationTile.getName(), "melee") || Objects.equals(lastClickedOperationTile.getName(), "crossbow") || Objects.equals(lastClickedOperationTile.getName(), "mage")|| Objects.equals(lastClickedOperationTile.getName(), "cannon"))
             base.setInfoToDisplay(1,lastClickedOperationTile.getName(),turretLevels.getJSONArray(lastClickedOperationTile.getName()+"Tower").getJSONObject(0),null);
-        //statsTableManager.setNewBuildingTable(lastClickedOperationTile.getName());
     }
 
     public void mouseExitOperation() {
@@ -679,8 +658,6 @@ public class GameScreen implements Screen {
                 gameOverDialog.cancel();
             }
         };
-        gameOverDialog.add(table_dialogGameOver);
-
 
         bUpgrade.addListener(new ClickListener() {
             @Override
@@ -694,7 +671,7 @@ public class GameScreen implements Screen {
 
                 upgradeDialog.add(upgradeManager.returnUpgradeTable());
                 //upgradeDialog.setScale(scale);
-                pauseStage.addActor(upgradeDialog);
+                //pauseStage.addActor(upgradeDialog);
                 upgradeDialog.show(pauseStage);
                 upgradeDialog.setY(0);
                 upgradeDialog.setX(((Gdx.graphics.getWidth())-upgradeDialog.getWidth())/scale/2);
@@ -825,7 +802,6 @@ public class GameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("kliklem");
                 game.setScreen(new MenuScreen(game));
-                dispose();
             }
         });
         bGameOverReplay.addListener(new ClickListener() {
@@ -871,7 +847,8 @@ public class GameScreen implements Screen {
         table_dialogGameOver.add(bGameOverReplay).width(table_dialogGameOver.getWidth()/20*16).padRight(table_dialogGameOver.getWidth()/10);
         table_dialogGameOver.row().padTop(32);
         table_dialogGameOver.add(bGameOverExit).width(table_dialogGameOver.getWidth()/20*16).padRight(table_dialogGameOver.getWidth()/10);
-
+        gameOverDialog.add(table_dialogGameOver).padBottom(180);
+        gameOverDialog.show(gameOverStage);
         stage.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -987,17 +964,12 @@ public class GameScreen implements Screen {
 
 
 
-                //spawnEnemies
-                //enemyManager.draw();
-                //updateEnemiesPosition
-                if (base.getHealth() <= 0) {
-                    statsTableManager.update();
-                    //przegrana
-                    //stop game
-
-                    base.setState(Base.State.GameOver);
-
-                }
+        //spawnEnemies
+        //enemyManager.draw();
+        //updateEnemiesPosition
+        if (base.getHealth() <= 0) {
+            base.setState(Base.State.GameOver);
+        }
 
 
         switch(base.getState()) {
@@ -1021,7 +993,6 @@ public class GameScreen implements Screen {
 
                 break;
             case Paused:
-
                 Gdx.input.setInputProcessor(pauseStage);
                 table_info.toBack();
                 statsTableManager.update();
@@ -1032,7 +1003,6 @@ public class GameScreen implements Screen {
                 enemyManager.render(spritebatch, shapeRenderer);
                 spritebatch.end();
                 pauseStage.draw();
-
                 break;
             case Resumed:
                 spritebatch.begin();
@@ -1040,20 +1010,20 @@ public class GameScreen implements Screen {
                 towerManager.render(spritebatch, shapeRenderer);
                 enemyManager.render(spritebatch, shapeRenderer);
                 spritebatch.end();
-
                 Gdx.input.setInputProcessor(stage);
                 base.setState(Base.State.Running);
                 break;
             case GameOver:
                 Gdx.input.setInputProcessor(gameOverStage);
-                gameOverDialog.show(gameOverStage);
+                statsTableManager.update();
+
+                //gameOverStage.act(delta);
                 spritebatch.begin();
                 roadObstaclesManager.render(spritebatch);
                 towerManager.render(spritebatch, shapeRenderer);
                 enemyManager.render(spritebatch, shapeRenderer);
                 spritebatch.end();
                 gameOverStage.draw();
-
                 break;
         }
 
@@ -1063,9 +1033,6 @@ public class GameScreen implements Screen {
 
 
     }
-
-
-
 
     @Override
     public void resize(int width, int height) {
