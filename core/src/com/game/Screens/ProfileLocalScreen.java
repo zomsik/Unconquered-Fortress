@@ -107,7 +107,6 @@ public class ProfileLocalScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-
         if(game.getIsLogged()){
             table_next.setBounds(Gdx.graphics.getWidth()/10*9, Gdx.graphics.getWidth()/10*2,Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*2);
             table_next.add(bOtherScreen);
@@ -257,7 +256,7 @@ public class ProfileLocalScreen implements Screen {
             save1 = fileReader.downloadSaveAsJSONObject("save/save01l.json");
             save1.put("profileNumber",1);
             table_profile_01 = ProfileManager.createProfileTable(save1, font_profile, languageManager, Gdx.graphics.getWidth()/10*2, "assets/icons/local.png");
-            delete1 = ProfileManager.getDeleteTable((int) table_profile_01.getX(), (int) (table_profile_01.getY()+table_profile_01.getHeight())-32, (int) table_profile_01.getChild(0).getWidth(), (int) table_profile_01.getChild(0).getHeight(), game.getScale());
+            delete1 = ProfileManager.getDeleteTable((int) table_profile_01.getX(), (int) (table_profile_01.getY()+table_profile_01.getHeight())-32, (int) table_profile_01.getChild(0).getWidth(), (int) table_profile_01.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0));
             delete1.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -291,7 +290,7 @@ public class ProfileLocalScreen implements Screen {
             save2 = fileReader.downloadSaveAsJSONObject("save/save02l.json");
             save2.put("profileNumber",2);
             table_profile_02 = ProfileManager.createProfileTable(save2, font_profile, languageManager, Gdx.graphics.getWidth()/10*4, "assets/icons/local.png");
-            delete2 = ProfileManager.getDeleteTable((int) table_profile_02.getX(), (int) (table_profile_02.getY()+table_profile_02.getHeight())-32, (int) table_profile_02.getChild(0).getWidth(), (int) table_profile_02.getChild(0).getHeight(),game.getScale());
+            delete2 = ProfileManager.getDeleteTable((int) table_profile_02.getX(), (int) (table_profile_02.getY()+table_profile_02.getHeight())-32, (int) table_profile_02.getChild(0).getWidth(), (int) table_profile_02.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0));
 
             delete2.addListener(new ClickListener(){
                 @Override
@@ -324,7 +323,7 @@ public class ProfileLocalScreen implements Screen {
             save3 = fileReader.downloadSaveAsJSONObject("save/save03l.json");
             save3.put("profileNumber",3);
             table_profile_03 = ProfileManager.createProfileTable(save3, font_profile, languageManager, Gdx.graphics.getWidth()/10*6, "assets/icons/local.png");
-            delete3 = ProfileManager.getDeleteTable((int) table_profile_03.getX(), (int) (table_profile_03.getY()+table_profile_03.getHeight())-32, (int) table_profile_03.getChild(0).getWidth(), (int) table_profile_03.getChild(0).getHeight(),game.getScale());
+            delete3 = ProfileManager.getDeleteTable((int) table_profile_03.getX(), (int) (table_profile_03.getY()+table_profile_03.getHeight())-32, (int) table_profile_03.getChild(0).getWidth(), (int) table_profile_03.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0));
             delete3.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {

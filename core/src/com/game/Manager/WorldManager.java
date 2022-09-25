@@ -455,7 +455,7 @@ public class WorldManager {
                     System.out.println("6");
                     List<int[]> res = randomWalk(arr, start, end, seed);
                     System.out.println("7");
-                    while (res.size() <5) {
+                    while (res.size() <5 || res.size() >100) {
                         System.out.println("7.5");
                         seed+=1;
                         res = randomWalk(arr, start, end, seed);
@@ -515,7 +515,7 @@ public class WorldManager {
                     System.out.println("6");
                     List<int[]> res = randomWalk(arr, start, end, seed);
                     System.out.println("7");
-                    while (res.size() <5) {
+                    while (res.size() <5 || res.size() >100) {
                         System.out.println("7.5");
                         seed+=1;
                         res = randomWalk(arr, start, end, seed);
@@ -582,7 +582,7 @@ public class WorldManager {
                     System.out.println("6");
                     List<int[]> res = randomWalk(arr, start, end, seed);
                     System.out.println("7");
-                    while (res.size() <5) {
+                    while (res.size() <5 || res.size() >100) {
                         System.out.println("7.5");
                         seed+=1;
                         res = randomWalk(arr, start, end, seed);
@@ -641,7 +641,7 @@ public class WorldManager {
                     System.out.println("6");
                     List<int[]> res = randomWalk(arr, start, end, seed);
                     System.out.println("7");
-                    while (res.size() <5) {
+                    while (res.size() <5 || res.size() >100) {
                         System.out.println("7.5");
                         seed+=1;
                         res = randomWalk(arr, start, end, seed);

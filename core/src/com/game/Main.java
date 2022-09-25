@@ -19,8 +19,6 @@ public class Main extends Game {
 	private String login;
 	private ConnectionManager connectionManager;
 
-	private float scale;
-
 	public void setIsLogged(boolean isLogged)
 	{
 		this.isLogged = isLogged;
@@ -76,7 +74,6 @@ public class Main extends Game {
 			}
 		}
 		music = Gdx.audio.newMusic(Gdx.files.internal("assets/sound/backgroundMusic.ogg"));
-		scale = (float) (Gdx.graphics.getWidth() / 1280.0);
 		setScreen(new MenuScreen(this));
 
 	}
@@ -94,11 +91,4 @@ public class Main extends Game {
 		return music;
 	}
 
-	public float getScale() {
-		return scale;
-	}
-
-	public void setScale(float scale) {
-		this.scale = scale;
-	}
 }
