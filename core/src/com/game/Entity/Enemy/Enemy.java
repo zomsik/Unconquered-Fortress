@@ -296,7 +296,7 @@ public class Enemy extends Actor {
             {
                 summonEnemy();
                 isSummoning = true;
-                timeToSummonNextEnemy = 10;
+                timeToSummonNextEnemy = delayBetweenSummonings;
 
                 switch (moveDirection)
                 {
@@ -305,17 +305,17 @@ public class Enemy extends Actor {
                     case "Down" -> currentAnimation = summoningAnimation[2];
                     case "Up" -> currentAnimation = summoningAnimation[3];
                 }
-                //sumonowanie i zmiana tekstur
 
                 return;
             }
             else if (isSummoning)
             {
-                timeOfActualSummoning +=deltaTime;
+                timeOfActualSummoning += deltaTime;
                 if (timeOfActualSummoning >= summoningTime)
                 {
                     isSummoning = false;
                     moveDirection = "";
+                    timeOfActualSummoning = 0;
                 }
                 return;
             }
