@@ -62,7 +62,10 @@ public class Tower extends Actor {
     private int bulletSplash;
     private GameScreen gameScreen;
 
-    public Tower(JSONObject towerLevelsAll, Base base, boolean canAttackFlying, String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, GameScreen gameScreen){
+    private float shootDelayLeft, shootDelay;
+    private Bullet delayBullet;
+
+    public Tower(JSONObject towerLevelsAll, Base base, boolean canAttackFlying, String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int framesDelay, int tileX, int tileY, float scale, GameScreen gameScreen){
         this.name = name;
         this.canAttackFlying = canAttackFlying;
         this.towerLevels = towerLevelsAll.getJSONArray(name);
@@ -104,6 +107,7 @@ public class Tower extends Actor {
         this.towerAnimation = new Animation<>(turretFirstLevel.getFloat("reload")/animationSprites.length, animationSprites);
 
 
+        shootDelay = turretFirstLevel.getFloat("reload")/animationSprites.length * framesDelay;
 
         Texture spriteMap2;
         TextureRegion[][] spritePosition2;
@@ -121,6 +125,7 @@ public class Tower extends Actor {
             this.towerAnimation2 = new Animation<>(turretFirstLevel.getFloat("reload")/animationSprites.length, animationSprites2);
 
         }
+
 
 
         this.bulletDamage = turretFirstLevel.getFloat("dmg");
@@ -238,10 +243,8 @@ public class Tower extends Actor {
     public void update(float deltaTime, ArrayList<Enemy> enemies) {
         //set positions, orientation
         // shoot if reloaded
+        stateTime += deltaTime;
 
-        // next animation frame if animation is not ended yet
-        if (!towerAnimation.isAnimationFinished(stateTime))
-            stateTime += Gdx.graphics.getDeltaTime();
 
 
         Iterator<Bullet> bIterator = towerBullets.iterator();
@@ -269,6 +272,13 @@ public class Tower extends Actor {
             timeToShoot-=deltaTime;
 
 
+        if (shootDelayLeft>0)
+        {
+            shootDelayLeft -= deltaTime;
+            if (shootDelayLeft <= 0)
+                towerBullets.add(delayBullet);
+        }
+
         if (timeToShoot<=0)
         {
             //if dst < range for last enemy then shoot last enemy
@@ -282,7 +292,14 @@ public class Tower extends Actor {
 
                 if (range>=Vector2.dst(position.x+towerTextureSize*scale/2,position.y+towerTextureSize*scale/2,e.getPosition().x+e.getEnemySize()*scale/2,e.getPosition().y+e.getEnemySize()*scale/2))
                 {
-                    towerBullets.add(new Bullet(e, e.getEnemySize(), bulletDamage, bulletSpeed, bulletTexture, bulletTextureSize, position, scale));
+                    if (shootDelay > 0){
+                        delayBullet = new Bullet(e, e.getEnemySize(), bulletDamage, bulletSpeed, bulletTexture, bulletTextureSize, position, scale);
+                        shootDelayLeft = shootDelay;
+                    }
+                    else
+                        towerBullets.add(new Bullet(e, e.getEnemySize(), bulletDamage, bulletSpeed, bulletTexture, bulletTextureSize, position, scale));
+
+
                     stateTime = 0f;
                     timeToShoot = reloadTime;
 

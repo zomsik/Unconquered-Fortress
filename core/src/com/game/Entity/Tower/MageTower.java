@@ -11,7 +11,7 @@ public class MageTower extends Tower{
 
     public MageTower(JSONObject turretLevels, Base base, int tileX, int tileY, float scale, GameScreen gameScreen)
     {
-        super(turretLevels, base, true, "mageTower", "assets/game/towers/mageTower.png", "assets/game/towers/mageTowerBase.png", 64, new TextureRegion(new Texture(Gdx.files.internal("assets/game/bullets/mageBullet64.png"))), 64, tileX, tileY, scale, gameScreen);
+        super(turretLevels, base, true, "mageTower", "assets/game/towers/mageTower.png", "assets/game/towers/mageTowerBase.png", 64, new TextureRegion(new Texture(Gdx.files.internal("assets/game/bullets/mageBullet64.png"))), 64, 0, tileX, tileY, scale, gameScreen);
 
     }
 
