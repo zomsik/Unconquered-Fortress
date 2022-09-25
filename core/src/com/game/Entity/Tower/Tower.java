@@ -95,26 +95,33 @@ public class Tower extends Actor {
 
         Texture spriteMap = new Texture(Gdx.files.internal(path));
         TextureRegion[][] spritePosition = TextureRegion.split(spriteMap, towerTextureSize, towerTextureSize);
-        TextureRegion[] animationSprites = new TextureRegion[4];
-        Texture spriteMap2;
-        TextureRegion[][] spritePosition2 = new TextureRegion[0][];
-        TextureRegion[] animationSprites2 = new TextureRegion[0];
-        if(path2!=null)
-        {
-            spriteMap2 = new Texture(Gdx.files.internal(path2));
-            spritePosition2 = TextureRegion.split(spriteMap2, towerTextureSize, towerTextureSize);
-            animationSprites2 = new TextureRegion[4];
-        }
+        TextureRegion[] animationSprites = new TextureRegion[spritePosition[0].length];
 
         for (int i = 0; i < animationSprites.length; i++) {
             animationSprites[i] = spritePosition[0][i];
         }
-        for (int i = 0; i < animationSprites2.length; i++) {
-            animationSprites2[i] = spritePosition2[0][i];
-        }
 
         this.towerAnimation = new Animation<>(turretFirstLevel.getFloat("reload")/animationSprites.length, animationSprites);
-        this.towerAnimation2 = new Animation<>(turretFirstLevel.getFloat("reload")/animationSprites.length, animationSprites2);
+
+
+
+        Texture spriteMap2;
+        TextureRegion[][] spritePosition2;
+        TextureRegion[] animationSprites2;
+
+        if(path2!=null)
+        {
+            spriteMap2 = new Texture(Gdx.files.internal(path2));
+            spritePosition2 = TextureRegion.split(spriteMap2, towerTextureSize, towerTextureSize);
+            animationSprites2 = new TextureRegion[spritePosition2[0].length];
+
+            for (int i = 0; i < animationSprites2.length; i++) {
+                animationSprites2[i] = spritePosition2[0][i];
+            }
+            this.towerAnimation2 = new Animation<>(turretFirstLevel.getFloat("reload")/animationSprites.length, animationSprites2);
+
+        }
+
 
         this.bulletDamage = turretFirstLevel.getFloat("dmg");
 
@@ -366,9 +373,9 @@ public class Tower extends Actor {
             batch.begin();
         }
 
-            if(Objects.equals(name, "meleeTower") || Objects.equals(name, "mageTower")){
-                batch.draw(towerAnimation2.getKeyFrame(stateTime, true), position.x+32*(scale-1), position.y+32*(scale-1),towerTextureSize/2, towerTextureSize/2,towerTextureSize, towerTextureSize,scale,scale,0);
-            }
+        if (towerAnimation2 != null)
+            batch.draw(towerAnimation2.getKeyFrame(stateTime, true), position.x+32*(scale-1), position.y+32*(scale-1),towerTextureSize/2, towerTextureSize/2,towerTextureSize, towerTextureSize,scale,scale,0);
+
 
         batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x+32*(scale-1), position.y+32*(scale-1), towerTextureSize/2, towerTextureSize/2,towerTextureSize,towerTextureSize,scale,scale,rotation);
 

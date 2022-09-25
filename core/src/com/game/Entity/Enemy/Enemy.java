@@ -72,7 +72,7 @@ public class Enemy extends Actor {
 
         animationArr = new Animation[4];
         Texture spriteMap = new Texture(Gdx.files.internal(path));
-        TextureRegion[][] spritePosition = TextureRegion.split(spriteMap, 64, 64); // frame width and height get from extended class
+        TextureRegion[][] spritePosition = TextureRegion.split(spriteMap, enemySize, enemySize);
         TextureRegion[] animationSprites;
 
 
