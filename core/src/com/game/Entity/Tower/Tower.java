@@ -55,17 +55,16 @@ public class Tower extends Actor {
 
     private float stateTime;
     private Base base;
+    private boolean canAttackFlying;
 
     private boolean isMouseEntered;
-    public Tower(){
-        this.enemyToFollow = null;
-    }
 
     private int bulletSplash;
     private GameScreen gameScreen;
 
-    public Tower(JSONObject towerLevelsAll, Base base, String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, float reloadTime, float bulletSpeed, float range, float bulletDamage, GameScreen gameScreen){
+    public Tower(JSONObject towerLevelsAll, Base base, boolean canAttackFlying, String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int tileX, int tileY, float scale, GameScreen gameScreen){
         this.name = name;
+        this.canAttackFlying = canAttackFlying;
         this.towerLevels = towerLevelsAll.getJSONArray(name);
         this.gameScreen = gameScreen;
         JSONObject turretFirstLevel = this.towerLevels.getJSONObject(0);
@@ -95,7 +94,7 @@ public class Tower extends Actor {
 
 
         Texture spriteMap = new Texture(Gdx.files.internal(path));
-        TextureRegion[][] spritePosition = TextureRegion.split(spriteMap, 64, 64); // frame width and height get from extended class
+        TextureRegion[][] spritePosition = TextureRegion.split(spriteMap, towerTextureSize, towerTextureSize);
         TextureRegion[] animationSprites = new TextureRegion[4];
         Texture spriteMap2;
         TextureRegion[][] spritePosition2 = new TextureRegion[0][];
@@ -103,11 +102,9 @@ public class Tower extends Actor {
         if(path2!=null)
         {
             spriteMap2 = new Texture(Gdx.files.internal(path2));
-            spritePosition2 = TextureRegion.split(spriteMap2, 64, 64); // frame width and height get from extended class
+            spritePosition2 = TextureRegion.split(spriteMap2, towerTextureSize, towerTextureSize);
             animationSprites2 = new TextureRegion[4];
         }
-
-
 
         for (int i = 0; i < animationSprites.length; i++) {
             animationSprites[i] = spritePosition[0][i];
@@ -115,19 +112,14 @@ public class Tower extends Actor {
         for (int i = 0; i < animationSprites2.length; i++) {
             animationSprites2[i] = spritePosition2[0][i];
         }
+
         this.towerAnimation = new Animation<>(turretFirstLevel.getFloat("reload")/animationSprites.length, animationSprites);
         this.towerAnimation2 = new Animation<>(turretFirstLevel.getFloat("reload")/animationSprites.length, animationSprites2);
 
         this.bulletDamage = turretFirstLevel.getFloat("dmg");
 
-
-
-        this.position = new Vector2(tileX * scale * 64 + Gdx.graphics.getWidth() / 20,(9 - tileY) * scale * 64 + (Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 30 * 16) / 2);
-
+        this.position = new Vector2(tileX * scale * towerTextureSize + Gdx.graphics.getWidth() / 20,(9 - tileY) * scale * towerTextureSize + (Gdx.graphics.getHeight() - Gdx.graphics.getWidth() / 30 * 16) / 2);
         this.rotation = 0;
-
-        //this.setBounds(position.x,position.y,towerTextureSize,towerTextureSize);
-
 
         this.addListener(new ClickListener() {
             private boolean isClicked = false;
@@ -278,6 +270,9 @@ public class Tower extends Actor {
             // else find new enemy
             for (Enemy e: enemies)
             {
+                if (e.getIsFlying() && !canAttackFlying)
+                    continue;
+
                 if (range>=Vector2.dst(position.x+towerTextureSize*scale/2,position.y+towerTextureSize*scale/2,e.getPosition().x+e.getEnemySize()*scale/2,e.getPosition().y+e.getEnemySize()*scale/2))
                 {
                     towerBullets.add(new Bullet(e, e.getEnemySize(), bulletDamage, bulletSpeed, bulletTexture, bulletTextureSize, position, scale));

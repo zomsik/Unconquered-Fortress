@@ -275,7 +275,7 @@ public class GameFunctions {
 
     public static ArrayList<Enemy> createTestEnemyWave() {
         ArrayList<Enemy> enemies = new ArrayList<>();
-
+        enemies.add(new Flying());
         enemies.add(new Summoner());
         /*enemies.add(new Flying());
         enemies.add(new Summoner());

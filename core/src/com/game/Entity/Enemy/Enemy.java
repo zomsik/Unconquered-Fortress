@@ -34,6 +34,7 @@ public class Enemy extends Actor {
 
     private boolean isAtEnd;
     private Base base;
+    private boolean isFlying;
 
     private boolean canBeAttacked;
 
@@ -51,8 +52,8 @@ public class Enemy extends Actor {
 
     }
 
-    public Enemy(int health,String path, String name, int enemySize){
-
+    public Enemy(int health,String path, String name, int enemySize, boolean isFlying){
+        this.isFlying = isFlying;
         this.canBeAttacked = true;
         this.name = name;
         this.enemySize = enemySize;
@@ -431,7 +432,7 @@ public class Enemy extends Actor {
 
     public void summonEnemy() {
 
-        Enemy summon = new Enemy(210, "assets/game/enemies/blob.png", "summon", 64);
+        Enemy summon = new Enemy(210, "assets/game/enemies/blob.png", "summon", 64, false);
         summon.initSummonedEnemy(this.summoningTime, this.base, this.path, this.scale);
         summonedEnemies.add(summon);
 
@@ -443,6 +444,10 @@ public class Enemy extends Actor {
 
     public boolean getCanBeAttacked() {
         return canBeAttacked;
+    }
+
+    public boolean getIsFlying() {
+        return isFlying;
     }
 }
 

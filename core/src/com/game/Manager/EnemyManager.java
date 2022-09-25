@@ -59,7 +59,11 @@ public class EnemyManager {
 
 
         enemyWavesToSpawn.add(wave);
-        spawningDelay.add(60 / (float) wave.size());
+        if ((60 / (float) wave.size()) < 5)
+            spawningDelay.add(60 / (float) wave.size());
+        else
+            spawningDelay.add(5f);
+
         timeLeftToSpawn.add(0f);
 
     }
