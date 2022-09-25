@@ -278,7 +278,8 @@ public class Tower extends Actor {
             // else find new enemy
             for (Enemy e: enemies)
             {
-                if (range>=Vector2.dst(position.x+towerTextureSize*scale/2,position.y+towerTextureSize*scale/2,e.getPosition().x+e.getEnemySize()*scale/2,e.getPosition().y+e.getEnemySize()*scale/2)) {
+                if (range>=Vector2.dst(position.x+towerTextureSize*scale/2,position.y+towerTextureSize*scale/2,e.getPosition().x+e.getEnemySize()*scale/2,e.getPosition().y+e.getEnemySize()*scale/2))
+                {
                     towerBullets.add(new Bullet(e, e.getEnemySize(), bulletDamage, bulletSpeed, bulletTexture, bulletTextureSize, position, scale));
                     stateTime = 0f;
                     timeToShoot = reloadTime;
@@ -302,6 +303,41 @@ public class Tower extends Actor {
 
 
                     break;
+                }
+
+                if (Objects.equals(e.getName(), "summoner"))
+                {
+
+                    for (Enemy eSummon: e.getSummonedList())
+                    {
+                        if (eSummon.getCanBeAttacked()) {
+                            if (range >= Vector2.dst(position.x + towerTextureSize * scale / 2, position.y + towerTextureSize * scale / 2, eSummon.getPosition().x + eSummon.getEnemySize() * scale / 2, eSummon.getPosition().y + eSummon.getEnemySize() * scale / 2)) {
+                                towerBullets.add(new Bullet(eSummon, eSummon.getEnemySize(), bulletDamage, bulletSpeed, bulletTexture, bulletTextureSize, position, scale));
+                                stateTime = 0f;
+                                timeToShoot = reloadTime;
+
+                                Vector2 direction = new Vector2(position.x - eSummon.getPosition().x, position.y - eSummon.getPosition().y);
+
+
+                                double x = Math.abs(position.x - eSummon.getPosition().x);
+                                double distance = Vector2.dst(position.x, position.y, eSummon.getPosition().x, eSummon.getPosition().y);
+                                double alfa = Math.acos(x / distance);
+                                rotation = (float) Math.toDegrees(alfa);
+
+                                if (direction.x <= 0 && direction.y <= 0)
+                                    rotation = 270 + rotation;
+                                else if (direction.x <= 0 && direction.y > 0)
+                                    rotation = 270 - rotation;
+                                else if (direction.x > 0 && direction.y > 0)
+                                    rotation = 90 + rotation;
+                                else if (direction.x > 0 && direction.y <= 0)
+                                    rotation = 90 - rotation;
+
+
+                                break;
+                            }
+                        }
+                    }
                 }
 
             }

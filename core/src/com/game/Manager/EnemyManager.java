@@ -1,6 +1,5 @@
 package com.game.Manager;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -10,6 +9,7 @@ import com.game.Entity.Base;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class EnemyManager {
 
@@ -51,7 +51,10 @@ public class EnemyManager {
     public void addWaveToSpawn(ArrayList<Enemy> wave) {
 
         for (Enemy e : wave) {
-            e.initEnemy(path, scale);
+            if(!Objects.equals(e.getName(), "summoner"))
+                e.initEnemy(path, scale);
+            else
+                e.initSummonerEnemy(base, path, scale, 7, 3);
         }
 
 
@@ -114,11 +117,22 @@ public class EnemyManager {
 
         }
 
+        //updating summoned enemies
+        for (Enemy e : enemies) {
+            if (Objects.equals(e.getName(), "summoner"))
+            {
+                e.updateSummoned(deltaTime);
+            }
+        }
+
         //updating enemies
         Iterator<Enemy> eIterator = enemies.iterator();
         while (eIterator.hasNext()) {
             Enemy e = eIterator.next();
+
+
             e.update(deltaTime);
+
 
             //if reached end
             if(e.isAtEnd())
@@ -126,6 +140,7 @@ public class EnemyManager {
                 base.damageBase(e.getDmg());
                 eIterator.remove();
             }
+
             //if dead
             if(!e.isAlive())
             {
@@ -141,6 +156,13 @@ public class EnemyManager {
 
 
     public void render(SpriteBatch spritebatch, ShapeRenderer shapeRenderer) {
+
+        for (Enemy e : enemies) {
+            if (Objects.equals(e.getName(), "summoner"))
+            {
+                e.renderSummoned(spritebatch, shapeRenderer);
+            }
+        }
 
         for (Enemy e : enemies) {
             e.render(spritebatch, shapeRenderer);
