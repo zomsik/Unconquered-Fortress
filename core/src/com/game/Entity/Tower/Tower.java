@@ -64,14 +64,15 @@ public class Tower extends Actor {
 
     private float shootDelayLeft, shootDelay;
     private Bullet delayBullet;
+    private boolean looping;
 
-    public Tower(JSONObject towerLevelsAll, Base base, boolean canAttackFlying, String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int framesDelay, int tileX, int tileY, float scale, GameScreen gameScreen){
+    public Tower(JSONObject towerLevelsAll, Base base, boolean canAttackFlying, String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int framesDelay, boolean looping, int tileX, int tileY, float scale, GameScreen gameScreen){
         this.name = name;
         this.canAttackFlying = canAttackFlying;
         this.towerLevels = towerLevelsAll.getJSONArray(name);
         this.gameScreen = gameScreen;
         JSONObject turretFirstLevel = this.towerLevels.getJSONObject(0);
-
+        this.looping = looping;
         this.base = base;
         this.isMouseEntered = false;
         this.timeToShoot = 0;
@@ -391,7 +392,7 @@ public class Tower extends Actor {
         }
 
         if (towerAnimation2 != null)
-            batch.draw(towerAnimation2.getKeyFrame(stateTime, true), position.x+32*(scale-1), position.y+32*(scale-1),towerTextureSize/2, towerTextureSize/2,towerTextureSize, towerTextureSize,scale,scale,0);
+            batch.draw(towerAnimation2.getKeyFrame(stateTime, looping), position.x+32*(scale-1), position.y+32*(scale-1),towerTextureSize/2, towerTextureSize/2,towerTextureSize, towerTextureSize,scale,scale,0);
 
 
         batch.draw(towerAnimation.getKeyFrame(stateTime, false),position.x+32*(scale-1), position.y+32*(scale-1), towerTextureSize/2, towerTextureSize/2,towerTextureSize,towerTextureSize,scale,scale,rotation);
