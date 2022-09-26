@@ -106,6 +106,7 @@
   "betterUpgrade": "Reinforcement",
   "luck": "Luck",
   "bSaveAndExit": "Save and Exit",
-  "seed": "Seed"
+  "seed": "Seed",
+  "noAvaibleSlots": "No avaible profiles."
 
 }

@@ -106,6 +106,7 @@
   "betterUpgrade": "Wzmocnienie",
   "luck": "Szczęście",
   "bSaveAndExit": "Zapisz i wyjdź",
-  "seed": "Ziarno"
+  "seed": "Ziarno",
+  "noAvaibleSlots": "Brak wolnych profili."
 
 }

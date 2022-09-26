@@ -46,7 +46,7 @@ public class ProfileLocalScreen implements Screen {
     private Table delete1, delete2, delete3;
     private Table table_migrateSave, migrationSave1, migrationSave2, migrationSave3;
     private TextField tDialogEasyDifficulty, tDialogNormalDifficulty, tDialogHardDifficulty, tMigrateSaveText;
-    private TextField tDialogSeed, tDialogSeedValue;
+    private TextField tDialogSeed, tDialogSeedValue, tDialogDifficulty;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private TextButton.TextButtonStyle textButtonStyle_bBack,textButtonStyle_bSave, textButtonStyle_bNext, textButtonStyle_bNewProfile, textButtonStyle_cDialogDifficultyChecked, textButtonStyle_cDialogDifficultyUnchecked;
@@ -129,8 +129,14 @@ public class ProfileLocalScreen implements Screen {
         tDialogHardDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "tHardDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogSeed = new TextField(languageManager.getValue(languageManager.getLanguage(), "seed"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogSeed.setDisabled(true);
+        tDialogSeed.setAlignment(Align.center);
+        tDialogEasyDifficulty.setAlignment(Align.center);
+        tDialogNormalDifficulty.setAlignment(Align.center);
+        tDialogHardDifficulty.setAlignment(Align.center);
         tDialogSeedValue = new TextField("", textFieldStyleManager.returnTextFieldStyle(seedFieldStyle));
         tDialogSeedValue.setAlignment(Align.center);
+        tDialogDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "difficulty_field"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tDialogDifficulty.setDisabled(true);
         deleteGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(deletedialogBg)))) {
             public void result(Object obj) {
                 deleteGameDialog.cancel();
@@ -140,6 +146,8 @@ public class ProfileLocalScreen implements Screen {
         table_Dialog.setHeight(420);
         table_Dialog.setX(0);
         table_Dialog.setY(0);
+        table_Dialog.row().padBottom(8);
+        table_Dialog.add(tDialogDifficulty).colspan(2);
         table_Dialog.row().padBottom(8);
         table_Dialog.add(cDialogEasyDifficulty);
         table_Dialog.add(tDialogEasyDifficulty);
@@ -450,33 +458,34 @@ public class ProfileLocalScreen implements Screen {
 
         int numberOfLoadedSaves = loadResponse.getJSONArray("loadedData").length();
 
-        Texture dialogBg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
+        Texture dialogBg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
 
 
         tMigrateSaveText = new TextField(null, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-
-
-        table_migrateSave.setWidth(350);
-        table_migrateSave.setX(200);
-        table_migrateSave.setY(300);
-        table_migrateSave.add(tMigrateSaveText);
-
+        tMigrateSaveText.setAlignment(Align.center);
+        bMigrateSaveDialogOk = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        table_migrateSave.setWidth(512);
+        table_migrateSave.setHeight(160);
+        table_migrateSave.setX(0);
+        table_migrateSave.setY(0);
+        table_migrateSave.add(tMigrateSaveText).width(256);
+        table_migrateSave.row().padBottom(8);
+        table_migrateSave.add(bMigrateSaveDialogOk);
         migrateSaveDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(dialogBg)))) {
             public void result(Object obj) {
                 deleteGameDialog.cancel();
             }
         };
 
-        bMigrateSaveDialogOk = new TextButton("ok", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+
 
 
         migrateSaveDialog.addActor(table_migrateSave);
-        migrateSaveDialog.button(bMigrateSaveDialogOk);
 
         if (numberOfLoadedSaves==3)
         {
             System.out.println("zajete");
-            tMigrateSaveText.setText("zajete wszystko");
+            tMigrateSaveText.setText(languageManager.getValue(languageManager.getLanguage(),"noAvaibleSlots"));
 
             bMigrateSaveDialogOk.addListener(new ClickListener() {
                 @Override

@@ -40,7 +40,7 @@ public class ProfileCloudScreen implements Screen {
 
     private TextButton bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogEasyDifficulty, cDialogNormalDifficulty, cDialogHardDifficulty;
     private Table table_profile_01, table_profile_02, table_profile_03, table_default, table_previous, table_Dialog;
-    private TextField tDialogEasyDifficulty, tDialogNormalDifficulty, tDialogHardDifficulty, tDialogSeed, tDialogSeedValue;
+    private TextField tDialogEasyDifficulty, tDialogNormalDifficulty, tDialogHardDifficulty, tDialogSeed, tDialogSeedValue, tDialogDifficulty;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private TextButton.TextButtonStyle textButtonStyle_bBack,textButtonStyle_bSave, textButtonStyle_bPrevious, textButtonStyle_bNewProfile, textButtonStyle_cDialogDifficultyChecked, textButtonStyle_cDialogDifficultyUnchecked;
@@ -276,7 +276,6 @@ public class ProfileCloudScreen implements Screen {
         table_previous.setBounds((Gdx.graphics.getWidth()-Gdx.graphics.getWidth()/10*9 - Gdx.graphics.getHeight()/10), Gdx.graphics.getWidth()/10*2,Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*2);
 
         table_previous.add(bOtherScreen);
-        table_previous.debug();
         stage.addActor(table_previous);
         bOtherScreen.addListener(new ClickListener() {
             @Override
@@ -299,13 +298,21 @@ public class ProfileCloudScreen implements Screen {
         tDialogHardDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "tHardDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogSeed = new TextField(languageManager.getValue(languageManager.getLanguage(), "seed"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogSeed.setDisabled(true);
+        tDialogSeed.setAlignment(Align.center);
+        tDialogEasyDifficulty.setAlignment(Align.center);
+        tDialogNormalDifficulty.setAlignment(Align.center);
+        tDialogHardDifficulty.setAlignment(Align.center);
         tDialogSeedValue = new TextField("", textFieldStyleManager.returnTextFieldStyle(seedFieldStyle));
         tDialogSeedValue.setAlignment(Align.center);
+        tDialogDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "difficulty_field"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tDialogDifficulty.setDisabled(true);
 
         table_Dialog.setWidth(360);
         table_Dialog.setHeight(420);
         table_Dialog.setX(0);
         table_Dialog.setY(0);
+        table_Dialog.row().padBottom(8);
+        table_Dialog.add(tDialogDifficulty).colspan(2);
         table_Dialog.row().padBottom(8);
         table_Dialog.add(cDialogEasyDifficulty);
         table_Dialog.add(tDialogEasyDifficulty);
