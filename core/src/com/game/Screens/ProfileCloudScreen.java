@@ -105,7 +105,8 @@ public class ProfileCloudScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         Texture bg = new Texture(new FileHandle("assets/profile_banner.png"));
-        Texture dialogBg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
+        Texture dialogBg = new Texture(new FileHandle("assets/dialog/loginregisterDialog.png"));
+        Texture deletedialogBg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
         Texture icon = new Texture(new FileHandle("assets/icons/local.png"));
 
         table_profile_01.setBounds(Gdx.graphics.getWidth()/10*2, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
@@ -301,26 +302,27 @@ public class ProfileCloudScreen implements Screen {
         tDialogSeedValue = new TextField("", textFieldStyleManager.returnTextFieldStyle(seedFieldStyle));
         tDialogSeedValue.setAlignment(Align.center);
 
-
-
-        table_Dialog.setWidth(350);
-        table_Dialog.setX(200);
-        table_Dialog.setY(300);
+        table_Dialog.setWidth(360);
+        table_Dialog.setHeight(420);
+        table_Dialog.setX(0);
+        table_Dialog.setY(0);
+        table_Dialog.row().padBottom(8);
         table_Dialog.add(cDialogEasyDifficulty);
         table_Dialog.add(tDialogEasyDifficulty);
-        table_Dialog.row();
+        table_Dialog.row().padBottom(8);
         table_Dialog.add(cDialogNormalDifficulty);
         table_Dialog.add(tDialogNormalDifficulty);
-        table_Dialog.row();
+        table_Dialog.row().padBottom(8);
         table_Dialog.add(cDialogHardDifficulty);
         table_Dialog.add(tDialogHardDifficulty);
-        table_Dialog.row();
+        table_Dialog.row().padBottom(8);
         table_Dialog.add(tDialogSeed);
         table_Dialog.add(tDialogSeedValue);
-        newGameDialog.addActor(table_Dialog);
+        table_Dialog.row();
+        table_Dialog.add(bDialogCancel).padTop(64);
+        table_Dialog.add(bDialogCreate).padTop(64);
 
-        newGameDialog.button(bDialogCancel);
-        newGameDialog.button(bDialogCreate);
+        newGameDialog.addActor(table_Dialog);
 
         cDialogEasyDifficulty.addListener(new ClickListener() {
             @Override

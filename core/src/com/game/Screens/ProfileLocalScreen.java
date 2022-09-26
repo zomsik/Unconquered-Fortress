@@ -116,7 +116,8 @@ public class ProfileLocalScreen implements Screen {
 
 
         Texture bg = new Texture(new FileHandle("assets/profile_banner.png"));
-        Texture dialogBg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
+        Texture dialogBg = new Texture(new FileHandle("assets/dialog/loginregisterDialog.png"));
+        Texture deletedialogBg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
 
         newGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(dialogBg)))) {
             public void result(Object obj) {
@@ -130,39 +131,40 @@ public class ProfileLocalScreen implements Screen {
         tDialogSeed.setDisabled(true);
         tDialogSeedValue = new TextField("", textFieldStyleManager.returnTextFieldStyle(seedFieldStyle));
         tDialogSeedValue.setAlignment(Align.center);
-        deleteGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(dialogBg)))) {
+        deleteGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(deletedialogBg)))) {
             public void result(Object obj) {
                 deleteGameDialog.cancel();
             }
         };
-
-        table_Dialog.setWidth(350);
-        table_Dialog.setX(200);
-        table_Dialog.setY(300);
+        table_Dialog.setWidth(360);
+        table_Dialog.setHeight(420);
+        table_Dialog.setX(0);
+        table_Dialog.setY(0);
+        table_Dialog.row().padBottom(8);
         table_Dialog.add(cDialogEasyDifficulty);
         table_Dialog.add(tDialogEasyDifficulty);
-        table_Dialog.row();
+        table_Dialog.row().padBottom(8);
         table_Dialog.add(cDialogNormalDifficulty);
         table_Dialog.add(tDialogNormalDifficulty);
-        table_Dialog.row();
+        table_Dialog.row().padBottom(8);
         table_Dialog.add(cDialogHardDifficulty);
         table_Dialog.add(tDialogHardDifficulty);
-        table_Dialog.row();
+        table_Dialog.row().padBottom(8);
         table_Dialog.add(tDialogSeed);
         table_Dialog.add(tDialogSeedValue);
+        table_Dialog.row();
+        table_Dialog.add(bDialogCancel).padTop(64);
+        table_Dialog.add(bDialogCreate).padTop(64);
 
         table_deleteDialog.setWidth(350);
         table_deleteDialog.setX(200);
         table_deleteDialog.setY(300);
 
         newGameDialog.addActor(table_Dialog);
-        newGameDialog.button(bDialogCancel);
-        newGameDialog.button(bDialogCreate);
 
         deleteGameDialog.addActor(table_deleteDialog);
-        deleteGameDialog.button(bDeleteDialogDelete);
-        deleteGameDialog.button(bDeleteDialogCancel);
-
+        deleteGameDialog.button(bDeleteDialogCancel).padBottom(80-bDeleteDialogDelete.getHeight()/2);
+        deleteGameDialog.button(bDeleteDialogDelete).padBottom(80-bDeleteDialogDelete.getHeight()/2);
         cDialogEasyDifficulty.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
