@@ -63,6 +63,7 @@ public class Base {
         this.money = actualGame.getInt("gold");
         this.diamonds = actualGame.getInt("diamonds");
         this.maxHealth = 100;
+        this.maxHealth = actualGame.getInt("maxHealth");
         this.health = actualGame.getInt("health");
         this.armor = 100;
         this.difficulty = actualGame.getString("difficulty");

@@ -935,6 +935,8 @@ public class GameScreen implements Screen {
     public void saveGame(){
         actualGame.put("buildings",towerManager.getTowers());
         actualGame.put("gold",base.getMoney());
+        actualGame.put("maxHealth",base.getMaxHealth());
+        actualGame.put("health",base.getHealth());
         actualGame.put("wave",base.getWave());
         actualGame.put("roadObstacles", roadObstaclesManager.getRoadObstacles());
 

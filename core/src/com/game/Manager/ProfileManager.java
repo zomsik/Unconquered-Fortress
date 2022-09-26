@@ -103,6 +103,7 @@ public class ProfileManager {
         j.put("difficulty", difficulty);
         j.put("finishedMaps",0);
         j.put("wave",0);
+        j.put("maxHealth",100);
         j.put("health",100);
         j.put("gold",1000);
         j.put("diamonds",500);
@@ -122,7 +123,8 @@ public class ProfileManager {
         actualGame.put("finishedMaps",actualGame.getInt("finishedMaps")+1);
         actualGame.put("diamonds", base.getDiamonds());
         actualGame.put("wave",0);
-        actualGame.put("health",100);
+        actualGame.put("maxHealth", base.getMaxHealth());
+        actualGame.put("health",base.getMaxHealth());
         actualGame.put("gold",1000);
         actualGame.put("terrainModifications", new JSONArray());
         actualGame.put("buildings", new JSONArray());

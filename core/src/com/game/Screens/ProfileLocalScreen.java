@@ -117,7 +117,7 @@ public class ProfileLocalScreen implements Screen {
 
         Texture bg = new Texture(new FileHandle("assets/profile_banner.png"));
         Texture dialogBg = new Texture(new FileHandle("assets/dialog/loginregisterDialog.png"));
-        Texture deletedialogBg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
+        Texture deleteDialogBg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
 
         newGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(dialogBg)))) {
             public void result(Object obj) {
@@ -137,7 +137,7 @@ public class ProfileLocalScreen implements Screen {
         tDialogSeedValue.setAlignment(Align.center);
         tDialogDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "difficulty_field"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogDifficulty.setDisabled(true);
-        deleteGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(deletedialogBg)))) {
+        deleteGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(deleteDialogBg)))) {
             public void result(Object obj) {
                 deleteGameDialog.cancel();
             }
@@ -514,7 +514,6 @@ public class ProfileLocalScreen implements Screen {
                     public void clicked(InputEvent event, float x, float y) {
                         uploadAndDelete(saveNumber, finalI);
                         game.setScreen(new ProfileLocalScreen(game));
-                        System.out.println("tu działam");
                     }
                 });
                 migrateSaveDialog.show(stage);
