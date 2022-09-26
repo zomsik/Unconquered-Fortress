@@ -25,6 +25,7 @@ import com.game.State.GameState;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -40,10 +41,12 @@ public class ProfileLocalScreen implements Screen {
     private BitmapFont font, font_profile;
     private TextureAtlas taButtonsDefault, taEmptyTextfield, taButtonsProfile, taDialog;
     private Skin images_default, images_empty, image_profiles, images_settings; //<- to delete
-    private TextButton bDeleteDialogDelete, bDeleteDialogCancel, bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogEasyDifficulty, cDialogNormalDifficulty, cDialogHardDifficulty;
+    private TextButton bMigrateSaveDialogOk, bDeleteDialogDelete, bDeleteDialogCancel, bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogEasyDifficulty, cDialogNormalDifficulty, cDialogHardDifficulty;
     private Table table_profile_01, table_profile_02, table_profile_03, table_default, table_next, table_Dialog, table_deleteDialog;
     private Table delete1, delete2, delete3;
-    private TextField tDialogEasyDifficulty, tDialogNormalDifficulty, tDialogHardDifficulty, tDialogSeed, tDialogSeedValue;
+    private Table table_migrateSave, migrationSave1, migrationSave2, migrationSave3;
+    private TextField tDialogEasyDifficulty, tDialogNormalDifficulty, tDialogHardDifficulty, tMigrateSaveText;
+    private TextField tDialogSeed, tDialogSeedValue;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private TextButton.TextButtonStyle textButtonStyle_bBack,textButtonStyle_bSave, textButtonStyle_bNext, textButtonStyle_bNewProfile, textButtonStyle_cDialogDifficultyChecked, textButtonStyle_cDialogDifficultyUnchecked;
@@ -54,7 +57,7 @@ public class ProfileLocalScreen implements Screen {
     private JSONObject save1, save2, save3;
 
     private JSONObject loadResponse;
-    private Dialog newGameDialog, deleteGameDialog;
+    private Dialog newGameDialog, deleteGameDialog, migrateSaveDialog;
     private String chosenDifficulty = null;
     private int chosenProfile;
 
@@ -109,33 +112,7 @@ public class ProfileLocalScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        if(game.getIsLogged()){
-            table_next.setBounds(Gdx.graphics.getWidth()/10*9, Gdx.graphics.getWidth()/10*2,Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*2);
-            table_next.add(bOtherScreen);
 
-            JSONObject loadSaves = new JSONObject().put("login", game.getLogin());
-
-            new Thread(() -> {
-                loadResponse = connectionManager.requestSend(loadSaves, "api/downloadSaves");
-
-                System.out.println(loadResponse.getInt("status"));
-
-                if (loadResponse.getInt("status") == 200 || loadResponse.getInt("status") == 201) {
-                    stage.addActor(table_next);
-                } else {
-                    System.out.println(languageManager.getValue(languageManager.getLanguage(), loadResponse.getString("message")));
-                }
-            }).start();
-
-            bOtherScreen.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-
-                    game.setScreen(new ProfileCloudScreen(game, loadResponse));
-
-                }
-            });
-        }
 
 
         Texture bg = new Texture(new FileHandle("assets/profile_banner.png"));
@@ -273,6 +250,14 @@ public class ProfileLocalScreen implements Screen {
                 }
             });
 
+            migrationSave1 = ProfileManager.getMigrationSaveTable((int) table_profile_01.getX(), (int) (table_profile_01.getY() + table_profile_01.getHeight()) - 64, (int) table_profile_01.getChild(0).getWidth(), (int) table_profile_01.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), true);
+            migrationSave1.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    migrateSave(1);
+                }
+            });
+
             table_profile_01.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -308,6 +293,14 @@ public class ProfileLocalScreen implements Screen {
                 }
             });
 
+            migrationSave2 = ProfileManager.getMigrationSaveTable((int) table_profile_02.getX(), (int) (table_profile_02.getY() + table_profile_02.getHeight()) - 64, (int) table_profile_02.getChild(0).getWidth(), (int) table_profile_02.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), true);
+            migrationSave2.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    migrateSave(2);
+                }
+            });
+
             table_profile_02.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -338,6 +331,14 @@ public class ProfileLocalScreen implements Screen {
                     saveToDelete=3;
                     deleteGameDialog.show(stage);
 
+                }
+            });
+
+            migrationSave3 = ProfileManager.getMigrationSaveTable((int) table_profile_03.getX(), (int) (table_profile_03.getY() + table_profile_03.getHeight()) - 64, (int) table_profile_03.getChild(0).getWidth(), (int) table_profile_03.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), true);
+            migrationSave3.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    migrateSave(3);
                 }
             });
 
@@ -393,6 +394,140 @@ public class ProfileLocalScreen implements Screen {
             }
         });
 
+
+
+
+
+        //cloud connection
+        if(game.getIsLogged()){
+            table_next.setBounds(Gdx.graphics.getWidth()/10*9, Gdx.graphics.getWidth()/10*2,Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*2);
+            table_next.add(bOtherScreen);
+
+            JSONObject loadSaves = new JSONObject().put("login", game.getLogin());
+
+            new Thread(() -> {
+                loadResponse = connectionManager.requestSend(loadSaves, "api/downloadSaves");
+
+                System.out.println(loadResponse.getInt("status"));
+
+                if (loadResponse.getInt("status") == 200 || loadResponse.getInt("status") == 201) {
+                    stage.addActor(table_next);
+
+                    if (fileReader.fileExists("save/save01l.json")) {
+                        stage.addActor(migrationSave1);
+                    }
+                    if (fileReader.fileExists("save/save02l.json")) {
+                        stage.addActor(migrationSave2);
+                    }
+                    if(fileReader.fileExists("save/save03l.json")) {
+                        stage.addActor(migrationSave3);
+                    }
+
+
+
+                } else {
+                    System.out.println(languageManager.getValue(languageManager.getLanguage(), loadResponse.getString("message")));
+                }
+            }).start();
+
+            bOtherScreen.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+
+                    game.setScreen(new ProfileCloudScreen(game, loadResponse));
+
+                }
+            });
+        }
+
+
+
+    }
+
+    private void migrateSave(int saveNumber) {
+
+        int numberOfLoadedSaves = loadResponse.getJSONArray("loadedData").length();
+
+        Texture dialogBg = new Texture(new FileHandle("assets/dialog/skin_dialog.png"));
+
+
+        tMigrateSaveText = new TextField(null, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+
+
+        table_migrateSave.setWidth(350);
+        table_migrateSave.setX(200);
+        table_migrateSave.setY(300);
+        table_migrateSave.add(tMigrateSaveText);
+
+        migrateSaveDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(dialogBg)))) {
+            public void result(Object obj) {
+                deleteGameDialog.cancel();
+            }
+        };
+
+        bMigrateSaveDialogOk = new TextButton("ok", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+
+
+        migrateSaveDialog.addActor(table_migrateSave);
+        migrateSaveDialog.button(bMigrateSaveDialogOk);
+
+        if (numberOfLoadedSaves==3)
+        {
+            System.out.println("zajete");
+            tMigrateSaveText.setText("zajete wszystko");
+
+            bMigrateSaveDialogOk.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y){
+                    migrateSaveDialog.hide();
+                }
+            });
+            migrateSaveDialog.show(stage);
+            return;
+        }
+
+        List<Integer> existSave = new ArrayList<>();
+
+
+        for (int i = 0; i < numberOfLoadedSaves; i++) {
+            existSave.add(loadResponse.getJSONArray("loadedData").getJSONObject(i).getInt("profileNumber"));
+        }
+        Collections.sort(existSave);
+        for(int i=1 ; i<=3; i++)
+        {
+            if (!existSave.contains(i)) {
+                tMigrateSaveText.setText("zapis na : "+i);
+                int finalI = i;
+                bMigrateSaveDialogOk.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        uploadAndDelete(saveNumber, finalI);
+                        game.setScreen(new ProfileLocalScreen(game));
+                        System.out.println("tu działam");
+                    }
+                });
+                migrateSaveDialog.show(stage);
+                return;
+            }
+        }
+
+    }
+
+    private void uploadAndDelete(int saveNumber, int emptyProfileNumber) {
+        JSONObject saveToUpload = new JSONObject();
+
+        switch (saveNumber)
+        {
+            case 1-> saveToUpload = save1;
+            case 2-> saveToUpload = save2;
+            case 3-> saveToUpload = save3;
+        }
+        saveToUpload.put("login",game.getLogin());
+        saveToUpload.put("profileNumber",emptyProfileNumber);
+
+        connectionManager.requestSend(saveToUpload, "api/uploadSave");
+
+        fileReader.deleteSave(saveNumber);
     }
 
     public void deleteSave(int saveNumber){
@@ -416,6 +551,10 @@ public class ProfileLocalScreen implements Screen {
             delete1.setVisible(false);
             delete2.setVisible(false);
             delete3.setVisible(false);
+            migrationSave1.setVisible(false);
+            migrationSave2.setVisible(false);
+            migrationSave3.setVisible(false);
+
             table_default.setVisible(false);
             table_next.setVisible(false);
         }else{
@@ -426,6 +565,9 @@ public class ProfileLocalScreen implements Screen {
             delete1.setVisible(true);
             delete2.setVisible(true);
             delete3.setVisible(true);
+            migrationSave1.setVisible(true);
+            migrationSave2.setVisible(true);
+            migrationSave3.setVisible(true);
             table_default.setVisible(true);
             table_next.setVisible(true);
         }
@@ -500,12 +642,17 @@ public class ProfileLocalScreen implements Screen {
         delete1 = new Table();
         delete2 = new Table();
         delete3 = new Table();
+        migrationSave1 = new Table();
+        migrationSave2 = new Table();
+        migrationSave3 = new Table();
+        table_migrateSave = new Table();
+
+
         textButtonStyle_bBack = new TextButton.TextButtonStyle();
         textButtonStyle_bSave = new TextButton.TextButtonStyle();
         textButtonStyle_bNext = new TextButton.TextButtonStyle();
         textButtonStyle_bNewProfile = new TextButton.TextButtonStyle();
         textFieldStyle = new TextField.TextFieldStyle();
-        seedFieldStyle = new TextField.TextFieldStyle();
         backgroundMusic = game.getMusic();
         textButtonStyle_cDialogDifficultyChecked = new TextButton.TextButtonStyle();
         textButtonStyle_cDialogDifficultyUnchecked  = new TextButton.TextButtonStyle();

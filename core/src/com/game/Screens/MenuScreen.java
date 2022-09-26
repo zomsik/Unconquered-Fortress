@@ -60,9 +60,6 @@ public class MenuScreen implements Screen  {
 
     public boolean isDialog = false;
 
-    private float scale;
-
-
     private Pixmap cursorColor;
     public MenuScreen(Main game){
         this.game = game;
