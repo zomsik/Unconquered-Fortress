@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.game.Main;
 import com.game.Manager.*;
 import com.game.State.GameState;
@@ -42,11 +43,11 @@ public class ProfileLocalScreen implements Screen {
     private TextButton bDeleteDialogDelete, bDeleteDialogCancel, bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogEasyDifficulty, cDialogNormalDifficulty, cDialogHardDifficulty;
     private Table table_profile_01, table_profile_02, table_profile_03, table_default, table_next, table_Dialog, table_deleteDialog;
     private Table delete1, delete2, delete3;
-    private TextField tDialogEasyDifficulty, tDialogNormalDifficulty, tDialogHardDifficulty;
+    private TextField tDialogEasyDifficulty, tDialogNormalDifficulty, tDialogHardDifficulty, tDialogSeed, tDialogSeedValue;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private TextButton.TextButtonStyle textButtonStyle_bBack,textButtonStyle_bSave, textButtonStyle_bNext, textButtonStyle_bNewProfile, textButtonStyle_cDialogDifficultyChecked, textButtonStyle_cDialogDifficultyUnchecked;
-    private TextField.TextFieldStyle textFieldStyle;
+    private TextField.TextFieldStyle textFieldStyle, seedFieldStyle;
     private Music backgroundMusic;
     private LanguageManager languageManager;
     private ConnectionManager connectionManager;
@@ -102,6 +103,7 @@ public class ProfileLocalScreen implements Screen {
         bNewProfile02 = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bNewProfile));
         bNewProfile03 = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bNewProfile));
         textFieldStyleManager.setTextFieldStyle(textFieldStyle, images_empty, font, "empty_background", Color.WHITE);
+        textFieldStyleManager.setTextFieldStyleCursor(seedFieldStyle, images_settings, font, "textBar", Color.WHITE);
     }
 
     @Override
@@ -147,7 +149,10 @@ public class ProfileLocalScreen implements Screen {
         tDialogEasyDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "tEasyDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogNormalDifficulty  = new TextField(languageManager.getValue(languageManager.getLanguage(), "tNormalDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogHardDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "tHardDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-
+        tDialogSeed = new TextField(languageManager.getValue(languageManager.getLanguage(), "seed"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tDialogSeed.setDisabled(true);
+        tDialogSeedValue = new TextField("", textFieldStyleManager.returnTextFieldStyle(seedFieldStyle));
+        tDialogSeedValue.setAlignment(Align.center);
         deleteGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(dialogBg)))) {
             public void result(Object obj) {
                 deleteGameDialog.cancel();
@@ -165,6 +170,9 @@ public class ProfileLocalScreen implements Screen {
         table_Dialog.row();
         table_Dialog.add(cDialogHardDifficulty);
         table_Dialog.add(tDialogHardDifficulty);
+        table_Dialog.row();
+        table_Dialog.add(tDialogSeed);
+        table_Dialog.add(tDialogSeedValue);
 
         table_deleteDialog.setWidth(350);
         table_deleteDialog.setX(200);
@@ -224,7 +232,7 @@ public class ProfileLocalScreen implements Screen {
                     System.out.println("Stworzono gre na profilu " + chosenProfile + "o poziomie trudnosci " + chosenDifficulty);
                     GameState.setGameState(GameState.PLAYING);
                     ///in cloud put profileNumber
-                    game.setScreen(new GameScreen(game, ProfileManager.createEmptySave(chosenDifficulty, chosenProfile), true));
+                    game.setScreen(new GameScreen(game, ProfileManager.createEmptySave(chosenDifficulty, chosenProfile, tDialogSeedValue.getText()), true));
                 }
             }
         });
@@ -497,6 +505,7 @@ public class ProfileLocalScreen implements Screen {
         textButtonStyle_bNext = new TextButton.TextButtonStyle();
         textButtonStyle_bNewProfile = new TextButton.TextButtonStyle();
         textFieldStyle = new TextField.TextFieldStyle();
+        seedFieldStyle = new TextField.TextFieldStyle();
         backgroundMusic = game.getMusic();
         textButtonStyle_cDialogDifficultyChecked = new TextButton.TextButtonStyle();
         textButtonStyle_cDialogDifficultyUnchecked  = new TextButton.TextButtonStyle();

@@ -1,6 +1,5 @@
 package com.game.Manager;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -8,12 +7,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Null;
 import com.game.Entity.Base;
 import org.json.JSONObject;
 import org.json.simple.JSONArray;
@@ -73,16 +70,34 @@ public class ProfileManager {
 
         return t;
     }
-
-    public static JSONObject createEmptySave(String difficulty, int chosenProfile){
-
-        //        //wygenerowanie seeda
+    static long stringToSeed(String s) {
         final ThreadLocal<Random> RANDOM_THREAD_LOCAL = ThreadLocal.withInitial(Random::new);
         Random random = RANDOM_THREAD_LOCAL.get();
+        long hash = 0;
+        if (s.length()==0) {
+            return random.nextInt();
+        }
+        if(s.matches("-?[0-9]+")){
+            return Integer.parseInt(s);
+        }else{
+            for (char c : s.toCharArray()) {
+                hash = 31L*hash + c;
+            }
+        }
+        if (hash > Integer.MAX_VALUE){
+            return random.nextInt();
+        }else {
+            return hash;
+        }
+    }
+    public static JSONObject createEmptySave(String difficulty, int chosenProfile, String seedInput){
 
+        //        //wygenerowanie seeda
+
+        System.out.println("Seed: " + seedInput);
         JSONObject j = new JSONObject();
-
-        int seed = random.nextInt();
+        int seed = (int) stringToSeed(seedInput);
+        System.out.println("Seed: " + seed);
         j.put("seed", seed);//
         j.put("profileNumber", chosenProfile);
         j.put("difficulty", difficulty);

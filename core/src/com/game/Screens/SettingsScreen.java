@@ -1,6 +1,7 @@
 package com.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -189,22 +191,10 @@ public class SettingsScreen implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y){
-                System.out.println(tLanguageField.getText() + " " + fileReader.getLanguageValue());
-                System.out.println(tResolutionField.getText() + " " + fileReader.getResolutionValue());
-                System.out.println(Math.round(volumeSlider.getValue()) + " " + fileReader.getVolumeValue());
                 if(tLanguageField.getText().equals(fileReader.getLanguageValue()) && tResolutionField.getText().equals(fileReader.getResolutionValue()) && Math.round(volumeSlider.getValue()) == fileReader.getVolumeValue()){
-                    switch(GameState.getPreviousGameState()){
-                        case MENU:{
-                            game.setScreen(new MenuScreen(game));
-                            dispose();
-                        }break;
-                        case PLAYING: {
-                            //TODO
-                        }break;
-                    }
-
+                    game.setScreen(new MenuScreen(game));
+                    dispose();
                 }else {
-                    //TODO second back button with setScreenem i disposem dodać, wyrownać, zrobić ramkę i ogarnąć tekst
                     isDialog = true;
                     Texture bg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
                     backDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
@@ -221,6 +211,35 @@ public class SettingsScreen implements Screen {
                     System.out.println("Dialog width: " + backDialog.getWidth() + " height: " + backDialog.getHeight());
                     table_default.remove();
                 }
+            }
+        });
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ESCAPE) {
+                    if(tLanguageField.getText().equals(fileReader.getLanguageValue()) && tResolutionField.getText().equals(fileReader.getResolutionValue()) && Math.round(volumeSlider.getValue()) == fileReader.getVolumeValue()){
+                        game.setScreen(new MenuScreen(game));
+                        dispose();
+                    }else if(!isDialog){
+                        isDialog = true;
+                        Texture bg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
+                        backDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
+                            public void result(Object obj) {
+                                System.out.println("result " + obj);
+                            }
+                        };
+
+                        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+                        backDialog.text(languageManager.getValue(languageManager.getLanguage(), "dialog_field_text"), labelStyle);
+                        backDialog.button(bBackDialog).padBottom(16);
+                        backDialog.button(bSave).padBottom(16);
+                        backDialog.show(stage);
+                        System.out.println("Dialog width: " + backDialog.getWidth() + " height: " + backDialog.getHeight());
+                        table_default.remove();
+                    }
+                    return true;
+                }
+                return super.keyDown(event, keycode);
             }
         });
         bBackDialog.addListener(new ClickListener(){
