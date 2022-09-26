@@ -1,8 +1,11 @@
 ## Client
-
+# Project exclude paths
+/out/
+/save/save01l.json
+/save/save02l.json
+/save/save03l.json
 /save/settings.json
 /save/user.json
-
 ## Server
 /server/node_modules/
 
@@ -121,5 +124,3 @@ Thumbs.db
 /ios/IOSLauncher.app
 /ios/IOSLauncher.app.dSYM
 
-# Project exclude paths
-/out/
