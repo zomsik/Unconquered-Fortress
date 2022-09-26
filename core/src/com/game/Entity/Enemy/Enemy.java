@@ -169,7 +169,7 @@ public class Enemy extends Actor {
 
 
         summoningAnimation = new Animation[4];
-        Texture spriteMap = new Texture(Gdx.files.internal("assets/game/enemies/summoner.png")); // add summoning textures
+        Texture spriteMap = new Texture(Gdx.files.internal("assets/game/enemies/summoner_summoning.png")); // add summoning textures
         TextureRegion[][] spritePosition = TextureRegion.split(spriteMap, 64, 64);
         TextureRegion[] animationSprites;
 
@@ -182,7 +182,7 @@ public class Enemy extends Actor {
 
             }
 
-            summoningAnimation[j] = new Animation<>(0.125f, animationSprites);
+            summoningAnimation[j] = new Animation<>(0.5f, animationSprites);
 
         }
 
