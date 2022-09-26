@@ -131,4 +131,23 @@ public class ProfileManager {
 
         return binTable;
     }
+
+    public static Table getMigrationSaveTable(int x, int y, int width, int height, float scale, boolean upload) {
+        Image icon;
+        if (upload)
+            icon = new Image(new Texture("assets/icons/cloud.png"));
+        else
+            icon = new Image(new Texture("assets/icons/local.png"));
+
+        icon.setWidth(width);
+        icon.setHeight(height);
+        Table migrationTable = new Table();
+        migrationTable.setBounds(x-9*scale, y-12*scale, icon.getWidth(),  icon.getHeight());
+
+
+        migrationTable.add(icon);
+
+        return migrationTable;
+
+    }
 }
