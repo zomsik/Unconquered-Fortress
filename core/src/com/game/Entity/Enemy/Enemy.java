@@ -433,7 +433,7 @@ public class Enemy extends Actor {
     public void summonEnemy() {
 
         Enemy summon = new Enemy(210, "assets/game/enemies/blob.png", "summon", 64, false);
-        summon.initSummonedEnemy(this.summoningTime, this.base, this.path, this.scale);
+        summon.initSummonedEnemy(this.summoningTime*0.8f, this.base, this.path, this.scale);
         summonedEnemies.add(summon);
 
     }
