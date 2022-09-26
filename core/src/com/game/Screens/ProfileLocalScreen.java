@@ -653,6 +653,7 @@ public class ProfileLocalScreen implements Screen {
         textButtonStyle_bNext = new TextButton.TextButtonStyle();
         textButtonStyle_bNewProfile = new TextButton.TextButtonStyle();
         textFieldStyle = new TextField.TextFieldStyle();
+        seedFieldStyle = new TextField.TextFieldStyle();
         backgroundMusic = game.getMusic();
         textButtonStyle_cDialogDifficultyChecked = new TextButton.TextButtonStyle();
         textButtonStyle_cDialogDifficultyUnchecked  = new TextButton.TextButtonStyle();
