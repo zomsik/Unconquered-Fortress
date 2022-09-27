@@ -468,7 +468,7 @@ public class ProfileCloudScreen implements Screen {
 
         tMigrateSaveText = new TextField(null, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tMigrateSaveText.setAlignment(Align.center);
-        bMigrateSaveDialogOk = new TextButton(languageManager.getValue(languageManager.getLanguage(), "migrate"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        bMigrateSaveDialogOk = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bDownload"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
         bMigrateSaveDialogBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
         table_migrateSave.setWidth(512);
         table_migrateSave.setHeight(160);
@@ -511,7 +511,7 @@ public class ProfileCloudScreen implements Screen {
         {
             if(!fileReader.fileExists("save/save0"+i+"l.json"))
             {
-                tMigrateSaveText.setText("zapis na : "+i);
+                tMigrateSaveText.setText(languageManager.getValue(languageManager.getLanguage(), "tDoYouWantDownload") + i+"?");
                 int finalI = i;
                 bMigrateSaveDialogOk.addListener(new ClickListener() {
                     @Override

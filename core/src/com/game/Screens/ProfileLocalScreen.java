@@ -460,7 +460,7 @@ public class ProfileLocalScreen implements Screen {
 
         tMigrateSaveText = new TextField(null, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tMigrateSaveText.setAlignment(Align.center);
-        bMigrateSaveDialogOk = new TextButton(languageManager.getValue(languageManager.getLanguage(), "migrate"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        bMigrateSaveDialogOk = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSend"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
         bMigrateSaveDialogBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
 
         table_migrateSave.setWidth(512);
@@ -512,7 +512,7 @@ public class ProfileLocalScreen implements Screen {
         for(int i=1 ; i<=3; i++)
         {
             if (!existSave.contains(i)) {
-                tMigrateSaveText.setText("zapis na : "+i);
+                tMigrateSaveText.setText(languageManager.getValue(languageManager.getLanguage(), "tDoYouWantSend") + i+"?");
                 int finalI = i;
                 bMigrateSaveDialogOk.addListener(new ClickListener() {
                     @Override

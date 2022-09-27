@@ -108,5 +108,8 @@
   "bSaveAndExit": "Zapisz i wyjdź",
   "seed": "Ziarno",
   "noAvaibleSlots": "Brak wolnych profili.",
-  "migrate": "Migruj"
+  "bSend": "Prześlij",
+  "bDownload": "Pobierz",
+  "tDoYouWantSend": "Czy chcesz przesłać profil: ",
+  "tDoYouWantDownload": "Czy chcesz pobrać profil: "
 }
