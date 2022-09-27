@@ -633,7 +633,7 @@ public class WorldManager {
                         System.out.println("4.2");
                         randomI = random.nextInt(1, 10);
                         start = new int[]{randomI, randomJ};
-                        randomJE = 0;
+                        randomJE = 14;
                         randomIE = random.nextInt(0, 10);
                         end = new int[]{randomIE, randomJE};
                         System.out.println("5.2");
