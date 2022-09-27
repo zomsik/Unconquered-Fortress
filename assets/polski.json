@@ -107,6 +107,6 @@
   "luck": "Szczęście",
   "bSaveAndExit": "Zapisz i wyjdź",
   "seed": "Ziarno",
-  "noAvaibleSlots": "Brak wolnych profili."
-
+  "noAvaibleSlots": "Brak wolnych profili.",
+  "migrate": "Migruj"
 }

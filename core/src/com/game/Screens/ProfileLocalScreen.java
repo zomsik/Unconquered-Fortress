@@ -42,7 +42,7 @@ public class ProfileLocalScreen implements Screen {
     private BitmapFont font, font_profile;
     private TextureAtlas taButtonsDefault, taEmptyTextfield, taButtonsProfile, taDialog;
     private Skin images_default, images_empty, image_profiles, images_settings; //<- to delete
-    private TextButton bMigrateSaveDialogOk, bDeleteDialogDelete, bDeleteDialogCancel, bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogEasyDifficulty, cDialogNormalDifficulty, cDialogHardDifficulty;
+    private TextButton bMigrateSaveDialogOk, bMigrateSaveDialogBack, bDeleteDialogDelete, bDeleteDialogCancel, bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogEasyDifficulty, cDialogNormalDifficulty, cDialogHardDifficulty;
     private Table table_profile_01, table_profile_02, table_profile_03, table_default, table_next, table_Dialog, table_deleteDialog;
     private Table delete1, delete2, delete3;
     private Table table_migrateSave, migrationSave1, migrationSave2, migrationSave3;
@@ -455,48 +455,49 @@ public class ProfileLocalScreen implements Screen {
         }
 
 
+        //Texture dialogBg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
 
+
+        tMigrateSaveText = new TextField(null, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tMigrateSaveText.setAlignment(Align.center);
+        bMigrateSaveDialogOk = new TextButton(languageManager.getValue(languageManager.getLanguage(), "migrate"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        bMigrateSaveDialogBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+
+        table_migrateSave.setWidth(512);
+        table_migrateSave.setHeight(160);
+        table_migrateSave.setX(0);
+        table_migrateSave.setY(0);
+        table_migrateSave.add(tMigrateSaveText).width(256).colspan(2);
+        table_migrateSave.row().padBottom(8);
+        table_migrateSave.add(bMigrateSaveDialogBack);
+        table_migrateSave.add(bMigrateSaveDialogOk);
+        migrateSaveDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(deleteDialogBg)))) {
+            public void result(Object obj) {
+                deleteGameDialog.cancel();
+            }
+        };
+        migrateSaveDialog.addActor(table_migrateSave);
     }
 
     private void migrateSave(int saveNumber) {
 
         int numberOfLoadedSaves = loadResponse.getJSONArray("loadedData").length();
 
-        Texture dialogBg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
-
-
-        tMigrateSaveText = new TextField(null, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-        tMigrateSaveText.setAlignment(Align.center);
-        bMigrateSaveDialogOk = new TextButton("ok", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
-        table_migrateSave.setWidth(512);
-        table_migrateSave.setHeight(160);
-        table_migrateSave.setX(0);
-        table_migrateSave.setY(0);
-        table_migrateSave.add(tMigrateSaveText).width(256);
-        table_migrateSave.row().padBottom(8);
-        table_migrateSave.add(bMigrateSaveDialogOk);
-        migrateSaveDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(dialogBg)))) {
-            public void result(Object obj) {
-                deleteGameDialog.cancel();
-            }
-        };
-
-
-
-
-        migrateSaveDialog.addActor(table_migrateSave);
-
         if (numberOfLoadedSaves==3)
         {
             System.out.println("zajete");
             tMigrateSaveText.setText(languageManager.getValue(languageManager.getLanguage(),"noAvaibleSlots"));
-
-            bMigrateSaveDialogOk.addListener(new ClickListener() {
+            table_migrateSave.removeActor(bMigrateSaveDialogOk);
+            table_migrateSave.removeActor(bMigrateSaveDialogBack);
+            table_migrateSave.row().padBottom(8);
+            table_migrateSave.add(bMigrateSaveDialogBack).colspan(2);
+            bMigrateSaveDialogBack.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y){
                     migrateSaveDialog.hide();
                 }
             });
+
             migrateSaveDialog.show(stage);
             return;
         }
@@ -518,6 +519,12 @@ public class ProfileLocalScreen implements Screen {
                     public void clicked(InputEvent event, float x, float y) {
                         uploadAndDelete(saveNumber, finalI);
                         game.setScreen(new ProfileLocalScreen(game));
+                    }
+                });
+                bMigrateSaveDialogBack.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y){
+                        migrateSaveDialog.hide();
                     }
                 });
                 migrateSaveDialog.show(stage);

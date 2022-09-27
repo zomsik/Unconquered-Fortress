@@ -38,7 +38,7 @@ public class ProfileCloudScreen implements Screen {
     private BitmapFont font, font_profile;
     private TextureAtlas taButtonsDefault, taEmptyTextfield, taButtonsProfile;
     private Skin images_default, images_empty, image_profiles, images_settings;
-    private TextButton bMigrateSaveDialogOk, bDeleteDialogDelete, bDeleteDialogCancel;
+    private TextButton bMigrateSaveDialogOk, bMigrateSaveDialogBack, bDeleteDialogDelete, bDeleteDialogCancel;
     private TextButton bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogEasyDifficulty, cDialogNormalDifficulty, cDialogHardDifficulty;
     private Table table_profile_01, table_profile_02, table_profile_03, table_default, table_previous, table_Dialog, table_deleteDialog;
     private Table delete1, delete2, delete3;
@@ -466,33 +466,47 @@ public class ProfileCloudScreen implements Screen {
             }
         });
 
-
-    }
-
-    private void migrateSave(int saveNumber, JSONObject saveToMigrate) {
-
-        Texture dialogBg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
-
-
         tMigrateSaveText = new TextField(null, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tMigrateSaveText.setAlignment(Align.center);
-        bMigrateSaveDialogOk = new TextButton("ok", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        bMigrateSaveDialogOk = new TextButton(languageManager.getValue(languageManager.getLanguage(), "migrate"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        bMigrateSaveDialogBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
         table_migrateSave.setWidth(512);
         table_migrateSave.setHeight(160);
         table_migrateSave.setX(0);
         table_migrateSave.setY(0);
-        table_migrateSave.add(tMigrateSaveText).width(256);
+        table_migrateSave.add(tMigrateSaveText).width(256).colspan(2);
         table_migrateSave.row().padBottom(8);
+        table_migrateSave.add(bMigrateSaveDialogBack);
         table_migrateSave.add(bMigrateSaveDialogOk);
-        migrateSaveDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(dialogBg)))) {
+        migrateSaveDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(deleteDialogBg)))) {
             public void result(Object obj) {
                 deleteGameDialog.cancel();
             }
         };
+    }
 
+    private void migrateSave(int saveNumber, JSONObject saveToMigrate) {
 
         migrateSaveDialog.addActor(table_migrateSave);
+        if (fileReader.fileExists("save/save01l.json") && fileReader.fileExists("save/save02l.json") && fileReader.fileExists("save/save03l.json"))
+        {
+            table_migrateSave.removeActor(bMigrateSaveDialogOk);
+            table_migrateSave.removeActor(bMigrateSaveDialogBack);
+            table_migrateSave.row().padBottom(8);
+            table_migrateSave.add(bMigrateSaveDialogBack).colspan(2);
+            System.out.println("zajete");
+            tMigrateSaveText.setText(languageManager.getValue(languageManager.getLanguage(),"noAvaibleSlots"));
+            table_migrateSave.removeActor(bMigrateSaveDialogOk);
+            bMigrateSaveDialogBack.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y){
+                    migrateSaveDialog.hide();
+                }
+            });
 
+            migrateSaveDialog.show(stage);
+            return;
+        }
         for(int i=1 ; i<=3; i++)
         {
             if(!fileReader.fileExists("save/save0"+i+"l.json"))
@@ -504,6 +518,12 @@ public class ProfileCloudScreen implements Screen {
                     public void clicked(InputEvent event, float x, float y) {
                         uploadAndDelete(saveNumber, finalI, saveToMigrate);
                         game.setScreen(new ProfileLocalScreen(game));
+                    }
+                });
+                bMigrateSaveDialogBack.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        migrateSaveDialog.hide();
                     }
                 });
                 migrateSaveDialog.show(stage);

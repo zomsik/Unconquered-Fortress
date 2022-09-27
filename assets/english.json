@@ -107,6 +107,7 @@
   "luck": "Luck",
   "bSaveAndExit": "Save and Exit",
   "seed": "Seed",
-  "noAvaibleSlots": "No avaible profiles."
+  "noAvaibleSlots": "No avaible profiles.",
+  "migrate": "Migrate"
 
 }
