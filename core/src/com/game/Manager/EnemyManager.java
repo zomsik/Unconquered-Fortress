@@ -6,10 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.game.Entity.Enemy.Enemy;
 import com.game.Entity.Base;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class EnemyManager {
 
@@ -148,7 +145,23 @@ public class EnemyManager {
             //if dead
             if(!e.isAlive())
             {
-                base.increaseMoney(e.getMoney());
+
+                if (e.getDiamonds()>0)
+                    base.increaseDiamonds(e.getDiamonds()+ (int)(base.getMultipliers().getFloat("diamondsMultiplier")));
+
+                float baseEnemyMoney = e.getMoney()*base.getMultipliers().getFloat("goldMultiplier");
+
+                Random moneyRandom = new Random();
+                int moneyRandomlyGenerated = moneyRandom.nextInt(Math.round(baseEnemyMoney - 0.2f*baseEnemyMoney),Math.round(baseEnemyMoney + 0.2f*baseEnemyMoney));
+                int moneyToGive = moneyRandomlyGenerated;
+
+                if (base.getMultipliers().getFloat("luckMultiplier")  >= moneyRandom.nextInt(0,101))
+                {
+                    moneyRandomlyGenerated = moneyRandom.nextInt(Math.round(baseEnemyMoney - 0.2f*baseEnemyMoney),Math.round(baseEnemyMoney + 0.2f*baseEnemyMoney));
+                    if (moneyToGive < moneyRandomlyGenerated)
+                        moneyToGive = moneyRandomlyGenerated;;
+                }
+                base.increaseMoney(moneyToGive);
                 eIterator.remove();
 
             }

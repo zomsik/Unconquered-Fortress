@@ -51,18 +51,16 @@ public class Base {
         multipliers.put("attackSpeedMultiplier",1f);
         multipliers.put("moreProjectilesMultiplier",1f);
         multipliers.put("rangeMultiplier",1f);
-        multipliers.put("bonusHealth",1f);
         multipliers.put("healthRegeneration",1f);
         multipliers.put("reductionMultiplier",1f);
-        multipliers.put("goldMultiplier",1f);
-        multipliers.put("diamondsMultiplier",1f);
-        multipliers.put("discountMultiplier",1f);
-        multipliers.put("costMultiplier",1f);
-        multipliers.put("luckMultiplier",1f);
+        multipliers.put("goldMultiplier",1f); //done
+        multipliers.put("diamondsMultiplier",0f); //done
+        multipliers.put("costMultiplier",1f); //done
+        multipliers.put("upgradeCostMultiplier",1f); //done
+        multipliers.put("luckMultiplier",0f); //done
 
         this.money = actualGame.getInt("gold");
         this.diamonds = actualGame.getInt("diamonds");
-        this.maxHealth = 100;
         this.maxHealth = actualGame.getInt("maxHealth");
         this.health = actualGame.getInt("health");
         this.armor = 100;
@@ -84,13 +82,25 @@ public class Base {
         if (!isLoaded)
             this.diamonds -= upgrade.getInt("cost");
 
-        JSONObject addMultipliers = upgrade.getJSONObject("multipliers");
+        if (upgrade.has("multipliers"))
+        {
 
-        Iterator<?> keys = addMultipliers.keys();
+            JSONObject addMultipliers = upgrade.getJSONObject("multipliers");
+            Iterator<?> keys = addMultipliers.keys();
 
-        while( keys.hasNext() ) {
-            String key = (String) keys.next();
-            multipliers.put(key, multipliers.getFloat(key)+addMultipliers.getFloat(key));
+            while( keys.hasNext() ) {
+                String key = (String) keys.next();
+                multipliers.put(key, multipliers.getFloat(key)+addMultipliers.getFloat(key));
+            }
+        }
+
+        if (upgrade.has("maxHealth") && !isLoaded)
+        {
+
+            int addingHealth = upgrade.getInt("maxHealth");
+            maxHealth += addingHealth;
+            health += addingHealth;
+
         }
 
     }

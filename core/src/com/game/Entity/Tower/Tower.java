@@ -207,10 +207,12 @@ public class Tower extends Actor {
     public void TowerLevelUp() {
         if (lvl < towerLevels.length())
         {
-            if (base.getMoney() >= towerLevels.getJSONObject(lvl).getInt("cost")) {
+            int cost = Math.round(towerLevels.getJSONObject(lvl).getInt("cost")*base.getMultipliers().getFloat("upgradeCostMultiplier"));
+
+            if (base.getMoney() >= cost) {
                 JSONObject lvlUp = towerLevels.getJSONObject(lvl);
                 worth += lvlUp.getInt("cost");
-                base.decreaseMoney(lvlUp.getInt("cost"));
+                base.decreaseMoney(cost);
                 reloadTime = lvlUp.getFloat("reload");
                 bulletDamage = lvlUp.getFloat("dmg");
                 bulletSpeed = lvlUp.getFloat("bulletSpeed");

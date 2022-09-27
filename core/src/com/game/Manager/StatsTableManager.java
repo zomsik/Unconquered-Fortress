@@ -345,7 +345,7 @@ public class StatsTableManager {
 
     public void setOperationTable(String name, JSONObject towerNow){
         operationTitleTextValue.setText(name);
-        operationPriceTextValue.setText(String.valueOf(towerNow.getInt("cost")));
+        operationPriceTextValue.setText(String.valueOf(Math.round(towerNow.getInt("cost")*base.getMultipliers().getFloat("costMultiplier"))));
         operationDmgTextValue.setText(String.valueOf((int)towerNow.getFloat("dmg")));
         operationRangeTextValue.setText(String.valueOf((int)towerNow.getFloat("range")));
         operationReloadTextValue.setText(String.valueOf((int)towerNow.getFloat("reload")));
@@ -356,7 +356,7 @@ public class StatsTableManager {
         upgradeTitleTextValue.setText(name);
         if (towerUpgraded!=null)
         {
-            upgradePriceTextValue.setText(String.valueOf(towerUpgraded.getInt("cost")));
+            upgradePriceTextValue.setText(String.valueOf(Math.round(towerUpgraded.getInt("cost")*base.getMultipliers().getFloat("upgradeCostMultiplier"))));
             upgradeLvlTextValue.setText(towerNow.getInt("lvl") + " -> " + towerUpgraded.getInt("lvl"));
             upgradeDmgTextValue.setText((int)towerNow.getFloat("dmg") + " -> " + (int)towerUpgraded.getFloat("dmg"));
             upgradeRangeTextValue.setText((int)towerNow.getFloat("range") + " -> " + (int)towerUpgraded.getFloat("range"));

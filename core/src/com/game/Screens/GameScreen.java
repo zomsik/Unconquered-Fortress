@@ -427,10 +427,11 @@ public class GameScreen implements Screen {
 
         if (Objects.equals(chosenOperation,"melee")) {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
-                //warunki wybudowania swordTowera
-                if (base.getMoney()>= turretLevels.getJSONArray("meleeTower").getJSONObject(0).getInt("cost"))
+                int cost = Math.round(turretLevels.getJSONArray("meleeTower").getJSONObject(0).getInt("cost")*base.getMultipliers().getFloat("costMultiplier"));
+
+                if (base.getMoney()>= cost)
                 {
-                    base.decreaseMoney(turretLevels.getJSONArray("meleeTower").getJSONObject(0).getInt("cost"));
+                    base.decreaseMoney(cost);
                     Tower t = new MeleeTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale, this);
                     towerManager.buyTower(t);
                     stage.addActor(t);
@@ -439,31 +440,19 @@ public class GameScreen implements Screen {
                     showInfoDialog();
                 }
 
-
-
-                /*
-                JSONArray placedBuildings = actualGame.getJSONArray("buildings");
-                placedBuildings.put(new JSONObject().put("buildingName","sword").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()).put("level",1));
-                actualGame.put("buildings", placedBuildings);
-
-
-                buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "sword");
-                table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
-                stage.addActor(table_buildings);*/
-
-
             }
         }
 
 
         if (Objects.equals(chosenOperation,"crossbow")) {
+
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
+                int cost = Math.round(turretLevels.getJSONArray("crossbowTower").getJSONObject(0).getInt("cost")*base.getMultipliers().getFloat("costMultiplier"));
 
-                //warunki wybudowania bowTowera
-                if (base.getMoney()>= turretLevels.getJSONArray("crossbowTower").getJSONObject(0).getInt("cost"))
+                if (base.getMoney()>= cost)
                 {
-                    base.decreaseMoney(turretLevels.getJSONArray("crossbowTower").getJSONObject(0).getInt("cost"));
+                    base.decreaseMoney(cost);
                     Tower t = new BowTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale, this);
                     towerManager.buyTower(t);
                     stage.addActor(t);
@@ -471,28 +460,16 @@ public class GameScreen implements Screen {
                 }else{
                     showInfoDialog();
                 }
-
-
-
-                //mapArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()].setTouchable(Touchable.);
-
-                //JSONArray placedBuildings = actualGame.getJSONArray("buildings");
-                //placedBuildings.put(new JSONObject().put("buildingName","bow").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()).put("level",1));
-                //actualGame.put("buildings", placedBuildings);
-
-                //buildingsArr = GameFunctions.addBuilding(this, buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "bow");
-                //table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
-                //stage.addActor(table_buildings);
-
-
             }
         }
 
         if (Objects.equals(chosenOperation,"mage")) {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
-                if (base.getMoney()>= turretLevels.getJSONArray("mageTower").getJSONObject(0).getInt("cost"))
+                int cost = Math.round(turretLevels.getJSONArray("mageTower").getJSONObject(0).getInt("cost")*base.getMultipliers().getFloat("costMultiplier"));
+
+                if (base.getMoney()>= cost)
                 {
-                    base.decreaseMoney(turretLevels.getJSONArray("mageTower").getJSONObject(0).getInt("cost"));
+                    base.decreaseMoney(cost);
                     Tower t = new MageTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale, this);
                     towerManager.buyTower(t);
                     stage.addActor(t);
@@ -509,10 +486,12 @@ public class GameScreen implements Screen {
         if (Objects.equals(chosenOperation,"cannon")) {
             if (Objects.equals(lastClickedMapTile.getName(), "grass") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
 
+                int cost = Math.round(turretLevels.getJSONArray("cannonTower").getJSONObject(0).getInt("cost")*base.getMultipliers().getFloat("costMultiplier"));
 
-                if (base.getMoney()>= turretLevels.getJSONArray("cannonTower").getJSONObject(0).getInt("cost"))
+                if (base.getMoney()>= cost)
                 {
-                    base.decreaseMoney(turretLevels.getJSONArray("cannonTower").getJSONObject(0).getInt("cost"));
+
+                    base.decreaseMoney(cost);
                     Tower t = new CannonTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale,this);
                     towerManager.buyTower(t);
                     stage.addActor(t);
@@ -609,17 +588,26 @@ public class GameScreen implements Screen {
         };
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
         Random eventRandom = new Random();
-        int eventChance = eventRandom.nextInt(0,4);
-        if(eventChance==0){
-            eventDialog.text("Dostałeś golda, EO", labelStyle);
-            base.increaseMoney(50);
+        int eventChance = eventRandom.nextInt(0,3);
+        int eventPriority = eventChance;
+
+        if (base.getMultipliers().getFloat("luckMultiplier")  >= eventRandom.nextInt(0,101))
+        {
+            eventChance = eventRandom.nextInt(0,3);
+            if (eventPriority > eventChance)
+                eventChance = eventPriority;
+        }
+
+        if(eventChance==0) {
+            eventDialog.text("Dostałeś na głowę, EO", labelStyle);
+            base.damageBase(5);
             eventDialog.button(bBackEventDialog).padBottom(16);
             //eventDialog.show(stage);
             eventDialog.show(pauseStage);
             base.setState(Base.State.Paused);
         }else if(eventChance==1){
-            eventDialog.text("Dostałeś na głowę, EO", labelStyle);
-            base.damageBase(5);
+            eventDialog.text("Dostałeś golda, EO", labelStyle);
+            base.increaseMoney(50);
             eventDialog.button(bBackEventDialog).padBottom(16);
             //eventDialog.show(stage);
             eventDialog.show(pauseStage);
@@ -635,6 +623,7 @@ public class GameScreen implements Screen {
 
         }
     }
+
     public void mouseExitMapTile() {
         if (shouldRenderPreview)
             shouldRenderPreview = false;
@@ -891,6 +880,7 @@ public class GameScreen implements Screen {
                             infoDialog.remove();
                     }
 
+                    base.setInfoToDisplay(0);
                     base.setState(Base.State.Resumed);
                     updateInfoDisplay();
 

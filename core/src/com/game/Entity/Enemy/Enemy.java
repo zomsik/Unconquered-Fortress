@@ -21,6 +21,7 @@ public class Enemy extends Actor {
     private String name;
 
     private int money;
+    private int diamonds;
     private float speed;
 
     private Animation<TextureRegion> currentAnimation;
@@ -61,6 +62,7 @@ public class Enemy extends Actor {
         this.startHealth = health;
         this.dmg = 7;
         this.money = 15;
+        this.diamonds = 1;
 
         moveDirection = "";
         isAtEnd = false;
@@ -377,9 +379,7 @@ public class Enemy extends Actor {
             //if dead
             if(!e.isAlive())
             {
-                base.increaseMoney(e.getMoney());
                 eIterator.remove();
-
             }
 
         }
@@ -448,6 +448,10 @@ public class Enemy extends Actor {
 
     public boolean getIsFlying() {
         return isFlying;
+    }
+
+    public int getDiamonds() {
+        return diamonds;
     }
 }
 
