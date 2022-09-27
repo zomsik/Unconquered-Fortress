@@ -152,9 +152,9 @@ public class ProfileManager {
     public static Table getMigrationSaveTable(int x, int y, int width, int height, float scale, boolean upload) {
         Image icon;
         if (upload)
-            icon = new Image(new Texture("assets/icons/cloud.png"));
+            icon = new Image(new Texture("assets/icons/upload.png"));
         else
-            icon = new Image(new Texture("assets/icons/local.png"));
+            icon = new Image(new Texture("assets/icons/download.png"));
 
         icon.setWidth(width);
         icon.setHeight(height);
