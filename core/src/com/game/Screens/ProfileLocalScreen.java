@@ -486,7 +486,7 @@ public class ProfileLocalScreen implements Screen {
         if (numberOfLoadedSaves==3)
         {
             System.out.println("zajete");
-            tMigrateSaveText.setText(languageManager.getValue(languageManager.getLanguage(),"noAvaibleSlots"));
+            tMigrateSaveText.setText(languageManager.getValue(languageManager.getLanguage(),"noAvailableSlots"));
             table_migrateSave.removeActor(bMigrateSaveDialogOk);
             table_migrateSave.removeActor(bMigrateSaveDialogBack);
             table_migrateSave.row().padBottom(8);

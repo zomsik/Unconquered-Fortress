@@ -495,7 +495,7 @@ public class ProfileCloudScreen implements Screen {
             table_migrateSave.row().padBottom(8);
             table_migrateSave.add(bMigrateSaveDialogBack).colspan(2);
             System.out.println("zajete");
-            tMigrateSaveText.setText(languageManager.getValue(languageManager.getLanguage(),"noAvaibleSlots"));
+            tMigrateSaveText.setText(languageManager.getValue(languageManager.getLanguage(),"noAvailableSlots"));
             table_migrateSave.removeActor(bMigrateSaveDialogOk);
             bMigrateSaveDialogBack.addListener(new ClickListener() {
                 @Override
