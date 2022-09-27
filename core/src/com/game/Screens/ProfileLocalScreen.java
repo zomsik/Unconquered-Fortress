@@ -23,6 +23,7 @@ import com.game.Main;
 import com.game.Manager.*;
 import com.game.State.GameState;
 import org.json.JSONObject;
+import org.json.simple.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -418,6 +419,9 @@ public class ProfileLocalScreen implements Screen {
             new Thread(() -> {
                 loadResponse = connectionManager.requestSend(loadSaves, "api/downloadSaves");
 
+                if (!loadResponse.has("loadedData"))
+                    loadResponse.put("loadedData",new JSONArray());
+
                 System.out.println(loadResponse.getInt("status"));
 
                 if (loadResponse.getInt("status") == 200 || loadResponse.getInt("status") == 201) {
@@ -463,7 +467,7 @@ public class ProfileLocalScreen implements Screen {
 
         tMigrateSaveText = new TextField(null, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tMigrateSaveText.setAlignment(Align.center);
-        bMigrateSaveDialogOk = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        bMigrateSaveDialogOk = new TextButton("ok", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
         table_migrateSave.setWidth(512);
         table_migrateSave.setHeight(160);
         table_migrateSave.setX(0);
