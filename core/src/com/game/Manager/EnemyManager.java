@@ -16,7 +16,6 @@ public class EnemyManager {
     private ArrayList<Float> spawningDelay;
     private ArrayList<Float> timeLeftToSpawn;
 
-
     private float scale;
 
     private List<Vector2> path;
@@ -29,6 +28,7 @@ public class EnemyManager {
     }
 
     public EnemyManager(Base base, float scale, List<Vector2> path) {
+
         enemyWavesToSpawn = new ArrayList<>();
         spawningDelay = new ArrayList<>();
         timeLeftToSpawn =  new ArrayList<>();
@@ -112,6 +112,20 @@ public class EnemyManager {
                     spawningDelay.remove(index);
                     enemyWavesToSpawn.remove(index);
 
+                    //heal when whole wave is pushed on map
+                    if (base.getHealth()<base.getMaxHealth())
+                    {
+                        int heal = Math.round(base.getMultipliers().getFloat("healthRegeneration"));
+                        if (heal>0)
+                        {
+                            if ((base.getHealth() + heal) <= base.getMaxHealth())
+                                base.setHealth(base.getHealth() + heal);
+                            else
+                                base.setHealth(base.getMaxHealth());
+                        }
+                    }
+
+
                 }
             }
 
@@ -138,7 +152,7 @@ public class EnemyManager {
             //if reached end
             if(e.isAtEnd())
             {
-                base.damageBase(e.getDmg());
+                base.damageBase(Math.round(base.getDifficultyMultiplier()*(e.getDmg()-base.getMultipliers().getFloat("damageReduction"))));
                 eIterator.remove();
             }
 

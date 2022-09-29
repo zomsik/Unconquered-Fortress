@@ -372,7 +372,7 @@ public class Enemy extends Actor {
             //if reached end
             if(e.isAtEnd())
             {
-                base.damageBase(e.getDmg());
+                base.damageBase(Math.round(base.getDifficultyMultiplier()*(e.getDmg()-base.getMultipliers().getFloat("damageReduction"))));
                 eIterator.remove();
             }
 

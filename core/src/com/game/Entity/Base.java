@@ -17,6 +17,7 @@ public class Base {
     private JSONObject infoToDisplayObjectNow, infoToDisplayObjectUpgraded;
 
     private String difficulty;
+    private float difficultyMultiplier;
     private int cleanPrice;
 
     private JSONObject multipliers;
@@ -51,8 +52,8 @@ public class Base {
         multipliers.put("attackSpeedMultiplier",1f);
         multipliers.put("moreProjectilesMultiplier",1f);
         multipliers.put("rangeMultiplier",1f);
-        multipliers.put("healthRegeneration",1f);
-        multipliers.put("reductionMultiplier",1f);
+        multipliers.put("healthRegeneration",0f); //done
+        multipliers.put("damageReduction",0f); //done
         multipliers.put("goldMultiplier",1f); //done
         multipliers.put("diamondsMultiplier",0f); //done
         multipliers.put("costMultiplier",1f); //done
@@ -65,6 +66,17 @@ public class Base {
         this.health = actualGame.getInt("health");
         this.armor = 100;
         this.difficulty = actualGame.getString("difficulty");
+
+        switch (this.difficulty)
+        {
+            case "easy" -> difficultyMultiplier = 1;
+            case "normal" -> difficultyMultiplier = 2;
+            case "hard" -> difficultyMultiplier = 3;
+            default -> difficultyMultiplier = 1;
+        }
+
+
+
         this.wave = actualGame.getInt("wave");
         this.cleanPrice = 200;
     }
@@ -103,6 +115,11 @@ public class Base {
 
         }
 
+    }
+
+
+    public float getDifficultyMultiplier() {
+        return difficultyMultiplier;
     }
 
 
