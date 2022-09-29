@@ -154,7 +154,7 @@ public class ProfileCloudScreen implements Screen {
                         }
                     });
 
-                    migrationSave1 = ProfileManager.getMigrationSaveTable((int) table_profile_01.getX(), (int) (table_profile_01.getY() + table_profile_01.getHeight()) - 64, (int) table_profile_01.getChild(0).getWidth(), (int) table_profile_01.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), true);
+                    migrationSave1 = ProfileManager.getMigrationSaveTable((int) table_profile_01.getX(), (int) (table_profile_01.getY() + table_profile_01.getHeight()) - 64, (int) table_profile_01.getChild(0).getWidth(), (int) table_profile_01.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), false);
                     migrationSave1.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
@@ -189,7 +189,7 @@ public class ProfileCloudScreen implements Screen {
                         }
                     });
 
-                    migrationSave2 = ProfileManager.getMigrationSaveTable((int) table_profile_02.getX(), (int) (table_profile_02.getY() + table_profile_02.getHeight()) - 64, (int) table_profile_02.getChild(0).getWidth(), (int) table_profile_02.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), true);
+                    migrationSave2 = ProfileManager.getMigrationSaveTable((int) table_profile_02.getX(), (int) (table_profile_02.getY() + table_profile_02.getHeight()) - 64, (int) table_profile_02.getChild(0).getWidth(), (int) table_profile_02.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), false);
                     migrationSave2.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
@@ -223,7 +223,7 @@ public class ProfileCloudScreen implements Screen {
                         }
                     });
 
-                    migrationSave3 = ProfileManager.getMigrationSaveTable((int) table_profile_03.getX(), (int) (table_profile_03.getY() + table_profile_03.getHeight()) - 64, (int) table_profile_03.getChild(0).getWidth(), (int) table_profile_03.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), true);
+                    migrationSave3 = ProfileManager.getMigrationSaveTable((int) table_profile_03.getX(), (int) (table_profile_03.getY() + table_profile_03.getHeight()) - 64, (int) table_profile_03.getChild(0).getWidth(), (int) table_profile_03.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), false);
                     migrationSave3.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {

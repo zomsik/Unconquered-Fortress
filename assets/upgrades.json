@@ -27,7 +27,7 @@
   "discount20":  [{"level":  1, "cost":  5, "multipliers": {"costMultiplier":  -0.1}}],
   "discount30":  [{"level":  1, "cost":  5, "multipliers": {"costMultiplier":  -0.1}}],
   "upgrade":  [{"level":  1, "cost":  5, "multipliers": {"upgradeCostMultiplier":  -0.1}}],
-  "hammer":  [{"level":  1, "cost":  5, "multipliers": {"damageMultiplier":  0.05}},{"level":  2, "cost":  15, "multipliers": {"damageMultiplier":  0.05}}, {"level":  3, "cost":  25, "multipliers": {"damageMultiplier":  0.05}}],
+  "hammer":  [{"level":  1, "cost":  5, "multipliers": {"cleaningCostMultiplier":  -0.05}},{"level":  2, "cost":  15, "multipliers": {"cleaningCostMultiplier":  -0.05}}, {"level":  3, "cost":  25, "multipliers": {"cleaningCostMultiplier":  -0.1}}],
   "betterUpgrade":  [{"level":  1, "cost":  5, "multipliers": {"upgradeCostMultiplier":  -0.1}}],
   "luck":  [{"level":  1, "cost":  5, "multipliers": {"luckMultiplier":  10}},{"level":  2, "cost":  15, "multipliers": {"luckMultiplier":  20}}, {"level":  3, "cost":  25, "multipliers": {"luckMultiplier":  20}}]
 

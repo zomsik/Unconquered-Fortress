@@ -59,6 +59,7 @@ public class Base {
         multipliers.put("costMultiplier",1f); //done
         multipliers.put("upgradeCostMultiplier",1f); //done
         multipliers.put("luckMultiplier",0f); //done
+        multipliers.put("cleaningCostMultiplier",1f);
 
         this.money = actualGame.getInt("gold");
         this.diamonds = actualGame.getInt("diamonds");
@@ -274,6 +275,6 @@ public class Base {
     }
 
     public int getCleanPrice() {
-        return cleanPrice;
+        return Math.round(cleanPrice*getMultipliers().getFloat("cleaningCostMultiplier"));
     }
 }
