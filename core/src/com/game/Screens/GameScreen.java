@@ -37,18 +37,18 @@ public class GameScreen implements Screen {
     private Stage stage, pauseStage, gameOverStage;
     private Texture background;
     private BitmapFont font;
-    private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack, taButtonsPause, taStatsCover;
-    private Skin images, images_default, dialog, images_map, images_buildings, images_pause, images_stats;
-    private TextButton  bSaveDialog, bExitDialog, bSaveAndExitDialog, bTest, bNextWave, bResume, bPauseMenu, bUpgrade;
+    private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack, taButtonsPause, taStatsCover, taButtonTips;
+    private Skin images, images_default, dialog, images_map, images_buildings, images_pause, images_stats, images_tips;
+    private TextButton  bSaveDialog, bExitDialog, bSaveAndExitDialog, bTest, bNextWave, bResume, bPauseMenu, bUpgrade, bTips;
 
-    private Table table_info, table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_dialogGameOver, table_enemies, table_stats, table_menuPause;
+    private Table table_info, table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_dialogGameOver, table_enemies, table_stats, table_menuPause, table_tips;
     private TextField hpTextField,hpTextValue, goldTextField, goldTextValue, GameOverTitle;
     private TextField.TextFieldStyle statsTextFieldStyle, rightStatsTextFieldStyle, leftStatsTextFieldStyle;
     private ArrayList<String> resolutions;
     private ArrayList<String> languages;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    private TextButton.TextButtonStyle textButtonStyle_bLeft, textButtonStyle_bRight, textButtonStyle_bBack, textButtonStyle_bSave, textButtonStyle_bPauseMenu;
+    private TextButton.TextButtonStyle textButtonStyle_bLeft, textButtonStyle_bRight, textButtonStyle_bBack, textButtonStyle_bSave, textButtonStyle_bPauseMenu, textButtonStyle_bTips;
     private TextField.TextFieldStyle textFieldStyle;
     private Music backgroundMusic;
     private Slider volumeSlider;
@@ -165,10 +165,12 @@ public class GameScreen implements Screen {
         GameOverTitle.setAlignment(Align.center);
 
         if(Gdx.graphics.getHeight() == 900){
-            table_menuPause.setBounds(Gdx.graphics.getWidth()/20*18,(Gdx.graphics.getHeight()/40*38-2), Gdx.graphics.getWidth()/50*3,Gdx.graphics.getHeight()/40*3);
+            table_menuPause.setBounds(Gdx.graphics.getWidth()/40*37,(Gdx.graphics.getHeight()/40*38-2), Gdx.graphics.getWidth()/50*3,Gdx.graphics.getHeight()/40*3);
         }else{
-            table_menuPause.setBounds(Gdx.graphics.getWidth()/20*18,(Gdx.graphics.getHeight()/40*37), Gdx.graphics.getWidth()/50*3,Gdx.graphics.getHeight()/40*3);
+            table_menuPause.setBounds(Gdx.graphics.getWidth()/40*37,(Gdx.graphics.getHeight()/40*37), Gdx.graphics.getWidth()/50*3,Gdx.graphics.getHeight()/40*3);
         }
+
+        table_tips.setBounds(Gdx.graphics.getWidth()/80*67+8*scale,(Gdx.graphics.getHeight()-(Gdx.graphics.getWidth()/50*3-12*scale))-2, Gdx.graphics.getWidth()/50*3,Gdx.graphics.getWidth()/50*3-12*scale);
 
         upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/upgrade_dialog_720.png"))))));
         upgradeDialog.setBounds(0,0,Gdx.graphics.getWidth()/8, Gdx.graphics.getHeight()/8);
@@ -180,10 +182,11 @@ public class GameScreen implements Screen {
 
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bTips, images_tips,font, "button_tips", "button_tips");
+        bTips = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bTips));
         bSaveDialog  = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bExitDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bSaveAndExitDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSaveAndExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-        //bTest = new TextButton("test", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bNextWave = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bNextWave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bResume = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bResume"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bUpgrade = new TextButton(languageManager.getValue(languageManager.getLanguage(),"bUpgrade"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
@@ -205,12 +208,12 @@ public class GameScreen implements Screen {
         //table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
 
         //buildingsArr = GameFunctions.loadPlacedBuildings(this, buildingsArr, actualGame.getJSONArray("buildings"));
-        table_nextWave.add(bNextWave).width(224*scale).padBottom(8*scale);
+        table_nextWave.add(bNextWave).width(224*scale).padBottom(8*scale).height(48*scale);
         //table_nextWave.row();
         //table_nextWave.add(bTest).width(Gdx.graphics.getWidth()/10);
         table_nextWave.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2,224*scale,48*scale);
-
         table_menuPause.add(bPauseMenu).height(Gdx.graphics.getHeight()/40*3).width(Gdx.graphics.getWidth()/50*3);
+        table_tips.add(bTips).width(64*scale*0.75f).height(64*scale*0.75f);
     }
 
     public void loadObstacles() {
@@ -910,6 +913,7 @@ public class GameScreen implements Screen {
         stage.addActor(table_info);
         //
         stage.addActor(table_menuPause);
+        stage.addActor(table_tips);
 
         loadTowers();
         loadObstacles();
@@ -1063,7 +1067,7 @@ public class GameScreen implements Screen {
     }
     private void initSettingsUI(){
         worldManager = new WorldManager();
-        background = new Texture("background.png");
+        background = new Texture("tempBackground.png");
         resolutions = new ArrayList<>();
         resolutions = resolutionsClass.getResolutionsArrayList();
         languages = new ArrayList<>();
@@ -1087,12 +1091,13 @@ public class GameScreen implements Screen {
         taDialogBack = new TextureAtlas("assets/dialog/skin_dialog.pack");
         taButtonsPause = new TextureAtlas("assets/buttons/buttons_pause.pack");
         taStatsCover = new TextureAtlas("assets/buttons/statsCover.pack");
+        taButtonTips = new TextureAtlas("assets/buttons/buttons_tips.pack");
         images = new Skin(taButtonsSettings);
         images_default = new Skin(taButtonsDefault);
         dialog = new Skin(taDialogBack);
         images_pause = new Skin(taButtonsPause);
         images_stats = new Skin(taStatsCover);
-
+        images_tips = new Skin(taButtonTips);
         images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         images_buildings = new Skin(new TextureAtlas("assets/icons/buildings.pack"));
 
@@ -1106,6 +1111,7 @@ public class GameScreen implements Screen {
         table_stats = new Table(images_default);
         table_menuPause = new Table(images_default);
         table_info = new Table();
+        table_tips = new Table();
 
 
         textFieldStyleManager = new TextFieldStyleManager();
@@ -1115,6 +1121,7 @@ public class GameScreen implements Screen {
         textButtonStyle_bBack = new TextButton.TextButtonStyle();
         textButtonStyle_bSave = new TextButton.TextButtonStyle();
         textButtonStyle_bPauseMenu = new TextButton.TextButtonStyle();
+        textButtonStyle_bTips = new TextButton.TextButtonStyle();
         textFieldStyle = new TextField.TextFieldStyle();
         statsTextFieldStyle = new TextField.TextFieldStyle();
         leftStatsTextFieldStyle = new TextField.TextFieldStyle();
