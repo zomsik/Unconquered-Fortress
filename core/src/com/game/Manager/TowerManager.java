@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class TowerManager {
 
@@ -66,7 +67,13 @@ public class TowerManager {
         return j;
     }
 
+    public void refreshReloads(String towerName) {
+        for (Tower t : towers) {
+            if (Objects.equals(t.getName(), towerName))
+                t.refreshReload();
 
+        }
+    }
 
     public void update(float deltaTime) {
 
@@ -106,5 +113,6 @@ public class TowerManager {
     public boolean getIsDisabledListeners(){
         return isDisabledListeners;
     }
+
 
 }

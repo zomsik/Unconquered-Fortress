@@ -150,6 +150,7 @@ public class GameScreen implements Screen {
 
         enemyManager = new EnemyManager(base, scale, GameFunctions.calculatePath(worldManager.getPath(), scale));
         towerManager = new TowerManager(enemyManager.getEnemies());
+        base.addTowerManager(towerManager);
         roadObstaclesManager = new RoadObstaclesManager(enemyManager.getEnemies(), buildArr);
 
         table_map = worldManager.drawWorld(mapArr, scale);

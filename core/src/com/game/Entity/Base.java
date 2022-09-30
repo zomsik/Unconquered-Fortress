@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.game.Manager.TowerManager;
 import org.json.JSONObject;
 
 import java.util.Iterator;
@@ -30,6 +31,8 @@ public class Base {
     private int usesLeft;
     private int roadObstacleId;
     private boolean shouldUpdateInfo;
+    private TowerManager towerManager;
+
 
 
     public enum State{
@@ -50,17 +53,20 @@ public class Base {
         state = State.Running;
 
         multipliers = new JSONObject();
-        multipliers.put("damageMultiplier",1f);
-        multipliers.put("damageMultipliermeleeTower",1f);
-        multipliers.put("damageMultipliermageTower",1f);
-        multipliers.put("damageMultipliercrossbowTower",1f);
-        multipliers.put("damageMultipliercannonTower",1f);
-        multipliers.put("attackSpeedMultiplier",1f);
-        multipliers.put("moreProjectilesMultiplier",1f);
-        multipliers.put("rangeMultipliermeleeTower",1f);
-        multipliers.put("rangeMultipliermageTower",1f);
-        multipliers.put("rangeMultipliercrossbowTower",1f);
-        multipliers.put("rangeMultipliercannonTower",1f);
+        multipliers.put("damageMultiplier",1f); //done
+        multipliers.put("damageMultipliermeleeTower",1f); //done
+        multipliers.put("damageMultipliermageTower",1f); //done
+        multipliers.put("damageMultipliercrossbowTower",1f); //done
+        multipliers.put("damageMultipliercannonTower",1f);  //done
+        multipliers.put("reloadSpeedMultipliermeleeTower",1f); //done
+        multipliers.put("reloadSpeedMultipliermageTower",1f); //done
+        multipliers.put("reloadSpeedMultipliercrossbowTower",1f); //done
+        multipliers.put("reloadSpeedMultipliercannonTower",1f); //done
+        multipliers.put("rangeMultipliermeleeTower",1f); //done
+        multipliers.put("rangeMultipliermageTower",1f); //done
+        multipliers.put("rangeMultipliercrossbowTower",1f); //done
+        multipliers.put("rangeMultipliercannonTower",1f); //done
+        multipliers.put("splashMultiplier",0f); //done
         multipliers.put("healthRegeneration",0f); //done
         multipliers.put("damageReduction",0f); //done
         multipliers.put("goldMultiplier",1f); //done
@@ -68,7 +74,7 @@ public class Base {
         multipliers.put("costMultiplier",1f); //done
         multipliers.put("upgradeCostMultiplier",1f); //done
         multipliers.put("luckMultiplier",0f); //done
-        multipliers.put("cleaningCostMultiplier",1f);
+        multipliers.put("cleaningCostMultiplier",1f); //done
 
         this.money = actualGame.getInt("gold");
         this.diamonds = actualGame.getInt("diamonds");
@@ -128,6 +134,12 @@ public class Base {
             while( keys.hasNext() ) {
                 String key = (String) keys.next();
                 multipliers.put(key, multipliers.getFloat(key)+addMultipliers.getFloat(key));
+
+                if (Objects.equals(key, "reloadSpeedMultipliermeleeTower") || Objects.equals(key, "reloadSpeedMultipliermageTower") || Objects.equals(key, "reloadSpeedMultipliercrossbowTower") || Objects.equals(key, "reloadSpeedMultipliercannonTower"))
+                {
+                    towerManager.refreshReloads(key.replace("reloadSpeedMultiplier",""));
+                }
+
             }
         }
 
@@ -164,6 +176,11 @@ public class Base {
     {
         usesLeft = uses;
     }
+
+    public void addTowerManager(TowerManager towerManager) {
+        this.towerManager = towerManager;
+    }
+
 
 
     public int getInfoToDisplay() {

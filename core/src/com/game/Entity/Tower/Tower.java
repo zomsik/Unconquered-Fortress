@@ -59,12 +59,15 @@ public class Tower extends Actor {
 
     private boolean isMouseEntered;
 
-    private int bulletSplash;
+    private float bulletSplashRange;
     private GameScreen gameScreen;
 
     private float shootDelayLeft, shootDelay;
     private Bullet delayBullet;
     private boolean looping;
+    private int framesDelay;
+
+    private TextureRegion[] animationSprites, animationSprites2;
 
     public Tower(JSONObject towerLevelsAll, Base base, boolean canAttackFlying, String name, String path, @Null String path2, int towerTextureSize, TextureRegion bulletTexture, int bulletTextureSize, int framesDelay, boolean looping, int tileX, int tileY, float scale, GameScreen gameScreen){
         this.name = name;
@@ -76,13 +79,14 @@ public class Tower extends Actor {
         this.base = base;
         this.isMouseEntered = false;
         this.timeToShoot = 0;
-        this.reloadTime = turretFirstLevel.getFloat("reload");
+        this.reloadTime = turretFirstLevel.getFloat("reload")*base.getMultipliers().getFloat("reloadSpeedMultiplier"+name);;
         this.worth = turretFirstLevel.getInt("cost");
         this.scale = scale;
         this.towerBullets = new ArrayList<>();
-        this.bulletSplash = turretFirstLevel.getInt("splash");
+        this.bulletSplashRange = turretFirstLevel.getInt("splash")*scale;
         this.tileX = tileX;
         this.tileY = tileY;
+        this.framesDelay = framesDelay;
 
         this.stateTime = 100f;
 
@@ -99,7 +103,7 @@ public class Tower extends Actor {
 
         Texture spriteMap = new Texture(Gdx.files.internal(path));
         TextureRegion[][] spritePosition = TextureRegion.split(spriteMap, towerTextureSize, towerTextureSize);
-        TextureRegion[] animationSprites = new TextureRegion[spritePosition[0].length];
+        animationSprites = new TextureRegion[spritePosition[0].length];
 
         for (int i = 0; i < animationSprites.length; i++) {
             animationSprites[i] = spritePosition[0][i];
@@ -112,7 +116,7 @@ public class Tower extends Actor {
 
         Texture spriteMap2;
         TextureRegion[][] spritePosition2;
-        TextureRegion[] animationSprites2;
+        //TextureRegion[] animationSprites2;
 
         if(path2!=null)
         {
@@ -191,11 +195,12 @@ public class Tower extends Actor {
     public void setLevel(int lvl) {
 
         JSONObject lvlUp = towerLevels.getJSONObject(lvl-1);
-        this.reloadTime = lvlUp.getFloat("reload");
+        this.reloadTime = lvlUp.getFloat("reload")*base.getMultipliers().getFloat("reloadSpeedMultiplier"+name);
+        this.shootDelay = lvlUp.getFloat("reload")/animationSprites.length * framesDelay;
         this.bulletDamage = lvlUp.getFloat("dmg");
-        this.bulletSpeed = lvlUp.getFloat("bulletSpeed");
-        this.bulletSplash = lvlUp.getInt("splash");
-        this.range = lvlUp.getFloat("range");
+        this.bulletSpeed = lvlUp.getFloat("bulletSpeed")*scale;
+        this.bulletSplashRange = lvlUp.getInt("splash")*scale;
+        this.range = lvlUp.getFloat("range")*scale;
         this.lvl = lvlUp.getInt("lvl");
 
         this.worth = 0;
@@ -213,11 +218,12 @@ public class Tower extends Actor {
                 JSONObject lvlUp = towerLevels.getJSONObject(lvl);
                 worth += lvlUp.getInt("cost");
                 base.decreaseMoney(cost);
-                reloadTime = lvlUp.getFloat("reload");
+                reloadTime = lvlUp.getFloat("reload")*base.getMultipliers().getFloat("reloadSpeedMultiplier"+name);
+                shootDelay = lvlUp.getFloat("reload")/animationSprites.length * framesDelay;
                 bulletDamage = lvlUp.getFloat("dmg");
                 bulletSpeed = lvlUp.getFloat("bulletSpeed");
-                bulletSplash = lvlUp.getInt("splash");
-                range = lvlUp.getFloat("range");
+                bulletSplashRange = lvlUp.getInt("splash")*scale;
+                range = lvlUp.getFloat("range")*scale;
                 lvl = lvlUp.getInt("lvl");
             }else{
                 gameScreen.showInfoDialog();
@@ -242,6 +248,22 @@ public class Tower extends Actor {
     public int getTileX() { return tileX;}
     public int getTileY() { return tileY;}
 
+    public void refreshReload() {
+        float newReloadTime = towerLevels.getJSONObject(lvl-1).getFloat("reload")*base.getMultipliers().getFloat("reloadSpeedMultiplier"+name);
+        stateTime = stateTime * (newReloadTime/reloadTime);
+        shootDelayLeft = shootDelayLeft * (newReloadTime/reloadTime);
+
+        towerAnimation = null;
+        towerAnimation = new Animation<>(newReloadTime/animationSprites.length, animationSprites);
+
+        if (towerAnimation2 != null)
+            towerAnimation2 = new Animation<>(newReloadTime/animationSprites2.length, animationSprites2);
+
+        reloadTime = newReloadTime;
+        shootDelay = reloadTime/animationSprites.length * framesDelay;
+    }
+
+
 
     public void update(float deltaTime, ArrayList<Enemy> enemies) {
         //set positions, orientation
@@ -258,10 +280,10 @@ public class Tower extends Actor {
             if (b.isOnEnemy())
             {
                 b.getEnemyToFollow().dealDmg(b.getBulletDamage()*base.getMultipliers().getFloat("damageMultiplier")*base.getMultipliers().getFloat("damageMultiplier"+name) );
-                if(bulletSplash>0){
+                if(bulletSplashRange > 0){
                     for(Enemy e:enemies){
-                        if(e.getPosition().y <= b.getEnemyToFollow().getPosition().y+bulletSplash && e.getPosition().y >= b.getEnemyToFollow().getPosition().y-bulletSplash && e.getPosition().x <= b.getEnemyToFollow().getPosition().x+bulletSplash && e.getPosition().x >= b.getEnemyToFollow().getPosition().x-bulletSplash){
-                            e.dealDmg(b.getBulletDamage()/2);
+                        if(e.getPosition().y <= b.getEnemyToFollow().getPosition().y+ bulletSplashRange && e.getPosition().y >= b.getEnemyToFollow().getPosition().y- bulletSplashRange && e.getPosition().x <= b.getEnemyToFollow().getPosition().x+ bulletSplashRange && e.getPosition().x >= b.getEnemyToFollow().getPosition().x- bulletSplashRange){
+                            e.dealDmg(b.getBulletDamage()*base.getMultipliers().getFloat("splashMultiplier"));
                         }
                     }
                 }
@@ -278,6 +300,23 @@ public class Tower extends Actor {
         if (shootDelayLeft>0)
         {
             shootDelayLeft -= deltaTime;
+
+            //moving in direction to enemy
+            Vector2 direction = new Vector2(position.x - delayBullet.getEnemyToFollow().getPosition().x, position.y - delayBullet.getEnemyToFollow().getPosition().y);
+            double x = Math.abs(position.x - delayBullet.getEnemyToFollow().getPosition().x);
+            double distance = Vector2.dst(position.x,position.y,delayBullet.getEnemyToFollow().getPosition().x,delayBullet.getEnemyToFollow().getPosition().y);
+            double alfa = Math.acos(x/distance);
+            rotation = (float) Math.toDegrees(alfa);
+            if (direction.x <= 0 && direction.y <= 0)
+                rotation = 270 + rotation;
+            else if (direction.x <= 0 && direction.y > 0)
+                rotation = 270 - rotation;
+            else if (direction.x > 0 && direction.y > 0)
+                rotation = 90 + rotation;
+            else if (direction.x > 0 && direction.y <= 0)
+                rotation = 90 - rotation;
+
+
             if (shootDelayLeft <= 0)
                 towerBullets.add(delayBullet);
         }
@@ -356,7 +395,7 @@ public class Tower extends Actor {
                                     rotation = 90 - rotation;
 
 
-                                break;
+                                return;
                             }
                         }
                     }
@@ -408,4 +447,6 @@ public class Tower extends Actor {
     public int getSellWorth() {
         return worth/2;
     }
+
+
 }
