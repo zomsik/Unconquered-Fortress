@@ -172,11 +172,6 @@ public class GameScreen implements Screen {
 
         table_tips.setBounds(Gdx.graphics.getWidth()/80*67+8*scale,(Gdx.graphics.getHeight()-(Gdx.graphics.getWidth()/50*3-12*scale))-2, Gdx.graphics.getWidth()/50*3,Gdx.graphics.getWidth()/50*3-12*scale);
 
-        upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/upgrade_dialog_720.png"))))));
-        upgradeDialog.setBounds(0,0,Gdx.graphics.getWidth()/8, Gdx.graphics.getHeight()/8);
-        upgradeDialog.setScale(scale);
-        upgradeDialog.row();
-
         buttonStyleManager = new ButtonStyleManager();
         textFieldStyleManager = new TextFieldStyleManager();
 
@@ -656,12 +651,13 @@ public class GameScreen implements Screen {
                 base.setState(Base.State.Paused);
 
                 Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
-                //upgradeDialog.setBounds(0,0,Gdx.graphics.getWidth()/10*8,Gdx.graphics.getHeight()/10*8);
+                upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/upgrade_dialog_720.png"))))));
+                upgradeDialog.setBounds(0,0,Gdx.graphics.getWidth()/8, Gdx.graphics.getHeight()/8);
+                upgradeDialog.setScale(scale);
+                upgradeDialog.row();
                 upgradeDialog.text(languageManager.getValue(languageManager.getLanguage(), "upgrade_dialog_field_text"), labelStyle);
 
                 upgradeDialog.add(upgradeManager.returnUpgradeTable());
-                //upgradeDialog.setScale(scale);
-                //pauseStage.addActor(upgradeDialog);
                 upgradeDialog.show(pauseStage);
                 upgradeDialog.setY(0);
                 upgradeDialog.setX(((Gdx.graphics.getWidth())-upgradeDialog.getWidth())/scale/2);

@@ -56,6 +56,7 @@ public class UpgradeManager {
         this.upgrades = upgrades;
         this.unlockedUpgrades = unlockedUpgrades;
         this.scale = scale;
+
         buttonStyleManager = new ButtonStyleManager();
         textButtonStyle = new TextButton.TextButtonStyle();
         taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");
@@ -81,6 +82,8 @@ public class UpgradeManager {
 
     public void createUpgradeTable(){
         this.table_upgrade = new Table();
+
+
 
         table_upgrade.setBounds(0,0, Gdx.graphics.getWidth()/10*8,Gdx.graphics.getHeight()/10*8);
 
@@ -220,17 +223,8 @@ public class UpgradeManager {
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
         table_upgrade.add(uLuck.getImage());
         table_upgrade.row();
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(bUpgradeBack).colspan(3).height(32);
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+
+        table_upgrade.add(bUpgradeBack).colspan(13).height(32);
 
         table_upgrade.padBottom(6);
         table_upgrade.padLeft(16);
@@ -355,7 +349,6 @@ public class UpgradeManager {
         bUpgradeBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
                 base.setState(Base.State.Resumed);
             }
         });
