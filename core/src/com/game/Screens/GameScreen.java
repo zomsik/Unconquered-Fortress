@@ -12,10 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -132,8 +129,8 @@ public class GameScreen implements Screen {
             actualGame.put("login",game.getLogin());
 
         turretLevels = fileReader.downloadFileAsJSONObject("assets/towers.json");
-
-        base = new Base(actualGame);
+        operationsArr = GameFunctions.getOperationsArr(this);
+        base = new Base(actualGame,operationsArr);
 
         //reading stats etc
         if(actualGame.getString("difficulty").equals("normal")){
@@ -193,7 +190,7 @@ public class GameScreen implements Screen {
         bPauseMenu = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bPauseMenu));
         bBackEventDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bBackInfoDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-        operationsArr = GameFunctions.getOperationsArr(this);
+
         table_operations = GameFunctions.getOperationsTable(operationsArr, scale, bUpgrade);
         Texture shopBackground = new Texture(new FileHandle("assets/shopBackground.png"));
         table_operations.setBackground(new TextureRegionDrawable(new TextureRegion(shopBackground)));
@@ -686,9 +683,6 @@ public class GameScreen implements Screen {
         bNextWave.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
-
-                System.out.println();
 
                 //enemyManager.addWaveToSpawn(GameFunctions.createRandomEnemyWave(actualGame));
 

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Enemy extends Actor {
-    private int health, startHealth;
+    private int health, maxHealth;
     private int dmg;
 
     private String name;
@@ -49,6 +49,9 @@ public class Enemy extends Actor {
     private boolean isSummoning;
     private Animation<TextureRegion>[] summoningAnimation;
 
+    private float healTime,healTimeLeft;
+    private int enemyRegen;
+
     public Enemy(){
 
     }
@@ -59,7 +62,7 @@ public class Enemy extends Actor {
         this.name = name;
         this.enemySize = enemySize;
         this.health = health;
-        this.startHealth = health;
+        this.maxHealth = health;
         this.dmg = 7;
         this.money = 15;
         this.diamonds = 1;
@@ -95,6 +98,13 @@ public class Enemy extends Actor {
 
         currentAnimation = animationArr[1];
 
+
+        if(Objects.equals(name, "blob"))
+        {
+            healTime = 5;
+            healTimeLeft = 5;
+            enemyRegen = 5;
+        }
 
     }
 
@@ -275,6 +285,22 @@ public class Enemy extends Actor {
         stateTime += deltaTime;
 
 
+        //Blob
+        if(Objects.equals(name, "blob"))
+        {
+            healTimeLeft -= deltaTime;
+            if(healTimeLeft<0) {
+                healTimeLeft = healTime;
+                if (health<maxHealth)
+                {
+                    if (health+enemyRegen < maxHealth)
+                        health+=enemyRegen;
+                    else
+                        health = maxHealth;
+                }
+            }
+        }
+
         //Summon
         if(Objects.equals(name, "summon"))
         {
@@ -406,7 +432,7 @@ public class Enemy extends Actor {
             shapeRenderer.end();
 
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.rect(position.x, position.y + enemySize * scale * 3 / 2, enemySize * health / startHealth * scale, 10);
+            shapeRenderer.rect(position.x, position.y + enemySize * scale * 3 / 2, enemySize * health / maxHealth * scale, 10);
             shapeRenderer.end();
 
             batch.begin();
@@ -432,7 +458,7 @@ public class Enemy extends Actor {
 
     public void summonEnemy() {
 
-        Enemy summon = new Enemy(210, "assets/game/enemies/blob.png", "summon", 64, false);
+        Enemy summon = new Enemy(210, "assets/game/enemies/summon.png", "summon", 64, false);
         summon.initSummonedEnemy(this.summoningTime*0.8f, this.base, this.path, this.scale);
         summonedEnemies.add(summon);
 

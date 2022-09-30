@@ -121,15 +121,24 @@ public class GameFunctions {
         Skin images_buildings = new Skin(new TextureAtlas("assets/icons/buildings.pack"));
 
 
-        arr[0][0] = new Image(images_buildings, "sword");
-        arr[0][1] = new Image(images_buildings, "bow");
+        /*
+                arr[0][1] = new Image(images_buildings, "bow");
         arr[1][0] = new Image(images_buildings, "mage");
         arr[1][1] = new Image(images_buildings, "cannon");
+         */
+
+        arr[0][0] = new Image(images_buildings, "sword");
+        arr[0][1] = new Image(images_buildings, "locked");
+        arr[1][0] = new Image(images_buildings, "locked");
+        arr[1][1] = new Image(images_buildings, "locked");
         arr[2][0] = new Image(images_buildings, "stickyRoad");
         arr[2][1] = new Image(images_buildings, "roadNeedles");
         arr[3][0] = new Image(images_buildings, "clean");
         arr[3][1] = new Image(images_buildings, "sell");
 
+        arr[0][1].setTouchable(Touchable.disabled);
+        arr[1][0].setTouchable(Touchable.disabled);
+        arr[1][1].setTouchable(Touchable.disabled);
 
         arr[0][0].setName("melee");
         arr[0][1].setName("crossbow");
@@ -175,7 +184,7 @@ public class GameFunctions {
 
 
         arr[0][0] = new Image(images_buildings, "sword");
-        arr[0][1] = new Image(images_buildings, "bow");
+        arr[0][1] = new Image(images_buildings, "crossbow");
         arr[1][0] = new Image(images_buildings, "mage");
         arr[1][1] = new Image(images_buildings, "cannon");
         arr[2][0] = new Image(images_buildings, "stickyRoad");

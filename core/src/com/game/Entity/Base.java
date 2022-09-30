@@ -1,8 +1,13 @@
 package com.game.Entity;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.json.JSONObject;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 public class Base {
     private int maxHealth;
@@ -33,14 +38,15 @@ public class Base {
 
     private State state;
 
+    private Image[][] operationsArr;
 
-    public Base(JSONObject actualGame){
+    public Base(JSONObject actualGame, Image[][] operationsArr){
         this.infoToDisplay = 0;
         this.infoToDisplayName = "";
         this.infoToDisplayObjectNow = null;
         this.infoToDisplayObjectUpgraded = null;
         this.shouldUpdateInfo = false;
-
+        this.operationsArr = operationsArr;
         state = State.Running;
 
         multipliers = new JSONObject();
@@ -94,6 +100,21 @@ public class Base {
     public void setPassiveUpgrade(JSONObject upgrade, boolean isLoaded) {
         if (!isLoaded)
             this.diamonds -= upgrade.getInt("cost");
+
+        if (upgrade.has("unlocks"))
+        {
+
+            String unlock = upgrade.getString("unlocks");
+            for(int i=0; i<4; i++)
+                for(int j=0; j<2; j++)
+                    if (Objects.equals(operationsArr[i][j].getName(), unlock))
+                    {
+                        operationsArr[i][j].setDrawable(new Skin(new TextureAtlas("assets/icons/buildings.pack")),unlock);
+                        operationsArr[i][j].setTouchable(Touchable.enabled);
+                        break;
+                    }
+
+        }
 
         if (upgrade.has("multipliers"))
         {

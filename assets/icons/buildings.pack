@@ -10,7 +10,7 @@ sword
   orig: 64, 64
   offset: 0, 0
   index: -1
-bow
+crossbow
   rotate: false
   xy: 64, 0
   size: 64, 64
@@ -78,5 +78,12 @@ separator
   xy: 640, 0
   size: 224, 8
   orig: 224, 8
+  offset: 0, 0
+  index: -1
+locked
+  rotate: false
+  xy: 512, 0
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
