@@ -293,7 +293,7 @@ public class Tower extends Actor {
                 if (e.getIsFlying() && !canAttackFlying)
                     continue;
 
-                if (range>=Vector2.dst(position.x+towerTextureSize*scale/2,position.y+towerTextureSize*scale/2,e.getPosition().x+e.getEnemySize()*scale/2,e.getPosition().y+e.getEnemySize()*scale/2))
+                if (range*base.getMultipliers().getFloat("rangeMultiplier"+name)>=Vector2.dst(position.x+towerTextureSize*scale/2,position.y+towerTextureSize*scale/2,e.getPosition().x+e.getEnemySize()*scale/2,e.getPosition().y+e.getEnemySize()*scale/2))
                 {
                     if (shootDelay > 0){
                         delayBullet = new Bullet(e, e.getEnemySize(), bulletDamage, bulletSpeed, bulletTexture, bulletTextureSize, position, scale);
@@ -333,7 +333,7 @@ public class Tower extends Actor {
                     for (Enemy eSummon: e.getSummonedList())
                     {
                         if (eSummon.getCanBeAttacked()) {
-                            if (range >= Vector2.dst(position.x + towerTextureSize * scale / 2, position.y + towerTextureSize * scale / 2, eSummon.getPosition().x + eSummon.getEnemySize() * scale / 2, eSummon.getPosition().y + eSummon.getEnemySize() * scale / 2)) {
+                            if (range*base.getMultipliers().getFloat("rangeMultiplier"+name) >= Vector2.dst(position.x + towerTextureSize * scale / 2, position.y + towerTextureSize * scale / 2, eSummon.getPosition().x + eSummon.getEnemySize() * scale / 2, eSummon.getPosition().y + eSummon.getEnemySize() * scale / 2)) {
                                 towerBullets.add(new Bullet(eSummon, eSummon.getEnemySize(), bulletDamage, bulletSpeed, bulletTexture, bulletTextureSize, position, scale));
                                 stateTime = 0f;
                                 timeToShoot = reloadTime;
@@ -373,20 +373,18 @@ public class Tower extends Actor {
     public void render(SpriteBatch batch, ShapeRenderer shapeRenderer) {
         //draw tower
 
-
-
         if (isMouseEntered)
         {
 
             batch.end();
             shapeRenderer.setColor(Color.GREEN);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            shapeRenderer.circle(position.x+scale*towerTextureSize/2, position.y+scale*towerTextureSize/2, range);
+            shapeRenderer.circle(position.x+scale*towerTextureSize/2, position.y+scale*towerTextureSize/2, range*base.getMultipliers().getFloat("rangeMultiplier"+name));
 
             if (lvl < towerLevels.length())
             {
                 shapeRenderer.setColor(Color.BLUE);
-                shapeRenderer.circle(position.x+scale*towerTextureSize/2, position.y+scale*towerTextureSize/2, towerLevels.getJSONObject(lvl).getFloat("range"));
+                shapeRenderer.circle(position.x+scale*towerTextureSize/2, position.y+scale*towerTextureSize/2, towerLevels.getJSONObject(lvl).getFloat("range")*base.getMultipliers().getFloat("rangeMultiplier"+name));
             }
 
             shapeRenderer.end();

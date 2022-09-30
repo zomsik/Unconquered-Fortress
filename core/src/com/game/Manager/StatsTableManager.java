@@ -347,7 +347,7 @@ public class StatsTableManager {
         operationTitleTextValue.setText(name);
         operationPriceTextValue.setText(String.valueOf(Math.round(towerNow.getInt("cost")*base.getMultipliers().getFloat("costMultiplier"))));
         operationDmgTextValue.setText(String.valueOf((int)towerNow.getFloat("dmg")));
-        operationRangeTextValue.setText(String.valueOf((int)towerNow.getFloat("range")));
+        operationRangeTextValue.setText(String.valueOf((int)(towerNow.getFloat("range")*base.getMultipliers().getFloat("rangeMultiplier"+name+"Tower"))));
         operationReloadTextValue.setText(String.valueOf((int)towerNow.getFloat("reload")));
         operationSplashTextValue.setText(String.valueOf((int)towerNow.getFloat("splash")));
     }
@@ -359,7 +359,7 @@ public class StatsTableManager {
             upgradePriceTextValue.setText(String.valueOf(Math.round(towerUpgraded.getInt("cost")*base.getMultipliers().getFloat("upgradeCostMultiplier"))));
             upgradeLvlTextValue.setText(towerNow.getInt("lvl") + " -> " + towerUpgraded.getInt("lvl"));
             upgradeDmgTextValue.setText((int)towerNow.getFloat("dmg") + " -> " + (int)towerUpgraded.getFloat("dmg"));
-            upgradeRangeTextValue.setText((int)towerNow.getFloat("range") + " -> " + (int)towerUpgraded.getFloat("range"));
+            upgradeRangeTextValue.setText((int)(towerNow.getFloat("range")*base.getMultipliers().getFloat("rangeMultiplier"+name)) + " -> " + (int)(towerUpgraded.getFloat("range")*base.getMultipliers().getFloat("rangeMultiplier"+name)));
             upgradeReloadTextValue.setText((int)towerNow.getFloat("reload") + " -> " + (int)towerUpgraded.getFloat("reload"));
             upgradeSplashTextValue.setText((int)towerNow.getFloat("splash") + " -> " + (int)towerUpgraded.getFloat("splash"));
 

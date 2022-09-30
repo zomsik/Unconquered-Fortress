@@ -57,7 +57,10 @@ public class Base {
         multipliers.put("damageMultipliercannonTower",1f);
         multipliers.put("attackSpeedMultiplier",1f);
         multipliers.put("moreProjectilesMultiplier",1f);
-        multipliers.put("rangeMultiplier",1f);
+        multipliers.put("rangeMultipliermeleeTower",1f);
+        multipliers.put("rangeMultipliermageTower",1f);
+        multipliers.put("rangeMultipliercrossbowTower",1f);
+        multipliers.put("rangeMultipliercannonTower",1f);
         multipliers.put("healthRegeneration",0f); //done
         multipliers.put("damageReduction",0f); //done
         multipliers.put("goldMultiplier",1f); //done
