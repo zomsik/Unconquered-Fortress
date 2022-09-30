@@ -30,11 +30,15 @@ public class UpgradeManager {
     private Skin images_upgrades;
     private Table table_upgrade;
     private Dialog upgradeDialog;
+    private TextureAtlas taButtonsDefault;
+    private Skin images_default;
     private LanguageManager languageManager;
 
     private TextTooltip.TextTooltipStyle textTooltipStyle;
     private TextTooltip tooltip;
-
+    private TextButton bUpgradeBack;
+    private TextButton.TextButtonStyle textButtonStyle;
+    private ButtonStyleManager buttonStyleManager;
     private Base base;
 
     private ArrayList<Upgrade> upgradeList;
@@ -52,7 +56,12 @@ public class UpgradeManager {
         this.upgrades = upgrades;
         this.unlockedUpgrades = unlockedUpgrades;
         this.scale = scale;
-
+        buttonStyleManager = new ButtonStyleManager();
+        textButtonStyle = new TextButton.TextButtonStyle();
+        taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");
+        images_default = new Skin(taButtonsDefault);
+        buttonStyleManager.setTextButtonStyle(textButtonStyle, images_default, font, "defaultButton", "defaultButton");
+        bUpgradeBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle));
         Drawable tooltipBackground = new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/settings_dialog.png"))));
         textTooltipStyle = new TextTooltip.TextTooltipStyle();
         textTooltipStyle.label = new Label.LabelStyle(font, Color.WHITE);
@@ -210,7 +219,20 @@ public class UpgradeManager {
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
         table_upgrade.add(uLuck.getImage());
-        table_upgrade.padBottom(16);
+        table_upgrade.row();
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+        table_upgrade.add(bUpgradeBack).colspan(3).height(32);
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+
+        table_upgrade.padBottom(6);
         table_upgrade.padLeft(16);
         table_upgrade.padRight(16);
 
@@ -330,7 +352,13 @@ public class UpgradeManager {
 
     public void initListeners()
     {
+        bUpgradeBack.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
 
+                base.setState(Base.State.Resumed);
+            }
+        });
         for (Upgrade u: upgradeList)
         {
             u.getImage().addListener(new ClickListener(){

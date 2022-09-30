@@ -194,7 +194,6 @@ public class GameScreen implements Screen {
         bPauseMenu = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bPauseMenu));
         bBackEventDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bBackInfoDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-
         table_operations = GameFunctions.getOperationsTable(operationsArr, scale, bUpgrade);
         Texture shopBackground = new Texture(new FileHandle("assets/shopBackground.png"));
         table_operations.setBackground(new TextureRegionDrawable(new TextureRegion(shopBackground)));
