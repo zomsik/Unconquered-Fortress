@@ -853,33 +853,7 @@ public class GameScreen implements Screen {
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
 
-                    if (pauseDialog!=null)
-                        if (pauseDialog.isVisible()) {
-                            pauseDialog.hide();
-                            pauseDialog.remove();
-                    }
-                    if (upgradeDialog!=null)
-                        if (upgradeDialog.isVisible()) {
-                            upgradeDialog.hide();
-                            upgradeDialog.remove();
-                            upgradeDialog.clear();
-                    }
-
-                    if (eventDialog!=null)
-                        if (eventDialog.isVisible()) {
-                            eventDialog.hide();
-                            eventDialog.remove();
-                    }
-
-                    if (infoDialog!=null)
-                        if (infoDialog.isVisible()) {
-                            infoDialog.hide();
-                            infoDialog.remove();
-                    }
-
-                    base.setInfoToDisplay(0);
                     base.setState(Base.State.Resumed);
-                    updateInfoDisplay();
 
                     return true;
                 }
@@ -1012,6 +986,7 @@ public class GameScreen implements Screen {
                 pauseStage.draw();
                 break;
             case Resumed:
+                resume();
                 spritebatch.begin();
                 roadObstaclesManager.render(spritebatch);
                 towerManager.render(spritebatch, shapeRenderer);
@@ -1053,6 +1028,32 @@ public class GameScreen implements Screen {
 
     @Override
     public void resume() {
+        if (pauseDialog!=null)
+            if (pauseDialog.isVisible()) {
+                pauseDialog.hide();
+                pauseDialog.remove();
+            }
+        if (upgradeDialog!=null)
+            if (upgradeDialog.isVisible()) {
+                upgradeDialog.hide();
+                upgradeDialog.remove();
+                upgradeDialog.clear();
+            }
+
+        if (eventDialog!=null)
+            if (eventDialog.isVisible()) {
+                eventDialog.hide();
+                eventDialog.remove();
+            }
+
+        if (infoDialog!=null)
+            if (infoDialog.isVisible()) {
+                infoDialog.hide();
+                infoDialog.remove();
+            }
+
+        base.setInfoToDisplay(0);
+        updateInfoDisplay();
 
     }
 
