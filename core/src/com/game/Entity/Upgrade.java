@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Upgrade {
     private String upgradeName;
@@ -25,23 +26,6 @@ public class Upgrade {
     private ArrayList<Upgrade> nextUpgrades;
     private List<Integer> levelToUnlockUpgrades;
     private LanguageManager languageManager;
-
-
-    /*
-    private float damageMultiplayer;
-    private float attackspeedmultiplayer;
-    private float moreprojectilesmultiplayer;
-    private float rangemultiplayer;
-    private float bonushealth;
-    private float healthregeneration;
-    private float reductionmultiplayer;
-    private float goldmultiplayer;
-    private float diamondsmultiplayer;
-    private float discountmultiplaer;
-    private float costmultiplayer;
-    private float luckmultiplayer;
-
-     */
 
     public Upgrade(String upgradeName, int level, JSONArray upgradeArray, Skin skin, String unlockedIcon, LanguageManager languageManager) {
 
@@ -101,7 +85,52 @@ public class Upgrade {
             return new Label(languageManager.getValue(languageManager.getLanguage(), "upgrade_Max_level"), labelStyle);
         }
         else {
+
+            String information = languageManager.getValue(languageManager.getLanguage(), "upgrade_Upgrade") + languageManager.getValue(languageManager.getLanguage(), this.upgradeName) + "\n"+languageManager.getValue(languageManager.getLanguage(), "upgrade_Level") + this.level + "/" + this.maxLevel + "\n";
+
+            // if unlocks tower
+            if (upgradeArray.getJSONObject(level).has("unlocks"))
+                return new Label(information+languageManager.getValue(languageManager.getLanguage(), "uInfoUnlocks")+ upgradeArray.getJSONObject(level).getString("unlocks"),labelStyle);
+
+            if (upgradeArray.getJSONObject(level).has("maxHealth"))
+                return new Label(information+languageManager.getValue(languageManager.getLanguage(), "uInfoMaxHealth") + upgradeArray.getJSONObject(level).getInt("maxHealth"), labelStyle);
+
+            JSONObject upgradesNameArray = upgradeArray.getJSONObject(level).getJSONObject("multipliers");
+
+            if (upgradesNameArray.length()==1)
+            {
+
+                if (upgradesNameArray.has( "healthRegeneration"))
+                    return new Label(information+languageManager.getValue(languageManager.getLanguage(), "uInfoHealthRegeneration") + upgradesNameArray.getInt("healthRegeneration"), labelStyle);
+
+                if (upgradesNameArray.has("damageReduction"))
+                    return new Label(information+languageManager.getValue(languageManager.getLanguage(), "uInfoDamageReduction") + upgradesNameArray.getInt("damageReduction"), labelStyle);
+
+                if (upgradesNameArray.has("goldMultiplier"))
+                    return new Label(information+languageManager.getValue(languageManager.getLanguage(), "uInfoGoldMultiplier") + (int)(100*upgradesNameArray.getFloat("goldMultiplier")) +"%", labelStyle);
+
+                if (upgradesNameArray.has("diamondsMultiplier"))
+                    return new Label(information+languageManager.getValue(languageManager.getLanguage(), "uInfoDiamondsMultiplier") + upgradesNameArray.getInt("diamondsMultiplier"), labelStyle);
+
+                if (upgradesNameArray.has("costMultiplier"))
+                    return new Label( information+languageManager.getValue(languageManager.getLanguage(), "uInfoCostMultiplier") + (int)(-100*upgradesNameArray.getFloat("costMultiplier")) + "%", labelStyle);
+
+                if (upgradesNameArray.has("upgradeCostMultiplier"))
+                    return new Label( information+languageManager.getValue(languageManager.getLanguage(), "uInfoUpgradeCostMultiplier") + (int)(-100*upgradesNameArray.getFloat("upgradeCostMultiplier")) + "%", labelStyle);
+
+                if (upgradesNameArray.has("cleaningCostMultiplier"))
+                    return new Label( information+languageManager.getValue(languageManager.getLanguage(), "uInfoCleaningCostMultiplier") + (int)(-100*upgradesNameArray.getFloat("cleaningCostMultiplier")) + "%", labelStyle);
+
+                if (upgradesNameArray.has("luckMultiplier"))
+                    return new Label( information+languageManager.getValue(languageManager.getLanguage(), "uInfoLuckMultiplier") + upgradesNameArray.getInt("luckMultiplier") +"%", labelStyle);
+
+
+            }
+
+
+            //else
             return new Label(languageManager.getValue(languageManager.getLanguage(), "upgrade_Upgrade") + languageManager.getValue(languageManager.getLanguage(), this.upgradeName) + "\n"+languageManager.getValue(languageManager.getLanguage(), "upgrade_Level") + this.level + "/" + this.maxLevel + "\n"+languageManager.getValue(languageManager.getLanguage(), "upgrade_Multiplayer"),labelStyle);
+
         }
 
     }

@@ -111,5 +111,15 @@
   "bSend": "Prześlij",
   "bDownload": "Pobierz",
   "tDoYouWantSend": "Czy chcesz przesłać profil: ",
-  "tDoYouWantDownload": "Czy chcesz pobrać profil: "
+  "tDoYouWantDownload": "Czy chcesz pobrać profil: ",
+  "uInfoUnlocks": "Odblokowuje typ wieżyczki: ",
+  "uInfoMaxHealth": "Zwiększa maksymalne zdrowie o: ",
+  "uInfoHealthRegeneration": "Zwiększa regenerację zdrowia co fale o: ",
+  "uInfoDamageReduction": "Zmniejsza otrzymywane obrażenia o: ",
+  "uInfoGoldMultiplier": "Zwiększa otrzymywane złoto o: ",
+  "uInfoDiamondsMultiplier": "Zwiększa otrzymywane diamenty o: ",
+  "uInfoCostMultiplier": "Zmniejsza koszt zakupu o: ",
+  "uInfoUpgradeCostMultiplier": "Zmniejsza koszt ulepszeń o: ",
+  "uInfoCleaningCostMultiplier": "Zmniejsza koszt czyszczenia o: ",
+  "uInfoLuckMultiplier": "Zwiększa szczęście o: "
 }

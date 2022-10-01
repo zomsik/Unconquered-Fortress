@@ -111,6 +111,16 @@
   "bSend": "Send",
   "bDownload": "Download",
   "tDoYouWantSend": "Do you want to send profile: ",
-  "tDoYouWantDownload": "Do you want to download profile: "
+  "tDoYouWantDownload": "Do you want to download profile: ",
+  "uInfoUnlocks": "Unlocks tower type: ",
+  "uInfoMaxHealth": "Increases maximum health: ",
+  "uInfoHealthRegeneration":"Zwiększa regenerację zdrowia co fale: ",
+  "uInfoDamageReduction": "Zmniejsza otrzymywane obrażenia o: ",
+  "uInfoGoldMultiplier": "Zwiększa otrzymywane złoto o: ",
+  "uInfoDiamondsMultiplier": "Zwiększa otrzymywane diamenty o: ",
+  "uInfoCostMultiplier": "Zmniejsza koszt zakupu o: ",
+  "uInfoUpgradeCostMultiplier": "Zmniejsza koszt ulepszeń o: ",
+  "uInfoCleaningCostMultiplier": "Zmniejsza koszt czyszczenia o: ",
+  "uInfoLuckMultiplier": "Zwiększa szczęście o: "
 
 }

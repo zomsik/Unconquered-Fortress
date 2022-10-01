@@ -234,17 +234,6 @@ public class UpgradeManager {
         //table_upgrade.setScale(scale);
     }
 
-/*    public Dialog returnUpgradeDialog(){
-        return upgradeDialog;
-    }
-    public void setUpgradeDialog(Dialog upgradeDialog, Table table_upgrade, Label.LabelStyle labelStyle){
-        this.upgradeDialog = upgradeDialog;
-        //upgradeDialog.setBounds(0,0, Gdx.graphics.getWidth()/10*8,Gdx.graphics.getHeight()/10*8);
-        upgradeDialog.text(languageManager.getValue(languageManager.getLanguage(), "upgrade_dialog_field_text"), labelStyle);
-        upgradeDialog.add(table_upgrade);
-        upgradeDialog.row();
-    }*/
-
     private void initUpgrades(){
         upgradeList = new ArrayList<>();
 
