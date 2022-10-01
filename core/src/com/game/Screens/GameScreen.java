@@ -101,17 +101,13 @@ public class GameScreen implements Screen {
     private State state = State.Running;
     */
 
-
-
-
-
-
     private JSONObject turretLevels;
+
+    private Music cleanSound, sellSound, buySound;
 
     public GameScreen (Main game, JSONObject save, boolean isLocal){
         this.game = game;
         this.isLocal = isLocal;
-
         scale = (float) (Gdx.graphics.getWidth() / 1280.0);
 
         System.out.println("Skala: " + scale);
@@ -208,6 +204,8 @@ public class GameScreen implements Screen {
         table_nextWave.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2,224*scale,48*scale);
         table_menuPause.add(bPauseMenu).height(Gdx.graphics.getHeight()/40*3).width(Gdx.graphics.getWidth()/50*3);
         table_tips.add(bTips).width(64*scale*0.75f).height(64*scale*0.75f);
+
+
     }
 
     public void loadObstacles() {
@@ -252,24 +250,28 @@ public class GameScreen implements Screen {
                     t.setLevel(buildings.getJSONObject(b).getInt("level"));
                     stage.addActor(t);
                     towerManager.buyTower(t);
+
                 }
                 case "mageTower" -> {
                     Tower t = new MageTower(turretLevels, base, buildings.getJSONObject(b).getInt("x"),buildings.getJSONObject(b).getInt("y"),scale, this);
                     t.setLevel(buildings.getJSONObject(b).getInt("level"));
                     stage.addActor(t);
                     towerManager.buyTower(t);
+
                 }
                 case "crossbowTower" -> {
                     Tower t = new BowTower(turretLevels, base, buildings.getJSONObject(b).getInt("x"),buildings.getJSONObject(b).getInt("y"),scale, this);
                     t.setLevel(buildings.getJSONObject(b).getInt("level"));
                     stage.addActor(t);
                     towerManager.buyTower(t);
+
                 }
                 case "cannonTower" -> {
                     Tower t = new CannonTower(turretLevels, base, buildings.getJSONObject(b).getInt("x"),buildings.getJSONObject(b).getInt("y"),scale, this);
                     t.setLevel(buildings.getJSONObject(b).getInt("level"));
                     stage.addActor(t);
                     towerManager.buyTower(t);
+
                 }
             }
             buildArr[buildings.getJSONObject(b).getInt("x")][buildings.getJSONObject(b).getInt("y")] = 1;
@@ -367,12 +369,20 @@ public class GameScreen implements Screen {
         if (Objects.equals(chosenOperation,"sell")) {
 
             if (buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] == 1) {
+                sellSound.dispose();
+                sellSound.setVolume(fileReader.getVolumeValue()/100);
+                sellSound.setLooping(false);
+                sellSound.play();
                 base.increaseMoney(towerManager.getSellWorth(lastClickedMapTile.getX(),lastClickedMapTile.getY()));
                 towerManager.sellTower(lastClickedMapTile.getX(),lastClickedMapTile.getY());
                 buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] = 0;
             }
 
             if (buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] == 2) {
+                sellSound.dispose();
+                sellSound.setVolume(fileReader.getVolumeValue()/100);
+                sellSound.setLooping(false);
+                sellSound.play();
                 base.increaseMoney(roadObstaclesManager.getSellWorth(lastClickedMapTile.getX(),lastClickedMapTile.getY()));
                 roadObstaclesManager.sellRoadObstacle(lastClickedMapTile.getX(),lastClickedMapTile.getY());
                 buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] = 0;
@@ -388,6 +398,10 @@ public class GameScreen implements Screen {
                     RoadObstacle r = new RoadSticky(base, lastClickedMapTile.getX(),lastClickedMapTile.getY(), scale, this);
                     roadObstaclesManager.buyObstacle(r);
                     stage.addActor(r);
+                    buySound.dispose();
+                    buySound.setVolume(fileReader.getVolumeValue()/100);
+                    buySound.setLooping(false);
+                    buySound.play();
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=2;
 
                 }else{
@@ -405,6 +419,10 @@ public class GameScreen implements Screen {
                     RoadObstacle r = new RoadNeedles(base, lastClickedMapTile.getX(),lastClickedMapTile.getY(), scale, this);
                     roadObstaclesManager.buyObstacle(r);
                     stage.addActor(r);
+                    buySound.dispose();
+                    buySound.setVolume(fileReader.getVolumeValue()/100);
+                    buySound.setLooping(false);
+                    buySound.play();
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=2;
 
                 }else{
@@ -430,6 +448,10 @@ public class GameScreen implements Screen {
                     Tower t = new MeleeTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale, this);
                     towerManager.buyTower(t);
                     stage.addActor(t);
+                    buySound.dispose();
+                    buySound.setVolume(fileReader.getVolumeValue()/100);
+                    buySound.setLooping(false);
+                    buySound.play();
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
                 }else{
                     showInfoDialog();
@@ -451,6 +473,10 @@ public class GameScreen implements Screen {
                     Tower t = new BowTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale, this);
                     towerManager.buyTower(t);
                     stage.addActor(t);
+                    buySound.dispose();
+                    buySound.setVolume(fileReader.getVolumeValue()/100);
+                    buySound.setLooping(false);
+                    buySound.play();
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
                 }else{
                     showInfoDialog();
@@ -468,6 +494,10 @@ public class GameScreen implements Screen {
                     Tower t = new MageTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale, this);
                     towerManager.buyTower(t);
                     stage.addActor(t);
+                    buySound.dispose();
+                    buySound.setVolume(fileReader.getVolumeValue()/100);
+                    buySound.setLooping(false);
+                    buySound.play();
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
                 }else {
                     showInfoDialog();
@@ -490,6 +520,10 @@ public class GameScreen implements Screen {
                     Tower t = new CannonTower(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(),scale,this);
                     towerManager.buyTower(t);
                     stage.addActor(t);
+                    buySound.dispose();
+                    buySound.setVolume(fileReader.getVolumeValue()/100);
+                    buySound.setLooping(false);
+                    buySound.play();
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
                 }else{
                     showInfoDialog();
@@ -515,7 +549,12 @@ public class GameScreen implements Screen {
             if (Objects.equals(lastClickedMapTile.getName(), "obstacle")) {
                 if(base.getMoney()>=base.getCleanPrice()){
                     //jeśli masz kasę itd warunki, może dialog etc
+                    cleanSound.dispose();
+                    cleanSound.setVolume(fileReader.getVolumeValue()/100);
+                    cleanSound.setLooping(false);
+                    cleanSound.play();
                     base.decreaseMoney(base.getCleanPrice());
+
                     JSONArray terr = actualGame.getJSONArray("terrainModifications");
 
                     terr.put(new JSONObject().put("tileName","grass").put("x",lastClickedMapTile.getX()).put("y",lastClickedMapTile.getY()));
@@ -524,8 +563,6 @@ public class GameScreen implements Screen {
                     table_map = worldManager.changeTileAndRedrawWorld(this, mapArr, lastClickedMapTile.getX(), lastClickedMapTile.getY(), "grass", scale);
 
                     /////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
                     stage.addActor(table_map);
                     showEventDialog();
@@ -1125,6 +1162,9 @@ public class GameScreen implements Screen {
         sliderStyle = new Slider.SliderStyle();
 
         backgroundMusic = game.getMusic();
+        cleanSound = game.getCleanSound();
+        sellSound = game.getSellSound();
+        buySound = game.getBuySound();
 
     }
 

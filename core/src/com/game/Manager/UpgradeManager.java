@@ -226,7 +226,7 @@ public class UpgradeManager {
 
         table_upgrade.add(bUpgradeBack).colspan(13).height(32);
 
-        table_upgrade.padBottom(6);
+        table_upgrade.padBottom(16);
         table_upgrade.padLeft(16);
         table_upgrade.padRight(16);
 

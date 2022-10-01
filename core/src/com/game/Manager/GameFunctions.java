@@ -236,7 +236,7 @@ public class GameFunctions {
         t.add(arr[3][0]).padTop(4);
         t.add(arr[3][1]).padTop(4);
         t.row();
-        t.add(bNextWave).align(Align.center).height(32).width(128).colspan(2).padTop(4);
+        t.add(bNextWave).align(Align.center).height(32).width(128).colspan(2).padTop(6);
         t.setScale(scale);
         return t;
     }

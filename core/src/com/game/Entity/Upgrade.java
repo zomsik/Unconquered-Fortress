@@ -87,7 +87,6 @@ public class Upgrade {
                 image.setDrawable(new Skin(new TextureAtlas("assets/icons/upgrade_icons.pack")), "upgradeIcons_bought");
             }
         }
-
     }
 
     public String getUpgradeName() {

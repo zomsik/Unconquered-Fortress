@@ -3,6 +3,7 @@ package com.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.Manager.ConnectionManager;
 import com.game.Manager.FileReader;
@@ -14,7 +15,7 @@ import java.util.Random;
 public class Main extends Game {
 	public SpriteBatch batch;
 	private FileReader fileReader;
-	private Music music;
+	private Music music, cleanSound, sellSound, buySound;
 	private boolean isLogged;
 	private String login;
 	private ConnectionManager connectionManager;
@@ -74,6 +75,9 @@ public class Main extends Game {
 			}
 		}
 		music = Gdx.audio.newMusic(Gdx.files.internal("assets/sound/backgroundMusic.ogg"));
+		cleanSound = Gdx.audio.newMusic(Gdx.files.internal("assets/sound/cleanSound.ogg"));
+		sellSound = Gdx.audio.newMusic(Gdx.files.internal("assets/sound/sellSound.ogg"));
+		buySound = Gdx.audio.newMusic(Gdx.files.internal("assets/sound/buySound.ogg"));
 		setScreen(new MenuScreen(this));
 
 	}
@@ -90,5 +94,13 @@ public class Main extends Game {
 	public Music getMusic() {
 		return music;
 	}
-
+	public Music getCleanSound() {
+		return cleanSound;
+	}
+	public Music getSellSound() {
+		return sellSound;
+	}
+	public Music getBuySound() {
+		return buySound;
+	}
 }
