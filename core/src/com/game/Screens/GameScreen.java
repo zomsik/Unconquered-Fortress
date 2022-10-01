@@ -884,6 +884,18 @@ public class GameScreen implements Screen {
                 base.setState(Base.State.Paused);
             }
         });
+
+        bTips.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                // Dialog tipsDialog = tipsManager.getDialog() czy coś takiego
+                Dialog tipsDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/tempBackground.png"))))));
+                tipsDialog.setBounds(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+                tipsDialog.show(pauseStage);
+                base.setState(Base.State.Paused);
+            }
+        });
         bResume.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
