@@ -370,8 +370,7 @@ public class GameScreen implements Screen {
 
             if (buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] == 1) {
                 sellSound.dispose();
-                sellSound.setVolume(fileReader.getVolumeValue()/100);
-                sellSound.setLooping(false);
+
                 sellSound.play();
                 base.increaseMoney(towerManager.getSellWorth(lastClickedMapTile.getX(),lastClickedMapTile.getY()));
                 towerManager.sellTower(lastClickedMapTile.getX(),lastClickedMapTile.getY());
@@ -380,8 +379,6 @@ public class GameScreen implements Screen {
 
             if (buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] == 2) {
                 sellSound.dispose();
-                sellSound.setVolume(fileReader.getVolumeValue()/100);
-                sellSound.setLooping(false);
                 sellSound.play();
                 base.increaseMoney(roadObstaclesManager.getSellWorth(lastClickedMapTile.getX(),lastClickedMapTile.getY()));
                 roadObstaclesManager.sellRoadObstacle(lastClickedMapTile.getX(),lastClickedMapTile.getY());
@@ -399,8 +396,6 @@ public class GameScreen implements Screen {
                     roadObstaclesManager.buyObstacle(r);
                     stage.addActor(r);
                     buySound.dispose();
-                    buySound.setVolume(fileReader.getVolumeValue()/100);
-                    buySound.setLooping(false);
                     buySound.play();
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=2;
 
@@ -420,8 +415,6 @@ public class GameScreen implements Screen {
                     roadObstaclesManager.buyObstacle(r);
                     stage.addActor(r);
                     buySound.dispose();
-                    buySound.setVolume(fileReader.getVolumeValue()/100);
-                    buySound.setLooping(false);
                     buySound.play();
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=2;
 
@@ -449,8 +442,6 @@ public class GameScreen implements Screen {
                     towerManager.buyTower(t);
                     stage.addActor(t);
                     buySound.dispose();
-                    buySound.setVolume(fileReader.getVolumeValue()/100);
-                    buySound.setLooping(false);
                     buySound.play();
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
                 }else{
@@ -474,8 +465,6 @@ public class GameScreen implements Screen {
                     towerManager.buyTower(t);
                     stage.addActor(t);
                     buySound.dispose();
-                    buySound.setVolume(fileReader.getVolumeValue()/100);
-                    buySound.setLooping(false);
                     buySound.play();
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
                 }else{
@@ -495,8 +484,6 @@ public class GameScreen implements Screen {
                     towerManager.buyTower(t);
                     stage.addActor(t);
                     buySound.dispose();
-                    buySound.setVolume(fileReader.getVolumeValue()/100);
-                    buySound.setLooping(false);
                     buySound.play();
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
                 }else {
@@ -521,8 +508,6 @@ public class GameScreen implements Screen {
                     towerManager.buyTower(t);
                     stage.addActor(t);
                     buySound.dispose();
-                    buySound.setVolume(fileReader.getVolumeValue()/100);
-                    buySound.setLooping(false);
                     buySound.play();
                     buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]=1;
                 }else{
@@ -550,8 +535,6 @@ public class GameScreen implements Screen {
                 if(base.getMoney()>=base.getCleanPrice()){
                     //jeśli masz kasę itd warunki, może dialog etc
                     cleanSound.dispose();
-                    cleanSound.setVolume(fileReader.getVolumeValue()/100);
-                    cleanSound.setLooping(false);
                     cleanSound.play();
                     base.decreaseMoney(base.getCleanPrice());
 
@@ -1163,9 +1146,18 @@ public class GameScreen implements Screen {
 
         backgroundMusic = game.getMusic();
         cleanSound = game.getCleanSound();
+        cleanSound.setVolume(fileReader.getVolumeValue()/100);
+        cleanSound.setLooping(false);
         sellSound = game.getSellSound();
+        sellSound.setVolume(fileReader.getVolumeValue()/100);
+        sellSound.setLooping(false);
         buySound = game.getBuySound();
+        buySound.setVolume(fileReader.getVolumeValue()/100);
+        buySound.setLooping(false);
 
     }
 
+    public Music getBuySound() {
+        return buySound;
+    }
 }

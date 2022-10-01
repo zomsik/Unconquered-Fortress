@@ -143,6 +143,8 @@ public class Tower extends Actor {
 
             public void clicked(InputEvent event, float x, float y) {
                 TowerLevelUp();
+                gameScreen.getBuySound().dispose();
+                gameScreen.getBuySound().play();
                 isClicked = true;
 
             }
