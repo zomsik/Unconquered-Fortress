@@ -1,15 +1,16 @@
 package com.game.Manager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.game.Entity.Base;
 
 public class TipsManager {
@@ -31,6 +32,8 @@ public class TipsManager {
 
     private Table table_mechanics, table_enemies, table_upgrades, table_towers, table_buttons;
 
+    private Dialog tipsDialog;
+
     public TipsManager(LanguageManager languageManager, BitmapFont font, Base base, float scale){
         this.languageManager = languageManager;
         this.font = font;
@@ -40,14 +43,26 @@ public class TipsManager {
         textFieldStyleManager = new TextFieldStyleManager();
         buttonStyleManager = new ButtonStyleManager();
         initSettingUI();
+
         initListeners();
         createTipsButtonTable();
         createTipsMechanicsTable();
         createTipsEnemiesTable();
         createTipsTowersTable();
         createTipsUpgradesTable();
+        createTipsDialog();
     }
+    public void createTipsDialog(){
 
+        this.tipsDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/tempBackground.png"))))));
+        tipsDialog.setBounds(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        tipsDialog.add(returnTipsButtonsTable());
+        tipsDialog.row();
+        tipsDialog.add(returnTipsMechanicsTable());
+    }
+    public Dialog returnTipsDialog(){
+        return  tipsDialog;
+    };
     public void createTipsButtonTable(){
         this.table_buttons = new Table();
         buttonStyleManager.setTextButtonStyle(textButtonStyleTop, images_tips, font, "defaultButton", "defaultButton");
@@ -154,73 +169,37 @@ public class TipsManager {
         bMechanics.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(table_enemies!=null){
-                    table_enemies.remove();
-                }
-                if(table_towers!=null){
-                    table_towers.remove();
-                }
-                if(table_upgrades!=null){
-                    table_upgrades.remove();
-                }
-                if(table_mechanics==null){
-                    createTipsMechanicsTable();
-                    returnTipsMechanicsTable();
-                }
+                tipsDialog.clear();
+                tipsDialog.add(returnTipsButtonsTable());
+                tipsDialog.row();
+                tipsDialog.add(returnTipsMechanicsTable());
             }
         });
         bEnemies.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(table_mechanics!=null){
-                    table_mechanics.remove();
-                }
-                if(table_towers!=null){
-                    table_towers.remove();
-                }
-                if(table_upgrades!=null){
-                    table_upgrades.remove();
-                }
-                if(table_enemies==null){
-                    createTipsEnemiesTable();
-                    returnTipsEnemiesTable();
-                }
+                tipsDialog.clear();
+                tipsDialog.add(returnTipsButtonsTable());
+                tipsDialog.row();
+                tipsDialog.add(returnTipsEnemiesTable());
             }
         });
         bTowers.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(table_enemies!=null){
-                    table_enemies.remove();
-                }
-                if(table_mechanics!=null){
-                    table_mechanics.remove();
-                }
-                if(table_upgrades!=null){
-                    table_upgrades.remove();
-                }
-                if(table_towers==null){
-                    createTipsTowersTable();
-                    returnTipsTowersTable();
-                }
+                tipsDialog.clear();
+                tipsDialog.add(returnTipsButtonsTable());
+                tipsDialog.row();
+                tipsDialog.add(returnTipsTowersTable());
             }
         });
         bUpgrades.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(table_enemies!=null){
-                    table_enemies.remove();
-                }
-                if(table_towers!=null){
-                    table_towers.remove();
-                }
-                if(table_mechanics!=null){
-                    table_mechanics.remove();
-                }
-                if(table_upgrades==null){
-                    createTipsUpgradesTable();
-                    returnTipsUpgradesTable();
-                }
+                tipsDialog.clear();
+                tipsDialog.add(returnTipsButtonsTable());
+                tipsDialog.row();
+                tipsDialog.add(returnTipsUpgradesTable());
             }
         });
 

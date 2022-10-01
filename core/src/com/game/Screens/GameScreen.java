@@ -88,7 +88,7 @@ public class GameScreen implements Screen {
 
     OrthographicCamera hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-    private Dialog eventDialog, infoDialog, upgradeDialog;
+    private Dialog eventDialog, infoDialog, upgradeDialog, tipsDialog;
     private TextButton bBackEventDialog, bBackInfoDialog;
 
     private TextButton bGameOverExit, bGameOverReplay;
@@ -1079,6 +1079,13 @@ public class GameScreen implements Screen {
                 infoDialog.hide();
                 infoDialog.remove();
             }
+        /*TODO
+        if (tipsDialog!=null)
+            if (tipsDialog.isVisible()) {
+                tipsDialog.hide();
+                tipsDialog.remove();
+            }*/
+
 
         base.setInfoToDisplay(0);
         updateInfoDisplay();
