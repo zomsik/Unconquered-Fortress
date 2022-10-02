@@ -86,7 +86,11 @@ public class Upgrade {
         }
         else {
 
-            String information = languageManager.getValue(languageManager.getLanguage(), "upgrade_Upgrade") + languageManager.getValue(languageManager.getLanguage(), this.upgradeName) + "\n"+languageManager.getValue(languageManager.getLanguage(), "upgrade_Level") + this.level + "/" + this.maxLevel + "\n";
+            String information3 = "";
+
+            information3 += languageManager.getValue(languageManager.getLanguage(), upgradeName+"Description");
+
+            String information = languageManager.getValue(languageManager.getLanguage(), "upgrade_Upgrade") + languageManager.getValue(languageManager.getLanguage(), this.upgradeName) + "\n"+ information3 + "\n" +languageManager.getValue(languageManager.getLanguage(), "upgrade_Level") + this.level + "/" + this.maxLevel + "\n";
 
 
             String information2 = "";
