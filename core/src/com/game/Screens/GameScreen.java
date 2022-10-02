@@ -893,7 +893,7 @@ public class GameScreen implements Screen {
                 tipsManager.createTipsDialog();
                 Dialog tipsDialog = tipsManager.returnTipsDialog();
                 //Dialog tipsDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/tempBackground.png"))))));
-                tipsDialog.setBounds(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+                //tipsDialog.setBounds(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
                 tipsDialog.show(pauseStage);
                 base.setState(Base.State.Paused);
             }
@@ -917,7 +917,6 @@ public class GameScreen implements Screen {
         //
         stage.addActor(table_menuPause);
         stage.addActor(table_tips);
-
         loadTowers();
         loadObstacles();
         towerManager.enableListeners();
@@ -1081,12 +1080,12 @@ public class GameScreen implements Screen {
                 infoDialog.hide();
                 infoDialog.remove();
             }
-        /*TODO
-        if (tipsDialog!=null)
-            if (tipsDialog.isVisible()) {
-                tipsDialog.hide();
-                tipsDialog.remove();
-            }*/
+
+        if (tipsManager.returnTipsDialog()!=null)
+            if (tipsManager.returnTipsDialog().isVisible()) {
+                tipsManager.returnTipsDialog().hide();
+                tipsManager.returnTipsDialog().remove();
+            }
 
 
         base.setInfoToDisplay(0);

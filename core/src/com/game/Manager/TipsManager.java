@@ -34,7 +34,7 @@ public class TipsManager {
     private Table table_mechanics, table_enemies, table_upgrades, table_towers, table_buttons;
 
     private Dialog tipsDialog;
-    private Pixmap scaledpm;
+    private Pixmap scaledpm, pm;
 
     public TipsManager(LanguageManager languageManager, BitmapFont font, Base base, float scale){
         this.languageManager = languageManager;
@@ -55,7 +55,7 @@ public class TipsManager {
         createTipsUpgradesTable();
     }
     public void createTipsDialog(){
-        Pixmap pm = new Pixmap(new FileHandle("assets/tempBackground.png"));
+        pm = new Pixmap(new FileHandle("assets/tempBackground.png"));
         scaledpm = new Pixmap((int) (1920*scale/1.5f), (int) (1080*scale/1.5f), pm.getFormat());
         scaledpm.drawPixmap(pm,
                 0, 0, pm.getWidth(), pm.getHeight(),
@@ -229,10 +229,13 @@ public class TipsManager {
         bBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                pm.dispose();
                 scaledpm.dispose();
-                tipsDialog.clear();
+                tipsDialog.hide();
+                tipsDialog.remove();
                 base.setState(Base.State.Resumed);
             }
         });
     }
+
 }
