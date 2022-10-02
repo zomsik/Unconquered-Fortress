@@ -890,8 +890,8 @@ public class GameScreen implements Screen {
         bTips.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
-                 Dialog tipsDialog = tipsManager.returnTipsDialog();
+                tipsManager.createTipsDialog();
+                Dialog tipsDialog = tipsManager.returnTipsDialog();
                 //Dialog tipsDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/tempBackground.png"))))));
                 tipsDialog.setBounds(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
                 tipsDialog.show(pauseStage);
