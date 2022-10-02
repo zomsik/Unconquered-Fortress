@@ -171,12 +171,12 @@
   "bTowers": "Wieże",
   "bUpgrades": "Ulepszenia",
   "tDifficulty": "Poziomy trudności",
-  "tDifficultyDescription": "EO",
-  "tCurrency": "EO",
-  "tGoldDescription": "EO",
-  "tDiamondsDescription": "EO",
-  "tShop": "OE",
-  "tShopDescription":"EO",
-  "tObstacles": "EO",
-  "tObstaclesDescription": "EO"
+  "tDifficultyDescription": "Tu będzie opis poziomów trudności",
+  "tCurrency": "Waluta",
+  "tGoldDescription": "Tu będzie opis waluty - złoto",
+  "tDiamondsDescription": "Tu będzie opis waluty - diamenty",
+  "tShop": "Sklep",
+  "tShopDescription":"Tu będzie opis sklepu",
+  "tObstacles": "Przeszkody",
+  "tObstaclesDescription": "Tu będzie opis przeszkód"
 }
