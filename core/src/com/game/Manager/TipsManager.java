@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.game.Entity.Base;
 
 public class TipsManager {
@@ -18,9 +19,8 @@ public class TipsManager {
     private BitmapFont font;
     private Base base;
     private float scale;
-
-    private TextureAtlas taTips;
-    private Skin images_tips;
+    private TextureAtlas taTips, taTextTips;
+    private Skin images_tips, text_tips;
 
     private TextFieldStyleManager textFieldStyleManager;
     private TextField tDifficulty, tDifficultyDescription, tCurrency, tGold, tDiamonds, tShop, tShopDescription, tObstacles, tObstaclesDescription;
@@ -44,8 +44,9 @@ public class TipsManager {
         buttonStyleManager = new ButtonStyleManager();
         initSettingUI();
 
-        initListeners();
+
         createTipsButtonTable();
+        initListeners();
         createTipsMechanicsTable();
         createTipsEnemiesTable();
         createTipsTowersTable();
@@ -56,9 +57,12 @@ public class TipsManager {
 
         this.tipsDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/tempBackground.png"))))));
         tipsDialog.setBounds(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        tipsDialog.add(returnTipsButtonsTable());
         tipsDialog.row();
-        tipsDialog.add(returnTipsMechanicsTable());
+        Table bTable = returnTipsButtonsTable();
+        tipsDialog.add(bTable).align(Align.center);//.padBottom(Gdx.graphics.getHeight()-bTable.getHeight())
+        tipsDialog.row();
+        Table mTable = returnTipsMechanicsTable();
+        tipsDialog.add(mTable).width(Gdx.graphics.getWidth()).colspan(2);
     }
     public Dialog returnTipsDialog(){
         return  tipsDialog;
@@ -73,18 +77,20 @@ public class TipsManager {
         bUpgrades = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bUpgrades"), buttonStyleManager.returnTextButtonStyle(textButtonStyleTop));
         bBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyleBack));
 
-        table_buttons.setBounds(0, Gdx.graphics.getHeight()/10*8, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/10*2);
+        table_buttons.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/10);
 
-        table_buttons.add(bMechanics);
-        table_buttons.add(bEnemies);
-        table_buttons.add(bTowers);
-        table_buttons.add(bUpgrades);
-        table_buttons.add(bBack);
+        table_buttons.add(bMechanics).height(Gdx.graphics.getHeight()/10);
+        table_buttons.add(bEnemies).height(Gdx.graphics.getHeight()/10);
+        table_buttons.add(bTowers).height(Gdx.graphics.getHeight()/10);
+        table_buttons.add(bUpgrades).height(Gdx.graphics.getHeight()/10);
+        table_buttons.add(bBack).height(Gdx.graphics.getHeight()/10);
+        table_buttons.debug();
     }
     public void createTipsMechanicsTable(){
         this.table_mechanics = new Table();
+        table_mechanics.debug();
         table_mechanics.setBounds(0,0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight()/10*8);
-        textFieldStyleManager.setTextFieldStyle(textFieldStyle, images_tips, font, "empty_background", Color.WHITE);
+        textFieldStyleManager.setTextFieldStyle(textFieldStyle, text_tips, font, "empty_text", Color.WHITE);
         tDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDifficultyDescription = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDifficultyDescription"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tCurrency = new TextField(languageManager.getValue(languageManager.getLanguage(), "tCurrency"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
@@ -96,26 +102,26 @@ public class TipsManager {
         tObstaclesDescription = new TextField(languageManager.getValue(languageManager.getLanguage(), "tObstaclesDescription"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
 
         table_mechanics.row();
-        table_mechanics.add(tDifficulty);
+        table_mechanics.add(tDifficulty).width(Gdx.graphics.getWidth()).colspan(2);
         table_mechanics.row();
-        table_mechanics.add(tDifficultyDescription).width(Gdx.graphics.getWidth());
-        table_mechanics.row();
-        //table_mechanics.add(); new Image rozdzielacz
-        table_mechanics.row();
-        table_mechanics.add(tCurrency);
-        table_mechanics.row();
-        table_mechanics.add(tGold).width(Gdx.graphics.getWidth());
-        table_mechanics.row();
-        table_mechanics.add(tDiamonds).width(Gdx.graphics.getWidth());
+        table_mechanics.add(tDifficultyDescription).width(Gdx.graphics.getWidth()).colspan(2);
         table_mechanics.row();
         //table_mechanics.add(); new Image rozdzielacz
         table_mechanics.row();
-        table_mechanics.add(tShop);
+        table_mechanics.add(tCurrency).width(Gdx.graphics.getWidth()).colspan(2);
+        table_mechanics.row();
+        table_mechanics.add(tGold).width(Gdx.graphics.getWidth()).colspan(2);
+        table_mechanics.row();
+        table_mechanics.add(tDiamonds).width(Gdx.graphics.getWidth()).colspan(2);
+        table_mechanics.row();
+        //table_mechanics.add(); new Image rozdzielacz
+        table_mechanics.row();
+        table_mechanics.add(tShop).width(Gdx.graphics.getWidth());
         table_mechanics.add(tShopDescription).width(Gdx.graphics.getWidth());
         table_mechanics.row();
         //table_mechanics.add(); new Image rozdzielacz
         table_mechanics.row();
-        table_mechanics.add(tObstacles);
+        table_mechanics.add(tObstacles).width(Gdx.graphics.getWidth());
         table_mechanics.add(tObstaclesDescription).width(Gdx.graphics.getWidth());
         table_mechanics.row();
 
@@ -157,8 +163,10 @@ public class TipsManager {
     }
 
     public void initSettingUI(){
-        taTips = new TextureAtlas();
+        taTips = new TextureAtlas("assets/buttons/buttons_default.pack");
         images_tips = new Skin(taTips);
+        taTextTips = new TextureAtlas("assets/buttons/text_credits.pack");
+        text_tips = new Skin(taTextTips);
         textFieldStyle = new TextField.TextFieldStyle();
         textButtonStyleTop = new TextButton.TextButtonStyle();
         textButtonStyleBack = new TextButton.TextButtonStyle();

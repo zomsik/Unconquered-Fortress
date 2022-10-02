@@ -165,5 +165,18 @@
   "upgradeDescription": "\"Nie ma powodu aby przepłacać \nza ulepszenie wież.\"",
   "hammerDescription": "\"Bez młota to nie robota!\"",
   "betterUpgradeDescription": "\"Taniej już nie będzie, naprawdę.\"",
-  "luckDescription": "\"Redukuje czas pecha ze zniszczonego \nlusterka z 7 do 4 lat.\""
+  "luckDescription": "\"Redukuje czas pecha ze zniszczonego \nlusterka z 7 do 4 lat.\"",
+  "bMechanics": "Mechaniki",
+  "bEnemies": "Przeciwnicy",
+  "bTowers": "Wieże",
+  "bUpgrades": "Ulepszenia",
+  "tDifficulty": "Poziomy trudności",
+  "tDifficultyDescription": "EO",
+  "tCurrency": "EO",
+  "tGoldDescription": "EO",
+  "tDiamondsDescription": "EO",
+  "tShop": "OE",
+  "tShopDescription":"EO",
+  "tObstacles": "EO",
+  "tObstaclesDescription": "EO"
 }

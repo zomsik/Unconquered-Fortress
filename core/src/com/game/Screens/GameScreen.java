@@ -93,6 +93,8 @@ public class GameScreen implements Screen {
 
     private TextButton bGameOverExit, bGameOverReplay;
 
+    private TipsManager tipsManager;
+
     /*
     public enum State{
         Running, Paused, Resumed, GameOver
@@ -127,7 +129,7 @@ public class GameScreen implements Screen {
         turretLevels = fileReader.downloadFileAsJSONObject("assets/towers.json");
         operationsArr = GameFunctions.getOperationsArr(this);
         base = new Base(actualGame,operationsArr);
-
+        tipsManager = new TipsManager(languageManager,font, base, scale);
         //reading stats etc
         if(actualGame.getString("difficulty").equals("normal")){
             worldManager.createWorld(this, actualGame.getInt("seed"), 46);
@@ -889,8 +891,8 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                // Dialog tipsDialog = tipsManager.getDialog() czy coś takiego
-                Dialog tipsDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/tempBackground.png"))))));
+                 Dialog tipsDialog = tipsManager.returnTipsDialog();
+                //Dialog tipsDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/tempBackground.png"))))));
                 tipsDialog.setBounds(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
                 tipsDialog.show(pauseStage);
                 base.setState(Base.State.Paused);
@@ -1120,7 +1122,6 @@ public class GameScreen implements Screen {
         font = generator.generateFont(parameter);
 
         connectionManager = new ConnectionManager();
-
         taButtonsSettings = new TextureAtlas("assets/buttons/buttons_settings.pack");
         taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");
         taDialogBack = new TextureAtlas("assets/dialog/skin_dialog.pack");
