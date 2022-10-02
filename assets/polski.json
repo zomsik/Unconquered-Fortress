@@ -121,5 +121,18 @@
   "uInfoCostMultiplier": "Zmniejsza koszt zakupu o: ",
   "uInfoUpgradeCostMultiplier": "Zmniejsza koszt ulepszeń o: ",
   "uInfoCleaningCostMultiplier": "Zmniejsza koszt czyszczenia o: ",
-  "uInfoLuckMultiplier": "Zwiększa szczęście o: "
+  "uInfoLuckMultiplier": "Zwiększa szczęście o: ",
+  "uInfoDamageMultiplier": "Zwiększa globalne obrażenia o: ",
+  "uInfoMeleeDamageMultiplier": "Zwiększa obrażenia w zwarciu o: ",
+  "uInfoMageDamageMultiplier": "Zwiększa obrażenia magiczne o: ",
+  "uInfoCrossbowDamageMultiplier": "Zwiększa obrażenia strzeleckie o: ",
+  "uInfoCannonDamageMultiplier": "Zwiększa obrażenia dział o: ",
+  "uInfoMeleeReloadSpeedMultiplier": "Zmniejsza czas przeładowania w zwarciu o: ",
+  "uInfoCrossbowReloadSpeedMultiplier": "Zmniejsza czas przeładowania strzelców o: ",
+  "uInfoMageReloadSpeedMultiplier": "Zmniejsza czas przeładowania magów o: ",
+  "uInfoCannonReloadSpeedMultiplier": "Zmniejsza czas przeładowania armat o: ",
+  "uInfoSplashMultiplier": "Zwiększa obrażania od odbryzgu o: ",
+  "uInfoRange1": "Zwiększa zasięg wież strzeleckich i dział o: ",
+  "uInfoRange2": "Zwiększa zasięg wież strzeleckich,\ndział i magicznych o: ",
+  "uInfoNotImplemented": "Informacje o ulepszeniu jeszcze nie wdrożone"
 }

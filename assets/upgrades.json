@@ -1,5 +1,5 @@
 {
-  "fork":  [{"level":  1, "cost":  5, "multipliers": {"damageMultiplier":  0.05}},{"level":  2, "cost":  15, "multipliers": {"damageMultiplier":  0.05}}, {"level":  3, "cost":  25, "multipliers": {"damageMultiplier":  0.05, "attackSpeedMultiplier":  0.02}}],
+  "fork":  [{"level":  1, "cost":  5, "multipliers": {"damageMultiplier":  0.05}},{"level":  2, "cost":  15, "multipliers": {"damageMultiplier":  0.05}}, {"level":  3, "cost":  25, "multipliers": {"damageMultiplier":  0.05}}],
   "scythe":  [{"level":  1, "cost":  5, "multipliers": {"damageMultiplier":  0.05}}],
   "dagger":  [{"level":  1, "cost":  5, "multipliers": {"damageMultiplier":  0.05}},{"level":  2, "cost":  15, "multipliers": {"damageMultiplier":  0.05}}, {"level":  3, "cost":  25, "multipliers": {"damageMultiplier":  0.05}}],
   "sword":  [{"level":  1, "cost":  5, "multipliers": {"damageMultiplier":  0.05}},{"level":  2, "cost":  15, "multipliers": {"damageMultiplier":  0.05}}, {"level":  3, "cost":  25, "multipliers": {"damageMultiplier":  0.05}}],

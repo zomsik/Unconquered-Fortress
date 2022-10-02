@@ -88,48 +88,92 @@ public class Upgrade {
 
             String information = languageManager.getValue(languageManager.getLanguage(), "upgrade_Upgrade") + languageManager.getValue(languageManager.getLanguage(), this.upgradeName) + "\n"+languageManager.getValue(languageManager.getLanguage(), "upgrade_Level") + this.level + "/" + this.maxLevel + "\n";
 
-            // if unlocks tower
-            if (upgradeArray.getJSONObject(level).has("unlocks"))
-                return new Label(information+languageManager.getValue(languageManager.getLanguage(), "uInfoUnlocks")+ upgradeArray.getJSONObject(level).getString("unlocks"),labelStyle);
 
-            if (upgradeArray.getJSONObject(level).has("maxHealth"))
-                return new Label(information+languageManager.getValue(languageManager.getLanguage(), "uInfoMaxHealth") + upgradeArray.getJSONObject(level).getInt("maxHealth"), labelStyle);
+            String information2 = "";
 
-            JSONObject upgradesNameArray = upgradeArray.getJSONObject(level).getJSONObject("multipliers");
 
-            if (upgradesNameArray.length()==1)
-            {
+            JSONObject upgradesJSONObject = upgradeArray.getJSONObject(level);
+            // if unlocks tower or adds health
+            if (upgradesJSONObject.has("unlocks"))
+                information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoUnlocks")+ upgradeArray.getJSONObject(level).getString("unlocks")+"\n";
 
-                if (upgradesNameArray.has( "healthRegeneration"))
-                    return new Label(information+languageManager.getValue(languageManager.getLanguage(), "uInfoHealthRegeneration") + upgradesNameArray.getInt("healthRegeneration"), labelStyle);
+            if (upgradesJSONObject.has("maxHealth"))
+                information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoMaxHealth") + upgradeArray.getJSONObject(level).getInt("maxHealth")+"\n";
 
-                if (upgradesNameArray.has("damageReduction"))
-                    return new Label(information+languageManager.getValue(languageManager.getLanguage(), "uInfoDamageReduction") + upgradesNameArray.getInt("damageReduction"), labelStyle);
+            if (upgradesJSONObject.has("multipliers")) {
 
-                if (upgradesNameArray.has("goldMultiplier"))
-                    return new Label(information+languageManager.getValue(languageManager.getLanguage(), "uInfoGoldMultiplier") + (int)(100*upgradesNameArray.getFloat("goldMultiplier")) +"%", labelStyle);
+                JSONObject upgradesNameMultipliers = upgradesJSONObject.getJSONObject("multipliers");
 
-                if (upgradesNameArray.has("diamondsMultiplier"))
-                    return new Label(information+languageManager.getValue(languageManager.getLanguage(), "uInfoDiamondsMultiplier") + upgradesNameArray.getInt("diamondsMultiplier"), labelStyle);
+                if (upgradesNameMultipliers.has("healthRegeneration"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoHealthRegeneration") + upgradesNameMultipliers.getInt("healthRegeneration") + "\n";
 
-                if (upgradesNameArray.has("costMultiplier"))
-                    return new Label( information+languageManager.getValue(languageManager.getLanguage(), "uInfoCostMultiplier") + (int)(-100*upgradesNameArray.getFloat("costMultiplier")) + "%", labelStyle);
+                if (upgradesNameMultipliers.has("damageReduction"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoDamageReduction") + upgradesNameMultipliers.getInt("damageReduction") + "\n";
 
-                if (upgradesNameArray.has("upgradeCostMultiplier"))
-                    return new Label( information+languageManager.getValue(languageManager.getLanguage(), "uInfoUpgradeCostMultiplier") + (int)(-100*upgradesNameArray.getFloat("upgradeCostMultiplier")) + "%", labelStyle);
+                if (upgradesNameMultipliers.has("goldMultiplier"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoGoldMultiplier") + (int) (100 * upgradesNameMultipliers.getFloat("goldMultiplier")) + "%" + "\n";
 
-                if (upgradesNameArray.has("cleaningCostMultiplier"))
-                    return new Label( information+languageManager.getValue(languageManager.getLanguage(), "uInfoCleaningCostMultiplier") + (int)(-100*upgradesNameArray.getFloat("cleaningCostMultiplier")) + "%", labelStyle);
+                if (upgradesNameMultipliers.has("diamondsMultiplier"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoDiamondsMultiplier") + upgradesNameMultipliers.getInt("diamondsMultiplier") + "\n";
 
-                if (upgradesNameArray.has("luckMultiplier"))
-                    return new Label( information+languageManager.getValue(languageManager.getLanguage(), "uInfoLuckMultiplier") + upgradesNameArray.getInt("luckMultiplier") +"%", labelStyle);
+                if (upgradesNameMultipliers.has("costMultiplier"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoCostMultiplier") + (int) (-100 * upgradesNameMultipliers.getFloat("costMultiplier")) + "%" + "\n";
 
+                if (upgradesNameMultipliers.has("upgradeCostMultiplier"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoUpgradeCostMultiplier") + (int) (-100 * upgradesNameMultipliers.getFloat("upgradeCostMultiplier")) + "%" + "\n";
+
+                if (upgradesNameMultipliers.has("cleaningCostMultiplier"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoCleaningCostMultiplier") + (int) (-100 * upgradesNameMultipliers.getFloat("cleaningCostMultiplier")) + "%" + "\n";
+
+                if (upgradesNameMultipliers.has("luckMultiplier"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoLuckMultiplier") + upgradesNameMultipliers.getInt("luckMultiplier") + "%" + "\n";
+
+                if (upgradesNameMultipliers.has("damageMultiplier"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoDamageMultiplier") + (int) (100 * upgradesNameMultipliers.getFloat("damageMultiplier")) + "%" + "\n";
+
+                if (upgradesNameMultipliers.has("damageMultipliermeleeTower"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoMeleeDamageMultiplier") + (int) (100 * upgradesNameMultipliers.getFloat("damageMultipliermeleeTower")) + "%" + "\n";
+
+                if (upgradesNameMultipliers.has("damageMultipliermageTower"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoMageDamageMultiplier") + (int) (100 * upgradesNameMultipliers.getFloat("damageMultipliermageTower")) + "%" + "\n";
+
+                if (upgradesNameMultipliers.has("damageMultipliercrossbowTower"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoCrossbowDamageMultiplier") + (int) (100 * upgradesNameMultipliers.getFloat("damageMultipliercrossbowTower")) + "%" + "\n";
+
+                if (upgradesNameMultipliers.has("damageMultipliercannonTower"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoCannonDamageMultiplier") + (int) (100 * upgradesNameMultipliers.getFloat("damageMultipliercannonTower")) + "%" + "\n";
+
+                if (Objects.equals(upgradeName, "gear"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoRange1") + (int) (100 * upgradesNameMultipliers.getFloat("rangeMultipliercrossbowTower")) + "%" + "\n";
+
+                if (Objects.equals(upgradeName, "sonar"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoRange2") + (int) (100 * upgradesNameMultipliers.getFloat("rangeMultipliercrossbowTower")) + "%" + "\n";
+
+                //reload
+                if (upgradesNameMultipliers.has("reloadSpeedMultipliermeleeTower"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoMeleeReloadSpeedMultiplier") + + (int) (-100 * upgradesNameMultipliers.getFloat("reloadSpeedMultipliermeleeTower")) + "%" + "\n";
+
+                if (upgradesNameMultipliers.has("reloadSpeedMultipliercrossbowTower"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoCrossbowReloadSpeedMultiplier") + + (int) (-100 * upgradesNameMultipliers.getFloat("reloadSpeedMultipliercrossbowTower")) + "%" + "\n";
+
+                if (upgradesNameMultipliers.has("reloadSpeedMultipliermageTower"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoMageReloadSpeedMultiplier") + + (int) (-100 * upgradesNameMultipliers.getFloat("reloadSpeedMultipliermageTower")) + "%" + "\n";
+
+                if (upgradesNameMultipliers.has("reloadSpeedMultipliercannonTower"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoCannonReloadSpeedMultiplier") + + (int) (-100 * upgradesNameMultipliers.getFloat("reloadSpeedMultipliercannonTower")) + "%" + "\n";
+
+                //splash
+                if (upgradesNameMultipliers.has("splashMultiplier"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoSplashMultiplier") + (int) (100 * upgradesNameMultipliers.getFloat("splashMultiplier")) + "%" + "\n";
 
             }
 
 
-            //else
-            return new Label(languageManager.getValue(languageManager.getLanguage(), "upgrade_Upgrade") + languageManager.getValue(languageManager.getLanguage(), this.upgradeName) + "\n"+languageManager.getValue(languageManager.getLanguage(), "upgrade_Level") + this.level + "/" + this.maxLevel + "\n"+languageManager.getValue(languageManager.getLanguage(), "upgrade_Multiplayer"),labelStyle);
+            if(information2.length()>0)
+                return new Label(information+information2,labelStyle);
+
+            //else if not implemented
+            return new Label( languageManager.getValue(languageManager.getLanguage(), "uInfoNotImplemented"),labelStyle);
 
         }
 
