@@ -171,12 +171,16 @@
   "bTowers": "Wieże",
   "bUpgrades": "Ulepszenia",
   "tDifficulty": "Poziomy trudności",
-  "tDifficultyDescription": "Tu będzie opis poziomów trudności",
+  "tDifficultyDescription": "W grze występują 3 poziomy trudności: Łatwy, Średni i Trudny. Wpływają one na ilość generowanych przeszkód na mapie oraz otrzymywane obrażenia od przeciwników.",
   "tCurrency": "Waluta",
-  "tGoldDescription": "Tu będzie opis waluty - złoto",
-  "tDiamondsDescription": "Tu będzie opis waluty - diamenty",
+  "tGoldDescription": "Złoto można zdobyć z wydarzeń oraz za pokonanie przeciwnika, można je wydać do zakupu i sprzedaży wież oraz niszczenia przeszkód.",
+  "tDiamondsDescription": "Diamenty są nagrodą za pokonanie Bossa, służą do wykupienia ulepszeń pasywnych",
   "tShop": "Sklep",
-  "tShopDescription":"Tu będzie opis sklepu",
+  "tShopDescription":"W sklepie możesz kupic wieżyczki, na początku dostępna jest tylko jedna, aby odblokować więcej musisz odblokować je w ulepszeniach pasywnych",
   "tObstacles": "Przeszkody",
-  "tObstaclesDescription": "Tu będzie opis przeszkód"
+  "tObstaclesDescription": "Przeszkody generowane są w zależności od poziomu trudności.",
+  "tObstaclesDescription2": "Zniszczenie przeszkody odblokowywuje miejsce na mapie, ale wiąże się z ryzykiem wystąpienia wydarzenia.",
+  "tEvent": "Wydarzenia",
+  "tEventDescription": "W grze występują 3 wydarzenia. Gracz może otrzymać złoto lub diamenty lub obrażenia."
+
 }

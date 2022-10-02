@@ -58,6 +58,7 @@ public class TipsManager {
     public void createTipsDialog(){
 
         pm = new Pixmap(new FileHandle("assets/tempBackground.png"));
+        System.out.println("pm: " + pm.getWidth() + " : " + pm.getHeight());
         scaledpm = new Pixmap((int) (1920*scale/1.5f), (int) (1080*scale/1.5f), pm.getFormat());
         scaledpm.drawPixmap(pm,
                 0, 0, pm.getWidth(), pm.getHeight(),
@@ -69,12 +70,10 @@ public class TipsManager {
         tipsDialog.clear();
         tipsDialog.row().colspan(2);
         Table bTable = returnTipsButtonsTable();
-        tipsDialog.add(bTable).align(Align.center).height(Gdx.graphics.getHeight()/10);//.padBottom(Gdx.graphics.getHeight()-bTable.getHeight())
+        tipsDialog.add(bTable).align(Align.center).height(Gdx.graphics.getHeight()/10).colspan(2);//.padBottom(Gdx.graphics.getHeight()-bTable.getHeight())
         tipsDialog.row();
         Table mTable = returnTipsMechanicsTable();
-        System.out.println("TETS:" + bTable.getHeight() + " I " + mTable.getHeight());
-        tipsDialog.add(mTable).width(Gdx.graphics.getWidth()).colspan(2).height(Gdx.graphics.getHeight()/10*9);
-
+        tipsDialog.add(mTable).width(Gdx.graphics.getWidth()).height(Gdx.graphics.getHeight()/10*9).colspan(2);
         //tipsDialog.row();
     }
     public Dialog returnTipsDialog(){
@@ -101,6 +100,7 @@ public class TipsManager {
     }
     public void createTipsMechanicsTable(){
         this.table_mechanics = new Table();
+        //TODO textfield out, label in
         //table_mechanics.debug();
         table_mechanics.setBounds(0,0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight()/10*8);
         textFieldStyleManager.setTextFieldStyle(textFieldStyle, text_tips, font, "empty_text", Color.WHITE);
@@ -113,8 +113,8 @@ public class TipsManager {
         tShopDescription = new TextField(languageManager.getValue(languageManager.getLanguage(), "tShopDescription"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tObstacles = new TextField(languageManager.getValue(languageManager.getLanguage(), "tObstacles"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tObstaclesDescription = new TextField(languageManager.getValue(languageManager.getLanguage(), "tObstaclesDescription"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-
         table_mechanics.row();
+
         table_mechanics.add(tDifficulty).width(Gdx.graphics.getWidth());
         table_mechanics.row();
         table_mechanics.add(tDifficultyDescription).width(Gdx.graphics.getWidth());
@@ -139,7 +139,12 @@ public class TipsManager {
         table_mechanics.row();
         table_mechanics.add(tObstaclesDescription).width(Gdx.graphics.getWidth());
         table_mechanics.row();
-
+        table_mechanics.add(new TextField(languageManager.getValue(languageManager.getLanguage(), "tObstaclesDescription2"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle))).width(Gdx.graphics.getWidth());;
+        table_mechanics.row();
+        table_mechanics.add(new TextField(languageManager.getValue(languageManager.getLanguage(), "tEvent"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle))).width(Gdx.graphics.getWidth());;
+        table_mechanics.row();
+        table_mechanics.add(new TextField(languageManager.getValue(languageManager.getLanguage(), "tEventDescription"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle))).width(Gdx.graphics.getWidth());;
+        table_mechanics.row();
 
     }
 
@@ -196,11 +201,11 @@ public class TipsManager {
                 tipsDialog.setBounds(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
                 tipsDialog.row().colspan(2);
                 Table bTable = returnTipsButtonsTable();
-                tipsDialog.add(bTable).align(Align.center).height(Gdx.graphics.getHeight()/10);//.padBottom(Gdx.graphics.getHeight()-bTable.getHeight())
+                tipsDialog.add(bTable).align(Align.center).height(Gdx.graphics.getHeight()/10).colspan(2);//.padBottom(Gdx.graphics.getHeight()-bTable.getHeight())
                 tipsDialog.row();
                 Table mTable = returnTipsMechanicsTable();
                 System.out.println("TETS:" + bTable.getHeight() + " I " + mTable.getHeight());
-                tipsDialog.add(mTable).width(Gdx.graphics.getWidth()).colspan(2).height(Gdx.graphics.getHeight()/10*9);
+                tipsDialog.add(mTable).width(Gdx.graphics.getWidth()).height(Gdx.graphics.getHeight()/10*9).colspan(2);
             }
         });
         bEnemies.addListener(new ClickListener() {
