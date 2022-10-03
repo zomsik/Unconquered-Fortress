@@ -24,7 +24,7 @@ public class TipsManager {
     private Skin images_tips, text_tips;
 
     private TextFieldStyleManager textFieldStyleManager;
-    private TextField tDifficulty, tDifficultyDescription, tCurrency, tGold, tDiamonds, tShop, tShopDescription, tObstacles, tObstaclesDescription;
+    //private TextField tDifficulty, tDifficultyDescription, tCurrency, tGold, tDiamonds, tShop, tShopDescription, tObstacles, tObstaclesDescription;
     private TextField.TextFieldStyle textFieldStyle;
 
     private ButtonStyleManager buttonStyleManager;
@@ -35,7 +35,7 @@ public class TipsManager {
 
     private Dialog tipsDialog;
     private Pixmap scaledpm, pm;
-
+    private Label.LabelStyle labelStyle;
 
     public TipsManager(LanguageManager languageManager, BitmapFont font, Base base, float scale){
         this.languageManager = languageManager;
@@ -103,8 +103,8 @@ public class TipsManager {
         //TODO textfield out, label in
         //table_mechanics.debug();
         table_mechanics.setBounds(0,0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight()/10*8);
-        textFieldStyleManager.setTextFieldStyle(textFieldStyle, text_tips, font, "empty_text", Color.WHITE);
-        tDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        /*textFieldStyleManager.setTextFieldStyle(textFieldStyle, text_tips, font, "empty_text", Color.WHITE);
+        //tDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDifficultyDescription = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDifficultyDescription"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tCurrency = new TextField(languageManager.getValue(languageManager.getLanguage(), "tCurrency"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tGold = new TextField(languageManager.getValue(languageManager.getLanguage(), "tGoldDescription"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
@@ -113,37 +113,36 @@ public class TipsManager {
         tShopDescription = new TextField(languageManager.getValue(languageManager.getLanguage(), "tShopDescription"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tObstacles = new TextField(languageManager.getValue(languageManager.getLanguage(), "tObstacles"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tObstaclesDescription = new TextField(languageManager.getValue(languageManager.getLanguage(), "tObstaclesDescription"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        */
         table_mechanics.row();
-
-        table_mechanics.add(tDifficulty).width(Gdx.graphics.getWidth());
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tDifficulty"), labelStyle)).width(Gdx.graphics.getWidth());
+        //table_mechanics.add(tDifficulty).width(Gdx.graphics.getWidth());
         table_mechanics.row();
-        table_mechanics.add(tDifficultyDescription).width(Gdx.graphics.getWidth());
-        table_mechanics.row();
-        //table_mechanics.add(); new Image rozdzielacz
-        table_mechanics.row();
-        table_mechanics.add(tCurrency).width(Gdx.graphics.getWidth());
-        table_mechanics.row();
-        table_mechanics.add(tGold).width(Gdx.graphics.getWidth());
-        table_mechanics.row();
-        table_mechanics.add(tDiamonds).width(Gdx.graphics.getWidth());
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tDifficultyDescription"), labelStyle)).width(Gdx.graphics.getWidth());
         table_mechanics.row();
         //table_mechanics.add(); new Image rozdzielacz
         table_mechanics.row();
-        table_mechanics.add(tShop).width(Gdx.graphics.getWidth());
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tCurrency"), labelStyle)).width(Gdx.graphics.getWidth());
         table_mechanics.row();
-        table_mechanics.add(tShopDescription).width(Gdx.graphics.getWidth());
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tGoldDescription"), labelStyle)).width(Gdx.graphics.getWidth());
+        table_mechanics.row();
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tDiamondsDescription"), labelStyle)).width(Gdx.graphics.getWidth());
         table_mechanics.row();
         //table_mechanics.add(); new Image rozdzielacz
         table_mechanics.row();
-        table_mechanics.add(tObstacles).width(Gdx.graphics.getWidth());
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tShop"), labelStyle)).width(Gdx.graphics.getWidth());
         table_mechanics.row();
-        table_mechanics.add(tObstaclesDescription).width(Gdx.graphics.getWidth());
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tShopDescription"), labelStyle)).width(Gdx.graphics.getWidth());
         table_mechanics.row();
-        table_mechanics.add(new TextField(languageManager.getValue(languageManager.getLanguage(), "tObstaclesDescription2"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle))).width(Gdx.graphics.getWidth());;
+        //table_mechanics.add(); new Image rozdzielacz
         table_mechanics.row();
-        table_mechanics.add(new TextField(languageManager.getValue(languageManager.getLanguage(), "tEvent"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle))).width(Gdx.graphics.getWidth());;
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tObstacles"), labelStyle)).width(Gdx.graphics.getWidth());
         table_mechanics.row();
-        table_mechanics.add(new TextField(languageManager.getValue(languageManager.getLanguage(), "tEventDescription"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle))).width(Gdx.graphics.getWidth());;
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tObstaclesDescription"), labelStyle)).width(Gdx.graphics.getWidth());;
+        table_mechanics.row();
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tEvent"), labelStyle)).width(Gdx.graphics.getWidth());
+        table_mechanics.row();
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tEventDescription"), labelStyle)).width(Gdx.graphics.getWidth());;
         table_mechanics.row();
 
     }
@@ -190,6 +189,7 @@ public class TipsManager {
         textFieldStyle = new TextField.TextFieldStyle();
         textButtonStyleTop = new TextButton.TextButtonStyle();
         textButtonStyleBack = new TextButton.TextButtonStyle();
+        labelStyle = new Label.LabelStyle(font, Color.WHITE);
     }
 
     public void initListeners(){

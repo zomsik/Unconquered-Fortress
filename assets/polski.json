@@ -178,8 +178,7 @@
   "tShop": "Sklep",
   "tShopDescription":"W sklepie możesz kupic wieżyczki, na początku dostępna jest tylko jedna, aby odblokować więcej musisz odblokować je w ulepszeniach pasywnych",
   "tObstacles": "Przeszkody",
-  "tObstaclesDescription": "Przeszkody generowane są w zależności od poziomu trudności.",
-  "tObstaclesDescription2": "Zniszczenie przeszkody odblokowywuje miejsce na mapie, ale wiąże się z ryzykiem wystąpienia wydarzenia.",
+  "tObstaclesDescription": "Przeszkody generowane są w zależności od poziomu trudności. \nZniszczenie przeszkody odblokowywuje miejsce na mapie, ale wiąże się z ryzykiem wystąpienia wydarzenia.",
   "tEvent": "Wydarzenia",
   "tEventDescription": "W grze występują 3 wydarzenia. Gracz może otrzymać złoto lub diamenty lub obrażenia."
 
