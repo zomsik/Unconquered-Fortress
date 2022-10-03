@@ -147,11 +147,16 @@ public class Upgrade {
                 if (upgradesNameMultipliers.has("damageMultipliercannonTower"))
                     information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoCannonDamageMultiplier") + (int) (100 * upgradesNameMultipliers.getFloat("damageMultipliercannonTower")) + "%" + "\n";
 
-                if (Objects.equals(upgradeName, "gear"))
-                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoRange1") + (int) (100 * upgradesNameMultipliers.getFloat("rangeMultipliercrossbowTower")) + "%" + "\n";
+                //range
+                if (upgradesNameMultipliers.has("rangeMultipliercannonTower"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoRangeCannon") + (int) (100 * upgradesNameMultipliers.getFloat("rangeMultipliercannonTower")) + "%" + "\n";
 
-                if (Objects.equals(upgradeName, "sonar"))
-                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoRange2") + (int) (100 * upgradesNameMultipliers.getFloat("rangeMultipliercrossbowTower")) + "%" + "\n";
+                if (upgradesNameMultipliers.has("rangeMultipliercrossbowTower"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoRangeCrossbow") + (int) (100 * upgradesNameMultipliers.getFloat("rangeMultipliercrossbowTower")) + "%" + "\n";
+
+                if (upgradesNameMultipliers.has("rangeMultipliermageTower"))
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "uInfoRangeMage") + (int) (100 * upgradesNameMultipliers.getFloat("rangeMultipliermageTower")) + "%" + "\n";
+
 
                 //reload
                 if (upgradesNameMultipliers.has("reloadSpeedMultipliermeleeTower"))
