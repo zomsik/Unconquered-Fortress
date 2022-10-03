@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -17,15 +18,17 @@ import com.game.Entity.Base;
 
 public class TipsManager {
     private LanguageManager languageManager;
-    private BitmapFont font;
+    private BitmapFont font, bigFont;
+    private FreeTypeFontGenerator generator;
+    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private Base base;
     private float scale;
     private TextureAtlas taTips, taTextTips;
     private Skin images_tips, text_tips;
 
-    private TextFieldStyleManager textFieldStyleManager;
+    //private TextFieldStyleManager textFieldStyleManager;
     //private TextField tDifficulty, tDifficultyDescription, tCurrency, tGold, tDiamonds, tShop, tShopDescription, tObstacles, tObstaclesDescription;
-    private TextField.TextFieldStyle textFieldStyle;
+    //private TextField.TextFieldStyle textFieldStyle;
 
     private ButtonStyleManager buttonStyleManager;
     private TextButton bMechanics, bEnemies, bTowers, bUpgrades, bBack;
@@ -35,7 +38,7 @@ public class TipsManager {
 
     private Dialog tipsDialog;
     private Pixmap scaledpm, pm;
-    private Label.LabelStyle labelStyle;
+    private Label.LabelStyle labelStyle, bigLabelStyle;
 
     public TipsManager(LanguageManager languageManager, BitmapFont font, Base base, float scale){
         this.languageManager = languageManager;
@@ -43,7 +46,7 @@ public class TipsManager {
         this.base = base;
         this.scale = scale;
 
-        textFieldStyleManager = new TextFieldStyleManager();
+        //textFieldStyleManager = new TextFieldStyleManager();
         buttonStyleManager = new ButtonStyleManager();
         initSettingUI();
 
@@ -115,14 +118,14 @@ public class TipsManager {
         tObstaclesDescription = new TextField(languageManager.getValue(languageManager.getLanguage(), "tObstaclesDescription"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         */
         table_mechanics.row();
-        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tDifficulty"), labelStyle)).width(Gdx.graphics.getWidth());
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tDifficulty"), bigLabelStyle)).width(Gdx.graphics.getWidth());
         //table_mechanics.add(tDifficulty).width(Gdx.graphics.getWidth());
         table_mechanics.row();
         table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tDifficultyDescription"), labelStyle)).width(Gdx.graphics.getWidth());
         table_mechanics.row();
         //table_mechanics.add(); new Image rozdzielacz
         table_mechanics.row();
-        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tCurrency"), labelStyle)).width(Gdx.graphics.getWidth());
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tCurrency"), bigLabelStyle)).width(Gdx.graphics.getWidth());
         table_mechanics.row();
         table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tGoldDescription"), labelStyle)).width(Gdx.graphics.getWidth());
         table_mechanics.row();
@@ -130,17 +133,17 @@ public class TipsManager {
         table_mechanics.row();
         //table_mechanics.add(); new Image rozdzielacz
         table_mechanics.row();
-        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tShop"), labelStyle)).width(Gdx.graphics.getWidth());
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tShop"), bigLabelStyle)).width(Gdx.graphics.getWidth());
         table_mechanics.row();
         table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tShopDescription"), labelStyle)).width(Gdx.graphics.getWidth());
         table_mechanics.row();
         //table_mechanics.add(); new Image rozdzielacz
         table_mechanics.row();
-        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tObstacles"), labelStyle)).width(Gdx.graphics.getWidth());
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tObstacles"), bigLabelStyle)).width(Gdx.graphics.getWidth());
         table_mechanics.row();
         table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tObstaclesDescription"), labelStyle)).width(Gdx.graphics.getWidth());;
         table_mechanics.row();
-        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tEvent"), labelStyle)).width(Gdx.graphics.getWidth());
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tEvent"), bigLabelStyle)).width(Gdx.graphics.getWidth());
         table_mechanics.row();
         table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tEventDescription"), labelStyle)).width(Gdx.graphics.getWidth());;
         table_mechanics.row();
@@ -186,10 +189,18 @@ public class TipsManager {
         images_tips = new Skin(taTips);
         taTextTips = new TextureAtlas("assets/buttons/text_credits.pack");
         text_tips = new Skin(taTextTips);
-        textFieldStyle = new TextField.TextFieldStyle();
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 20;
+        parameter.color = Color.WHITE;
+        parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
+        bigFont = new BitmapFont();
+        bigFont = generator.generateFont(parameter);
+        //textFieldStyle = new TextField.TextFieldStyle();
         textButtonStyleTop = new TextButton.TextButtonStyle();
         textButtonStyleBack = new TextButton.TextButtonStyle();
         labelStyle = new Label.LabelStyle(font, Color.WHITE);
+        bigLabelStyle = new Label.LabelStyle(bigFont, Color.WHITE);
     }
 
     public void initListeners(){
