@@ -171,8 +171,8 @@ public class TipsManager {
         table_enemies.row();
         table_enemies.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(16*scale).colspan(6).height(4*scale);
         table_enemies.row();
-        table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tAssasin"), labelStyle)).height(80*scale).align(Align.right).colspan(5).expandX().padRight(-24*scale);
-        table_enemies.add(new Image(images_tips2, "assasin")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
+        table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tAssassin"), labelStyle)).height(80*scale).align(Align.right).colspan(5).expandX().padRight(-24*scale);
+        table_enemies.add(new Image(images_tips2, "assassin")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
         table_enemies.row();
         table_enemies.add(new Image(images_tips2, "objectSeparatorRight")).width(Gdx.graphics.getWidth()).height(16*scale).colspan(6).height(4*scale);
         table_enemies.row();
