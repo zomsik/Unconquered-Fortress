@@ -2,130 +2,32 @@ package com.game.Manager;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
-import com.game.Entity.Base;
 import com.game.Entity.Enemy.*;
 import com.game.Screens.GameScreen;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.*;
-import java.util.List;
 
 public class GameFunctions {
-
-    public static Image[][] getEmptyBuildingsArr(){
-        Image[][] arr = new Image[10][15];
-        Skin images_buildings = new Skin(new TextureAtlas("assets/icons/buildings.pack"));
-
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 15; j++) {
-                arr[i][j] = new Image(images_buildings,"empty");
-                arr[i][j].setTouchable(Touchable.disabled);
-
-            }
-        }
-
-
-        return arr;
-    }
-
-
-    public static Image[][] addBuilding(GameScreen gameScreen, Image[][] buildingsArr, int x, int y, String tileName){
-        Skin buildings_skin = new Skin(new TextureAtlas("assets/icons/buildings.pack"));
-        buildingsArr[y][x].setDrawable(buildings_skin, tileName);
-        buildingsArr[y][x].setName(tileName);
-        buildingsArr[y][x].setTouchable(Touchable.enabled);
-
-
-        buildingsArr[y][x].addListener(new ImageClickListener(x,y,buildingsArr[y][x].getName()){
-            public void clicked(InputEvent event, float x, float y) {
-                this.setLastClickedTile(gameScreen.lastClickedMapTile);
-                gameScreen.mouseClickBuildingTile();
-            }
-
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                this.setLastClickedTile(gameScreen.lastClickedMapTile);
-                //gameScreen.mouseEnterMapTile();
-
-            }
-            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //this.setLastClickedTile();
-                //gameScreen.mouseExitMapTile();
-            }
-
-        });
-
-
-        return buildingsArr;
-    }
-
-    public static Image[][] sellBuilding(Image[][] buildingsArr, int x, int y){
-
-        Skin buildings_skin = new Skin(new TextureAtlas("assets/icons/buildings.pack"));
-        buildingsArr[y][x].setDrawable(buildings_skin, "empty");
-        buildingsArr[y][x].setName("empty");
-        buildingsArr[y][x].setTouchable(Touchable.disabled);
-
-        buildingsArr[y][x].clearListeners();
-
-
-        return buildingsArr;
-    }
-
-    public static Table getBuildingsTable(Image[][] arr, float scale) {
-        Table t = new Table();
-        t.setBounds(Gdx.graphics.getWidth()/20 , (Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2 , 960 , 640);
-        t.setTransform(true);
-        System.out.println(Gdx.graphics.getWidth()/10*8);
-        System.out.println(Gdx.graphics.getWidth()/30*16);
-
-        for (int i = 0; i<10; i++)
-        {
-            for (int j = 0; j<15; j++)
-            {
-                t.add(arr[i][j]);
-
-
-            }
-            t.row();
-        }
-
-        t.setScale(scale);
-
-        return t;
-    }
-
-
-
-
 
     public static Image[][] getOperationsArr(GameScreen gameScreen){
         Image[][] arr = new Image[4][2];
         Skin images_buildings = new Skin(new TextureAtlas("assets/icons/buildings.pack"));
-
-
-        /*
-                arr[0][1] = new Image(images_buildings, "bow");
-        arr[1][0] = new Image(images_buildings, "mage");
-        arr[1][1] = new Image(images_buildings, "cannon");
-         */
 
         arr[0][0] = new Image(images_buildings, "sword");
         arr[0][1] = new Image(images_buildings, "locked");
@@ -239,46 +141,6 @@ public class GameFunctions {
         t.add(bNextWave).align(Align.center).height(32).width(128).colspan(2).padTop(6);
         t.setScale(scale);
         return t;
-    }
-
-
-    public static Image[][] loadPlacedBuildings (GameScreen gameScreen, Image[][] buildingsArr, JSONArray loadedBuildingsArr)
-    {
-        Skin images_buildings = new Skin(new TextureAtlas("assets/icons/buildings.pack"));
-
-        for (int i = 0; i< loadedBuildingsArr.length(); i++) {
-            JSONObject j = loadedBuildingsArr.getJSONObject(i);
-
-            buildingsArr = GameFunctions.addBuilding(gameScreen, buildingsArr, j.getInt("x"), j.getInt("y"), j.getString("buildingName"));
-
-            /*
-
-            buildingsArr[y][x].setDrawable(buildings_skin, tileName);
-            buildingsArr[y][x].setName(tileName);
-            buildingsArr[y][x].setTouchable(Touchable.enabled);
-
-
-            buildingsArr[y][x].addListener(new ImageClickListener(x,y,buildingsArr[y][x].getName()){
-                public void clicked(InputEvent event, float x, float y) {
-                    this.setLastClickedTile(gameScreen.lastClickedMapTile);
-                    gameScreen.mouseClickBuildingTile();
-                }
-
-                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    this.setLastClickedTile(gameScreen.lastClickedMapTile);
-                    //gameScreen.mouseEnterMapTile();
-
-                }
-                public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    //this.setLastClickedTile();
-                    //gameScreen.mouseExitMapTile();
-                }
-
-            });
-            */
-        }
-
-        return buildingsArr;
     }
 
 

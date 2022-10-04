@@ -324,51 +324,8 @@ public class GameScreen implements Screen {
         base.setInfoToDisplay(0);
     }
 
-    public void mouseClickBuildingTile() {
-        /*
-        if (Objects.equals(chosenOperation,"sell"))
-        {
-            System.out.println(lastClickedMapTile.getName());
-            System.out.println("test1");
-
-            if (Objects.equals(lastClickedMapTile.getName(), "sword") || Objects.equals(lastClickedMapTile.getName(), "bow") || Objects.equals(lastClickedMapTile.getName(), "mage") || Objects.equals(lastClickedMapTile.getName(), "cannon"))
-            {
-                System.out.println("test12");
-
-
-                JSONArray placedBuildings = actualGame.getJSONArray("buildings");
-
-
-
-
-                for (int i = 0; i < placedBuildings.length(); i++) {
-                    JSONObject searchedObject = placedBuildings.getJSONObject(i);
-                    if (lastClickedMapTile.getX() == searchedObject.getInt("x") && lastClickedMapTile.getY() == searchedObject.getInt("y") && lastClickedMapTile.getName() == searchedObject.getString("buildingName"))
-                    {
-                        placedBuildings.remove(i);
-                        break;
-
-                    }
-                }
-                actualGame.put("buildings", placedBuildings);
-                System.out.println("test2");
-
-
-                //get from buildingsArr type and price etc
-                System.out.println("sprzedaje");
-                buildingsArr = GameFunctions.sellBuilding(buildingsArr, lastClickedMapTile.getX(), lastClickedMapTile.getY());
-                table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
-                stage.addActor(table_buildings);
-            }
-
-
-        }*/
-    }
-
-
 
     public void mouseClickMapTile() {
-        System.out.println(chosenOperation);
         if (Objects.equals(chosenOperation,"sell")) {
 
             if (buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] == 1) {
@@ -798,6 +755,17 @@ public class GameScreen implements Screen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
+                    if (chosenOperation != null) {
+                        if (shouldRenderPreview)
+                            shouldRenderPreview = false;
+
+                        operationsSelectedArr[chosenOperationY][chosenOperationX].setDrawable(images_buildings, "empty");
+                        chosenOperation = null;
+                        chosenOperationX = -1;
+                        chosenOperationY = -1;
+                        return true;
+                    }
+
                     pauseDialog.show(pauseStage);
                     base.setState(Base.State.Paused);
                     return true;
