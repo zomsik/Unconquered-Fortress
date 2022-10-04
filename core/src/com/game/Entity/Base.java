@@ -17,6 +17,7 @@ public class Base {
     private int money;
     private int diamonds;
     private int wave;
+    private int seed;
 
     private int infoToDisplay;
     private String infoToDisplayName;
@@ -32,6 +33,7 @@ public class Base {
     private int roadObstacleId;
     private boolean shouldUpdateInfo;
     private TowerManager towerManager;
+
 
 
 
@@ -82,6 +84,7 @@ public class Base {
         this.health = actualGame.getInt("health");
         this.armor = 100;
         this.difficulty = actualGame.getString("difficulty");
+        this.seed = actualGame.getInt("seed");
 
         switch (this.difficulty)
         {
@@ -181,7 +184,9 @@ public class Base {
         this.towerManager = towerManager;
     }
 
-
+    public int getSeed() {
+        return seed;
+    }
 
     public int getInfoToDisplay() {
         return infoToDisplay;

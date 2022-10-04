@@ -3,8 +3,9 @@ package com.game.Manager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.game.Entity.Enemy.Enemy;
+import com.game.Entity.Enemy.*;
 import com.game.Entity.Base;
+import org.json.JSONObject;
 
 import java.util.*;
 
@@ -22,12 +23,9 @@ public class EnemyManager {
 
     private Base base;
 
-    public EnemyManager() {
-        enemyWavesToSpawn = new ArrayList<>();
-        spawningDelay = new ArrayList<>();
-    }
+    private JSONObject enemiesJSONObject;
 
-    public EnemyManager(Base base, float scale, List<Vector2> path) {
+    public EnemyManager(Base base, float scale, List<Vector2> path, JSONObject enemiesJSONObject) {
 
         enemyWavesToSpawn = new ArrayList<>();
         spawningDelay = new ArrayList<>();
@@ -36,13 +34,79 @@ public class EnemyManager {
 
         this.path = path;
         this.scale = scale;
-
         this.base = base;
+
+
+        this.enemiesJSONObject = enemiesJSONObject;
 
     }
 
     public ArrayList<Enemy> getEnemies(){
         return enemies;
+    }
+
+    public void createRandomEnemyWave()
+    {
+        int wave = base.getWave();
+        ArrayList<Enemy> enemies = new ArrayList<>();
+
+        Random random = new Random(base.getSeed());
+        int randomNumber = (Math.abs(base.getSeed()))/((wave+1)*13);
+        for (int i=0; i<wave*7; i++)
+            random.nextInt(randomNumber);
+
+        System.out.print(wave + ": ");
+        int enemyPoints = 50 + (wave/10 + wave)*5;
+
+
+        if (wave % 10 == 5)
+        {
+
+            enemies.add(new Summoner(enemiesJSONObject.getJSONObject("summoner"), enemiesJSONObject.getJSONObject("summon")));
+            enemyPoints -= 30;
+
+        }
+        else if (wave % 10 == 0 && wave>=10)
+        {
+            enemies.add(new Boss(enemiesJSONObject.getJSONObject("boss")));
+            enemyPoints -= 50;
+        }
+
+        JSONObject spawnRate = enemiesJSONObject.getJSONObject("spawnRate");
+        JSONObject spawnWave = enemiesJSONObject.getJSONObject("spawnWave");
+
+        while (enemyPoints>=5)
+        {
+
+            int chosenEnemy = random.nextInt(0, spawnRate.getInt("warrior") + spawnRate.getInt("blob") + spawnRate.getInt("assassin") + spawnRate.getInt("flying") + spawnRate.getInt("summoner")+1);
+            if (chosenEnemy <= spawnRate.getInt("warrior") && wave>=spawnWave.getInt("warrior") && enemyPoints >= 5)
+            {
+                enemies.add(new Warrior(enemiesJSONObject.getJSONObject("warrior")));
+                enemyPoints -= 5;
+            }
+            else if (spawnRate.getInt("warrior") < chosenEnemy && chosenEnemy <= spawnRate.getInt("warrior")+spawnRate.getInt("blob") && wave>=spawnWave.getInt("blob") && enemyPoints >= 7)
+            {
+                enemies.add(new Blob(enemiesJSONObject.getJSONObject("blob")));
+                enemyPoints -= 7;
+            }
+            else if (spawnRate.getInt("warrior")+spawnRate.getInt("blob") < chosenEnemy && chosenEnemy <= spawnRate.getInt("warrior")+spawnRate.getInt("blob")+spawnRate.getInt("assassin") && wave>=spawnWave.getInt("assassin") && enemyPoints >= 10)
+            {
+                enemies.add(new Assassin(enemiesJSONObject.getJSONObject("assassin")));
+                enemyPoints -= 10;
+            }
+            else if (spawnRate.getInt("warrior")+spawnRate.getInt("blob")+spawnRate.getInt("assassin") < chosenEnemy && chosenEnemy <= spawnRate.getInt("warrior")+spawnRate.getInt("blob")+spawnRate.getInt("assassin")+spawnRate.getInt("flying") && wave>=spawnWave.getInt("flying") && enemyPoints >= 15)
+            {
+                enemies.add(new Flying(enemiesJSONObject.getJSONObject("flying")));
+                enemyPoints -= 15;
+            }
+            else if (spawnRate.getInt("warrior")+spawnRate.getInt("blob")+spawnRate.getInt("assassin")+spawnRate.getInt("flying") < chosenEnemy && chosenEnemy <= spawnRate.getInt("warrior")+spawnRate.getInt("blob")+spawnRate.getInt("assassin")+spawnRate.getInt("flying")+spawnRate.getInt("summoner") && wave>=spawnWave.getInt("summoner")  && enemyPoints >= 30 )
+            {
+                enemies.add(new Summoner(enemiesJSONObject.getJSONObject("summoner"), enemiesJSONObject.getJSONObject("summon")));
+                enemyPoints -= 30;
+            }
+
+        }
+        addWaveToSpawn(enemies);
     }
 
     public void addWaveToSpawn(ArrayList<Enemy> wave) {
@@ -51,7 +115,7 @@ public class EnemyManager {
             if(!Objects.equals(e.getName(), "summoner"))
                 e.initEnemy(path, scale);
             else
-                e.initSummonerEnemy(base, path, scale, 5, 2.5f);
+                e.initSummonerEnemy(base, path, scale);
         }
 
 
