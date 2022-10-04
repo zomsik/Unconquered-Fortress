@@ -348,27 +348,27 @@ public class GameFunctions {
                 System.out.print("Normal,");
                 enemyPoints -= 5;
             }
-            else if (chosenEnemy == 2 && wave>5 && enemyPoints >= 10)
+            else if (chosenEnemy == 2 && enemyPoints >= 7)
+            {
+                enemies.add(new Blob());
+                System.out.print("Blob,");
+                enemyPoints -= 7;
+            }
+            else if (chosenEnemy == 3 && wave>5 && enemyPoints >= 10)
             {
                 enemies.add(new Tank());
                 System.out.print("Tank,");
                 enemyPoints -= 10;
             }
-            else if (chosenEnemy == 3 && wave>10 && enemyPoints >= 15)
+            else if (chosenEnemy == 4 && wave>10 && enemyPoints >= 15)
             {
                 enemies.add(new Assassin());
                 System.out.print("Speed,");
                 enemyPoints -= 15;
             }
-            else if (chosenEnemy == 4 && wave>20 && enemyPoints >= 20)
+            else if (chosenEnemy == 5 && wave>20 && enemyPoints >= 30 )
             {
-                enemies.add(new MiniBoss());
-                System.out.print("Mini Boss,");
-                enemyPoints -= 20;
-            }
-            else if (chosenEnemy == 5 && wave>30 && enemyPoints >= 30 )
-            {
-                enemies.add(new Boss());
+                enemies.add(new Summoner());
                 System.out.print("Summoner,");
                 enemyPoints -= 30;
             }

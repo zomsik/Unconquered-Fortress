@@ -699,75 +699,17 @@ public class GameScreen implements Screen {
 
     });
 
-
-
         bNextWave.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                //enemyManager.addWaveToSpawn(GameFunctions.createRandomEnemyWave(actualGame));
+                enemyManager.addWaveToSpawn(GameFunctions.createRandomEnemyWave(actualGame));
+                //enemyManager.addWaveToSpawn(GameFunctions.createTestEnemyWave());
 
-                enemyManager.addWaveToSpawn(GameFunctions.createTestEnemyWave());
                 base.increaseWave(1);
-
-                //actualGame.put("wave",actualGame.getInt("wave")+1);
-                //System.out.println("");
-                // enemyArr = createNewWaveArray(seed,wave,difficulty)
-                //lub
-                // enemyArr = createNewWaveArray(enemyArr, seed,wave,difficulty) -- append
-                //System.out.println(worldManager.getEnemySpawnerPosition()[0]);
-                //System.out.println(worldManager.getEnemySpawnerPosition()[1]);
-                //Flying f1 = new Flying();
-
-                //Enemy e1 = new Enemy();
-                //Enemy e2 = new Enemy();
-                //ee.add(e1);
-                //ee.add(new Flying(enemyManager.getEnemySpawnerPosition(), scale));
-                //ee.add(new Flying());
-                //ee.add(new Flying());
-                //ee.add(new Flying());
-                //ee.add(new Flying());
-                //ee.add(new Flying());
-                //ee.add(f1);
-                //enemyManager.addWaveToSpawn(ee);
-
-                //table_enemies.add(e1.animation);
-                //stage.addActor(table_enemies);
 
             }
         });
-
-
-
-
-        //buck
-       /* bTest.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-                //mapArr[4,4] = new Image(images_map, "mountain");
-                //table_map = worldManager.changeTileAndRedrawWorld(mapArr, 0, 5, "water");
-                //stage.addActor(table_map);
-
-                System.out.println(lastClickedMapTile.getX()+"y: "+ lastClickedMapTile.getY());
-
-                //set pamieci na luk
-                buildingsArr[0][0].setRotation(45);
-
-                base.damageBase(7);
-
-
-            }
-        });*/
-
-
-
-
-        //naciska się tile
-
-        
-
-
 
         bSaveDialog.addListener(new ClickListener() {
             @Override
@@ -777,6 +719,7 @@ public class GameScreen implements Screen {
 
 
         });
+
         bSaveAndExitDialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
