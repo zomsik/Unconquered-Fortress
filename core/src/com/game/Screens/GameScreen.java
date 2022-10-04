@@ -147,7 +147,7 @@ public class GameScreen implements Screen {
 
         this.buildArr = new int[15][10];
 
-        enemyManager = new EnemyManager(base, scale, GameFunctions.calculatePath(worldManager.getPath(), scale));
+        enemyManager = new EnemyManager(base, scale, GameFunctions.calculatePath(worldManager.getPath(), scale), enemies);
         towerManager = new TowerManager(enemyManager.getEnemies());
         base.addTowerManager(towerManager);
         roadObstaclesManager = new RoadObstaclesManager(enemyManager.getEnemies(), buildArr);
@@ -660,10 +660,7 @@ public class GameScreen implements Screen {
         bNextWave.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
-                enemyManager.addWaveToSpawn(GameFunctions.createRandomEnemyWave(base.getWave(), base.getSeed(), enemies));
-                //enemyManager.addWaveToSpawn(GameFunctions.createTestEnemyWave());
-
+                enemyManager.createRandomEnemyWave();
                 base.increaseWave(1);
 
             }
