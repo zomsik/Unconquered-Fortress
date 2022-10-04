@@ -23,8 +23,8 @@ public class TipsManager {
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private Base base;
     private float scale;
-    private TextureAtlas taTips, taTextTips;
-    private Skin images_tips, text_tips;
+    private TextureAtlas taTips, taTextTips, taTips2; //<-to change with taTips later
+    private Skin images_tips, text_tips, images_tips2; //<- to chane with images_tips later
 
     //private TextFieldStyleManager textFieldStyleManager;
     //private TextField tDifficulty, tDifficultyDescription, tCurrency, tGold, tDiamonds, tShop, tShopDescription, tObstacles, tObstaclesDescription;
@@ -32,7 +32,7 @@ public class TipsManager {
 
     private ButtonStyleManager buttonStyleManager;
     private TextButton bMechanics, bEnemies, bTowers, bUpgrades, bBack;
-    private TextButton.TextButtonStyle textButtonStyleTop, textButtonStyleBack;
+    private TextButton.TextButtonStyle textButtonStyleMechanics, textButtonStyleEnemies, textButtonStyleTowers, textButtonStyleBack, textButtonStyleMechanicsChosen, textButtonStyleEnemiesChosen, textButtonStyleTowersChosen;
 
     private Table table_mechanics, table_enemies, table_upgrades, table_towers, table_buttons;
 
@@ -56,7 +56,7 @@ public class TipsManager {
         createTipsMechanicsTable();
         createTipsEnemiesTable();
         createTipsTowersTable();
-        createTipsUpgradesTable();
+        //createTipsUpgradesTable();
     }
     public void createTipsDialog(){
 
@@ -84,22 +84,19 @@ public class TipsManager {
     };
     public void createTipsButtonTable(){
         this.table_buttons = new Table();
-        buttonStyleManager.setTextButtonStyle(textButtonStyleTop, images_tips, font, "defaultButton", "defaultButton");
-        buttonStyleManager.setTextButtonStyle(textButtonStyleBack, images_tips, font, "defaultButton", "defaultButton");
-        bMechanics = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bMechanics"), buttonStyleManager.returnTextButtonStyle(textButtonStyleTop));
-        bEnemies = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bEnemies"), buttonStyleManager.returnTextButtonStyle(textButtonStyleTop));
-        bTowers = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bTowers"), buttonStyleManager.returnTextButtonStyle(textButtonStyleTop));
-        bUpgrades = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bUpgrades"), buttonStyleManager.returnTextButtonStyle(textButtonStyleTop));
-        bBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyleBack));
 
-        table_buttons.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/10);
+        bMechanics = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bMechanics"), buttonStyleManager.returnTextButtonStyle(textButtonStyleMechanics));
+        bEnemies = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bEnemies"), buttonStyleManager.returnTextButtonStyle(textButtonStyleEnemies));
+        bTowers = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bTowers"), buttonStyleManager.returnTextButtonStyle(textButtonStyleTowers));
+        //bUpgrades = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bUpgrades"), buttonStyleManager.returnTextButtonStyle(textButtonStyleMechanis));
+        bBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBackTips"), buttonStyleManager.returnTextButtonStyle(textButtonStyleBack));
+        bMechanics.getLabel();
+        table_buttons.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/10+28*scale);
+        table_buttons.add(bMechanics).height(Gdx.graphics.getHeight()/10+28*scale);
+        table_buttons.add(bEnemies).height(Gdx.graphics.getHeight()/10+28*scale);
+        table_buttons.add(bTowers).height(Gdx.graphics.getHeight()/10+28*scale);
+        table_buttons.add(bBack).height(Gdx.graphics.getHeight()/10+28*scale);
 
-        table_buttons.add(bMechanics).height(Gdx.graphics.getHeight()/10);
-        table_buttons.add(bEnemies).height(Gdx.graphics.getHeight()/10);
-        table_buttons.add(bTowers).height(Gdx.graphics.getHeight()/10);
-        table_buttons.add(bUpgrades).height(Gdx.graphics.getHeight()/10);
-        table_buttons.add(bBack).height(Gdx.graphics.getHeight()/10);
-        //table_buttons.debug();
     }
     public void createTipsMechanicsTable(){
         this.table_mechanics = new Table();
@@ -154,13 +151,56 @@ public class TipsManager {
         this.table_enemies = new Table();
 
         table_enemies.setBounds(0,0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight()/10*8);
+        table_enemies.columnDefaults(6);
+        table_enemies.row();
+        table_enemies.add(new Label("", bigLabelStyle)).height(0).colspan(1);
+        table_enemies.add(new Label("", bigLabelStyle)).height(0).colspan(1);
+        table_enemies.add(new Label("", bigLabelStyle)).height(0).colspan(1);
+        table_enemies.add(new Label("", bigLabelStyle)).height(0).colspan(1);
+        table_enemies.add(new Label("", bigLabelStyle)).height(0).colspan(1);
+        table_enemies.add(new Label("", bigLabelStyle)).height(0).colspan(1);
+        table_enemies.row();
+        table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tEnemies"), bigLabelStyle)).width(Gdx.graphics.getWidth()).colspan(6).padLeft(8*scale);
+        table_enemies.row();
+        table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tEnemiesDescription"), labelStyle)).width(Gdx.graphics.getWidth()).height(Gdx.graphics.getHeight()/10*2-64*scale).colspan(6).padLeft(8*scale);
+        table_enemies.row();
+        table_enemies.add(new Image(images_tips2, "separator")).width(Gdx.graphics.getWidth()).height(16*scale).colspan(6).height(18*scale);
+        table_enemies.row();
+        table_enemies.add(new Image(images_tips2, "warrior")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
+        table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tWarrior"), labelStyle)).height(80*scale).align(Align.left).colspan(5).expandX().padLeft(30*scale);
+        table_enemies.row();
+        table_enemies.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(16*scale).colspan(6).height(4*scale);
+        table_enemies.row();
+        table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tAssasin"), labelStyle)).height(80*scale).align(Align.right).colspan(5).expandX().padRight(-24*scale);
+        table_enemies.add(new Image(images_tips2, "assasin")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
+        table_enemies.row();
+        table_enemies.add(new Image(images_tips2, "objectSeparatorRight")).width(Gdx.graphics.getWidth()).height(16*scale).colspan(6).height(4*scale);
+        table_enemies.row();
+        table_enemies.add(new Image(images_tips2, "incubus")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
+        table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tIncubus"), labelStyle)).height(80*scale).align(Align.left).colspan(5).expandX().padLeft(30*scale);
+        table_enemies.row();
+        table_enemies.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(16*scale).colspan(6).height(4*scale);
+        table_enemies.row();
+        table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tBlob"), labelStyle)).height(80*scale).align(Align.right).colspan(5).expandX().padRight(-24*scale);
+        table_enemies.add(new Image(images_tips2, "blob")).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
+        table_enemies.row();
+        table_enemies.add(new Image(images_tips2, "objectSeparatorRight")).width(Gdx.graphics.getWidth()).height(16*scale).colspan(6).height(4*scale);
+        table_enemies.row();
+        table_enemies.add(new Image(images_tips2, "summoner")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
+        table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tSummoner"), labelStyle)).height(80*scale).align(Align.left).colspan(5).expandX().padLeft(30*scale);
+        table_enemies.row();
+        table_enemies.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(16*scale).colspan(6).height(4*scale);
+        table_enemies.row();
+        table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tGladiator"), labelStyle)).height(80*scale).align(Align.right).colspan(5).expandX().padRight(-24*scale);
+        table_enemies.add(new Image(images_tips2, "gladiator")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
+        //table_enemies.debug();
     }
 
-    public void createTipsUpgradesTable(){
+    /*public void createTipsUpgradesTable(){
         this.table_upgrades = new Table();
 
         table_upgrades.setBounds(0,0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight()/10*8);
-    }
+    }*/
 
     public void createTipsTowersTable(){
         this.table_towers = new Table();
@@ -184,9 +224,33 @@ public class TipsManager {
         return  table_upgrades;
     }
 
+    public void setChosenButton(String name){
+        switch (name){
+            case "bMechanics":{
+                bMechanics.setStyle(textButtonStyleMechanicsChosen);
+                bEnemies.setStyle(textButtonStyleEnemies);
+                bTowers.setStyle(textButtonStyleTowers);
+            }break;
+            case "bEnemies":{
+                bMechanics.setStyle(textButtonStyleMechanics);
+                bEnemies.setStyle(textButtonStyleEnemiesChosen);
+                bTowers.setStyle(textButtonStyleTowers);
+            }break;
+            case "bTowers":{
+                bMechanics.setStyle(textButtonStyleMechanics);
+                bEnemies.setStyle(textButtonStyleEnemies);
+                bTowers.setStyle(textButtonStyleTowersChosen);
+            }break;
+        }
+    }
+
     public void initSettingUI(){
         taTips = new TextureAtlas("assets/buttons/buttons_default.pack");
         images_tips = new Skin(taTips);
+
+        taTips2 = new TextureAtlas("assets/icons/tipsImages.pack");
+        images_tips2 = new Skin(taTips2);
+
         taTextTips = new TextureAtlas("assets/buttons/text_credits.pack");
         text_tips = new Skin(taTextTips);
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
@@ -197,8 +261,20 @@ public class TipsManager {
         bigFont = new BitmapFont();
         bigFont = generator.generateFont(parameter);
         //textFieldStyle = new TextField.TextFieldStyle();
-        textButtonStyleTop = new TextButton.TextButtonStyle();
+        textButtonStyleMechanics = new TextButton.TextButtonStyle();
         textButtonStyleBack = new TextButton.TextButtonStyle();
+        textButtonStyleEnemies = new TextButton.TextButtonStyle();
+        textButtonStyleTowers = new TextButton.TextButtonStyle();
+        textButtonStyleMechanicsChosen = new TextButton.TextButtonStyle();
+        textButtonStyleEnemiesChosen = new TextButton.TextButtonStyle();
+        textButtonStyleTowersChosen = new TextButton.TextButtonStyle();
+        buttonStyleManager.setTextButtonStyle(textButtonStyleMechanics, images_tips2, font, "mechanics_up", "mechanics_down");
+        buttonStyleManager.setTextButtonStyle(textButtonStyleEnemies, images_tips2, font, "enemies_up", "enemies_down");
+        buttonStyleManager.setTextButtonStyle(textButtonStyleTowers, images_tips2, font, "towers_up", "towers_down");
+        buttonStyleManager.setTextButtonStyle(textButtonStyleBack, images_tips2, font, "back_up", "back_down");
+        buttonStyleManager.setTextButtonStyle(textButtonStyleMechanicsChosen, images_tips2, font, "mechanics_down", "mechanics_down");
+        buttonStyleManager.setTextButtonStyle(textButtonStyleEnemiesChosen, images_tips2, font, "enemies_down", "enemies_down");
+        buttonStyleManager.setTextButtonStyle(textButtonStyleTowersChosen, images_tips2, font, "towers_down", "towers_down");
         labelStyle = new Label.LabelStyle(font, Color.WHITE);
         bigLabelStyle = new Label.LabelStyle(bigFont, Color.WHITE);
     }
@@ -212,11 +288,12 @@ public class TipsManager {
                 tipsDialog.setBounds(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
                 tipsDialog.row().colspan(2);
                 Table bTable = returnTipsButtonsTable();
-                tipsDialog.add(bTable).align(Align.center).height(Gdx.graphics.getHeight()/10).colspan(2);//.padBottom(Gdx.graphics.getHeight()-bTable.getHeight())
+                tipsDialog.add(bTable);//.padBottom(Gdx.graphics.getHeight()-bTable.getHeight())
                 tipsDialog.row();
                 Table mTable = returnTipsMechanicsTable();
                 System.out.println("TETS:" + bTable.getHeight() + " I " + mTable.getHeight());
-                tipsDialog.add(mTable).width(Gdx.graphics.getWidth()).height(Gdx.graphics.getHeight()/10*9).colspan(2);
+                tipsDialog.add(mTable).padBottom(512+128+32+16+4); //<- temp
+                setChosenButton("bMechanics");
             }
         });
         bEnemies.addListener(new ClickListener() {
@@ -226,6 +303,7 @@ public class TipsManager {
                 tipsDialog.add(returnTipsButtonsTable());
                 tipsDialog.row();
                 tipsDialog.add(returnTipsEnemiesTable());
+                setChosenButton("bEnemies");
             }
         });
         bTowers.addListener(new ClickListener() {
@@ -235,9 +313,10 @@ public class TipsManager {
                 tipsDialog.add(returnTipsButtonsTable());
                 tipsDialog.row();
                 tipsDialog.add(returnTipsTowersTable());
+                setChosenButton("bTowers");
             }
         });
-        bUpgrades.addListener(new ClickListener() {
+        /*bUpgrades.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 tipsDialog.clear();
@@ -245,7 +324,7 @@ public class TipsManager {
                 tipsDialog.row();
                 tipsDialog.add(returnTipsUpgradesTable());
             }
-        });
+        });*/
 
         bBack.addListener(new ClickListener() {
             @Override
