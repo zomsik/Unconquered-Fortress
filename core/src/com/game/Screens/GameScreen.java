@@ -60,7 +60,7 @@ public class GameScreen implements Screen {
     private LanguageManager languageManager;
     private Dialog pauseDialog, gameOverDialog;
     private WorldManager worldManager;
-    private JSONObject actualGame;
+    private JSONObject actualGame, enemies;
     private boolean isLocal;
     private ConnectionManager connectionManager;
     private Image[][] mapArr, operationsArr, operationsSelectedArr, buildingsArr;
@@ -126,6 +126,7 @@ public class GameScreen implements Screen {
         if (!isLocal)
             actualGame.put("login",game.getLogin());
 
+        enemies = fileReader.downloadFileAsJSONObject("assets/enemies.json");
         turretLevels = fileReader.downloadFileAsJSONObject("assets/towers.json");
         operationsArr = GameFunctions.getOperationsArr(this);
         base = new Base(actualGame,operationsArr);
@@ -703,7 +704,7 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                enemyManager.addWaveToSpawn(GameFunctions.createRandomEnemyWave(actualGame));
+                enemyManager.addWaveToSpawn(GameFunctions.createRandomEnemyWave(base.getWave(), base.getSeed(), enemies));
                 //enemyManager.addWaveToSpawn(GameFunctions.createTestEnemyWave());
 
                 base.increaseWave(1);

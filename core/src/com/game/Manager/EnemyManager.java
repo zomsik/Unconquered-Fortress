@@ -51,7 +51,7 @@ public class EnemyManager {
             if(!Objects.equals(e.getName(), "summoner"))
                 e.initEnemy(path, scale);
             else
-                e.initSummonerEnemy(base, path, scale, 5, 2.5f);
+                e.initSummonerEnemy(base, path, scale);
         }
 
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.game.Entity.Base;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -48,30 +49,85 @@ public class Enemy extends Actor {
     private ArrayList<Enemy> summonedEnemies;
     private boolean isSummoning;
     private Animation<TextureRegion>[] summoningAnimation;
+    private JSONObject summonJSONObject;
 
-    private float healTime,healTimeLeft;
-    private int enemyRegen;
+    private float regenTime, regenTimeLeft;
+    private float healthRegen;
+
+    private int dodgeChance;
 
     public Enemy(){
 
     }
 
-    public Enemy(int health,String path, String name, int enemySize, boolean isFlying){
+    //assassin constructor
+    public Enemy(int dodgeChance, int health, int damage, int money, int diamonds, int speed, String path, String name, int enemySize, boolean isFlying) {
+        this(health, damage, money, diamonds, speed, path, name, enemySize, isFlying);
+
+        this.dodgeChance = dodgeChance;
+    }
+
+    //blob constructor
+    public Enemy(float regenTime, float healthRegen, int health, int damage, int money, int diamonds, int speed, String path, String name, int enemySize, boolean isFlying) {
+        this(health, damage, money, diamonds, speed, path, name, enemySize, isFlying);
+
+        this.regenTime = regenTime;
+        this.regenTimeLeft = regenTime;
+        this.healthRegen = healthRegen;
+
+
+    }
+
+    //summoner constructor
+    public Enemy(JSONObject summonJSONObject, float delayBetweenSummonings, float summoningTime, String summonPath, int health, int damage, int money, int diamonds, int speed, String path, String name, int enemySize, boolean isFlying) {
+        this(health, damage, money, diamonds, speed, path, name, enemySize, isFlying);
+
+        this.summonJSONObject = summonJSONObject;
+        this.isSummoning = false;
+        this.timeOfActualSummoning = 0;
+
+        this.summoningTime = summoningTime;
+        this.delayBetweenSummonings = delayBetweenSummonings;
+        this.timeToSummonNextEnemy = this.delayBetweenSummonings;
+
+        this.summonedEnemies = new ArrayList<>();
+
+        summoningAnimation = new Animation[4];
+        Texture spriteMap = new Texture(Gdx.files.internal(summonPath));
+        TextureRegion[][] spritePosition = TextureRegion.split(spriteMap, 64, 64);
+        TextureRegion[] animationSprites;
+
+        for (int j=0; j<4; j++) {
+
+            animationSprites = new TextureRegion[spritePosition[j].length];
+
+            for (int i = 0; i < spritePosition[j].length; i++) {
+                animationSprites[i] = spritePosition[j][i];
+
+            }
+
+            summoningAnimation[j] = new Animation<>(0.5f, animationSprites);
+
+        }
+
+
+    }
+
+    public Enemy(int health, int damage, int money, int diamonds, int speed, String path, String name, int enemySize, boolean isFlying){
         this.isFlying = isFlying;
         this.canBeAttacked = true;
         this.name = name;
         this.enemySize = enemySize;
         this.health = health;
         this.maxHealth = health;
-        this.dmg = 7;
-        this.money = 15;
-        this.diamonds = 1;
+        this.dmg = damage;
+        this.money = money;
+        this.diamonds = diamonds;
 
         moveDirection = "";
         isAtEnd = false;
 
-
-        this.speed = 100; //get from super()
+        this.speed = speed;
 
         stateTime = 0f;
 
@@ -99,12 +155,7 @@ public class Enemy extends Actor {
         currentAnimation = animationArr[1];
 
 
-        if(Objects.equals(name, "blob"))
-        {
-            healTime = 5;
-            healTimeLeft = 5;
-            enemyRegen = 5;
-        }
+
 
     }
 
@@ -152,21 +203,11 @@ public class Enemy extends Actor {
         //this.path.remove(0);
     }
 
-    public void initSummonerEnemy(Base base, java.util.List<Vector2> path, float scale, float delayBetweenSummonings, float summoningTime) {
+    public void initSummonerEnemy(Base base, java.util.List<Vector2> path, float scale) {
         this.base = base;
         this.scale = scale;
         this.path = new ArrayList<>();
         this.speed = speed*scale;
-
-        this.isSummoning = false;
-
-        this.timeOfActualSummoning = 0;
-
-        this.summoningTime = summoningTime;
-        this.delayBetweenSummonings = delayBetweenSummonings;
-        this.timeToSummonNextEnemy = this.delayBetweenSummonings;
-
-        this.summonedEnemies = new ArrayList<>();
 
 
         for (Vector2 v : path)
@@ -176,30 +217,6 @@ public class Enemy extends Actor {
 
         position = new Vector2(this.path.get(0).x, this.path.get(0).y);
         //this.path.remove(0);
-
-
-
-
-        summoningAnimation = new Animation[4];
-        Texture spriteMap = new Texture(Gdx.files.internal("assets/game/enemies/summoner_summoning.png")); // add summoning textures
-        TextureRegion[][] spritePosition = TextureRegion.split(spriteMap, 64, 64);
-        TextureRegion[] animationSprites;
-
-        for (int j=0; j<4; j++) {
-
-            animationSprites = new TextureRegion[spritePosition[j].length];
-
-            for (int i = 0; i < spritePosition[j].length; i++) {
-                animationSprites[i] = spritePosition[j][i];
-
-            }
-
-            summoningAnimation[j] = new Animation<>(0.5f, animationSprites);
-
-        }
-
-
-
     }
 
     public void initSummonedEnemy(float summoningTime, Base base, java.util.List<Vector2> path, float scale) {
@@ -288,13 +305,13 @@ public class Enemy extends Actor {
         //Blob
         if(Objects.equals(name, "blob"))
         {
-            healTimeLeft -= deltaTime;
-            if(healTimeLeft<0) {
-                healTimeLeft = healTime;
+            regenTimeLeft -= deltaTime;
+            if(regenTimeLeft <0) {
+                regenTimeLeft = regenTime;
                 if (health<maxHealth)
                 {
-                    if (health+enemyRegen < maxHealth)
-                        health+=enemyRegen;
+                    if (health+ healthRegen < maxHealth)
+                        health+= healthRegen;
                     else
                         health = maxHealth;
                 }
@@ -457,8 +474,7 @@ public class Enemy extends Actor {
 
 
     public void summonEnemy() {
-
-        Enemy summon = new Enemy(210, "assets/game/enemies/summon.png", "summon", 64, false);
+        Enemy summon = new Enemy(summonJSONObject.getInt("health"), summonJSONObject.getInt("damage"), summonJSONObject.getInt("money"), summonJSONObject.getInt("diamonds"), summonJSONObject.getInt("speed"), "assets/game/enemies/warrior.png", summonJSONObject.getString("name"), 64, summonJSONObject.getBoolean("isFlying"));
         summon.initSummonedEnemy(this.summoningTime*0.8f, this.base, this.path, this.scale);
         summonedEnemies.add(summon);
 
@@ -478,6 +494,10 @@ public class Enemy extends Actor {
 
     public int getDiamonds() {
         return diamonds;
+    }
+
+    public int getDodgeChance() {
+        return dodgeChance;
     }
 }
 

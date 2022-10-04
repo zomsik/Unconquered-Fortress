@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.Random;
 
 public class Tower extends Actor {
 
@@ -281,14 +282,50 @@ public class Tower extends Actor {
             b.update(deltaTime);
             if (b.isOnEnemy())
             {
-                b.getEnemyToFollow().dealDmg(b.getBulletDamage()*base.getMultipliers().getFloat("damageMultiplier")*base.getMultipliers().getFloat("damageMultiplier"+name) );
+
+                if (Objects.equals(b.getEnemyToFollow().getName(), "assassin"))
+                {
+                    Random attackRandom = new Random();
+                    int attackChance = attackRandom.nextInt(0,101);
+                    int attackPriority = attackChance;
+
+                    if (b.getEnemyToFollow().getDodgeChance() >= attackPriority && base.getMultipliers().getFloat("luckMultiplier")  >= attackRandom.nextInt(0,101))
+                    {
+                        attackChance = attackRandom.nextInt(0,101);
+                        if (attackPriority > attackChance)
+                            attackChance = attackPriority;
+                    }
+
+                    if (attackChance>b.getEnemyToFollow().getDodgeChance())
+                        b.getEnemyToFollow().dealDmg(b.getBulletDamage()*base.getMultipliers().getFloat("damageMultiplier")*base.getMultipliers().getFloat("damageMultiplier"+name));
+
+                }
+                else {
+                    b.getEnemyToFollow().dealDmg(b.getBulletDamage()*base.getMultipliers().getFloat("damageMultiplier")*base.getMultipliers().getFloat("damageMultiplier"+name) );
+                }
+
                 if(bulletSplashRange > 0){
                     for(Enemy e:enemies){
                         if(e.getPosition().y <= b.getEnemyToFollow().getPosition().y+ bulletSplashRange && e.getPosition().y >= b.getEnemyToFollow().getPosition().y- bulletSplashRange && e.getPosition().x <= b.getEnemyToFollow().getPosition().x+ bulletSplashRange && e.getPosition().x >= b.getEnemyToFollow().getPosition().x- bulletSplashRange){
                             e.dealDmg(b.getBulletDamage()*base.getMultipliers().getFloat("splashMultiplier"));
                         }
+
+
+                        if (Objects.equals(e.getName(), "summoner"))
+                        {
+                            for (Enemy eS: e.getSummonedList())
+                            {
+                                if(eS.getPosition().y <= b.getEnemyToFollow().getPosition().y+ bulletSplashRange && eS.getPosition().y >= b.getEnemyToFollow().getPosition().y- bulletSplashRange && eS.getPosition().x <= b.getEnemyToFollow().getPosition().x+ bulletSplashRange && eS.getPosition().x >= b.getEnemyToFollow().getPosition().x- bulletSplashRange){
+                                    eS.dealDmg(b.getBulletDamage()*base.getMultipliers().getFloat("splashMultiplier"));
+                                }
+                            }
+                        }
+
                     }
                 }
+
+
+
 
                 bIterator.remove();
             }

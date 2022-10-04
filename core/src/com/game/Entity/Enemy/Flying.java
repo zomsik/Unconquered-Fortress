@@ -1,16 +1,11 @@
 package com.game.Entity.Enemy;
 
+import org.json.JSONObject;
+
 public class Flying extends Enemy{
 
-
-
-
-    public Flying(float startPositionX, float startPositionY, float scale){
-        //super(100, "assets/game/flying.png", "flying", startPositionX,  startPositionY, scale);
-    }
-
-    public Flying(){
-        super(100, "assets/game/enemies/flying.png", "flying", 64, true);
+    public Flying(JSONObject enemy){
+        super(enemy.getInt("health"), enemy.getInt("damage"), enemy.getInt("money"), enemy.getInt("diamonds"), enemy.getInt("speed"), "assets/game/enemies/flying.png", enemy.getString("name"), 64, enemy.getBoolean("isFlying"));
     }
 
 
