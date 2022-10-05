@@ -193,7 +193,6 @@ public class TipsManager {
         table_enemies.row();
         table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tGladiator"), labelStyle)).height(80*scale).align(Align.right).colspan(5).expandX().padRight(-24*scale);
         table_enemies.add(new Image(images_tips2, "gladiator")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
-        //table_enemies.debug();
     }
 
     /*public void createTipsUpgradesTable(){
@@ -206,6 +205,48 @@ public class TipsManager {
         this.table_towers = new Table();
 
         table_towers.setBounds(0,0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight()/10*8);
+        table_towers.columnDefaults(6);
+        table_towers.row();
+        table_towers.add(new Label("", bigLabelStyle)).height(0).colspan(1);
+        table_towers.add(new Label("", bigLabelStyle)).height(0).colspan(1);
+        table_towers.add(new Label("", bigLabelStyle)).height(0).colspan(1);
+        table_towers.add(new Label("", bigLabelStyle)).height(0).colspan(1);
+        table_towers.add(new Label("", bigLabelStyle)).height(0).colspan(1);
+        table_towers.add(new Label("", bigLabelStyle)).height(0).colspan(1);
+        table_towers.row();
+        table_towers.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tTowers"), bigLabelStyle)).width(Gdx.graphics.getWidth()).colspan(6).padLeft(8*scale);
+        table_towers.row();
+        table_towers.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tTowersDescription"), labelStyle)).width(Gdx.graphics.getWidth()).height(Gdx.graphics.getHeight()/10*2-64*scale).colspan(6).padLeft(8*scale);
+        table_towers.row();
+        table_towers.add(new Image(images_tips2, "separator")).width(Gdx.graphics.getWidth()).height(16*scale).colspan(6).height(18*scale);
+        table_towers.row();
+        table_towers.add(new Image(images_tips2, "melee")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
+        table_towers.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tMelee"), labelStyle)).height(80*scale).align(Align.left).colspan(5).expandX().padLeft(30*scale);
+        table_towers.row();
+        table_towers.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(16*scale).colspan(6).height(4*scale);
+        table_towers.row();
+        table_towers.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tCrossbow"), labelStyle)).height(80*scale).align(Align.right).colspan(5).expandX().padRight(-24*scale);
+        table_towers.add(new Image(images_tips2, "crossbow")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
+        table_towers.row();
+        table_towers.add(new Image(images_tips2, "objectSeparatorRight")).width(Gdx.graphics.getWidth()).height(16*scale).colspan(6).height(4*scale);
+        table_towers.row();
+        table_towers.add(new Image(images_tips2, "mage")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
+        table_towers.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tMage"), labelStyle)).height(80*scale).align(Align.left).colspan(5).expandX().padLeft(30*scale);
+        table_towers.row();
+        table_towers.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(16*scale).colspan(6).height(4*scale);
+        table_towers.row();
+        table_towers.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tCannon"), labelStyle)).height(80*scale).align(Align.right).colspan(5).expandX().padRight(-24*scale);
+        table_towers.add(new Image(images_tips2, "cannon")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
+        table_towers.row();
+        table_towers.add(new Image(images_tips2, "objectSeparatorRight")).width(Gdx.graphics.getWidth()).height(16*scale).colspan(6).height(4*scale);
+        table_towers.row();
+        table_towers.add(new Image(images_tips2, "sticky")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
+        table_towers.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tSticky"), labelStyle)).height(80*scale).align(Align.left).colspan(5).expandX().padLeft(30*scale);
+        table_towers.row();
+        table_towers.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(16*scale).colspan(6).height(4*scale);
+        table_towers.row();
+        table_towers.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tNeedles"), labelStyle)).height(80*scale).align(Align.right).colspan(5).expandX().padRight(-24*scale);
+        table_towers.add(new Image(images_tips2, "needles")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
     }
 
     public Table returnTipsButtonsTable(){
