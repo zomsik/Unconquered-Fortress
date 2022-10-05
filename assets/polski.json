@@ -189,15 +189,15 @@
   "bBackTips": "Cofnij\n\n",
   "bUpgrades": "Ulepszenia",
   "tDifficulty": "Poziomy trudności",
-  "tDifficultyDescription": "W grze występują 3 poziomy trudności: Łatwy, Średni i Trudny. Wpływają one na ilość generowanych przeszkód na mapie oraz otrzymywane obrażenia od przeciwników.",
+  "tDifficultyDescription": "W grze występują 3 poziomy trudności: Łatwy, Średni i Trudny.\nWpływają one na ilość generowanych przeszkód na mapie oraz ilość zadawanych obrażeń przez przeciwników.",
   "tCurrency": "Waluta",
-  "tGoldDescription": "Złoto można zdobyć z wydarzeń oraz za pokonanie przeciwnika, można je wydać do zakupu i sprzedaży wież oraz niszczenia przeszkód.",
-  "tDiamondsDescription": "Diamenty są nagrodą za pokonanie Bossa, służą do wykupienia ulepszeń pasywnych",
+  "tGoldDescription": "Złoto jest podstawową walutą występującą w grze, można zdobyć z wydarzeń oraz za pokonanie przeciwników.\nMoże zostać wydana do zakupu i sprzedaży budowli, ulepszania wież oraz niszczenia przeszkód wygenerowanych na mapie.",
+  "tDiamondsDescription": "Diamenty są walutą specjalną, można je zdobyć za pokonanie Bossa (Gladiator) oraz Minibossa (Przyzywacz).\n Można je wydać do wykupienia ulepszeń pasywnych.\nJest to waluta przypisana do profilu a nie tylko mapy jak w przypadku złota.",
   "tShop": "Sklep",
-  "tShopDescription":"W sklepie możesz kupic wieżyczki, na początku dostępna jest tylko jedna, aby odblokować więcej musisz odblokować je w ulepszeniach pasywnych",
+  "tShopDescription":"W sklepie można zakupić budowle (wieże i przeszkody). Znajdują się tu również przyciski \"Wyczyćś\", \"Sprzedaj\" oraz \"Ulepszenia\".\nPrzycisk \"Wyczyść\" pozwala na zniszczenie wygenerowanych przeszkód na mapie. Przycisk \"Sprzedaj\" służy do sprzedawania budowli,\na \"Ulepszenia\" otwiera dialog z drzewkiem ulepszeń pasywnych.",
   "tObstacles": "Przeszkody",
   "tObstaclesDescription": "Przeszkody generowane są w zależności od poziomu trudności.\nZniszczenie przeszkody odblokowywuje miejsce na mapie, ale wiąże się z ryzykiem wystąpienia wydarzenia.",
   "tEvent": "Wydarzenia",
-  "tEventDescription": "W grze występują 3 wydarzenia. Gracz może otrzymać złoto lub diamenty lub obrażenia."
+  "tEventDescription": "Podczas niszczenia przeszkód może nastąpić jedno z trzech wydarzeń.\nMieszek złota - gracz otrzymuje złoto.\nUkryty skarb - gracz otrzymuje diamenty.\nKatastrofa - gracz otrzymuje obrażenia."
 
 }
