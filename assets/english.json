@@ -196,8 +196,8 @@
   "tDiamondsDescription": "Diamenty są nagrodą za pokonanie Bossa, służą do wykupienia ulepszeń pasywnych",
   "tShop": "Shop",
   "tShopDescription":"W sklepie możesz kupic wieżyczki, na początku dostępna jest tylko jedna, aby odblokować więcej musisz odblokować je w ulepszeniach pasywnych",
-  "tObstacles": "Obstacles",
-  "tObstaclesDescription": "Przeszkody generowane są w zależności od poziomu trudności.\nZniszczenie przeszkody odblokowywuje miejsce na mapie, ale wiąże się z ryzykiem wystąpienia wydarzenia.",
+  "tLuck": "Luck",
+  "tLuckDescription": "Przeszkody generowane są w zależności od poziomu trudności.\nZniszczenie przeszkody odblokowywuje miejsce na mapie, ale wiąże się z ryzykiem wystąpienia wydarzenia.",
   "tEvent": "Events",
   "tEventDescription": "W grze występują 3 wydarzenia. Gracz może otrzymać złoto lub diamenty lub obrażenia."
 }
