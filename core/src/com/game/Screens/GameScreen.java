@@ -224,12 +224,12 @@ public class GameScreen implements Screen {
             switch(roadObstacles.getJSONObject(b).getString("name"))
             {
                 case "roadSticky" -> {
-                    RoadObstacle t = new RoadSticky(base, roadObstacles.getJSONObject(b).getInt("x"),roadObstacles.getJSONObject(b).getInt("y"), scale, this);
+                    RoadObstacle t = new RoadSticky(turretLevels, base, roadObstacles.getJSONObject(b).getInt("x"),roadObstacles.getJSONObject(b).getInt("y"), scale, this);
                     t.setUsesLeft(roadObstacles.getJSONObject(b).getInt("usesLeft"));
                     roadObstaclesLoad.add(t);
                 }
                 case "roadNeedles" -> {
-                    RoadObstacle t = new RoadNeedles(base, roadObstacles.getJSONObject(b).getInt("x"),roadObstacles.getJSONObject(b).getInt("y"), scale, this);
+                    RoadObstacle t = new RoadNeedles(turretLevels, base, roadObstacles.getJSONObject(b).getInt("x"),roadObstacles.getJSONObject(b).getInt("y"), scale, this);
                     t.setUsesLeft(roadObstacles.getJSONObject(b).getInt("usesLeft"));
                     roadObstaclesLoad.add(t);
                 }
@@ -352,7 +352,7 @@ public class GameScreen implements Screen {
                 if (base.getMoney() >= 100)
                 {
                     base.decreaseMoney(100);
-                    RoadObstacle r = new RoadSticky(base, lastClickedMapTile.getX(),lastClickedMapTile.getY(), scale, this);
+                    RoadObstacle r = new RoadSticky(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(), scale, this);
                     roadObstaclesManager.buyObstacle(r);
                     stage.addActor(r);
                     buySound.dispose();
@@ -371,7 +371,7 @@ public class GameScreen implements Screen {
                 if (base.getMoney() >= 100)
                 {
                     base.decreaseMoney(100);
-                    RoadObstacle r = new RoadNeedles(base, lastClickedMapTile.getX(),lastClickedMapTile.getY(), scale, this);
+                    RoadObstacle r = new RoadNeedles(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(), scale, this);
                     roadObstaclesManager.buyObstacle(r);
                     stage.addActor(r);
                     buySound.dispose();

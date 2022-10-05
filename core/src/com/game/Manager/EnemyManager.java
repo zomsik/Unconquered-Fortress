@@ -120,10 +120,10 @@ public class EnemyManager {
 
 
         enemyWavesToSpawn.add(wave);
-        if ((60 / (float) wave.size()) < 5)
+        if ((60 / (float) wave.size()) < 3)
             spawningDelay.add(60 / (float) wave.size());
         else
-            spawningDelay.add(5f);
+            spawningDelay.add(3f);
 
         timeLeftToSpawn.add(0f);
 

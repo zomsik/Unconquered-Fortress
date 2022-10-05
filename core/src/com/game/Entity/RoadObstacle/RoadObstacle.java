@@ -35,12 +35,19 @@ public class RoadObstacle extends Actor {
     private ArrayList<Enemy> slowedEnemies;
     private boolean isOnMap;
 
+    private int dmg;
+    private float slow;
 
-    public RoadObstacle(String name, Base base, String path, int tileX, int tileY, float scale, GameScreen gameScreen) {
-        this.name = name;
+
+    public RoadObstacle(JSONObject obstacle, Base base, String path, int tileX, int tileY, float scale, GameScreen gameScreen) {
+        this.name = obstacle.getString("name");
         this.base = base;
 
-        this.usesLeft = 10;
+        this.usesLeft = obstacle.getInt("uses");
+        if (Objects.equals(name, "roadSticky"))
+            this.slow = obstacle.getFloat("slow");
+        else if (Objects.equals(name, "roadNeedles"))
+            this.dmg = obstacle.getInt("dmg");
 
         this.tileX = tileX;
         this.tileY = tileY;
@@ -162,11 +169,11 @@ public class RoadObstacle extends Actor {
                     if (Objects.equals(name, "roadNeedles"))
                     {
                         attackedEnemies.add(e.hashCode());
-                        e.dealDmg(100);
+                        e.dealDmg(dmg);
                     }
                     else if (Objects.equals(name, "roadSticky"))
                     {
-                        e.changeSpeed(0.5f);
+                        e.changeSpeed(slow);
                         attackedEnemies.add(e.hashCode());
                         slowedEnemies.add(e);
                     }
