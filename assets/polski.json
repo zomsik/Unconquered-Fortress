@@ -183,7 +183,7 @@
   "tMelee": "Wieża do walki w zwarciu\nJest jedną z pierwszych dostępnych budowli i pierwszą wieżą.\nZadaje duże obrażenia kosztem małego zasięgu oraz małej prędkości ataku.\nJest nieskuteczna przeciwko jednostkom latającym.",
   "tCrossbow": "Kusza\nWymaga odblokowania w drzewku umiejętności pasywnych.\nZadaje normalne obrażenia, posiada normalny zasięg oraz dużą prędkość ataku.",
   "tMage": "Wieża magów\nWymaga odblokowania w drzewku umiejętności pasywnych.\nZadaje duże obrażenia, posiada duży zasięg oraz normalną prędkość ataku.",
-  "tCannon": "Działo\nWymaga odblokowania w drzewku umiejętności pasywnych.\nZadaje bardzo duże obrażenia, posiada duży zasięg kosztem bardzo małej prędkości ataku.\nW przeciwieństwie do innych wież pociski posiadają obrażenia zasięgowe, które zadają małe obrażenia pobliskim wrogom.",
+  "tCannon": "Działo\nWymaga odblokowania w drzewku umiejętności pasywnych.\nZadaje bardzo duże obrażenia, posiada duży zasięg kosztem bardzo małej prędkości ataku.\nPociski posiadają obrażenia zasięgowe, które zadają małe obrażenia pobliskim wrogom.",
   "tSticky": "Plama oleju\nJest jedną z pierwszych dostępnych budowli.\nZmniejsza prędkość ruchu przeciwników, którzy po niej przejdą.\nJest budowlą z ograniczoną ilością aktywacji.",
   "tNeedles":"Zasieki\nJest jedną z pierwszych dostępnych budowli.\nZadaje normalne obrażenia przeciwnikom, którzy po niej przejdą.\nJest budowlą z ograniczoną ilością aktywacji.",
   "bBackTips": "Cofnij\n\n",
