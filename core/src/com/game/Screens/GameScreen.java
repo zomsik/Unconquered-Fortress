@@ -761,6 +761,13 @@ public class GameScreen implements Screen {
                         chosenOperation = null;
                         chosenOperationX = -1;
                         chosenOperationY = -1;
+
+                        if (towerManager.getIsDisabledListeners() || roadObstaclesManager.getIsDisabledListeners()) {
+                            towerManager.enableListeners();
+                            roadObstaclesManager.enableListeners();
+                        }
+
+
                         return true;
                     }
 
