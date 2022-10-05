@@ -123,9 +123,9 @@ public class TipsManager {
         table_mechanics.row();
         table_mechanics.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(4*scale).padLeft(4*scale).padBottom(8*scale);
         table_mechanics.row();
-        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tObstacles"), bigLabelStyle)).width(Gdx.graphics.getWidth()).padLeft(4*scale);
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tLuck"), bigLabelStyle)).width(Gdx.graphics.getWidth()).padLeft(4*scale);
         table_mechanics.row();
-        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tObstaclesDescription"), labelStyle)).width(Gdx.graphics.getWidth()).height(Gdx.graphics.getHeight()/10*2-64*scale).padLeft(4*scale);
+        table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tLuckDescription"), labelStyle)).width(Gdx.graphics.getWidth()).height(Gdx.graphics.getHeight()/10*2-64*scale).padLeft(4*scale);
         table_mechanics.row();
         table_mechanics.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(4*scale).padLeft(4*scale).padBottom(8*scale);
         table_mechanics.row();
@@ -234,7 +234,6 @@ public class TipsManager {
         table_towers.row();
         table_towers.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tNeedles"), labelStyle)).height(80*scale).align(Align.right).colspan(5).expandX().padRight(-24*scale);
         table_towers.add(new Image(images_tips2, "needles")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
-        table_towers.debug();
     }
 
     public Table returnTipsButtonsTable(){
