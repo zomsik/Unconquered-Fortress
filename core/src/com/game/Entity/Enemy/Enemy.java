@@ -476,7 +476,7 @@ public class Enemy extends Actor {
 
 
     public void summonEnemy() {
-        Enemy summon = new Enemy(summonJSONObject.getInt("health"), summonJSONObject.getInt("damage"), summonJSONObject.getInt("money"), summonJSONObject.getInt("diamonds"), summonJSONObject.getInt("speed"), "assets/game/enemies/warrior.png", summonJSONObject.getString("name"), 64, summonJSONObject.getBoolean("isFlying"));
+        Enemy summon = new Enemy(summonJSONObject.getInt("health"), summonJSONObject.getInt("damage"), summonJSONObject.getInt("money"), summonJSONObject.getInt("diamonds"), summonJSONObject.getInt("speed"), "assets/game/enemies/summon.png", summonJSONObject.getString("name"), 64, summonJSONObject.getBoolean("isFlying"));
         summon.initSummonedEnemy(this.summoningTime*0.8f, this.base, this.path, this.scale);
         summonedEnemies.add(summon);
 
