@@ -260,33 +260,32 @@ public class UpgradeManager {
 
 
         uFork.addNextUpgrade(uScythe,1);
-        uScythe.addNextUpgrade(uDagger,1);
         uScythe.addNextUpgrade(uBow,1);
-        uDagger.addNextUpgrade(uSceptre,1);
-        uDagger.addNextUpgrade(uSword,2);
+        uScythe.addNextUpgrade(uDagger,2);
+        uDagger.addNextUpgrade(uSword,1);
+        uDagger.addNextUpgrade(uSceptre,2);
         uSword.addNextUpgrade(uBattleAxe,1);
         uBattleAxe.addNextUpgrade(uCannon,1);
-        uBattleAxe.addNextUpgrade(uMace,1);
+        uBattleAxe.addNextUpgrade(uMace, uBattleAxe.getMaxLevel());
         uBow.addNextUpgrade(uCrossbow, uBow.getMaxLevel());
         uCannon.addNextUpgrade(uCannonBall,1);
         uCannonBall.addNextUpgrade(uBetterCannon,1);
         uSceptre.addNextUpgrade(uBook,1);
-        uGear.addNextUpgrade(uSonar,1);
-        uHealth.addNextUpgrade(uBetterHealth,1);
+        uGear.addNextUpgrade(uSonar, uGear.getMaxLevel());
+        uHealth.addNextUpgrade(uBetterHealth, uHealth.getMaxLevel());
         uBetterHealth.addNextUpgrade(uRegeneration,1);
         uRegeneration.addNextUpgrade(uShield,1);
         uShield.addNextUpgrade(uBetterBetterHealth,1);
-        uGold.addNextUpgrade(uBetterGold,1);
         uGold.addNextUpgrade(uDiscount10,1);
+        uGold.addNextUpgrade(uBetterGold, uGold.getMaxLevel());
         uBetterGold.addNextUpgrade(uDiamonds,1);
-        uDiamonds.addNextUpgrade(uBetterDiamonds,1);
+        uDiamonds.addNextUpgrade(uBetterDiamonds, uDiscount10.getMaxLevel());
         uDiscount10.addNextUpgrade(uDiscount20,1);
         uDiscount10.addNextUpgrade(uUpgrade,1);
         uDiscount20.addNextUpgrade(uDiscount30,1);
         uUpgrade.addNextUpgrade(uHammer,1);
-        uHammer.addNextUpgrade(uBetterUpgrade,1);
         uHammer.addNextUpgrade(uLuck,1);
-
+        uHammer.addNextUpgrade(uBetterUpgrade,2);
 
         upgradeList.add(uFork);
         upgradeList.add(uScythe);
