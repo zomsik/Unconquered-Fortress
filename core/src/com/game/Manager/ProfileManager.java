@@ -105,8 +105,8 @@ public class ProfileManager {
         j.put("wave",0);
         j.put("maxHealth",100);
         j.put("health",100);
-        j.put("gold",1000);
-        j.put("diamonds",500);
+        j.put("gold",200);
+        j.put("diamonds",0);
         j.put("terrainModifications", new JSONArray());
         j.put("buildings", new JSONArray());
         j.put("unlockedUpgrades", new JSONArray());
@@ -125,7 +125,7 @@ public class ProfileManager {
         actualGame.put("wave",0);
         actualGame.put("maxHealth", base.getMaxHealth());
         actualGame.put("health",base.getMaxHealth());
-        actualGame.put("gold",1000);
+        actualGame.put("gold",200);
         actualGame.put("terrainModifications", new JSONArray());
         actualGame.put("buildings", new JSONArray());
         actualGame.put("roadObstacles", new JSONArray());

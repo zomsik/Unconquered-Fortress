@@ -341,6 +341,7 @@ public class Enemy extends Actor {
             {
                 summonEnemy();
                 isSummoning = true;
+                canBeAttacked = false;
                 timeToSummonNextEnemy = delayBetweenSummonings;
 
                 switch (moveDirection)
@@ -359,6 +360,7 @@ public class Enemy extends Actor {
                 if (timeOfActualSummoning >= summoningTime)
                 {
                     isSummoning = false;
+                    canBeAttacked = true;
                     moveDirection = "";
                     timeOfActualSummoning = 0;
                 }

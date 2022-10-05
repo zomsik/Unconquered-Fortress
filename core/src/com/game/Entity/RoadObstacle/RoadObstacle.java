@@ -38,10 +38,14 @@ public class RoadObstacle extends Actor {
     private int dmg;
     private float slow;
 
+    private int buyPrice;
+
 
     public RoadObstacle(JSONObject obstacle, Base base, String path, int tileX, int tileY, float scale, GameScreen gameScreen) {
         this.name = obstacle.getString("name");
         this.base = base;
+
+        this.buyPrice = obstacle.getInt("cost");
 
         this.usesLeft = obstacle.getInt("uses");
         if (Objects.equals(name, "roadSticky"))
@@ -154,7 +158,7 @@ public class RoadObstacle extends Actor {
     }
 
     public int getSellWorth() {
-        return 5*usesLeft;
+        return Math.round(buyPrice/20f*usesLeft);
     }
 
     public void update(float deltaTime, ArrayList<Enemy> enemies){
@@ -209,7 +213,7 @@ public class RoadObstacle extends Actor {
 
 
     public void render(SpriteBatch batch){
-        batch.draw(texture, position.x+32*(scale-1), position.y+32*(scale-1));
+        batch.draw(texture, position.x, position.y,textureSize*scale,textureSize*scale);
     }
 
 

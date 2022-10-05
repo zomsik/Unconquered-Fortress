@@ -297,17 +297,20 @@ public class Tower extends Actor {
                     }
 
                     if (attackChance>b.getEnemyToFollow().getDodgeChance())
-                        b.getEnemyToFollow().dealDmg(b.getBulletDamage()*base.getMultipliers().getFloat("damageMultiplier")*base.getMultipliers().getFloat("damageMultiplier"+name));
+                        if (b.getEnemyToFollow().getCanBeAttacked())
+                            b.getEnemyToFollow().dealDmg(b.getBulletDamage()*base.getMultipliers().getFloat("damageMultiplier")*base.getMultipliers().getFloat("damageMultiplier"+name));
 
                 }
                 else {
-                    b.getEnemyToFollow().dealDmg(b.getBulletDamage()*base.getMultipliers().getFloat("damageMultiplier")*base.getMultipliers().getFloat("damageMultiplier"+name) );
+                    if (b.getEnemyToFollow().getCanBeAttacked())
+                        b.getEnemyToFollow().dealDmg(b.getBulletDamage()*base.getMultipliers().getFloat("damageMultiplier")*base.getMultipliers().getFloat("damageMultiplier"+name) );
                 }
 
                 if(bulletSplashRange > 0){
                     for(Enemy e:enemies){
                         if(e.getPosition().y <= b.getEnemyToFollow().getPosition().y+ bulletSplashRange && e.getPosition().y >= b.getEnemyToFollow().getPosition().y- bulletSplashRange && e.getPosition().x <= b.getEnemyToFollow().getPosition().x+ bulletSplashRange && e.getPosition().x >= b.getEnemyToFollow().getPosition().x- bulletSplashRange){
-                            e.dealDmg(b.getBulletDamage()*base.getMultipliers().getFloat("splashMultiplier"));
+                            if (b.getEnemyToFollow().getCanBeAttacked())
+                                e.dealDmg(b.getBulletDamage()*base.getMultipliers().getFloat("damageMultiplier"+name)*base.getMultipliers().getFloat("splashMultiplier"));
                         }
 
 
@@ -316,7 +319,8 @@ public class Tower extends Actor {
                             for (Enemy eS: e.getSummonedList())
                             {
                                 if(eS.getPosition().y <= b.getEnemyToFollow().getPosition().y+ bulletSplashRange && eS.getPosition().y >= b.getEnemyToFollow().getPosition().y- bulletSplashRange && eS.getPosition().x <= b.getEnemyToFollow().getPosition().x+ bulletSplashRange && eS.getPosition().x >= b.getEnemyToFollow().getPosition().x- bulletSplashRange){
-                                    eS.dealDmg(b.getBulletDamage()*base.getMultipliers().getFloat("splashMultiplier"));
+                                    if (b.getEnemyToFollow().getCanBeAttacked())
+                                        eS.dealDmg(b.getBulletDamage()*base.getMultipliers().getFloat("damageMultiplier"+name)*base.getMultipliers().getFloat("splashMultiplier"));
                                 }
                             }
                         }
@@ -462,7 +466,7 @@ public class Tower extends Actor {
             if (lvl < towerLevels.length())
             {
                 shapeRenderer.setColor(Color.BLUE);
-                shapeRenderer.circle(position.x+scale*towerTextureSize/2, position.y+scale*towerTextureSize/2, towerLevels.getJSONObject(lvl).getFloat("range")*base.getMultipliers().getFloat("rangeMultiplier"+name));
+                shapeRenderer.circle(position.x+scale*towerTextureSize/2, position.y+scale*towerTextureSize/2, scale*towerLevels.getJSONObject(lvl).getFloat("range")*base.getMultipliers().getFloat("rangeMultiplier"+name));
             }
 
             shapeRenderer.end();

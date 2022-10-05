@@ -119,33 +119,33 @@ public class UpgradeManager {
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(uBow.getImage());
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
-        table_upgrade.add(uCrossbow.getImage());
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.row();
-
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-        table_upgrade.row();
-
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
         table_upgrade.add(uSceptre.getImage());
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
         table_upgrade.add(uBook.getImage());
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+        table_upgrade.row();
+
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
+        table_upgrade.row();
+
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+        table_upgrade.add(uBow.getImage());
+        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
+        table_upgrade.add(uCrossbow.getImage());
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
@@ -182,13 +182,9 @@ public class UpgradeManager {
         table_upgrade.add(uBetterDiamonds.getImage());
         table_upgrade.row();
 
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
         table_upgrade.row();
 
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
         table_upgrade.add(uDiscount10.getImage());
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
         table_upgrade.add(uDiscount20.getImage());
@@ -196,13 +192,9 @@ public class UpgradeManager {
         table_upgrade.add(uDiscount30.getImage());
         table_upgrade.row();
 
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
         table_upgrade.row();
 
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
         table_upgrade.add(uUpgrade.getImage());
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
         table_upgrade.add(uHammer.getImage());
@@ -212,14 +204,11 @@ public class UpgradeManager {
 
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty")).height(32);
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connectVertical")).height(32);
         table_upgrade.row();
 
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
-        table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
+
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_empty"));
         table_upgrade.add(uLuck.getImage());
         table_upgrade.row();
@@ -272,8 +261,8 @@ public class UpgradeManager {
 
         uFork.addNextUpgrade(uScythe,1);
         uScythe.addNextUpgrade(uDagger,1);
-        uScythe.addNextUpgrade(uSceptre,1);
-        uDagger.addNextUpgrade(uBow,1);
+        uScythe.addNextUpgrade(uBow,1);
+        uDagger.addNextUpgrade(uSceptre,1);
         uDagger.addNextUpgrade(uSword,2);
         uSword.addNextUpgrade(uBattleAxe,1);
         uBattleAxe.addNextUpgrade(uCannon,1);
@@ -288,8 +277,8 @@ public class UpgradeManager {
         uRegeneration.addNextUpgrade(uShield,1);
         uShield.addNextUpgrade(uBetterBetterHealth,1);
         uGold.addNextUpgrade(uBetterGold,1);
+        uGold.addNextUpgrade(uDiscount10,1);
         uBetterGold.addNextUpgrade(uDiamonds,1);
-        uBetterGold.addNextUpgrade(uDiscount10,1);
         uDiamonds.addNextUpgrade(uBetterDiamonds,1);
         uDiscount10.addNextUpgrade(uDiscount20,1);
         uDiscount10.addNextUpgrade(uUpgrade,1);

@@ -349,9 +349,9 @@ public class GameScreen implements Screen {
 
         if (Objects.equals(chosenOperation,"stickyRoad")) {
             if (Objects.equals(lastClickedMapTile.getName(), "path") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
-                if (base.getMoney() >= 100)
+                if (base.getMoney() >= turretLevels.getJSONObject("roadSticky").getInt("cost"))
                 {
-                    base.decreaseMoney(100);
+                    base.decreaseMoney(turretLevels.getJSONObject("roadSticky").getInt("cost"));
                     RoadObstacle r = new RoadSticky(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(), scale, this);
                     roadObstaclesManager.buyObstacle(r);
                     stage.addActor(r);
@@ -368,9 +368,9 @@ public class GameScreen implements Screen {
 
         if (Objects.equals(chosenOperation,"roadNeedles")) {
             if (Objects.equals(lastClickedMapTile.getName(), "path") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()]==0) {
-                if (base.getMoney() >= 100)
+                if (base.getMoney() >= turretLevels.getJSONObject("roadNeedles").getInt("cost"))
                 {
-                    base.decreaseMoney(100);
+                    base.decreaseMoney(turretLevels.getJSONObject("roadNeedles").getInt("cost"));
                     RoadObstacle r = new RoadNeedles(turretLevels, base, lastClickedMapTile.getX(),lastClickedMapTile.getY(), scale, this);
                     roadObstaclesManager.buyObstacle(r);
                     stage.addActor(r);
@@ -660,8 +660,9 @@ public class GameScreen implements Screen {
         bNextWave.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                enemyManager.createRandomEnemyWave();
                 base.increaseWave(1);
+                enemyManager.createRandomEnemyWave();
+
 
             }
         });
