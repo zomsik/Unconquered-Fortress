@@ -194,6 +194,47 @@ public class RoadObstacle extends Actor {
                 }
 
             }
+
+            if (Objects.equals(e.getName(), "summoner"))
+            {
+                for (Enemy eS: e.getSummonedList())
+                {
+                    if (textureSize/2*scale >= Vector2.dst(position.x+textureSize*scale/2,position.y+textureSize*scale/2,eS.getPosition().x+eS.getEnemySize()*scale/2,eS.getPosition().y+eS.getEnemySize()*scale/2)) {
+
+                        if(!attackedEnemies.contains(eS.hashCode())) {
+                            attackedEnemies.add(eS.hashCode());
+
+                            if (Objects.equals(name, "roadNeedles"))
+                            {
+                                attackedEnemies.add(eS.hashCode());
+                                eS.dealDmg(dmg);
+                            }
+                            else if (Objects.equals(name, "roadSticky"))
+                            {
+                                eS.changeSpeed(slow);
+                                attackedEnemies.add(eS.hashCode());
+                                slowedEnemies.add(eS);
+                            }
+
+                            usesLeft-=1;
+                            if (getBase().getRoadObstacleId()==this.hashCode())
+                            {
+                                getBase().setUsesLeft(usesLeft);
+                            }
+
+
+                            break;
+
+                        }
+
+                    }
+
+                }
+            }
+
+
+
+
         }
 
         Iterator<Enemy> eIterator = slowedEnemies.iterator();
@@ -202,7 +243,7 @@ public class RoadObstacle extends Actor {
 
             if (textureSize/2*scale < Vector2.dst(position.x+textureSize*scale/2,position.y+textureSize*scale/2,e.getPosition().x+e.getEnemySize()*scale/2,e.getPosition().y+e.getEnemySize()*scale/2))
             {
-                e.changeSpeed(2f);
+                e.changeSpeed(1f/slow);
                 eIterator.remove();
             }
 
