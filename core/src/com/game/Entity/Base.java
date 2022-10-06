@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.game.Manager.EnemyManager;
 import com.game.Manager.TowerManager;
 import org.json.JSONObject;
 
@@ -33,6 +34,7 @@ public class Base {
     private int roadObstacleId;
     private boolean shouldUpdateInfo;
     private TowerManager towerManager;
+    private EnemyManager enemyManager;
 
 
 
@@ -182,6 +184,14 @@ public class Base {
 
     public void addTowerManager(TowerManager towerManager) {
         this.towerManager = towerManager;
+    }
+
+    public int getEnemiesLeft() {
+        return enemyManager.getEnemiesLeft();
+    }
+
+    public void addEnemyManager(EnemyManager enemyManager) {
+        this.enemyManager = enemyManager;
     }
 
     public int getSeed() {

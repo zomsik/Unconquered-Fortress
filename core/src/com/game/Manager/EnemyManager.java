@@ -137,6 +137,15 @@ public class EnemyManager {
         enemies.add(e);
     }
 
+    public int getEnemiesLeft()
+    {
+       int numberOfEnemies = enemies.size();
+       for (ArrayList<Enemy> wave :enemyWavesToSpawn)
+               numberOfEnemies += wave.size();
+
+       return numberOfEnemies;
+    }
+
     public void update(float deltaTime) {
 
         //spawning enemies

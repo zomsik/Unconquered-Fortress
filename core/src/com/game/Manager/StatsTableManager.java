@@ -24,7 +24,7 @@ public class StatsTableManager {
     private Table statsTable, operationTable, upgradeTable, multipliersTable, obstacleTable;
 
     private TextFieldStyleManager textFieldStyleManager;
-    private TextField hpTextField, hpTextValue, goldTextField, goldTextValue, diamondTextField, diamondTextValue, waveTextField, waveTextValue, difficultyTextField, difficultyTextValue;
+    private TextField hpTextField, hpTextValue, goldTextField, goldTextValue, diamondTextField, diamondTextValue, waveTextField, waveTextValue,enemiesTextField, enemiesTextValue, difficultyTextField, difficultyTextValue;
     private TextField operationPriceTextField, operationPriceTextValue, operationTitleTextField, operationTitleTextValue, operationDmgTextField, operationDmgTextValue, operationRangeTextField, operationRangeTextValue, operationReloadTextField, operationReloadTextValue, operationSplashTextField, operationSplashTextValue;
     private TextField upgradePriceTextField, upgradePriceTextValue,upgradeTitleTextField, upgradeTitleTextValue, upgradeLvlTextField, upgradeLvlTextValue, upgradeDmgTextField, upgradeDmgTextValue, upgradeRangeTextField, upgradeRangeTextValue, upgradeReloadTextField, upgradeReloadTextValue, upgradeSplashTextField, upgradeSplashTextValue;
     private TextField damageMultiplier, damageMultiplierValue;
@@ -88,9 +88,14 @@ public class StatsTableManager {
         goldTextValue.setAlignment(Align.center);
 
         waveTextField = new TextField(languageManager.getValue(languageManager.getLanguage(), "wave_field"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
-        waveTextValue = new TextField("temp", textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        waveTextValue = new TextField("0", textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
         waveTextField.setAlignment(Align.center);
         waveTextValue.setAlignment(Align.center);
+
+        enemiesTextField = new TextField(languageManager.getValue(languageManager.getLanguage(), "enemy_field"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        enemiesTextValue = new TextField("0", textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        enemiesTextField.setAlignment(Align.center);
+        enemiesTextValue.setAlignment(Align.center);
 
         diamondTextField = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         diamondTextValue = new TextField(String.valueOf(base.getDiamonds()), textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
@@ -114,6 +119,10 @@ public class StatsTableManager {
         statsTable.add(waveTextField).width((200*scale)/2-6*scale);
         statsTable.add(new Image(images_stats, "middleStatsCover"));
         statsTable.add(waveTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        statsTable.row().padBottom(4*scale);
+        statsTable.add(enemiesTextField).width((200*scale)/2-6*scale);
+        statsTable.add(new Image(images_stats, "middleStatsCover"));
+        statsTable.add(enemiesTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
         statsTable.row().padBottom(4*scale);;
         statsTable.add(goldTextField).width((200*scale)/2-6*scale);
         statsTable.add(new Image(images_stats, "middleStatsCover"));
@@ -390,6 +399,7 @@ public class StatsTableManager {
         goldTextValue.setText(String.valueOf(base.getMoney()));
         diamondTextValue.setText(String.valueOf(base.getDiamonds()));
         waveTextValue.setText(String.valueOf(base.getWave()));
+        enemiesTextValue.setText(String.valueOf(base.getEnemiesLeft()));
 
         if (infoToDisplay==5)
         {

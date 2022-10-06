@@ -150,6 +150,7 @@ public class GameScreen implements Screen {
         enemyManager = new EnemyManager(base, scale, GameFunctions.calculatePath(worldManager.getPath(), scale), enemies);
         towerManager = new TowerManager(enemyManager.getEnemies());
         base.addTowerManager(towerManager);
+        base.addEnemyManager(enemyManager);
         roadObstaclesManager = new RoadObstaclesManager(enemyManager.getEnemies(), buildArr);
 
         table_map = worldManager.drawWorld(mapArr, scale);
@@ -670,7 +671,10 @@ public class GameScreen implements Screen {
         bSaveDialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                saveGame();
+                if (enemyManager.getEnemiesLeft()==0)
+                    saveGame();
+                else
+                    System.out.println("nie mozna zapisac");
             }
 
 
@@ -679,8 +683,14 @@ public class GameScreen implements Screen {
         bSaveAndExitDialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                saveGame();
-                game.setScreen(new MenuScreen(game));
+                if (enemyManager.getEnemiesLeft()==0)
+                {
+                    saveGame();
+                    game.setScreen(new MenuScreen(game));
+                }
+                else
+                    System.out.println("nie mozna zapisac");
+
 
 
             }
@@ -776,7 +786,10 @@ public class GameScreen implements Screen {
                     return true;
                 }
                 if(keycode == Input.Keys.F5){
-                    saveGame();
+                    if (enemyManager.getEnemiesLeft()==0)
+                        saveGame();
+                    else
+                        System.out.println("nie mozna zapisac");
                     return true;
                 }
                 return super.keyDown(event, keycode);
