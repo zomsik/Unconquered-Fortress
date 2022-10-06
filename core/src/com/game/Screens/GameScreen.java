@@ -641,6 +641,10 @@ public class GameScreen implements Screen {
                 upgradeDialog.text(languageManager.getValue(languageManager.getLanguage(), "upgrade_dialog_field_text"), labelStyle);
 
                 upgradeDialog.add(upgradeManager.returnUpgradeTable());
+
+                upgradeDialog.add(statsTableManager.getButtonUp());
+                upgradeDialog.add(statsTableManager.getButtonDown());
+
                 upgradeDialog.show(pauseStage);
                 upgradeDialog.setY(0);
                 upgradeDialog.setX(((Gdx.graphics.getWidth())-upgradeDialog.getWidth())/scale/2);
@@ -880,11 +884,9 @@ public class GameScreen implements Screen {
         table_info = statsTableManager.getInfoTable();
         if (base.getState() == Base.State.Running || base.getState() == Base.State.Resumed)
             stage.addActor(table_info);
-        else if (base.getState() == Base.State.Paused) {
+        else if (base.getState() == Base.State.Paused)
             pauseStage.addActor(table_info);
-            table_info.toFront();
-            table_info.debug();
-        }
+
     }
 
     @Override

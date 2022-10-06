@@ -311,8 +311,10 @@ public class StatsTableManager {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (multipliersPage>0)
+                {
                     multipliersPage--;
-                System.out.println("w");
+                    base.setShouldUpdateInfo(true);
+                }
             }
         });
 
@@ -321,17 +323,17 @@ public class StatsTableManager {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (multipliersPage<4)
+                {
                     multipliersPage++;
-                System.out.println("s");
+                    base.setShouldUpdateInfo(true);
+                }
             }
         });
 
 
-                multipliersTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
+        multipliersTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
         multipliersTable.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackground)));
 
-        multipliersTable.row().padBottom(4*scale);
-        multipliersTable.add(buttonUp).width(multipliersTable.getWidth()).colspan(3);
         multipliersTable.row().padBottom(4*scale);
         multipliersTable.add(multipliersTableTitle).width(multipliersTable.getWidth()).colspan(3);
         multipliersTable.row().padBottom(4*scale);
@@ -356,8 +358,6 @@ public class StatsTableManager {
         multipliersTable.add(middleStatsCoverArr[4]);
         multipliersTable.add(multipliersTableTextFieldValue4).width((200*scale)/2-6*scale).padRight(2*scale);
         multipliersTable.row().padBottom(4*scale);
-        multipliersTable.add(buttonDown).width(multipliersTable.getWidth()).colspan(3);
-
 
 
 
@@ -387,6 +387,16 @@ public class StatsTableManager {
         return infoToDisplay;
     }
 
+
+    public TextButton getButtonUp()
+    {
+        return buttonUp;
+    }
+
+    public TextButton getButtonDown()
+    {
+        return buttonDown;
+    }
 
     public void setInfoToDisplay(int infoToDisplay, JSONObject towerNow, JSONObject towerUpgrade, String name) {
         this.infoToDisplay = infoToDisplay;
