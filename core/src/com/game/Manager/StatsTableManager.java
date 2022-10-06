@@ -8,29 +8,32 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.game.Entity.Base;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class StatsTableManager {
     private Base base;
     private float scale;
 
     private Table statsTable, operationTable, upgradeTable, multipliersTable, obstacleTable;
-
+    private TextButton buttonUp, buttonDown;
+    private TextButton.TextButtonStyle textButtonStyle_buttonUp, textButtonStyle_buttonDown;
+    private ButtonStyleManager buttonStyleManager;
     private TextFieldStyleManager textFieldStyleManager;
     private TextField hpTextField, hpTextValue, goldTextField, goldTextValue, diamondTextField, diamondTextValue, waveTextField, waveTextValue,enemiesTextField, enemiesTextValue, difficultyTextField, difficultyTextValue;
     private TextField operationPriceTextField, operationPriceTextValue, operationTitleTextField, operationTitleTextValue, operationDmgTextField, operationDmgTextValue, operationRangeTextField, operationRangeTextValue, operationReloadTextField, operationReloadTextValue, operationSplashTextField, operationSplashTextValue;
     private TextField upgradePriceTextField, upgradePriceTextValue,upgradeTitleTextField, upgradeTitleTextValue, upgradeLvlTextField, upgradeLvlTextValue, upgradeDmgTextField, upgradeDmgTextValue, upgradeRangeTextField, upgradeRangeTextValue, upgradeReloadTextField, upgradeReloadTextValue, upgradeSplashTextField, upgradeSplashTextValue;
-    private TextField damageMultiplier, damageMultiplierValue;
+    private TextField multipliersTableTitle, multipliersTableTextField0, multipliersTableTextFieldValue0, multipliersTableTextField1, multipliersTableTextFieldValue1, multipliersTableTextField2, multipliersTableTextFieldValue2, multipliersTableTextField3, multipliersTableTextFieldValue3, multipliersTableTextField4, multipliersTableTextFieldValue4;
     private TextField obstacleUses, obstacleUsesValue;
     private TextField.TextFieldStyle statsTextFieldStyle, rightStatsTextFieldStyle, leftStatsTextFieldStyle;
-    private Skin images, images_stats;
+    private Skin images, images_stats, images_buttons;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private BitmapFont font;
@@ -38,6 +41,12 @@ public class StatsTableManager {
     private int infoToDisplay;
     private String infoToDisplayName;
     private JSONObject infoToDisplayObjectNow,infoToDisplayObjectUpgraded;
+
+    private Image[] middleStatsCoverArr;
+
+
+
+    private int multipliersPage;
 
     public StatsTableManager(Base base, float scale, LanguageManager languageManager){
         this.base = base;
@@ -53,6 +62,10 @@ public class StatsTableManager {
         multipliersTable = new Table();
         obstacleTable = new Table();
 
+        buttonStyleManager = new ButtonStyleManager();
+        textButtonStyle_buttonUp = new TextButton.TextButtonStyle();
+        textButtonStyle_buttonDown = new TextButton.TextButtonStyle();
+
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = (int) (10*scale);
@@ -63,6 +76,7 @@ public class StatsTableManager {
 
         images = new Skin(new TextureAtlas("assets/buttons/buttons_settings.pack"));
         images_stats = new Skin(new TextureAtlas("assets/buttons/statsCover.pack"));
+        images_buttons = new Skin(new TextureAtlas("assets/icons/icons_profile.pack"));
 
         textFieldStyleManager = new TextFieldStyleManager();
         statsTextFieldStyle = new TextField.TextFieldStyle();
@@ -255,21 +269,97 @@ public class StatsTableManager {
 
 
         // Multipliers Table
+        multipliersTableTitle = new TextField(null, textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        multipliersTableTextField0 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        multipliersTableTextFieldValue0 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        multipliersTableTextField1 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        multipliersTableTextFieldValue1 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        multipliersTableTextField2 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        multipliersTableTextFieldValue2 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        multipliersTableTextField3 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        multipliersTableTextFieldValue3 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        multipliersTableTextField4 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        multipliersTableTextFieldValue4 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
 
 
-        damageMultiplier = new TextField("dmgMultiplier: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
-        damageMultiplierValue = new TextField("1.0", textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        multipliersTableTitle.setAlignment(Align.center);
+        multipliersTableTextField0.setAlignment(Align.center);
+        multipliersTableTextFieldValue0.setAlignment(Align.center);
+        multipliersTableTextField1.setAlignment(Align.center);
+        multipliersTableTextFieldValue1.setAlignment(Align.center);
+        multipliersTableTextField2.setAlignment(Align.center);
+        multipliersTableTextFieldValue2.setAlignment(Align.center);
+        multipliersTableTextField3.setAlignment(Align.center);
+        multipliersTableTextFieldValue3.setAlignment(Align.center);
+        multipliersTableTextField4.setAlignment(Align.center);
+        multipliersTableTextFieldValue4.setAlignment(Align.center);
 
-        damageMultiplier.setAlignment(Align.center);
-        damageMultiplierValue.setAlignment(Align.center);
 
-        multipliersTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
+        middleStatsCoverArr = new Image[5];
+        for (int i=0; i<5; i++)
+            middleStatsCoverArr[i] = new Image(images_stats, "middleStatsCover");
+
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_buttonUp, images_buttons, font, "cloud", "cloud");
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_buttonDown, images_buttons, font, "local", "local");
+        buttonUp = new TextButton(null, buttonStyleManager.returnTextButtonStyle(textButtonStyle_buttonUp));
+
+        buttonDown = new TextButton(null, buttonStyleManager.returnTextButtonStyle(textButtonStyle_buttonDown));
+
+
+        buttonUp.addListener(new ClickListener(){
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (multipliersPage>0)
+                    multipliersPage--;
+                System.out.println("w");
+            }
+        });
+
+        buttonDown.addListener(new ClickListener(){
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (multipliersPage<4)
+                    multipliersPage++;
+                System.out.println("s");
+            }
+        });
+
+
+                multipliersTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
         multipliersTable.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackground)));
+
         multipliersTable.row().padBottom(4*scale);
-        multipliersTable.add(damageMultiplier).width((200*scale)/2-6*scale);
-        multipliersTable.add(new Image(images_stats, "middleStatsCover"));
-        multipliersTable.add(damageMultiplierValue).width((200*scale)/2-6*scale).padRight(2*scale);
+        multipliersTable.add(buttonUp).width(multipliersTable.getWidth()).colspan(3);
         multipliersTable.row().padBottom(4*scale);
+        multipliersTable.add(multipliersTableTitle).width(multipliersTable.getWidth()).colspan(3);
+        multipliersTable.row().padBottom(4*scale);
+        multipliersTable.add(multipliersTableTextField0).width((200*scale)/2-6*scale);
+        multipliersTable.add(middleStatsCoverArr[0]);
+        multipliersTable.add(multipliersTableTextFieldValue0).width((200*scale)/2-6*scale).padRight(2*scale);
+        multipliersTable.row().padBottom(4*scale);
+        multipliersTable.row().padBottom(4*scale);
+        multipliersTable.add(multipliersTableTextField1).width((200*scale)/2-6*scale);
+        multipliersTable.add(middleStatsCoverArr[1]);
+        multipliersTable.add(multipliersTableTextFieldValue1).width((200*scale)/2-6*scale).padRight(2*scale);
+        multipliersTable.row().padBottom(4*scale);
+        multipliersTable.add(multipliersTableTextField2).width((200*scale)/2-6*scale);
+        multipliersTable.add(middleStatsCoverArr[2]);
+        multipliersTable.add(multipliersTableTextFieldValue2).width((200*scale)/2-6*scale).padRight(2*scale);
+        multipliersTable.row().padBottom(4*scale);
+        multipliersTable.add(multipliersTableTextField3).width((200*scale)/2-6*scale);
+        multipliersTable.add(middleStatsCoverArr[3]);
+        multipliersTable.add(multipliersTableTextFieldValue3).width((200*scale)/2-6*scale).padRight(2*scale);
+        multipliersTable.row().padBottom(4*scale);
+        multipliersTable.add(multipliersTableTextField4).width((200*scale)/2-6*scale);
+        multipliersTable.add(middleStatsCoverArr[4]);
+        multipliersTable.add(multipliersTableTextFieldValue4).width((200*scale)/2-6*scale).padRight(2*scale);
+        multipliersTable.row().padBottom(4*scale);
+        multipliersTable.add(buttonDown).width(multipliersTable.getWidth()).colspan(3);
+
+
+
 
 
         // Obstacle Table
@@ -305,6 +395,13 @@ public class StatsTableManager {
         this.infoToDisplayObjectUpgraded = towerUpgrade;
     }
 
+    public int getMultipliersPage() {
+        return multipliersPage;
+    }
+
+    public void setMultipliersPage(int multipliersPage) {
+        this.multipliersPage = multipliersPage;
+    }
 
     public Table getInfoTable()
     {
@@ -320,16 +417,13 @@ public class StatsTableManager {
                 t = upgradeTable;
             }
             case 4 -> {
-                setMultipliersTable();
+                setMultipliersTable(multipliersPage);
                 t = multipliersTable;
             }
             case 5 -> {
                 setObstacleTable();
                 t = obstacleTable;
             }
-
-
-
 
         }
         return t;
@@ -340,10 +434,36 @@ public class StatsTableManager {
         return statsTable;
     }
 
-    public void setMultipliersTable(){
+    public void setMultipliersTable(int choice){
         JSONObject multipliers = base.getMultipliers();
 
-        damageMultiplierValue.setText(String.valueOf(multipliers.getFloat("damageMultiplier")));;
+        switch (choice)
+        {
+            //languageManager.getValue(languageManager.getLanguage(), "")
+            case 0 -> {
+                multipliersTableTitle.setText("Upgrady");
+                multipliersTableTextField0.setText("hp:");
+                multipliersTableTextFieldValue0.setText(String.valueOf(base.getHealth()));
+
+                multipliersTableTextField1.setText("dmg:");
+                multipliersTableTextFieldValue1.setText(String.valueOf(multipliers.getFloat("damageMultiplier")));
+
+            }
+
+            case 1 -> {
+                multipliersTableTitle.setText("Obrażenia");
+
+                multipliersTableTextField0.setText("diam:");
+                multipliersTableTextFieldValue0.setText(String.valueOf(base.getDiamonds()));
+
+                multipliersTableTextField1.setText("dmg:");
+                multipliersTableTextFieldValue1.setText(String.valueOf(multipliers.getFloat("damageMultiplier")));
+
+            }
+
+        }
+
+
     }
 
     public void setObstacleTable(){

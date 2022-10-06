@@ -370,7 +370,6 @@ public class UpgradeManager {
                         tooltip=null;
                     }
 
-                    base.setInfoToDisplay(4);
                     Label information;
                     information = u.returnInformation(textTooltipStyle.label);
                     tooltip = new TextTooltip("", textTooltipStyle);
@@ -381,9 +380,7 @@ public class UpgradeManager {
 //EO
                 @Override
                 public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    if (!isClicked) {
-                        base.setInfoToDisplay(0);
-                    } else {
+                    if (isClicked) {
                         base.setShouldUpdateInfo(true);
                         isClicked = false;
                     }

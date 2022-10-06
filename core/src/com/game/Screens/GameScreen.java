@@ -630,6 +630,8 @@ public class GameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 
                 base.setState(Base.State.Paused);
+                statsTableManager.setMultipliersPage(0);
+                base.setInfoToDisplay(4);
 
                 Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
                 upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/upgrade_dialog_720.png"))))));
@@ -878,8 +880,11 @@ public class GameScreen implements Screen {
         table_info = statsTableManager.getInfoTable();
         if (base.getState() == Base.State.Running || base.getState() == Base.State.Resumed)
             stage.addActor(table_info);
-        else if (base.getState() == Base.State.Paused)
+        else if (base.getState() == Base.State.Paused) {
             pauseStage.addActor(table_info);
+            table_info.toFront();
+            table_info.debug();
+        }
     }
 
     @Override
