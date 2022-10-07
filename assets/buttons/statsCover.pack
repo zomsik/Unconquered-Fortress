@@ -24,3 +24,10 @@ middleStatsCover
   orig: 14, 24
   offset: 0, 0
   index: -1
+emptyStatsCover
+  rotate: false
+  xy: 200, 0
+  size: 92, 24
+  orig: 92, 24
+  offset: 0, 0
+  index: -1

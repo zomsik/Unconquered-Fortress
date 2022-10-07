@@ -32,7 +32,7 @@ public class StatsTableManager {
     private TextField upgradePriceTextField, upgradePriceTextValue,upgradeTitleTextField, upgradeTitleTextValue, upgradeLvlTextField, upgradeLvlTextValue, upgradeDmgTextField, upgradeDmgTextValue, upgradeRangeTextField, upgradeRangeTextValue, upgradeReloadTextField, upgradeReloadTextValue, upgradeSplashTextField, upgradeSplashTextValue;
     private TextField multipliersTableTitle, multipliersTableTextField0, multipliersTableTextFieldValue0, multipliersTableTextField1, multipliersTableTextFieldValue1, multipliersTableTextField2, multipliersTableTextFieldValue2, multipliersTableTextField3, multipliersTableTextFieldValue3, multipliersTableTextField4, multipliersTableTextFieldValue4;
     private TextField obstacleUses, obstacleUsesValue;
-    private TextField.TextFieldStyle statsTextFieldStyle, rightStatsTextFieldStyle, leftStatsTextFieldStyle;
+    private TextField.TextFieldStyle statsTextFieldStyle, rightStatsTextFieldStyle, leftStatsTextFieldStyle, emptyStatsTextFieldStyle;
     private Skin images, images_stats, images_buttons;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
@@ -82,11 +82,13 @@ public class StatsTableManager {
         statsTextFieldStyle = new TextField.TextFieldStyle();
         leftStatsTextFieldStyle = new TextField.TextFieldStyle();
         rightStatsTextFieldStyle = new TextField.TextFieldStyle();
+        emptyStatsTextFieldStyle = new TextField.TextFieldStyle();
 
 
         textFieldStyleManager.setTextFieldStyle(statsTextFieldStyle, images, font, "textBar", Color.WHITE);
         textFieldStyleManager.setTextFieldStyle(rightStatsTextFieldStyle, images_stats, font, "rightStatsCover", Color.WHITE);
         textFieldStyleManager.setTextFieldStyle(leftStatsTextFieldStyle, images_stats, font, "leftStatsCover", Color.WHITE);
+        textFieldStyleManager.setTextFieldStyle(emptyStatsTextFieldStyle, images_stats, font, "emptyStatsCover", Color.WHITE);
 
 
         //Stats Table
@@ -269,7 +271,7 @@ public class StatsTableManager {
 
 
         // Multipliers Table
-        multipliersTableTitle = new TextField(null, textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        multipliersTableTitle = new TextField(null, textFieldStyleManager.returnTextFieldStyle(emptyStatsTextFieldStyle));
         multipliersTableTextField0 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         multipliersTableTextFieldValue0 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
         multipliersTableTextField1 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));

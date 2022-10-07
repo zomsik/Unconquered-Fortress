@@ -85,7 +85,7 @@ public class UpgradeManager {
 
 
 
-        table_upgrade.setBounds(0,0, Gdx.graphics.getWidth()/10*8,Gdx.graphics.getHeight()/10*8);
+        table_upgrade.setBounds(0,0, Gdx.graphics.getWidth()/10*7,Gdx.graphics.getHeight()/10*8);
 
         table_upgrade.add(uFork.getImage());
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
