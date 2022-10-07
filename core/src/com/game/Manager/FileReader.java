@@ -23,6 +23,7 @@ public class FileReader {
 
     private String resolutionValue;
     private int volumeValue;
+    private int volumeEffectsValue;
     private String languageValue;
 
     private int seed;
@@ -34,6 +35,15 @@ public class FileReader {
     public FileReader(){
 
     }
+
+    public int getVolumeEffectsValue() {
+        return volumeEffectsValue;
+    }
+
+    public void setVolumeEffectsValue(int volumeEffectsValue) {
+        this.volumeEffectsValue = volumeEffectsValue;
+    }
+
     public String getTokenValue() {return tokenValue;}
 
     public String getResolutionValue() {return resolutionValue;}
@@ -106,11 +116,12 @@ public class FileReader {
 
         resolutionValue = base.getString("resolution");
         volumeValue = base.getInt("volume");
+        volumeEffectsValue = base.getInt("volumeEffects");
         languageValue = (base.getString("language"));
 
     }
 
-    public void setSettings(String resolution, float volume, String language){
+    public void setSettings(String resolution, float volume,float volume2, String language){
         String jsonPath = "save/settings.json";
         User_settings user_settings = new User_settings();
         FileHandle file = Gdx.files.local(jsonPath);
@@ -121,6 +132,7 @@ public class FileReader {
         json.setOutputType(JsonWriter.OutputType.json);
         user_settings.resolution = resolution;
         user_settings.volume = volume;
+        user_settings.volumeEffects = volume2;
         user_settings.language = language;
         String txt = json.toJson(user_settings);
         file.writeString(json.prettyPrint(txt), false);

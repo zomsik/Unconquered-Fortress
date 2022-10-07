@@ -36,8 +36,8 @@ public class SettingsScreen implements Screen {
     private TextureAtlas taButtonsSettings, taButtonsDefault;
     private Skin images, images_default;
     private TextButton bLeftResolution, bRightResolution, bBack, bSave, bLeftLanguage, bRightLanguage, bBackDialog;
-    private Table table_resolution, table_default, table_volume, table_language;
-    private TextField tResolutionField, tResolutionFieldText, tVolumeFieldText, tLanguageFieldText, tLanguageField;
+    private Table table_resolution, table_default, table_volume, table_volume2, table_language;
+    private TextField tResolutionField, tResolutionFieldText, tVolumeFieldText, tVolumeEffectsFieldText, tLanguageFieldText, tLanguageField;
     private ArrayList<String> resolutions;
     private ArrayList<String> languages;
     private FreeTypeFontGenerator generator;
@@ -45,7 +45,7 @@ public class SettingsScreen implements Screen {
     private TextButton.TextButtonStyle textButtonStyle_bLeft, textButtonStyle_bRight, textButtonStyle_bBack, textButtonStyle_bSave;
     private TextField.TextFieldStyle textFieldStyle;
     private Music backgroundMusic;
-    private Slider volumeSlider;
+    private Slider volumeSlider, volumeSlider2;
     private Slider.SliderStyle sliderStyle;
     private Resolutions resolutionsClass;
     private ButtonStyleManager buttonStyleManager;
@@ -83,12 +83,17 @@ public class SettingsScreen implements Screen {
         //dialog_field = new TextField(languageManager.getValue(languageManager.getLanguage(), "dialog_field_text"),textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
 
         tVolumeFieldText = new TextField(languageManager.getValue(languageManager.getLanguage(), "volume_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tVolumeEffectsFieldText = new TextField(languageManager.getValue(languageManager.getLanguage(), "volumeEffects_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         sliderStyle.disabledBackground = images.getDrawable("slider_background");
         sliderStyle.disabledKnob = images.getDrawable("slider_knob");
         sliderStyle.background = images.getDrawable("slider_background");
         sliderStyle.knob = images.getDrawable("slider_knob");
         volumeSlider = new Slider(0,100,1,false, sliderStyle);
         volumeSlider.setValue(fileReader.getVolumeValue());
+
+        volumeSlider2 = new Slider(0,100,1,false, sliderStyle);
+        volumeSlider2.setValue(fileReader.getVolumeEffectsValue());
+
         tLanguageFieldText = new TextField(languageManager.getValue(languageManager.getLanguage(), "language_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         bLeftLanguage = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLeft));
         bRightLanguage = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bRight));
@@ -101,7 +106,9 @@ public class SettingsScreen implements Screen {
         table_resolution.setBounds(Gdx.graphics.getWidth()/10*3,Gdx.graphics.getHeight()/10*8, Gdx.graphics.getWidth()/10*4,32);
         table_default.setBounds(Gdx.graphics.getWidth()/10*3, Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*4,50);
         table_volume.setBounds(Gdx.graphics.getWidth()/10*3, Gdx.graphics.getHeight()/10*7, Gdx.graphics.getWidth()/10*4, 32);
-        table_language.setBounds(Gdx.graphics.getWidth()/10*3,Gdx.graphics.getHeight()/10*6, Gdx.graphics.getWidth()/10*4,32);
+        table_volume2.setBounds(Gdx.graphics.getWidth()/10*3, Gdx.graphics.getHeight()/10*6, Gdx.graphics.getWidth()/10*4, 32);
+        table_language.setBounds(Gdx.graphics.getWidth()/10*3,Gdx.graphics.getHeight()/10*5, Gdx.graphics.getWidth()/10*4,32);
+
         bRightResolution.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -275,7 +282,7 @@ public class SettingsScreen implements Screen {
                 }else if (tResolutionField.getText().equals("1600 X 900 Windowed")) {
                     Gdx.graphics.setWindowedMode(1600,900);
                 }
-                fileReader.setSettings(tResolutionField.getText(), volumeSlider.getValue(), tLanguageField.getText());
+                fileReader.setSettings(tResolutionField.getText(), volumeSlider.getValue(), volumeSlider2.getValue(),tLanguageField.getText());
                 switch(GameState.getPreviousGameState()){
                     case MENU:{
                         game.setScreen(new MenuScreen(game));
@@ -321,6 +328,7 @@ public class SettingsScreen implements Screen {
         //to po lewo
         tResolutionFieldText.setAlignment(Align.center);
         tVolumeFieldText.setAlignment(Align.center);
+        tVolumeEffectsFieldText.setAlignment(Align.center);
         tLanguageFieldText.setAlignment(Align.center);
         //to po prawo
         tResolutionField.setAlignment(Align.center);
@@ -334,6 +342,8 @@ public class SettingsScreen implements Screen {
         table_volume.add(tVolumeFieldText).padRight(100).width(320);
         table_volume.add(volumeSlider).width(384).height(32);
 
+        table_volume2.add(tVolumeEffectsFieldText).padRight(100).width(320);
+        table_volume2.add(volumeSlider2).width(384).height(32);
 
         tLanguageField.setAlignment(Align.center);
         table_language.add(tLanguageFieldText).padRight(100).width(320);
@@ -345,6 +355,7 @@ public class SettingsScreen implements Screen {
         stage.addActor(table_resolution);
         stage.addActor(table_default);
         stage.addActor(table_volume);
+        stage.addActor(table_volume2);
         stage.addActor(table_language);
     }
 
@@ -359,15 +370,18 @@ public class SettingsScreen implements Screen {
             //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             table_language.setVisible(false);
             table_volume.setVisible(false);
+            table_volume2.setVisible(false);
             table_resolution.setVisible(false);
         }else{
             game.batch.draw(background, 0,0);
             table_language.setVisible(true);
             table_volume.setVisible(true);
+            table_volume2.setVisible(true);
             table_resolution.setVisible(true);
         }
         game.batch.end();
         tVolumeFieldText.setText(languageManager.getValue(languageManager.getLanguage(), "volume_field_text") + Math.round(volumeSlider.getValue()));
+        tVolumeEffectsFieldText.setText(languageManager.getValue(languageManager.getLanguage(), "volumeEffects_field_text") + Math.round(volumeSlider2.getValue()));
         stage.act(delta);
         stage.draw();
     }
@@ -420,6 +434,7 @@ public class SettingsScreen implements Screen {
         table_default = new Table(images_default);
         table_volume = new Table(images);
         table_language = new Table(images);
+        table_volume2 = new Table(images);
         textButtonStyle_bLeft = new TextButton.TextButtonStyle();
         textButtonStyle_bRight = new TextButton.TextButtonStyle();
         textButtonStyle_bBack = new TextButton.TextButtonStyle();

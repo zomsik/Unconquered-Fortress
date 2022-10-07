@@ -56,7 +56,7 @@ public class ProfileCloudScreen implements Screen {
     private String chosenDifficulty = null;
     private int chosenProfile;
     private int saveToDelete;
-
+    private ProfileManager profileManager;
 
     public ProfileCloudScreen(Main game, JSONObject loadResponse){
         this.game = game;
@@ -68,6 +68,9 @@ public class ProfileCloudScreen implements Screen {
         }else{
             languageManager = new LanguageManager("English");
         }
+
+        profileManager = new ProfileManager();
+
 
         this.loadResponse = loadResponse;
 
@@ -134,7 +137,7 @@ public class ProfileCloudScreen implements Screen {
                 if( save.getInt("profileNumber")==1)
                 {
                     save1 = save;
-                    table_profile_01 = ProfileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*2, "assets/icons/cloud.png");
+                    table_profile_01 = profileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*2, "assets/icons/cloud.png");
                     table_profile_01.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
@@ -144,7 +147,7 @@ public class ProfileCloudScreen implements Screen {
                         }
                     });
 
-                    delete1 = ProfileManager.getDeleteTable((int) table_profile_01.getX(), (int) (table_profile_01.getY()+table_profile_01.getHeight())-32, (int) table_profile_01.getChild(0).getWidth(), (int) table_profile_01.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0));
+                    delete1 = profileManager.getDeleteTable((int) table_profile_01.getX(), (int) (table_profile_01.getY()+table_profile_01.getHeight())-32, (int) table_profile_01.getChild(0).getWidth(), (int) table_profile_01.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0));
                     delete1.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
@@ -154,7 +157,7 @@ public class ProfileCloudScreen implements Screen {
                         }
                     });
 
-                    migrationSave1 = ProfileManager.getMigrationSaveTable((int) table_profile_01.getX(), (int) (table_profile_01.getY() + table_profile_01.getHeight()) - 64, (int) table_profile_01.getChild(0).getWidth(), (int) table_profile_01.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), false);
+                    migrationSave1 = profileManager.getMigrationSaveTable((int) table_profile_01.getX(), (int) (table_profile_01.getY() + table_profile_01.getHeight()) - 64, (int) table_profile_01.getChild(0).getWidth(), (int) table_profile_01.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), false);
                     migrationSave1.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
@@ -170,7 +173,7 @@ public class ProfileCloudScreen implements Screen {
                 else if( save.getInt("profileNumber")==2)
                 {
                     save2 = save;
-                    table_profile_02 = ProfileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*4,"assets/icons/cloud.png");
+                    table_profile_02 = profileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*4,"assets/icons/cloud.png");
                     table_profile_02.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
@@ -179,7 +182,7 @@ public class ProfileCloudScreen implements Screen {
                         }
                     });
 
-                    delete2 = ProfileManager.getDeleteTable((int) table_profile_02.getX(), (int) (table_profile_02.getY()+table_profile_02.getHeight())-32, (int) table_profile_02.getChild(0).getWidth(), (int) table_profile_02.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0));
+                    delete2 = profileManager.getDeleteTable((int) table_profile_02.getX(), (int) (table_profile_02.getY()+table_profile_02.getHeight())-32, (int) table_profile_02.getChild(0).getWidth(), (int) table_profile_02.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0));
                     delete2.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
@@ -189,7 +192,7 @@ public class ProfileCloudScreen implements Screen {
                         }
                     });
 
-                    migrationSave2 = ProfileManager.getMigrationSaveTable((int) table_profile_02.getX(), (int) (table_profile_02.getY() + table_profile_02.getHeight()) - 64, (int) table_profile_02.getChild(0).getWidth(), (int) table_profile_02.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), false);
+                    migrationSave2 = profileManager.getMigrationSaveTable((int) table_profile_02.getX(), (int) (table_profile_02.getY() + table_profile_02.getHeight()) - 64, (int) table_profile_02.getChild(0).getWidth(), (int) table_profile_02.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), false);
                     migrationSave2.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
@@ -204,7 +207,7 @@ public class ProfileCloudScreen implements Screen {
                 else if( save.getInt("profileNumber")==3)
                 {
                     save3 = save;
-                    table_profile_03 = ProfileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*6, "assets/icons/cloud.png");
+                    table_profile_03 = profileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*6, "assets/icons/cloud.png");
                     table_profile_03.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
@@ -213,7 +216,7 @@ public class ProfileCloudScreen implements Screen {
                         }
                     });
 
-                    delete3 = ProfileManager.getDeleteTable((int) table_profile_03.getX(), (int) (table_profile_03.getY()+table_profile_03.getHeight())-32, (int) table_profile_03.getChild(0).getWidth(), (int) table_profile_03.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0));
+                    delete3 = profileManager.getDeleteTable((int) table_profile_03.getX(), (int) (table_profile_03.getY()+table_profile_03.getHeight())-32, (int) table_profile_03.getChild(0).getWidth(), (int) table_profile_03.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0));
                     delete3.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
@@ -223,7 +226,7 @@ public class ProfileCloudScreen implements Screen {
                         }
                     });
 
-                    migrationSave3 = ProfileManager.getMigrationSaveTable((int) table_profile_03.getX(), (int) (table_profile_03.getY() + table_profile_03.getHeight()) - 64, (int) table_profile_03.getChild(0).getWidth(), (int) table_profile_03.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), false);
+                    migrationSave3 = profileManager.getMigrationSaveTable((int) table_profile_03.getX(), (int) (table_profile_03.getY() + table_profile_03.getHeight()) - 64, (int) table_profile_03.getChild(0).getWidth(), (int) table_profile_03.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), false);
                     migrationSave3.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
@@ -246,7 +249,7 @@ public class ProfileCloudScreen implements Screen {
 
         //no saves -> make +
         if (table_profile_01.getChildren().size==0) {
-            table_profile_01 = ProfileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*2);
+            table_profile_01 = profileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*2);
             table_profile_01.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -256,7 +259,7 @@ public class ProfileCloudScreen implements Screen {
             });
         }
         if (table_profile_02.getChildren().size==0) {
-            table_profile_02 = ProfileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*4);
+            table_profile_02 = profileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*4);
             table_profile_02.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -266,7 +269,7 @@ public class ProfileCloudScreen implements Screen {
             });
         }
         if (table_profile_03.getChildren().size==0) {
-            table_profile_03 = ProfileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*6);
+            table_profile_03 = profileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*6);
             table_profile_03.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -434,7 +437,7 @@ public class ProfileCloudScreen implements Screen {
                     System.out.println("Stworzono gre na profilu " + chosenProfile + "o poziomie trudnosci " + chosenDifficulty);
                     GameState.setGameState(GameState.PLAYING);
                     ///in cloud put profileNumber
-                    game.setScreen(new GameScreen(game,ProfileManager.createEmptySave(chosenDifficulty, chosenProfile, tDialogSeedValue.getText()), false));
+                    game.setScreen(new GameScreen(game,profileManager.createEmptySave(chosenDifficulty, chosenProfile, tDialogSeedValue.getText()), false));
                 }
             }
         });

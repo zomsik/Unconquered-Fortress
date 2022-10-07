@@ -64,6 +64,7 @@ public class ProfileLocalScreen implements Screen {
 
     private boolean isDialog = false;//<- to delete or leave
     private int saveToDelete;
+    private ProfileManager profileManager;
 
     public ProfileLocalScreen(Main game){
         this.game = game;
@@ -74,6 +75,9 @@ public class ProfileLocalScreen implements Screen {
         }else{
             languageManager = new LanguageManager("English");
         }
+
+        profileManager = new ProfileManager();
+
         initProfileLocalUI();
         profiles = new ArrayList<>();
         buttonStyleManager = new ButtonStyleManager();
@@ -220,7 +224,7 @@ public class ProfileLocalScreen implements Screen {
                     System.out.println("Stworzono gre na profilu " + chosenProfile + "o poziomie trudnosci " + chosenDifficulty);
                     GameState.setGameState(GameState.PLAYING);
                     ///in cloud put profileNumber
-                    game.setScreen(new GameScreen(game, ProfileManager.createEmptySave(chosenDifficulty, chosenProfile, tDialogSeedValue.getText()), true));
+                    game.setScreen(new GameScreen(game, profileManager.createEmptySave(chosenDifficulty, chosenProfile, tDialogSeedValue.getText()), true));
                 }
             }
         });
@@ -251,8 +255,8 @@ public class ProfileLocalScreen implements Screen {
         if(fileReader.fileExists("save/save01l.json")){
             save1 = fileReader.downloadSaveAsJSONObject("save/save01l.json");
             save1.put("profileNumber",1);
-            table_profile_01 = ProfileManager.createProfileTable(save1, font_profile, languageManager, Gdx.graphics.getWidth()/10*2, "assets/icons/local.png");
-            delete1 = ProfileManager.getDeleteTable((int) table_profile_01.getX(), (int) (table_profile_01.getY()+table_profile_01.getHeight())-32, (int) table_profile_01.getChild(0).getWidth(), (int) table_profile_01.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0));
+            table_profile_01 = profileManager.createProfileTable(save1, font_profile, languageManager, Gdx.graphics.getWidth()/10*2, "assets/icons/local.png");
+            delete1 = profileManager.getDeleteTable((int) table_profile_01.getX(), (int) (table_profile_01.getY()+table_profile_01.getHeight())-32, (int) table_profile_01.getChild(0).getWidth(), (int) table_profile_01.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0));
             delete1.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -261,7 +265,7 @@ public class ProfileLocalScreen implements Screen {
                 }
             });
 
-            migrationSave1 = ProfileManager.getMigrationSaveTable((int) table_profile_01.getX(), (int) (table_profile_01.getY() + table_profile_01.getHeight()) - 64, (int) table_profile_01.getChild(0).getWidth(), (int) table_profile_01.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), true);
+            migrationSave1 = profileManager.getMigrationSaveTable((int) table_profile_01.getX(), (int) (table_profile_01.getY() + table_profile_01.getHeight()) - 64, (int) table_profile_01.getChild(0).getWidth(), (int) table_profile_01.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), true);
             migrationSave1.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -280,7 +284,7 @@ public class ProfileLocalScreen implements Screen {
                 }
             });
         }else{
-            table_profile_01 = ProfileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*2);
+            table_profile_01 = profileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*2);
             table_profile_01.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -293,8 +297,8 @@ public class ProfileLocalScreen implements Screen {
         if(fileReader.fileExists("save/save02l.json")){
             save2 = fileReader.downloadSaveAsJSONObject("save/save02l.json");
             save2.put("profileNumber",2);
-            table_profile_02 = ProfileManager.createProfileTable(save2, font_profile, languageManager, Gdx.graphics.getWidth()/10*4, "assets/icons/local.png");
-            delete2 = ProfileManager.getDeleteTable((int) table_profile_02.getX(), (int) (table_profile_02.getY()+table_profile_02.getHeight())-32, (int) table_profile_02.getChild(0).getWidth(), (int) table_profile_02.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0));
+            table_profile_02 = profileManager.createProfileTable(save2, font_profile, languageManager, Gdx.graphics.getWidth()/10*4, "assets/icons/local.png");
+            delete2 = profileManager.getDeleteTable((int) table_profile_02.getX(), (int) (table_profile_02.getY()+table_profile_02.getHeight())-32, (int) table_profile_02.getChild(0).getWidth(), (int) table_profile_02.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0));
 
             delete2.addListener(new ClickListener(){
                 @Override
@@ -304,7 +308,7 @@ public class ProfileLocalScreen implements Screen {
                 }
             });
 
-            migrationSave2 = ProfileManager.getMigrationSaveTable((int) table_profile_02.getX(), (int) (table_profile_02.getY() + table_profile_02.getHeight()) - 64, (int) table_profile_02.getChild(0).getWidth(), (int) table_profile_02.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), true);
+            migrationSave2 = profileManager.getMigrationSaveTable((int) table_profile_02.getX(), (int) (table_profile_02.getY() + table_profile_02.getHeight()) - 64, (int) table_profile_02.getChild(0).getWidth(), (int) table_profile_02.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), true);
             migrationSave2.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -321,7 +325,7 @@ public class ProfileLocalScreen implements Screen {
                 }
             });
         }else{
-            table_profile_02 = ProfileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*4);
+            table_profile_02 = profileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*4);
             table_profile_02.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -334,8 +338,8 @@ public class ProfileLocalScreen implements Screen {
         if(fileReader.fileExists("save/save03l.json")){
             save3 = fileReader.downloadSaveAsJSONObject("save/save03l.json");
             save3.put("profileNumber",3);
-            table_profile_03 = ProfileManager.createProfileTable(save3, font_profile, languageManager, Gdx.graphics.getWidth()/10*6, "assets/icons/local.png");
-            delete3 = ProfileManager.getDeleteTable((int) table_profile_03.getX(), (int) (table_profile_03.getY()+table_profile_03.getHeight())-32, (int) table_profile_03.getChild(0).getWidth(), (int) table_profile_03.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0));
+            table_profile_03 = profileManager.createProfileTable(save3, font_profile, languageManager, Gdx.graphics.getWidth()/10*6, "assets/icons/local.png");
+            delete3 = profileManager.getDeleteTable((int) table_profile_03.getX(), (int) (table_profile_03.getY()+table_profile_03.getHeight())-32, (int) table_profile_03.getChild(0).getWidth(), (int) table_profile_03.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0));
             delete3.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -345,7 +349,7 @@ public class ProfileLocalScreen implements Screen {
                 }
             });
 
-            migrationSave3 = ProfileManager.getMigrationSaveTable((int) table_profile_03.getX(), (int) (table_profile_03.getY() + table_profile_03.getHeight()) - 64, (int) table_profile_03.getChild(0).getWidth(), (int) table_profile_03.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), true);
+            migrationSave3 = profileManager.getMigrationSaveTable((int) table_profile_03.getX(), (int) (table_profile_03.getY() + table_profile_03.getHeight()) - 64, (int) table_profile_03.getChild(0).getWidth(), (int) table_profile_03.getChild(0).getHeight(), (float) (Gdx.graphics.getWidth() / 1280.0), true);
             migrationSave3.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -361,7 +365,7 @@ public class ProfileLocalScreen implements Screen {
                 }
             });
         }else{
-            table_profile_03 = ProfileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*6);
+            table_profile_03 = profileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*6);
             table_profile_03.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {

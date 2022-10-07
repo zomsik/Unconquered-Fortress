@@ -91,7 +91,7 @@ public class GameScreen implements Screen {
     private Dialog eventDialog, infoDialog, upgradeDialog, tipsDialog;
     private TextButton bBackEventDialog, bBackInfoDialog;
 
-    private TextButton bGameOverExit, bGameOverReplay;
+    private TextButton bGameOverExit, bGameOverReplay, bGameOverSaveExit, bGameOverNewMap;
 
     private TipsManager tipsManager;
 
@@ -106,12 +106,13 @@ public class GameScreen implements Screen {
     private JSONObject turretLevels;
 
     private Music cleanSound, sellSound, buySound;
+    private ProfileManager profileManager;
 
     public GameScreen (Main game, JSONObject save, boolean isLocal){
         this.game = game;
         this.isLocal = isLocal;
         scale = (float) (Gdx.graphics.getWidth() / 1280.0);
-
+        profileManager = new ProfileManager();
         System.out.println("Skala: " + scale);
         lastClickedMapTile = new LastClickedTile();
         lastClickedOperationTile = new LastClickedTile();
@@ -195,8 +196,10 @@ public class GameScreen implements Screen {
         operationsSelectedArr = GameFunctions.getOperationsSelectedArr();
         table_operationsSelected = GameFunctions.getOperationsTable(operationsSelectedArr, scale, bUpgrade);
 
-        bGameOverExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bGameOverNewMap = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bNewMap"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bGameOverReplay = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bReplay"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bGameOverSaveExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSaveAndExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bGameOverExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
 
         //buildingsArr = GameFunctions.getEmptyBuildingsArr();
         //table_buildings = GameFunctions.getBuildingsTable(buildingsArr, scale);
@@ -710,20 +713,40 @@ public class GameScreen implements Screen {
                 game.setScreen(new MenuScreen(game));
             }
         });
-        bGameOverExit.addListener(new ClickListener() {
+
+
+
+        bGameOverNewMap.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("kliklem");
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new GameScreen(game, profileManager.getNewSave(actualGame,base), isLocal));
             }
         });
+
         bGameOverReplay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
-                game.setScreen(new GameScreen(game, ProfileManager.getReplaySave(actualGame,base), isLocal));
+                game.setScreen(new GameScreen(game, profileManager.getReplaySave(actualGame,base), isLocal));
             }
         });
+
+        bGameOverSaveExit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                saveGame();
+                game.setScreen(new MenuScreen(game));
+            }
+        });
+
+        bGameOverExit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new MenuScreen(game));
+            }
+        });
+
+
+
 
         bBackEventDialog.addListener(new ClickListener() {
             @Override
@@ -760,7 +783,11 @@ public class GameScreen implements Screen {
         table_dialogGameOver.row().padTop(32);
         table_dialogGameOver.add(GameOverTitle).width(table_dialogGameOver.getWidth()/20*16).padRight(table_dialogGameOver.getWidth()/10);
         table_dialogGameOver.row().padTop(32);
+        table_dialogGameOver.add(bGameOverNewMap).width(table_dialogGameOver.getWidth()/20*16).padRight(table_dialogGameOver.getWidth()/10);
+        table_dialogGameOver.row().padTop(32);
         table_dialogGameOver.add(bGameOverReplay).width(table_dialogGameOver.getWidth()/20*16).padRight(table_dialogGameOver.getWidth()/10);
+        table_dialogGameOver.row().padTop(32);
+        table_dialogGameOver.add(bGameOverSaveExit).width(table_dialogGameOver.getWidth()/20*16).padRight(table_dialogGameOver.getWidth()/10);
         table_dialogGameOver.row().padTop(32);
         table_dialogGameOver.add(bGameOverExit).width(table_dialogGameOver.getWidth()/20*16).padRight(table_dialogGameOver.getWidth()/10);
         gameOverDialog.add(table_dialogGameOver).padBottom(180);
@@ -1102,13 +1129,13 @@ public class GameScreen implements Screen {
 
         backgroundMusic = game.getMusic();
         cleanSound = game.getCleanSound();
-        cleanSound.setVolume(fileReader.getVolumeValue()/100);
+        cleanSound.setVolume(fileReader.getVolumeEffectsValue()/100f);
         cleanSound.setLooping(false);
         sellSound = game.getSellSound();
-        sellSound.setVolume(fileReader.getVolumeValue()/100);
+        sellSound.setVolume(fileReader.getVolumeEffectsValue()/100f);
         sellSound.setLooping(false);
         buySound = game.getBuySound();
-        buySound.setVolume(fileReader.getVolumeValue()/100);
+        buySound.setVolume(fileReader.getVolumeEffectsValue()/100f);
         buySound.setLooping(false);
 
     }

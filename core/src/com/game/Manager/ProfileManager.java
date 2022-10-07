@@ -19,7 +19,11 @@ import java.util.Random;
 
 public class ProfileManager {
 
-    public static Table createProfileTable(JSONObject save, BitmapFont font, LanguageManager languageManager, int x, String icon){
+    public ProfileManager(){
+
+    }
+
+    public Table createProfileTable(JSONObject save, BitmapFont font, LanguageManager languageManager, int x, String icon){
         Table t = new Table();
         t.setBounds(x, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
         t.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/profile_banner.png")))));
@@ -28,15 +32,15 @@ public class ProfileManager {
         TextFieldStyleManager tSM = new TextFieldStyleManager();
         tSM.setTextFieldStyle(tFS, new Skin(new TextureAtlas("assets/buttons/buttons_settings.pack")), font, "empty_background", Color.WHITE);
 
-        TextField tDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "difficulty_field") + languageManager.getValue(languageManager.getLanguage(), save.getString("difficulty")), tSM.returnTextFieldStyle(tFS));
+        TextField tDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "difficulty_field") +": "+ languageManager.getValue(languageManager.getLanguage(), save.getString("difficulty")), tSM.returnTextFieldStyle(tFS));
         tDifficulty.setAlignment(Align.left);
-        TextField tFinishedMaps = new TextField(languageManager.getValue(languageManager.getLanguage(), "finishedmaps_field") + save.getInt("finishedMaps"), tSM.returnTextFieldStyle(tFS));
+        TextField tFinishedMaps = new TextField(languageManager.getValue(languageManager.getLanguage(), "finishedmaps_field") +": "+ save.getInt("finishedMaps"), tSM.returnTextFieldStyle(tFS));
         tFinishedMaps.setAlignment(Align.left);
-        TextField tWave = new TextField(languageManager.getValue(languageManager.getLanguage(), "wave_field") + save.getInt("wave"), tSM.returnTextFieldStyle(tFS));
+        TextField tWave = new TextField(languageManager.getValue(languageManager.getLanguage(), "wave_field") +": "+ save.getInt("wave"), tSM.returnTextFieldStyle(tFS));
         tWave.setAlignment(Align.left);
-        TextField tGold = new TextField(languageManager.getValue(languageManager.getLanguage(), "gold_field") + save.getInt("gold"), tSM.returnTextFieldStyle(tFS));
+        TextField tGold = new TextField(languageManager.getValue(languageManager.getLanguage(), "gold_field") +": "+ save.getInt("gold"), tSM.returnTextFieldStyle(tFS));
         tGold.setAlignment(Align.left);
-        TextField tDiamonds = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") + save.getInt("diamonds"), tSM.returnTextFieldStyle(tFS));
+        TextField tDiamonds = new TextField(languageManager.getValue(languageManager.getLanguage(), "diamonds_field") +": " + save.getInt("diamonds"), tSM.returnTextFieldStyle(tFS));
         tDiamonds.setAlignment(Align.left);
         Image local = new Image(new Texture(new FileHandle(icon)));
         local.setHeight(32);
@@ -55,7 +59,7 @@ public class ProfileManager {
         return t;
     }
 
-    public static Table createEmptyProfileTable(BitmapFont font, int x){
+    public Table createEmptyProfileTable(BitmapFont font, int x){
 
         Table t = new Table();
         t.setBounds(x, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
@@ -70,7 +74,7 @@ public class ProfileManager {
 
         return t;
     }
-    static long stringToSeed(String s) {
+    private long stringToSeed(String s) {
         final ThreadLocal<Random> RANDOM_THREAD_LOCAL = ThreadLocal.withInitial(Random::new);
         Random random = RANDOM_THREAD_LOCAL.get();
         long hash = 0;
@@ -90,7 +94,7 @@ public class ProfileManager {
             return hash;
         }
     }
-    public static JSONObject createEmptySave(String difficulty, int chosenProfile, String seedInput){
+    public JSONObject createEmptySave(String difficulty, int chosenProfile, String seedInput){
 
         //        //wygenerowanie seeda
 
@@ -116,8 +120,24 @@ public class ProfileManager {
 
     }
 
+    public JSONObject getNewSave(JSONObject actualGame, Base base) {
+        Random random = new Random(base.getSeed());
+        actualGame.put("seed",random.nextInt());
+        actualGame.put("finishedMaps",actualGame.getInt("finishedMaps")+1);
+        actualGame.put("diamonds", base.getDiamonds());
+        actualGame.put("wave",0);
+        actualGame.put("maxHealth", base.getMaxHealth());
+        actualGame.put("health",base.getMaxHealth());
+        actualGame.put("gold",200);
+        actualGame.put("terrainModifications", new JSONArray());
+        actualGame.put("buildings", new JSONArray());
+        actualGame.put("roadObstacles", new JSONArray());
 
-    public static JSONObject getReplaySave(JSONObject actualGame, Base base) {
+        return actualGame;
+
+    }
+
+    public JSONObject getReplaySave(JSONObject actualGame, Base base) {
 
 
         actualGame.put("finishedMaps",actualGame.getInt("finishedMaps")+1);
@@ -135,7 +155,7 @@ public class ProfileManager {
 
     }
 
-    public static Table getDeleteTable(int x, int y, int width, int height, float scale) {
+    public Table getDeleteTable(int x, int y, int width, int height, float scale) {
 
         Image bin = new Image(new Texture("assets/icons/delete.png"));
         bin.setWidth(width);
@@ -149,7 +169,7 @@ public class ProfileManager {
         return binTable;
     }
 
-    public static Table getMigrationSaveTable(int x, int y, int width, int height, float scale, boolean upload) {
+    public Table getMigrationSaveTable(int x, int y, int width, int height, float scale, boolean upload) {
         Image icon;
         if (upload)
             icon = new Image(new Texture("assets/icons/upload.png"));
@@ -167,4 +187,6 @@ public class ProfileManager {
         return migrationTable;
 
     }
+
+
 }
