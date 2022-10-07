@@ -633,24 +633,14 @@ public class GameScreen implements Screen {
                 statsTableManager.setMultipliersPage(0);
                 base.setInfoToDisplay(4);
 
-                Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
-/*                Pixmap pm = new Pixmap(new FileHandle("assets/dialog/upgrade_dialog_720.png"));
-                System.out.println("pm: " + pm.getWidth() + " : " + pm.getHeight());
-                Pixmap scaledpm = new Pixmap((int) (1920*scale/1.5f), (int) (1080*scale/1.5f), pm.getFormat());
-                scaledpm.drawPixmap(pm,
-                        0, 0, pm.getWidth(), pm.getHeight(),
-                        0, 0, scaledpm.getWidth(), scaledpm.getHeight()
-                );
-                Texture dialogBg = new Texture(scaledpm);*/
                 upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/upgrade_dialog_720.png"))))));
                 upgradeDialog.setBounds(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/8);
                 upgradeDialog.setScale(scale);
                 upgradeDialog.row();
-                upgradeDialog.text(languageManager.getValue(languageManager.getLanguage(), "upgrade_dialog_field_text"), labelStyle);
 
                 upgradeDialog.add(upgradeManager.returnUpgradeTable()).padLeft(200);
-                upgradeDialog.add(statsTableManager.getButtonUp()).padRight(92).padBottom(610-50*scale/1.5f-24*(scale-1));
-                upgradeDialog.add(statsTableManager.getButtonDown()).padRight(32).padBottom(610-50*scale/1.5f-24*(scale-1));
+                upgradeDialog.add(statsTableManager.getButtonUp()).padRight(92).padBottom(590-50*scale/1.5f-64*(scale-1));
+                upgradeDialog.add(statsTableManager.getButtonDown()).padRight(32).padBottom(590-50*scale/1.5f-64*(scale-1));
 
                 upgradeDialog.show(pauseStage);
                 upgradeDialog.setY(0);

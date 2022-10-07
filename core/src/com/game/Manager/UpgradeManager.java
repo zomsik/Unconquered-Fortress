@@ -48,10 +48,12 @@ public class UpgradeManager {
     private JSONArray unlockedUpgrades;
 
     private float scale;
+    private BitmapFont font;
 
     public UpgradeManager(LanguageManager languageManager, BitmapFont font, Base base, JSONObject upgrades, JSONArray unlockedUpgrades, float scale){
         this.images_upgrades = new Skin(new TextureAtlas("assets/icons/upgrade_icons.pack"));;
         this.languageManager = languageManager;
+        this.font = font;
         this.base = base;
         this.upgrades = upgrades;
         this.unlockedUpgrades = unlockedUpgrades;
@@ -86,7 +88,9 @@ public class UpgradeManager {
 
 
         table_upgrade.setBounds(0,0, Gdx.graphics.getWidth()/10*7,Gdx.graphics.getHeight()/10*8);
-
+        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+        table_upgrade.add(new Label(languageManager.getValue(languageManager.getLanguage(), "upgrade_dialog_field_text"), labelStyle)).colspan(12).padBottom(16);
+        table_upgrade.row();
         table_upgrade.add(uFork.getImage());
         table_upgrade.add(new Image(images_upgrades, "upgradeIcons_connect")).width(32);
         table_upgrade.add(uScythe.getImage());
