@@ -30,10 +30,10 @@ public class StatsTableManager {
     private TextField hpTextField, hpTextValue, goldTextField, goldTextValue, diamondTextField, diamondTextValue, waveTextField, waveTextValue,enemiesTextField, enemiesTextValue, difficultyTextField, difficultyTextValue;
     private TextField operationPriceTextField, operationPriceTextValue, operationTitleTextField, operationTitleTextValue, operationDmgTextField, operationDmgTextValue, operationRangeTextField, operationRangeTextValue, operationReloadTextField, operationReloadTextValue, operationSplashTextField, operationSplashTextValue;
     private TextField upgradePriceTextField, upgradePriceTextValue,upgradeTitleTextField, upgradeTitleTextValue, upgradeLvlTextField, upgradeLvlTextValue, upgradeDmgTextField, upgradeDmgTextValue, upgradeRangeTextField, upgradeRangeTextValue, upgradeReloadTextField, upgradeReloadTextValue, upgradeSplashTextField, upgradeSplashTextValue;
-    private TextField multipliersTableTitle, multipliersTableTextField0, multipliersTableTextFieldValue0, multipliersTableTextField1, multipliersTableTextFieldValue1, multipliersTableTextField2, multipliersTableTextFieldValue2, multipliersTableTextField3, multipliersTableTextFieldValue3, multipliersTableTextField4, multipliersTableTextFieldValue4;
+    private TextField multipliersTableTitle, multipliersTableTextField0, multipliersTableTextFieldValue0, multipliersTableTextField1, multipliersTableTextFieldValue1, multipliersTableTextField2, multipliersTableTextFieldValue2, multipliersTableTextField3, multipliersTableTextFieldValue3, multipliersTableTextField4, multipliersTableTextFieldValue4, multipliersTableTextField5, multipliersTableTextFieldValue5;
     private TextField obstacleUses, obstacleUsesValue;
     private TextField.TextFieldStyle statsTextFieldStyle, rightStatsTextFieldStyle, leftStatsTextFieldStyle, emptyStatsTextFieldStyle;
-    private Skin images, images_stats, images_buttons;
+    private Skin images, images_stats ;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private BitmapFont font;
@@ -44,6 +44,8 @@ public class StatsTableManager {
 
     private Image[] middleStatsCoverArr;
 
+    private  LanguageManager languageManager;
+
 
 
     private int multipliersPage;
@@ -51,7 +53,7 @@ public class StatsTableManager {
     public StatsTableManager(Base base, float scale, LanguageManager languageManager){
         this.base = base;
         this.scale = scale;
-
+        this.languageManager = languageManager;
         this.infoToDisplay = 0;
         this.infoToDisplayObjectNow = null;
         this.infoToDisplayObjectUpgraded = null;
@@ -76,7 +78,6 @@ public class StatsTableManager {
 
         images = new Skin(new TextureAtlas("assets/buttons/buttons_settings.pack"));
         images_stats = new Skin(new TextureAtlas("assets/buttons/statsCover.pack"));
-        images_buttons = new Skin(new TextureAtlas("assets/icons/icons_profile.pack"));
 
         textFieldStyleManager = new TextFieldStyleManager();
         statsTextFieldStyle = new TextField.TextFieldStyle();
@@ -154,17 +155,17 @@ public class StatsTableManager {
 
         //Operation Table
 
-        operationTitleTextField = new TextField("Upgrade: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        operationTitleTextField = new TextField(languageManager.getValue(languageManager.getLanguage(), "tUpgrade"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         operationTitleTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-        operationPriceTextField = new TextField("Price: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        operationPriceTextField = new TextField(languageManager.getValue(languageManager.getLanguage(), "tPrice"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         operationPriceTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-        operationDmgTextField = new TextField("Damage: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        operationDmgTextField = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDamage"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         operationDmgTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-        operationRangeTextField = new TextField("Range: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        operationRangeTextField = new TextField(languageManager.getValue(languageManager.getLanguage(), "tRange"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         operationRangeTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-        operationReloadTextField = new TextField("Reload: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        operationReloadTextField = new TextField(languageManager.getValue(languageManager.getLanguage(), "tReload"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         operationReloadTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-        operationSplashTextField = new TextField("Splash: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        operationSplashTextField = new TextField(languageManager.getValue(languageManager.getLanguage(), "tSplash"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         operationSplashTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
 
         operationTitleTextField.setAlignment(Align.center);
@@ -208,19 +209,19 @@ public class StatsTableManager {
         operationTable.add(operationSplashTextValue).width((200*scale)/2-6*scale).padRight(2*scale);
 
         // Upgrade Table
-        upgradePriceTextField = new TextField("Price: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
-        upgradePriceTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-        upgradeTitleTextField = new TextField("Upgrade: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        upgradeTitleTextField = new TextField(languageManager.getValue(languageManager.getLanguage(), "tUpgrade"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         upgradeTitleTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-        upgradeLvlTextField = new TextField("Lvl: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        upgradePriceTextField = new TextField(languageManager.getValue(languageManager.getLanguage(), "tPrice"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        upgradePriceTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
+        upgradeLvlTextField = new TextField(languageManager.getValue(languageManager.getLanguage(), "tLvl"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         upgradeLvlTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-        upgradeDmgTextField = new TextField("Damage: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        upgradeDmgTextField = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDamage"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         upgradeDmgTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-        upgradeRangeTextField = new TextField("Range: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        upgradeRangeTextField = new TextField(languageManager.getValue(languageManager.getLanguage(), "tRange"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         upgradeRangeTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-        upgradeReloadTextField = new TextField("Reload: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        upgradeReloadTextField = new TextField(languageManager.getValue(languageManager.getLanguage(), "tReload"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         upgradeReloadTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-        upgradeSplashTextField = new TextField("Splash: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        upgradeSplashTextField = new TextField(languageManager.getValue(languageManager.getLanguage(), "tSplash"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         upgradeSplashTextValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
 
         upgradeTitleTextField.setAlignment(Align.center);
@@ -282,7 +283,8 @@ public class StatsTableManager {
         multipliersTableTextFieldValue3 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
         multipliersTableTextField4 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         multipliersTableTextFieldValue4 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
-
+        multipliersTableTextField5 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        multipliersTableTextFieldValue5 = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
 
         multipliersTableTitle.setAlignment(Align.center);
         multipliersTableTextField0.setAlignment(Align.center);
@@ -295,19 +297,21 @@ public class StatsTableManager {
         multipliersTableTextFieldValue3.setAlignment(Align.center);
         multipliersTableTextField4.setAlignment(Align.center);
         multipliersTableTextFieldValue4.setAlignment(Align.center);
+        multipliersTableTextField5.setAlignment(Align.center);
+        multipliersTableTextFieldValue5.setAlignment(Align.center);
 
 
-        middleStatsCoverArr = new Image[5];
-        for (int i=0; i<5; i++)
+        middleStatsCoverArr = new Image[6];
+        for (int i=0; i<6; i++)
             middleStatsCoverArr[i] = new Image(images_stats, "middleStatsCover");
 
-        buttonStyleManager.setTextButtonStyle(textButtonStyle_buttonUp, images_buttons, font, "cloud", "cloud");
-        buttonStyleManager.setTextButtonStyle(textButtonStyle_buttonDown, images_buttons, font, "local", "local");
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_buttonUp, images_stats, font, "buttonUp", "buttonUp");
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_buttonDown, images_stats, font, "buttonDown", "buttonDown");
         buttonUp = new TextButton(null, buttonStyleManager.returnTextButtonStyle(textButtonStyle_buttonUp));
 
         buttonDown = new TextButton(null, buttonStyleManager.returnTextButtonStyle(textButtonStyle_buttonDown));
 
-
+        buttonUp.setVisible(false);
         buttonUp.addListener(new ClickListener(){
 
             @Override
@@ -315,6 +319,7 @@ public class StatsTableManager {
                 if (multipliersPage>0)
                 {
                     multipliersPage--;
+                    setButtonVisibility();
                     base.setShouldUpdateInfo(true);
                 }
             }
@@ -327,6 +332,7 @@ public class StatsTableManager {
                 if (multipliersPage<4)
                 {
                     multipliersPage++;
+                    setButtonVisibility();
                     base.setShouldUpdateInfo(true);
                 }
             }
@@ -360,6 +366,10 @@ public class StatsTableManager {
         multipliersTable.add(middleStatsCoverArr[4]);
         multipliersTable.add(multipliersTableTextFieldValue4).width((200*scale)/2-6*scale).padRight(2*scale);
         multipliersTable.row().padBottom(4*scale);
+        multipliersTable.add(multipliersTableTextField5).width((200*scale)/2-6*scale);
+        multipliersTable.add(middleStatsCoverArr[5]);
+        multipliersTable.add(multipliersTableTextFieldValue5).width((200*scale)/2-6*scale).padRight(2*scale);
+        multipliersTable.row().padBottom(4*scale);
 
 
 
@@ -367,7 +377,7 @@ public class StatsTableManager {
         // Obstacle Table
 
 
-        obstacleUses = new TextField("Uses left: ", textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
+        obstacleUses = new TextField(languageManager.getValue(languageManager.getLanguage(), "tLeft"), textFieldStyleManager.returnTextFieldStyle(leftStatsTextFieldStyle));
         obstacleUsesValue = new TextField(null, textFieldStyleManager.returnTextFieldStyle(rightStatsTextFieldStyle));
 
         obstacleUses.setAlignment(Align.center);
@@ -398,6 +408,20 @@ public class StatsTableManager {
     public TextButton getButtonDown()
     {
         return buttonDown;
+    }
+
+    public void setButtonVisibility(){
+        if(multipliersPage == 0){
+            buttonUp.setVisible(false);
+        }else{
+            buttonUp.setVisible(true);
+        }
+
+        if(multipliersPage == 4){
+            buttonDown.setVisible(false);
+        }else{
+            buttonDown.setVisible(true);
+        }
     }
 
     public void setInfoToDisplay(int infoToDisplay, JSONObject towerNow, JSONObject towerUpgrade, String name) {
@@ -453,23 +477,132 @@ public class StatsTableManager {
         {
             //languageManager.getValue(languageManager.getLanguage(), "")
             case 0 -> {
-                multipliersTableTitle.setText("Upgrady");
-                multipliersTableTextField0.setText("hp:");
+                multipliersTableTitle.setText(languageManager.getValue(languageManager.getLanguage(), "tBase"));
+                multipliersTableTextField0.setText(languageManager.getValue(languageManager.getLanguage(), "hp_field"));
                 multipliersTableTextFieldValue0.setText(String.valueOf(base.getHealth()));
 
-                multipliersTableTextField1.setText("dmg:");
-                multipliersTableTextFieldValue1.setText(String.valueOf(multipliers.getFloat("damageMultiplier")));
+                multipliersTableTextField1.setText(languageManager.getValue(languageManager.getLanguage(), "regeneration"));
+                multipliersTableTextFieldValue1.setText(String.valueOf((int) multipliers.getFloat("healthRegeneration")));
+
+                multipliersTableTextField2.setText(languageManager.getValue(languageManager.getLanguage(), "tReduction"));
+                multipliersTableTextFieldValue2.setText(String.valueOf((int) multipliers.getFloat("damageReduction")));
+
+                multipliersTableTextField3.setText(languageManager.getValue(languageManager.getLanguage(), "luck"));
+                multipliersTableTextFieldValue3.setText((int) multipliers.getFloat("luckMultiplier") + "%");
+
+                multipliersTableTextField4.setVisible(false);
+                middleStatsCoverArr[4].setVisible(false);
+                multipliersTableTextFieldValue4.setVisible(false);
+
+                multipliersTableTextField5.setVisible(false);
+                middleStatsCoverArr[5].setVisible(false);
+                multipliersTableTextFieldValue5.setVisible(false);
 
             }
 
             case 1 -> {
-                multipliersTableTitle.setText("Obrażenia");
+                multipliersTableTitle.setText(languageManager.getValue(languageManager.getLanguage(), "tDamage"));
 
-                multipliersTableTextField0.setText("diam:");
-                multipliersTableTextFieldValue0.setText(String.valueOf(base.getDiamonds()));
+                multipliersTableTextField0.setText(languageManager.getValue(languageManager.getLanguage(), "tDamage"));
+                multipliersTableTextFieldValue0.setText(String.valueOf(multipliers.getFloat("damageMultiplier")));
 
-                multipliersTableTextField1.setText("dmg:");
-                multipliersTableTextFieldValue1.setText(String.valueOf(multipliers.getFloat("damageMultiplier")));
+                multipliersTableTextField1.setText(languageManager.getValue(languageManager.getLanguage(), "tMeleeMT"));
+                multipliersTableTextFieldValue1.setText(multipliers.getFloat("damageMultipliermeleeTower")*multipliers.getFloat("damageMultiplier") + "(" + multipliers.getFloat("damageMultipliermeleeTower")+ ")");
+
+                multipliersTableTextField2.setText(languageManager.getValue(languageManager.getLanguage(), "tCrossbowMT"));
+                multipliersTableTextFieldValue2.setText(multipliers.getFloat("damageMultipliercrossbowTower")*multipliers.getFloat("damageMultiplier") + "(" + multipliers.getFloat("damageMultipliercrossbowTower")+ ")");
+
+                multipliersTableTextField3.setText(languageManager.getValue(languageManager.getLanguage(), "tMageMT"));
+                multipliersTableTextFieldValue3.setText(multipliers.getFloat("damageMultipliermageTower")*multipliers.getFloat("damageMultiplier") + "(" + multipliers.getFloat("damageMultipliermageTower")+ ")");
+
+                multipliersTableTextField4.setText(languageManager.getValue(languageManager.getLanguage(), "tCannonMT"));
+                multipliersTableTextFieldValue4.setText(multipliers.getFloat("damageMultipliercannonTower")*multipliers.getFloat("damageMultiplier") + "(" + multipliers.getFloat("damageMultipliercannonTower")+ ")");
+
+                multipliersTableTextField5.setText(languageManager.getValue(languageManager.getLanguage(), "tSplash"));
+                multipliersTableTextFieldValue5.setText(String.valueOf(multipliers.getFloat("splashMultiplier")));
+
+                multipliersTableTextField4.setVisible(true);
+                middleStatsCoverArr[4].setVisible(true);
+                multipliersTableTextFieldValue4.setVisible(true);
+
+                multipliersTableTextField5.setVisible(true);
+                middleStatsCoverArr[5].setVisible(true);
+                multipliersTableTextFieldValue5.setVisible(true);
+            }
+
+            case 2 ->{
+                multipliersTableTitle.setText(languageManager.getValue(languageManager.getLanguage(), "tReload"));
+
+                multipliersTableTextField0.setText(languageManager.getValue(languageManager.getLanguage(), "tMeleeMT"));
+                multipliersTableTextFieldValue0.setText(String.valueOf(2));
+
+                multipliersTableTextField1.setText(languageManager.getValue(languageManager.getLanguage(), "tCrossbowMT"));
+                multipliersTableTextFieldValue1.setText(String.valueOf(multipliers.getFloat("reloadSpeedMultipliercrossbowTower")));
+
+                multipliersTableTextField2.setText(languageManager.getValue(languageManager.getLanguage(), "tMageMT"));
+                multipliersTableTextFieldValue2.setText(String.valueOf(multipliers.getFloat("reloadSpeedMultipliermageTower")));
+
+                multipliersTableTextField3.setText(languageManager.getValue(languageManager.getLanguage(), "tCannonMT"));
+                multipliersTableTextFieldValue3.setText(String.valueOf(multipliers.getFloat("reloadSpeedMultipliercannonTower")));
+
+                multipliersTableTextField4.setVisible(false);
+                middleStatsCoverArr[4].setVisible(false);
+                multipliersTableTextFieldValue4.setVisible(false);
+
+                multipliersTableTextField5.setVisible(false);
+                middleStatsCoverArr[5].setVisible(false);
+                multipliersTableTextFieldValue5.setVisible(false);
+
+            }
+            case 3 ->{
+                multipliersTableTitle.setText(languageManager.getValue(languageManager.getLanguage(), "tRange"));
+
+                multipliersTableTextField0.setText(languageManager.getValue(languageManager.getLanguage(), "tMeleeMT"));
+                multipliersTableTextFieldValue0.setText(String.valueOf(100));
+
+                multipliersTableTextField1.setText(languageManager.getValue(languageManager.getLanguage(), "tCrossbowMT"));
+                multipliersTableTextFieldValue1.setText(String.valueOf(multipliers.getFloat("rangeMultipliercrossbowTower")));
+
+                multipliersTableTextField2.setText(languageManager.getValue(languageManager.getLanguage(), "tMageMT"));
+                multipliersTableTextFieldValue2.setText(String.valueOf(multipliers.getFloat("rangeMultipliermageTower")));
+
+                multipliersTableTextField3.setText(languageManager.getValue(languageManager.getLanguage(), "tCannonMT"));
+                multipliersTableTextFieldValue3.setText(String.valueOf(multipliers.getFloat("rangeMultipliercannonTower")));
+
+                multipliersTableTextField4.setVisible(false);
+                middleStatsCoverArr[4].setVisible(false);
+                multipliersTableTextFieldValue4.setVisible(false);
+
+                multipliersTableTextField5.setVisible(false);
+                middleStatsCoverArr[5].setVisible(false);
+                multipliersTableTextFieldValue5.setVisible(false);
+
+            }
+            case 4 ->{
+                multipliersTableTitle.setText("Ekonomia");
+
+                multipliersTableTextField0.setText("Złoto");
+                multipliersTableTextFieldValue0.setText(String.valueOf(multipliers.getFloat("goldMultiplier")));
+
+                multipliersTableTextField1.setText("Diamenty");
+                multipliersTableTextFieldValue1.setText(String.valueOf(multipliers.getFloat("diamondsMultiplier")));
+
+                multipliersTableTextField2.setText("Zakup");
+                multipliersTableTextFieldValue2.setText(multipliers.getFloat("costMultiplier")+"%");
+
+                multipliersTableTextField3.setText("Ulepszenie");
+                multipliersTableTextFieldValue3.setText(multipliers.getFloat("upgradeCostMultiplier")+"%");
+
+                multipliersTableTextField4.setText("Usuniecie");
+                multipliersTableTextFieldValue4.setText(multipliers.getFloat("cleaningCostMultiplier")+"%");
+
+                multipliersTableTextField4.setVisible(true);
+                middleStatsCoverArr[4].setVisible(true);
+                multipliersTableTextFieldValue4.setVisible(true);
+
+                multipliersTableTextField5.setVisible(false);
+                middleStatsCoverArr[5].setVisible(false);
+                multipliersTableTextFieldValue5.setVisible(false);
 
             }
 
@@ -487,7 +620,7 @@ public class StatsTableManager {
     public void setOperationTable(String name, JSONObject towerNow){
         operationTitleTextValue.setText(name);
         operationPriceTextValue.setText(String.valueOf(Math.round(towerNow.getInt("cost")*base.getMultipliers().getFloat("costMultiplier"))));
-        operationDmgTextValue.setText(String.valueOf((int)towerNow.getFloat("dmg")));
+        operationDmgTextValue.setText(String.valueOf((int)(towerNow.getFloat("dmg")*base.getMultipliers().getFloat("damageMultiplier")*base.getMultipliers().getFloat("damageMultiplier"+name+"Tower"))));
         operationRangeTextValue.setText(String.valueOf((int)(towerNow.getFloat("range")*base.getMultipliers().getFloat("rangeMultiplier"+name+"Tower"))));
         operationReloadTextValue.setText(String.valueOf((int)towerNow.getFloat("reload")));
         operationSplashTextValue.setText(String.valueOf((int)towerNow.getFloat("splash")));
@@ -499,7 +632,7 @@ public class StatsTableManager {
         {
             upgradePriceTextValue.setText(String.valueOf(Math.round(towerUpgraded.getInt("cost")*base.getMultipliers().getFloat("upgradeCostMultiplier"))));
             upgradeLvlTextValue.setText(towerNow.getInt("lvl") + " -> " + towerUpgraded.getInt("lvl"));
-            upgradeDmgTextValue.setText((int)towerNow.getFloat("dmg") + " -> " + (int)towerUpgraded.getFloat("dmg"));
+            upgradeDmgTextValue.setText((int)(towerNow.getFloat("dmg")*base.getMultipliers().getFloat("damageMultiplier")*base.getMultipliers().getFloat("damageMultiplier"+name)) + " -> " + (int)(towerUpgraded.getFloat("dmg")*base.getMultipliers().getFloat("damageMultiplier")*base.getMultipliers().getFloat("damageMultiplier"+name)));
             upgradeRangeTextValue.setText((int)(towerNow.getFloat("range")*base.getMultipliers().getFloat("rangeMultiplier"+name)) + " -> " + (int)(towerUpgraded.getFloat("range")*base.getMultipliers().getFloat("rangeMultiplier"+name)));
             upgradeReloadTextValue.setText((int)towerNow.getFloat("reload") + " -> " + (int)towerUpgraded.getFloat("reload"));
             upgradeSplashTextValue.setText((int)towerNow.getFloat("splash") + " -> " + (int)towerUpgraded.getFloat("splash"));
@@ -508,8 +641,8 @@ public class StatsTableManager {
         else
         {
             upgradePriceTextValue.setText("---");
-            upgradeLvlTextValue.setText("Max");
-            upgradeDmgTextValue.setText(String.valueOf(towerNow.getInt("dmg")));
+            upgradeLvlTextValue.setText(languageManager.getValue(languageManager.getLanguage(), "tMax"));
+            upgradeDmgTextValue.setText(String.valueOf((int)(towerNow.getFloat("dmg")*base.getMultipliers().getFloat("damageMultiplier")*base.getMultipliers().getFloat("damageMultiplier"+name+"Tower"))));
             upgradeRangeTextValue.setText(String.valueOf((int)towerNow.getFloat("range")));
             upgradeReloadTextValue.setText(String.valueOf((int)towerNow.getFloat("reload")));
             upgradeSplashTextValue.setText(String.valueOf((int)towerNow.getFloat("splash")));

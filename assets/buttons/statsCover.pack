@@ -31,3 +31,17 @@ emptyStatsCover
   orig: 92, 24
   offset: 0, 0
   index: -1
+buttonDown
+  rotate: false
+  xy: 0, 32
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+buttonUp
+  rotate: false
+  xy: 32, 32
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1

@@ -202,5 +202,20 @@
   "tLuck": "Luck",
   "tLuckDescription": "Przeszkody generowane są w zależności od poziomu trudności.\nZniszczenie przeszkody odblokowywuje miejsce na mapie, ale wiąże się z ryzykiem wystąpienia wydarzenia.",
   "tEvent": "Events",
-  "tEventDescription": "W grze występują 3 wydarzenia. Gracz może otrzymać złoto lub diamenty lub obrażenia."
+  "tEventDescription": "W grze występują 3 wydarzenia. Gracz może otrzymać złoto lub diamenty lub obrażenia.",
+  "tPrice" : "Price",
+  "tUpgrade": "Upgrade",
+  "tLvl": "Level",
+  "tDamage": "Damage",
+  "tRange": "Range",
+  "tReload": "Reload",
+  "tSplash": "Splash",
+  "tLeft": "Left",
+  "tBase": "Base",
+  "tReduction": "Reduction",
+  "tMeleeMT": "Melee",
+  "tCrossbowMT": "Crossbow",
+  "tCannonMT": "Cannon",
+  "tMageMT": "Mage",
+  "tMax": "Maximum"
 }

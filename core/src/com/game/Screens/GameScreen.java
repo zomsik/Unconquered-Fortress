@@ -639,13 +639,13 @@ public class GameScreen implements Screen {
                 upgradeDialog.row();
 
                 upgradeDialog.add(upgradeManager.returnUpgradeTable()).padLeft(200);
-                upgradeDialog.add(statsTableManager.getButtonUp()).padRight(92).padBottom(590-50*scale/1.5f-64*(scale-1));
-                upgradeDialog.add(statsTableManager.getButtonDown()).padRight(32).padBottom(590-50*scale/1.5f-64*(scale-1));
+                upgradeDialog.add(statsTableManager.getButtonUp()).padRight(92).padBottom(610-50*scale/1.5f-64*(scale-1));
+                upgradeDialog.add(statsTableManager.getButtonDown()).padRight(32).padBottom(610-50*scale/1.5f-64*(scale-1));
 
                 upgradeDialog.show(pauseStage);
                 upgradeDialog.setY(0);
                 upgradeDialog.setX(0);
-                upgradeDialog.debug();
+                //upgradeDialog.debug();
             }
 
 

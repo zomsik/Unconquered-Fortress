@@ -265,7 +265,7 @@ public class UpgradeManager {
 
         uFork.addNextUpgrade(uScythe,1);
         uScythe.addNextUpgrade(uBow,1);
-        uScythe.addNextUpgrade(uDagger,2);
+        uScythe.addNextUpgrade(uDagger,1);
         uDagger.addNextUpgrade(uSword,1);
         uDagger.addNextUpgrade(uSceptre,2);
         uSword.addNextUpgrade(uBattleAxe,1);

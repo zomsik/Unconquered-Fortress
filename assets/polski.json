@@ -201,5 +201,21 @@
   "tLuck": "Szczęście",
   "tLuckDescription": "Zwiększa szansę na wylosowanie pozytywnego wydarzenia, wypadnięcie większej ilości waluty z pokonanego przeciwnika.\nZwiększa szansę na trafienie przeciwnika: Zabójca.",
   "tEvent": "Wydarzenia",
-  "tEventDescription": "Podczas niszczenia przeszkód może nastąpić jedno z trzech wydarzeń.\nMieszek złota - gracz otrzymuje złoto.\nUkryty skarb - gracz otrzymuje diamenty.\nKatastrofa - gracz otrzymuje obrażenia."
+  "tEventDescription": "Podczas niszczenia przeszkód może nastąpić jedno z trzech wydarzeń.\nMieszek złota - gracz otrzymuje złoto.\nUkryty skarb - gracz otrzymuje diamenty.\nKatastrofa - gracz otrzymuje obrażenia.",
+  "tPrice" : "Cena",
+  "tUpgrade": "Ulepszenie",
+  "tLvl": "Poziom",
+  "tDamage": "Obrażenia",
+  "tRange": "Zasięg",
+  "tReload": "Przeładowanie",
+  "tSplash": "Rozbryzg",
+  "tLeft": "Pozostało",
+  "tBase": "Baza",
+  "tReduction": "Redukcja",
+  "tMeleeMT": "Zwarcie",
+  "tCrossbowMT": "Kusza",
+  "tCannonMT": "Działo",
+  "tMageMT": "Magowie",
+  "tMax": "Maksymalny"
+
 }
