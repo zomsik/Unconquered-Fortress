@@ -411,17 +411,9 @@ public class StatsTableManager {
     }
 
     public void setButtonVisibility(){
-        if(multipliersPage == 0){
-            buttonUp.setVisible(false);
-        }else{
-            buttonUp.setVisible(true);
-        }
+        buttonUp.setVisible(multipliersPage != 0);
 
-        if(multipliersPage == 4){
-            buttonDown.setVisible(false);
-        }else{
-            buttonDown.setVisible(true);
-        }
+        buttonDown.setVisible(multipliersPage != 4);
     }
 
     public void setInfoToDisplay(int infoToDisplay, JSONObject towerNow, JSONObject towerUpgrade, String name) {

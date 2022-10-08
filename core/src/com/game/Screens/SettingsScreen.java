@@ -198,7 +198,7 @@ public class SettingsScreen implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y){
-                if(tLanguageField.getText().equals(fileReader.getLanguageValue()) && tResolutionField.getText().equals(fileReader.getResolutionValue()) && Math.round(volumeSlider.getValue()) == fileReader.getVolumeValue()){
+                if(tLanguageField.getText().equals(fileReader.getLanguageValue()) && tResolutionField.getText().equals(fileReader.getResolutionValue()) && Math.round(volumeSlider.getValue()) == fileReader.getVolumeValue() && Math.round(volumeSlider2.getValue()) == fileReader.getVolumeEffectsValue()){
                     game.setScreen(new MenuScreen(game));
                     dispose();
                 }else {
@@ -224,7 +224,7 @@ public class SettingsScreen implements Screen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
-                    if(tLanguageField.getText().equals(fileReader.getLanguageValue()) && tResolutionField.getText().equals(fileReader.getResolutionValue()) && Math.round(volumeSlider.getValue()) == fileReader.getVolumeValue()){
+                    if(tLanguageField.getText().equals(fileReader.getLanguageValue()) && tResolutionField.getText().equals(fileReader.getResolutionValue()) && Math.round(volumeSlider.getValue()) == fileReader.getVolumeValue() && Math.round(volumeSlider2.getValue()) == fileReader.getVolumeEffectsValue()){
                         game.setScreen(new MenuScreen(game));
                         dispose();
                     }else if(!isDialog){
@@ -252,15 +252,8 @@ public class SettingsScreen implements Screen {
         bBackDialog.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                switch(GameState.getGameState()){
-                    case MENU:{
-                        game.setScreen(new MenuScreen(game));
-                        dispose();
-                    }break;
-                    case PLAYING: {
-                        //TODO
-                    }break;
-                }
+                game.setScreen(new MenuScreen(game));
+                dispose();
             }
         });
 
@@ -268,10 +261,6 @@ public class SettingsScreen implements Screen {
         bSave.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                //Problem z ustawieniem właściwego displaymode-a, tablica mode-ów jest zależna od monitora
-                //1920x1080 tylko w fullscreenie, reszta rozdzielczoci windowed
-                //Graphics.DisplayMode[] displayModes = Gdx.graphics.getDisplayModes();
-
                 if(tResolutionField.getText().equals("1920 X 1080 Fullscreen") || tResolutionField.getText().equals("1280 X 720 Fullscreen") || tResolutionField.getText().equals("1600 X 900 Fullscreen"))
                 {
                     Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
@@ -283,15 +272,8 @@ public class SettingsScreen implements Screen {
                     Gdx.graphics.setWindowedMode(1600,900);
                 }
                 fileReader.setSettings(tResolutionField.getText(), volumeSlider.getValue(), volumeSlider2.getValue(),tLanguageField.getText());
-                switch(GameState.getPreviousGameState()){
-                    case MENU:{
-                        game.setScreen(new MenuScreen(game));
-                        dispose();
-                    }break;
-                    case PLAYING: {
-                        //TODO
-                    }break;
-                }
+                game.setScreen(new MenuScreen(game));
+                dispose();
             }
         });
         if(fileReader.getResolutionValue() != null){

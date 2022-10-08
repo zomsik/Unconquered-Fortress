@@ -646,7 +646,7 @@ public class GameScreen implements Screen {
                 upgradeDialog.show(pauseStage);
                 upgradeDialog.setY(0);
                 upgradeDialog.setX(0);
-                //upgradeDialog.debug();
+                upgradeDialog.debug();
             }
 
 
