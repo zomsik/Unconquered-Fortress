@@ -45,7 +45,7 @@ public class GameScreen implements Screen {
     private ArrayList<String> languages;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    private TextButton.TextButtonStyle textButtonStyle_bLeft, textButtonStyle_bRight, textButtonStyle_bBack, textButtonStyle_bSave, textButtonStyle_bPauseMenu, textButtonStyle_bTips;
+    private TextButton.TextButtonStyle textButtonStyle_bLeft, textButtonStyle_bRight, textButtonStyle_bBack, textButtonStyle_bNotAvailable, textButtonStyle_bPauseMenu, textButtonStyle_bTips;
     private TextField.TextFieldStyle textFieldStyle;
     private Music backgroundMusic;
     private Slider volumeSlider;
@@ -176,6 +176,7 @@ public class GameScreen implements Screen {
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bTips, images_tips,font, "button_tips", "button_tips");
+        buttonStyleManager.setTextButtonStyle(textButtonStyle_bNotAvailable, images_default, font, "defaultButtonNotAvailable", "defaultButtonNotAvailable");
         bTips = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bTips));
         bSaveDialog  = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bExitDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
@@ -765,6 +766,7 @@ public class GameScreen implements Screen {
         System.out.println("table_Dialog" + table_dialogPause.getWidth() +":"+table_dialogPause.getHeight());
         table_dialogPause.add(bResume).width(table_dialogPause.getWidth()/20*16).padRight(table_dialogPause.getWidth()/10);
         table_dialogPause.row();
+
         table_dialogPause.add(bSaveDialog).width(table_dialogPause.getWidth()/20*16).padRight(table_dialogPause.getWidth()/10);
         table_dialogPause.row();
         table_dialogPause.add(bSaveAndExitDialog).width(table_dialogPause.getWidth()/20*16).padRight(table_dialogPause.getWidth()/10);
@@ -928,7 +930,17 @@ public class GameScreen implements Screen {
                 base.setShouldUpdateInfo(false);
             updateInfoDisplay();
         }
-
+        if(enemyManager.getEnemiesLeft()!=0){
+            bSaveDialog.setTouchable(Touchable.disabled);
+            bSaveAndExitDialog.setTouchable(Touchable.disabled);
+            bSaveDialog.setStyle(textButtonStyle_bNotAvailable);
+            bSaveAndExitDialog.setStyle(textButtonStyle_bNotAvailable);
+        }else{
+            bSaveDialog.setTouchable(Touchable.enabled);
+            bSaveAndExitDialog.setTouchable(Touchable.enabled);
+            bSaveDialog.setStyle(textButtonStyle_bBack);
+            bSaveAndExitDialog.setStyle(textButtonStyle_bBack);
+        }
 
 
 
@@ -1113,7 +1125,7 @@ public class GameScreen implements Screen {
         textButtonStyle_bLeft = new TextButton.TextButtonStyle();
         textButtonStyle_bRight = new TextButton.TextButtonStyle();
         textButtonStyle_bBack = new TextButton.TextButtonStyle();
-        textButtonStyle_bSave = new TextButton.TextButtonStyle();
+        textButtonStyle_bNotAvailable = new TextButton.TextButtonStyle();
         textButtonStyle_bPauseMenu = new TextButton.TextButtonStyle();
         textButtonStyle_bTips = new TextButton.TextButtonStyle();
         textFieldStyle = new TextField.TextFieldStyle();
