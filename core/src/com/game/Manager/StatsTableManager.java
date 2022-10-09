@@ -496,22 +496,22 @@ public class StatsTableManager {
                 multipliersTableTitle.setText(languageManager.getValue(languageManager.getLanguage(), "tDamage"));
 
                 multipliersTableTextField0.setText(languageManager.getValue(languageManager.getLanguage(), "tDamage"));
-                multipliersTableTextFieldValue0.setText(String.valueOf(multipliers.getFloat("damageMultiplier")));
+                multipliersTableTextFieldValue0.setText(String.format( "%.2f",(multipliers.getFloat("damageMultiplier"))));
 
                 multipliersTableTextField1.setText(languageManager.getValue(languageManager.getLanguage(), "tMeleeMT"));
-                multipliersTableTextFieldValue1.setText(String.valueOf(multipliers.getFloat("damageMultipliermeleeTower")*multipliers.getFloat("damageMultiplier")) + "(" + multipliers.getFloat("damageMultipliermeleeTower")+ ")");
+                multipliersTableTextFieldValue1.setText(String.format("%.2f", (multipliers.getFloat("damageMultipliermeleeTower")*multipliers.getFloat("damageMultiplier"))) + "(" + String.format("%.2f", multipliers.getFloat("damageMultipliermeleeTower"))+ ")");
 
                 multipliersTableTextField2.setText(languageManager.getValue(languageManager.getLanguage(), "tCrossbowMT"));
-                multipliersTableTextFieldValue2.setText(multipliers.getFloat("damageMultipliercrossbowTower")*multipliers.getFloat("damageMultiplier") + "(" + multipliers.getFloat("damageMultipliercrossbowTower")+ ")");
+                multipliersTableTextFieldValue2.setText(String.format("%.2f", (multipliers.getFloat("damageMultipliercrossbowTower")*multipliers.getFloat("damageMultiplier"))) + "(" + String.format("%.2f", multipliers.getFloat("damageMultipliercrossbowTower"))+ ")");
 
                 multipliersTableTextField3.setText(languageManager.getValue(languageManager.getLanguage(), "tMageMT"));
-                multipliersTableTextFieldValue3.setText(multipliers.getFloat("damageMultipliermageTower")*multipliers.getFloat("damageMultiplier") + "(" + multipliers.getFloat("damageMultipliermageTower")+ ")");
+                multipliersTableTextFieldValue3.setText(String.format("%.2f", (multipliers.getFloat("damageMultipliermageTower")*multipliers.getFloat("damageMultiplier"))) + "(" + String.format("%.2f", multipliers.getFloat("damageMultipliermageTower"))+ ")");
 
                 multipliersTableTextField4.setText(languageManager.getValue(languageManager.getLanguage(), "tCannonMT"));
-                multipliersTableTextFieldValue4.setText(multipliers.getFloat("damageMultipliercannonTower")*multipliers.getFloat("damageMultiplier") + "(" + multipliers.getFloat("damageMultipliercannonTower")+ ")");
+                multipliersTableTextFieldValue4.setText(String.format("%.2f", (multipliers.getFloat("damageMultipliercannonTower")*multipliers.getFloat("damageMultiplier"))) + "(" + String.format("%.2f", multipliers.getFloat("damageMultipliercannonTower"))+ ")");
 
                 multipliersTableTextField5.setText(languageManager.getValue(languageManager.getLanguage(), "tSplash"));
-                multipliersTableTextFieldValue5.setText(String.valueOf(multipliers.getFloat("splashMultiplier")));
+                multipliersTableTextFieldValue5.setText(String.format("%.2f", multipliers.getFloat("splashMultiplier")));
 
                 multipliersTableTextField4.setVisible(true);
                 middleStatsCoverArr[4].setVisible(true);
@@ -529,13 +529,13 @@ public class StatsTableManager {
                 multipliersTableTextFieldValue0.setText(String.valueOf(2));
 
                 multipliersTableTextField1.setText(languageManager.getValue(languageManager.getLanguage(), "tCrossbowMT"));
-                multipliersTableTextFieldValue1.setText(String.valueOf(multipliers.getFloat("reloadSpeedMultipliercrossbowTower")));
+                multipliersTableTextFieldValue1.setText(String.format("%.2f", multipliers.getFloat("reloadSpeedMultipliercrossbowTower")));
 
                 multipliersTableTextField2.setText(languageManager.getValue(languageManager.getLanguage(), "tMageMT"));
-                multipliersTableTextFieldValue2.setText(String.valueOf(multipliers.getFloat("reloadSpeedMultipliermageTower")));
+                multipliersTableTextFieldValue2.setText(String.format("%.2f", multipliers.getFloat("reloadSpeedMultipliermageTower")));
 
                 multipliersTableTextField3.setText(languageManager.getValue(languageManager.getLanguage(), "tCannonMT"));
-                multipliersTableTextFieldValue3.setText(String.valueOf(multipliers.getFloat("reloadSpeedMultipliercannonTower")));
+                multipliersTableTextFieldValue3.setText(String.format("%.2f", multipliers.getFloat("reloadSpeedMultipliercannonTower")));
 
                 multipliersTableTextField4.setVisible(false);
                 middleStatsCoverArr[4].setVisible(false);
@@ -553,13 +553,13 @@ public class StatsTableManager {
                 multipliersTableTextFieldValue0.setText(String.valueOf(100));
 
                 multipliersTableTextField1.setText(languageManager.getValue(languageManager.getLanguage(), "tCrossbowMT"));
-                multipliersTableTextFieldValue1.setText(String.valueOf(multipliers.getFloat("rangeMultipliercrossbowTower")));
+                multipliersTableTextFieldValue1.setText(String.format("%.2f", multipliers.getFloat("rangeMultipliercrossbowTower")));
 
                 multipliersTableTextField2.setText(languageManager.getValue(languageManager.getLanguage(), "tMageMT"));
-                multipliersTableTextFieldValue2.setText(String.valueOf(multipliers.getFloat("rangeMultipliermageTower")));
+                multipliersTableTextFieldValue2.setText(String.format("%.2f", multipliers.getFloat("rangeMultipliermageTower")));
 
                 multipliersTableTextField3.setText(languageManager.getValue(languageManager.getLanguage(), "tCannonMT"));
-                multipliersTableTextFieldValue3.setText(String.valueOf(multipliers.getFloat("rangeMultipliercannonTower")));
+                multipliersTableTextFieldValue3.setText(String.format("%.2f", multipliers.getFloat("rangeMultipliercannonTower")));
 
                 multipliersTableTextField4.setVisible(false);
                 middleStatsCoverArr[4].setVisible(false);
@@ -574,10 +574,10 @@ public class StatsTableManager {
                 multipliersTableTitle.setText("Ekonomia");
 
                 multipliersTableTextField0.setText("Złoto");
-                multipliersTableTextFieldValue0.setText(String.valueOf(multipliers.getFloat("goldMultiplier")));
+                multipliersTableTextFieldValue0.setText(String.format("%.2f", multipliers.getFloat("goldMultiplier")));
 
                 multipliersTableTextField1.setText("Diamenty");
-                multipliersTableTextFieldValue1.setText(String.valueOf(multipliers.getFloat("diamondsMultiplier")));
+                multipliersTableTextFieldValue1.setText(String.format("%.2f", multipliers.getFloat("diamondsMultiplier")));
 
                 multipliersTableTextField2.setText("Zakup");
                 multipliersTableTextFieldValue2.setText(multipliers.getFloat("costMultiplier")+"%");
