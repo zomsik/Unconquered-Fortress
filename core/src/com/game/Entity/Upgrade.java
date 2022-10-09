@@ -1,6 +1,7 @@
 package com.game.Entity;
 
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -77,7 +78,7 @@ public class Upgrade {
         return upgradeName;
     }
 
-    public Label returnInformation(Label.LabelStyle labelStyle){
+    public Label returnInformation(Label.LabelStyle labelStyle, int diamonds){
 
         if(this.level<0) {
             return new Label(languageManager.getValue(languageManager.getLanguage(), "upgrade_First_Unlock"), labelStyle);
@@ -91,7 +92,6 @@ public class Upgrade {
             information3 += languageManager.getValue(languageManager.getLanguage(), upgradeName+"Description");
 
             String information = languageManager.getValue(languageManager.getLanguage(), "upgrade_Upgrade") + languageManager.getValue(languageManager.getLanguage(), this.upgradeName) + "\n"+ information3 + "\n" +languageManager.getValue(languageManager.getLanguage(), "upgrade_Level") + this.level + "/" + this.maxLevel + "\n";
-
 
             String information2 = "";
 
@@ -177,9 +177,17 @@ public class Upgrade {
 
             }
 
-
             if(information2.length()>0)
+            {
+
+                if (diamonds<getCostToUpgrade())
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "tPrice") +": "+ "[RED]"+getCostToUpgrade() +" "+ languageManager.getValue(languageManager.getLanguage(), "diamondsPrice")+"\n";
+                else
+                    information2 += languageManager.getValue(languageManager.getLanguage(), "tPrice") +": "+ "[GREEN]"+getCostToUpgrade() +" "+ languageManager.getValue(languageManager.getLanguage(), "diamondsPrice")+"\n";
+
                 return new Label(information+information2,labelStyle);
+            }
+
 
             //else if not implemented
             return new Label( languageManager.getValue(languageManager.getLanguage(), "uInfoNotImplemented"),labelStyle);

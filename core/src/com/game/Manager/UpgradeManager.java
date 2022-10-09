@@ -67,7 +67,10 @@ public class UpgradeManager {
         bUpgradeBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle));
         Drawable tooltipBackground = new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/settings_dialog.png"))));
         textTooltipStyle = new TextTooltip.TextTooltipStyle();
+        this.font.getData().markupEnabled=true;
+
         textTooltipStyle.label = new Label.LabelStyle(font, Color.WHITE);
+
         textTooltipStyle.background = tooltipBackground;
         textTooltipStyle.wrapWidth = 400; //nie może być 100.0f
 
@@ -375,7 +378,8 @@ public class UpgradeManager {
                     }
 
                     Label information;
-                    information = u.returnInformation(textTooltipStyle.label);
+                    information = u.returnInformation(textTooltipStyle.label, base.getDiamonds());
+
                     tooltip = new TextTooltip("", textTooltipStyle);
                     tooltip.setActor(information);
                     tooltip.setInstant(true);

@@ -473,18 +473,17 @@ public class StatsTableManager {
                 multipliersTableTextField0.setText(languageManager.getValue(languageManager.getLanguage(), "hp_field"));
                 multipliersTableTextFieldValue0.setText(String.valueOf(base.getHealth()));
 
-                multipliersTableTextField1.setText(languageManager.getValue(languageManager.getLanguage(), "regeneration"));
-                multipliersTableTextFieldValue1.setText(String.valueOf((int) multipliers.getFloat("healthRegeneration")));
+                multipliersTableTextField1.setText(languageManager.getValue(languageManager.getLanguage(), "diamonds"));
+                multipliersTableTextFieldValue1.setText(String.valueOf(base.getDiamonds()));
 
-                multipliersTableTextField2.setText(languageManager.getValue(languageManager.getLanguage(), "tReduction"));
-                multipliersTableTextFieldValue2.setText(String.valueOf((int) multipliers.getFloat("damageReduction")));
+                multipliersTableTextField2.setText(languageManager.getValue(languageManager.getLanguage(), "regeneration"));
+                multipliersTableTextFieldValue2.setText(String.valueOf((int) multipliers.getFloat("healthRegeneration")));
 
-                multipliersTableTextField3.setText(languageManager.getValue(languageManager.getLanguage(), "luck"));
-                multipliersTableTextFieldValue3.setText((int) multipliers.getFloat("luckMultiplier") + "%");
+                multipliersTableTextField3.setText(languageManager.getValue(languageManager.getLanguage(), "tReduction"));
+                multipliersTableTextFieldValue3.setText(String.valueOf((int) multipliers.getFloat("damageReduction")));
 
-                multipliersTableTextField4.setVisible(false);
-                middleStatsCoverArr[4].setVisible(false);
-                multipliersTableTextFieldValue4.setVisible(false);
+                multipliersTableTextField4.setText(languageManager.getValue(languageManager.getLanguage(), "luck"));
+                multipliersTableTextFieldValue4.setText((int) multipliers.getFloat("luckMultiplier") + "%");
 
                 multipliersTableTextField5.setVisible(false);
                 middleStatsCoverArr[5].setVisible(false);
@@ -526,7 +525,7 @@ public class StatsTableManager {
                 multipliersTableTitle.setText(languageManager.getValue(languageManager.getLanguage(), "tReload"));
 
                 multipliersTableTextField0.setText(languageManager.getValue(languageManager.getLanguage(), "tMeleeMT"));
-                multipliersTableTextFieldValue0.setText(String.valueOf(2));
+                multipliersTableTextFieldValue0.setText(String.format("%.2f", multipliers.getFloat("reloadSpeedMultipliermeleeTower")));
 
                 multipliersTableTextField1.setText(languageManager.getValue(languageManager.getLanguage(), "tCrossbowMT"));
                 multipliersTableTextFieldValue1.setText(String.format("%.2f", multipliers.getFloat("reloadSpeedMultipliercrossbowTower")));

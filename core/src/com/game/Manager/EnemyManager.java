@@ -13,6 +13,8 @@ public class EnemyManager {
 
     private ArrayList<ArrayList<Enemy>> enemyWavesToSpawn;
     private ArrayList<Enemy> enemies;
+    private ArrayList<Enemy> renderEnemiesList;
+
 
     private ArrayList<Float> spawningDelay;
     private ArrayList<Float> timeLeftToSpawn;
@@ -24,6 +26,15 @@ public class EnemyManager {
     private Base base;
 
     private JSONObject enemiesJSONObject;
+    private Comparator<Enemy> renderSorter = (a, b) -> {
+        if(a.getY() < b.getY())
+            return 1;
+        else if (a.getY() > b.getY())
+            return -1;
+        else
+            return 0;
+    };
+
 
     public EnemyManager(Base base, float scale, List<Vector2> path, JSONObject enemiesJSONObject) {
 
@@ -260,18 +271,19 @@ public class EnemyManager {
 
 
     public void render(SpriteBatch spritebatch, ShapeRenderer shapeRenderer) {
+        renderEnemiesList = new ArrayList<>(enemies);
 
-        for (Enemy e : enemies) {
+        for (Enemy e : enemies)
             if (Objects.equals(e.getName(), "summoner"))
-            {
-                e.renderSummoned(spritebatch, shapeRenderer);
-            }
-        }
+                if (e.getSummonedList().size()>0)
+                    renderEnemiesList.addAll(e.getSummonedList());
 
-        for (Enemy e : enemies) {
+
+        renderEnemiesList.sort(renderSorter);
+
+
+        for (Enemy e : renderEnemiesList)
             e.render(spritebatch, shapeRenderer);
-        }
-
 
     }
 

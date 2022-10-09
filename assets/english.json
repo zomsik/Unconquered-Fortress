@@ -217,5 +217,6 @@
   "tCrossbowMT": "Crossbow",
   "tCannonMT": "Cannon",
   "tMageMT": "Mage",
-  "tMax": "Maximum"
+  "tMax": "Maximum",
+  "diamondsPrice": "diamonds"
 }

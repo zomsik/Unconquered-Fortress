@@ -430,11 +430,12 @@ public class Enemy extends Actor {
         }
     }
 
-    public void renderSummoned(SpriteBatch batch, ShapeRenderer shapeRenderer)
-    {
-        for (Enemy e : summonedEnemies) {
-            e.render(batch, shapeRenderer);
-        }
+    public float getY(){
+        return position.y;
+    }
+
+    public float getHeight(){
+        return enemySize;
     }
 
 
