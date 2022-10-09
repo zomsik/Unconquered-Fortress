@@ -499,7 +499,7 @@ public class StatsTableManager {
                 multipliersTableTextFieldValue0.setText(String.valueOf(multipliers.getFloat("damageMultiplier")));
 
                 multipliersTableTextField1.setText(languageManager.getValue(languageManager.getLanguage(), "tMeleeMT"));
-                multipliersTableTextFieldValue1.setText(multipliers.getFloat("damageMultipliermeleeTower")*multipliers.getFloat("damageMultiplier") + "(" + multipliers.getFloat("damageMultipliermeleeTower")+ ")");
+                multipliersTableTextFieldValue1.setText(String.valueOf(multipliers.getFloat("damageMultipliermeleeTower")*multipliers.getFloat("damageMultiplier")) + "(" + multipliers.getFloat("damageMultipliermeleeTower")+ ")");
 
                 multipliersTableTextField2.setText(languageManager.getValue(languageManager.getLanguage(), "tCrossbowMT"));
                 multipliersTableTextFieldValue2.setText(multipliers.getFloat("damageMultipliercrossbowTower")*multipliers.getFloat("damageMultiplier") + "(" + multipliers.getFloat("damageMultipliercrossbowTower")+ ")");
