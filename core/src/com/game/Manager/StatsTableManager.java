@@ -633,7 +633,7 @@ public class StatsTableManager {
         {
             upgradePriceTextValue.setText("---");
             upgradeLvlTextValue.setText(languageManager.getValue(languageManager.getLanguage(), "tMax"));
-            upgradeDmgTextValue.setText(String.valueOf((int)(towerNow.getFloat("dmg")*base.getMultipliers().getFloat("damageMultiplier")*base.getMultipliers().getFloat("damageMultiplier"+name+"Tower"))));
+            upgradeDmgTextValue.setText(String.valueOf((int)(towerNow.getFloat("dmg")*base.getMultipliers().getFloat("damageMultiplier")*base.getMultipliers().getFloat("damageMultiplier"+name))));
             upgradeRangeTextValue.setText(String.valueOf((int)towerNow.getFloat("range")));
             upgradeReloadTextValue.setText(String.valueOf((int)towerNow.getFloat("reload")));
             upgradeSplashTextValue.setText(String.valueOf((int)towerNow.getFloat("splash")));
