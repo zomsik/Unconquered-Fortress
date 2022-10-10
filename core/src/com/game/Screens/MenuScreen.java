@@ -426,6 +426,12 @@ public class MenuScreen implements Screen  {
                     tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfLogin"));
                     return;
                 }
+                if (!isValidEmailAddress(fDialogRegisterMail.getText()))
+                {
+                    tDialogRegisterErrors.setVisible(true);
+                    tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorInvalidMail"));
+                    return;
+                }
                 if (fDialogRegisterPassword.getText().length() < 5 || fDialogRegisterPassword.getText().length() > 20 )
                 {
                     tDialogRegisterErrors.setVisible(true);
@@ -441,7 +447,8 @@ public class MenuScreen implements Screen  {
                     return;
                 }
 
-                //TODO mail checker
+
+
 
 
 
@@ -537,6 +544,14 @@ public class MenuScreen implements Screen  {
         stage.addActor(table_bPlay);
 
     }
+
+    private boolean isValidEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }
+
     @Override
     public void render(float delta) {
             Gdx.gl.glClearColor(1,1,1,1);
