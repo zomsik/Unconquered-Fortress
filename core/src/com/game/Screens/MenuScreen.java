@@ -243,7 +243,13 @@ public class MenuScreen implements Screen  {
         // Register Dialog
         table_dialogRegister.setBounds(0,0,360,420);
         table_dialogRegister.row().colspan(2).width(256).align(Align.center).padBottom(12);
-        table_dialogRegister.add(tDialogRegisterTextTitle).align(Align.top|Align.center).width(256);
+        if(languageManager.getLanguage().equals("Polski")){
+            table_dialogRegister.add(tDialogRegisterTextTitle).align(Align.center).expandX().padRight(24);
+
+        }else{
+            table_dialogRegister.add(tDialogRegisterTextTitle).align(Align.left).expandX();
+
+        }
         table_dialogRegister.row().padBottom(12);
         table_dialogRegister.add(tDialogRegisterTextLogin).align(Align.center);
         table_dialogRegister.add(fDialogRegisterLogin).align(Align.center);
@@ -266,7 +272,7 @@ public class MenuScreen implements Screen  {
 
 
         //table_dialogLogin.debug();
-        //table_dialogRegister.debug();
+        table_dialogRegister.debug();
 
 
 
@@ -291,10 +297,6 @@ public class MenuScreen implements Screen  {
                 tDialogLoginErrors.setText(null);
                 menuDialog.removeActor(table_dialogRegister);
                 menuDialog.addActor(table_dialogLogin);
-                //menuDialog.getButtonTable().clearChildren();
-                //menuDialog.button(bDialogLogin);
-                //menuDialog.button(bDialogExit);
-                //menuDialog.button(bDialogLoginRegister);
                 menuDialog.show(stage);
 
             }
@@ -426,6 +428,12 @@ public class MenuScreen implements Screen  {
                     tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfLogin"));
                     return;
                 }
+                if (!isValidEmailAddress(fDialogRegisterMail.getText()))
+                {
+                    tDialogRegisterErrors.setVisible(true);
+                    tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorInvalidMail"));
+                    return;
+                }
                 if (fDialogRegisterPassword.getText().length() < 5 || fDialogRegisterPassword.getText().length() > 20 )
                 {
                     tDialogRegisterErrors.setVisible(true);
@@ -441,7 +449,8 @@ public class MenuScreen implements Screen  {
                     return;
                 }
 
-                //TODO mail checker
+
+
 
 
 
@@ -537,6 +546,14 @@ public class MenuScreen implements Screen  {
         stage.addActor(table_bPlay);
 
     }
+
+    private boolean isValidEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }
+
     @Override
     public void render(float delta) {
             Gdx.gl.glClearColor(1,1,1,1);
