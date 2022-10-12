@@ -35,6 +35,9 @@ public class WorldManager {
     private int[] end;
     private List<int[]> pathToMove = new ArrayList<>();
 
+    public WorldManager() {
+    }
+
     private int[][] generateWater(int[][] arr, int randomI, int randomJ, int randomWaterSize, int randomAxis, int randomCorner, int randomDeep, int seed){
         Random random = new Random(seed);
         boolean isReturn = false;
@@ -688,7 +691,7 @@ public class WorldManager {
             System.out.println();
         }
 
-        Skin images_map = new Skin(new TextureAtlas("/assets/icons/map_sprites.pack"));
+        Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
         Table t = new Table();
 
 

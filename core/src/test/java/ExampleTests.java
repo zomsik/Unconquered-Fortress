@@ -15,19 +15,15 @@ public class ExampleTests {
     private GameScreen gameScreen;
 
 
-    @Before
-    public void setUpScreen() {
-        ProfileManager profileManager = new ProfileManager();
-        Main main = new Main();
-        gameScreen = new GameScreen(main,profileManager.createEmptySave("normal",1,"") ,true);
-    }
+
 
 
     @Test
     public void testCreate() {
 
         WorldManager worldManager = new WorldManager();
-        worldManager.createWorld(gameScreen,20,1);
+        worldManager.createWorld(null,20,1);
+
     }
 
 

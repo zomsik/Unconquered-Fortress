@@ -43,7 +43,7 @@ public class HeadlessLauncher extends BlockJUnit4ClassRunner implements Applicat
 		super(c);
 		HeadlessApplicationConfiguration conf = new HeadlessApplicationConfiguration();
 
-		new HeadlessApplication(new Main(), conf);
+		new HeadlessApplication(this, conf);
 		Gdx.gl = mock(GL20.class);
 	}
 
@@ -57,12 +57,6 @@ public class HeadlessLauncher extends BlockJUnit4ClassRunner implements Applicat
 
 	@Override
 	public void render() {
-		synchronized (invokeInRender) {
-			for (Map.Entry<FrameworkMethod, RunNotifier> each : invokeInRender.entrySet()) {
-				super.runChild(each.getKey(), each.getValue());
-			}
-			invokeInRender.clear();
-		}
 	}
 
 	@Override
@@ -77,28 +71,7 @@ public class HeadlessLauncher extends BlockJUnit4ClassRunner implements Applicat
 	public void dispose() {
 	}
 
-	@Override
-	protected void runChild(FrameworkMethod method, RunNotifier notifier) {
-		synchronized (invokeInRender) {
-			// add for invoking in render phase, where gl context is available
-			invokeInRender.put(method, notifier);
-		}
-		// wait until that test was invoked
-		waitUntilInvokedInRenderMethod();
-	}
 
-	private void waitUntilInvokedInRenderMethod() {
-		try {
-			while (true) {
-				Thread.sleep(10);
-				synchronized (invokeInRender) {
-					if (invokeInRender.isEmpty())
-						break;
-				}
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+
 
 }
