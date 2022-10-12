@@ -35,6 +35,10 @@ public class WorldManager {
     private int[] end;
     private List<int[]> pathToMove = new ArrayList<>();
 
+    public WorldManager(){
+       // this.random = new Random(seed);
+    }
+
     private int[][] generateWater(int[][] arr, int randomI, int randomJ, int randomWaterSize, int randomAxis, int randomCorner, int randomDeep, int seed){
         Random random = new Random(seed);
         boolean isReturn = false;
