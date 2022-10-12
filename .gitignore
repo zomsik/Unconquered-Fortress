@@ -9,6 +9,10 @@
 ## Server
 /server/node_modules/
 
+## tests
+/tests/build/
+/tests/build/*
+
 ## Java
 
 *.class

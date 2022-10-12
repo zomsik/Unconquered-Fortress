@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Objects;
+import java.util.Random;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -18,16 +19,17 @@ import static org.mockito.Mockito.mock;
 public class TestsClass {
 
     @Test
-    public void equalWordsWithSameSeedGenerationTest()
+    public void equalWordsWithSameSeedTest()
     {
-        WorldManager worldManager = new WorldManager();
-        ProfileManager profileManager = new ProfileManager();
-        Main game = new Main();
+        WorldManager worldManager;
 
-        Image[][] a = worldManager.createWorld(null,22,46);
+        Random random = new Random();
+        int seed = random.nextInt();
+
         worldManager = new WorldManager();
-        Image[][] b = worldManager.createWorld(null,22,46);
-
+        Image[][] a = worldManager.createWorld(null, seed, 46);
+        worldManager = new WorldManager();
+        Image[][] b = worldManager.createWorld(null, seed, 46);
 
         for (int i=0; i<10; i++) {
             for (int j = 0; j < 15; j++) {
