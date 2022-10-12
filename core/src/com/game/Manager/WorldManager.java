@@ -688,7 +688,7 @@ public class WorldManager {
             System.out.println();
         }
 
-        Skin images_map = new Skin(new TextureAtlas("assets/icons/map_sprites.pack"));
+        Skin images_map = new Skin(new TextureAtlas("/assets/icons/map_sprites.pack"));
         Table t = new Table();
 
 
@@ -766,26 +766,26 @@ public class WorldManager {
                     imageArr[i][j].setName("path");
                 }
 
+                if (gameScreen!=null) {
 
-                imageArr[i][j].addListener(new ImageClickListener(j,i,imageArr[i][j].getName()){
-                    public void clicked(InputEvent event, float x, float y) {
-                        this.setLastClickedTile(gameScreen.lastClickedMapTile);
-                        gameScreen.mouseClickMapTile();
-                    }
+                    imageArr[i][j].addListener(new ImageClickListener(j, i, imageArr[i][j].getName()) {
+                        public void clicked(InputEvent event, float x, float y) {
+                            this.setLastClickedTile(gameScreen.lastClickedMapTile);
+                            gameScreen.mouseClickMapTile();
+                        }
 
-                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                        this.setLastClickedTile(gameScreen.lastClickedMapTile);
-                        gameScreen.mouseEnterMapTile();
+                        public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                            this.setLastClickedTile(gameScreen.lastClickedMapTile);
+                            gameScreen.mouseEnterMapTile();
 
-                    }
-                    public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                        //this.setLastClickedTile();
-                        gameScreen.mouseExitMapTile();
-                    }
+                        }
 
-
-
-                });
+                        public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                            //this.setLastClickedTile();
+                            gameScreen.mouseExitMapTile();
+                        }
+                    });
+                }
 
 
                 j++;
