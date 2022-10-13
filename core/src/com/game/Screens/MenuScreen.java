@@ -1,7 +1,6 @@
 package com.game.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
@@ -16,10 +15,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.game.Entity.Upgrade;
 import com.game.Main;
 import com.game.Manager.*;
 import com.game.State.GameState;
@@ -29,7 +26,7 @@ import java.util.Objects;
 
 public class MenuScreen implements Screen  {
     private Main game;
-    private Texture background, backgroundForDialog;
+    private Texture front, clouds, background, backgroundForDialog;
     public TextButton bExit, bLogin ,bPlay, bSettings, bCredits;
 
     public TextButton bDialogLogin, bDialogLoginRegister, cDialogStayLogged, bDialogExit, bDialogExit2;
@@ -55,6 +52,9 @@ public class MenuScreen implements Screen  {
     private FileReader fileReader;
     private Music backgroundMusic;
     private Dialog menuDialog;
+
+    private float cloudsPosition;
+    private float cloudsSpeed;
 
     public boolean stayLogged = false;
 
@@ -558,6 +558,13 @@ public class MenuScreen implements Screen  {
     public void render(float delta) {
             Gdx.gl.glClearColor(1,1,1,1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+            //cloudsSpeed can be set randomly every few seconds
+            cloudsPosition -= delta*cloudsSpeed;
+
+            if (cloudsPosition <= -3840)
+                cloudsPosition = 0;
+
             game.batch.begin();
             if(isDialog){
                 game.batch.draw(backgroundForDialog, 0,0);
@@ -567,7 +574,9 @@ public class MenuScreen implements Screen  {
                 bCredits.setVisible(false);
                 bExit.setVisible(false);
             }else{
-               game.batch.draw(background, 0,0);
+                game.batch.draw(background, 0,0);
+                game.batch.draw(clouds, cloudsPosition,0);
+                game.batch.draw(front, 0,0);
                 bPlay.setVisible(true);
                 bLogin.setVisible(true);
                 bSettings.setVisible(true);
@@ -577,6 +586,7 @@ public class MenuScreen implements Screen  {
             game.batch.end();
             stage.act(delta);
             stage.draw();
+
 
     }
 
@@ -605,7 +615,12 @@ public class MenuScreen implements Screen  {
     }
 
     private void initSettingsUI(){
-        background = new Texture("background_menu.png");
+        cloudsPosition = 0;
+        cloudsSpeed = 50;
+        background = new Texture("back.png");
+        front = new Texture("front.png");
+        clouds = new Texture("clouds.png");
+
         backgroundForDialog = new Texture("tempBackground.png");
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
