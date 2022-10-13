@@ -56,6 +56,8 @@ public class EnemyManager {
         return enemies;
     }
 
+    public ArrayList<Enemy> getLastCreatedWave() { return enemyWavesToSpawn.get(enemyWavesToSpawn.size()-1);}
+
     public void createRandomEnemyWave()
     {
         int wave = base.getWave();
@@ -66,7 +68,6 @@ public class EnemyManager {
         for (int i=0; i<wave*7; i++)
             random.nextInt(randomNumber);
 
-        System.out.print(wave + ": ");
         int enemyPoints = 50 + (wave/10 + wave)*5;
 
 
@@ -92,6 +93,7 @@ public class EnemyManager {
             int chosenEnemy = random.nextInt(0, spawnRate.getInt("warrior") + spawnRate.getInt("blob") + spawnRate.getInt("assassin") + spawnRate.getInt("flying") + spawnRate.getInt("summoner")+1);
             if (chosenEnemy <= spawnRate.getInt("warrior") && wave>=spawnWave.getInt("warrior") && enemyPoints >= 5)
             {
+
                 enemies.add(new Warrior(enemiesJSONObject.getJSONObject("warrior")));
                 enemyPoints -= 5;
             }
@@ -121,13 +123,13 @@ public class EnemyManager {
     }
 
     public void addWaveToSpawn(ArrayList<Enemy> wave) {
+        if (path!=null)
+            for (Enemy e : wave)
+                if(!Objects.equals(e.getName(), "summoner"))
+                    e.initEnemy(path, scale);
+                else
+                    e.initSummonerEnemy(base, path, scale);
 
-        for (Enemy e : wave) {
-            if(!Objects.equals(e.getName(), "summoner"))
-                e.initEnemy(path, scale);
-            else
-                e.initSummonerEnemy(base, path, scale);
-        }
 
 
         enemyWavesToSpawn.add(wave);
