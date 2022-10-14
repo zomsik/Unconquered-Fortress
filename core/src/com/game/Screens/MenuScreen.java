@@ -616,7 +616,7 @@ public class MenuScreen implements Screen  {
 
     private void initSettingsUI(){
         cloudsPosition = 0;
-        cloudsSpeed = 50;
+        cloudsSpeed = 30;
         background = new Texture("back.png");
         front = new Texture("front.png");
         clouds = new Texture("clouds.png");
