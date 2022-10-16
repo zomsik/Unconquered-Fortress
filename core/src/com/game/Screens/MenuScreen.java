@@ -143,7 +143,7 @@ public class MenuScreen implements Screen  {
         textFieldStyleManager.setTextFieldStyleCursor(formTextFieldStyle, images_settings, fontText, "textBar", Color.WHITE);
         textFieldStyleManager.setTextFieldStyle(textFieldStyle, images_settings, fontText, "textBar", Color.WHITE);
         textFieldStyleManager.setTextFieldStyle(titleTextFieldStyle, images_settings, fontTitle, "empty_background", Color.BLACK);
-        textFieldStyleManager.setTextFieldStyle(errorTextFieldStyle, images_settings, fontText_error, "textBar", Color.valueOf("8f0500"));
+        textFieldStyleManager.setTextFieldStyle(errorTextFieldStyle, images_settings, fontText_error, "textBar", Color.valueOf("b77c7c"));
         textFieldStyleManager.setTextFieldStyle(texttitleTextFieldStyle, images_settings, fontText, "empty_background", Color.WHITE);
 
         tDialogLoginTextTitle= new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginTitle"), textFieldStyleManager.returnTextFieldStyle(titleTextFieldStyle));
