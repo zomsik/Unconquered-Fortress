@@ -70,6 +70,7 @@ public class Tests {
             {
                 if (Objects.equals(e.getName(), "boss"))
                 {
+
                  hasBoss=true;
                  break;
                 }

@@ -350,29 +350,29 @@ public class MenuScreen implements Screen  {
                 loginData.put("login",fDialogLoginLogin.getText());
                 loginData.put("password", fDialogLoginPassword.getText());
 
-                JSONObject response = connectionManager.requestSend(loginData, "api/login");
 
-                if (response.getInt("status") == 200)
-                {
-                    if (stayLogged)
-                    {
-                        fileReader.setUserInfo(response.getString("token"));
-                    }
-                    else {
-                        fDialogLoginPassword.setText(null);
+
+                new Thread(() -> {
+                    JSONObject response = connectionManager.requestSend(loginData, "api/login");
+
+                    if (response.getInt("status") == 200) {
+                        if (stayLogged) {
+                            fileReader.setUserInfo(response.getString("token"));
+                        } else {
+                            fDialogLoginPassword.setText(null);
+                        }
+
+                        tDialogLoginErrors.setText(null);
+                        bLogin.setText(languageManager.getValue(languageManager.getLanguage(), "bLogout"));
+                        game.setLogin(fDialogLoginLogin.getText());
+                        game.setIsLogged(true);
+                        isDialog = false;
+                        menuDialog.hide();
+                    } else {
+                        tDialogLoginErrors.setText(languageManager.getValue(languageManager.getLanguage(), response.getString("message")));
                     }
 
-                    tDialogLoginErrors.setText(null);
-                    bLogin.setText(languageManager.getValue(languageManager.getLanguage(), "bLogout"));
-                    game.setLogin(fDialogLoginLogin.getText());
-                    game.setIsLogged(true);
-                    isDialog = false;
-                    menuDialog.hide();
-                }
-                else
-                {
-                    tDialogLoginErrors.setText(languageManager.getValue(languageManager.getLanguage(), response.getString("message")));
-                }
+                }).start();
 
 
             }
@@ -457,7 +457,8 @@ public class MenuScreen implements Screen  {
                 RegisterData.put("password",fDialogRegisterPassword.getText());
 
 
-                JSONObject response = connectionManager.requestSend(RegisterData, "api/register");
+                new Thread(() -> {
+                    JSONObject response = connectionManager.requestSend(RegisterData, "api/register");
 
                 if (response.getInt("status") == 200)
                 {
@@ -474,6 +475,8 @@ public class MenuScreen implements Screen  {
                 {
                     tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), response.getString("message")));
                 }
+
+                }).start();
 
 
             }
