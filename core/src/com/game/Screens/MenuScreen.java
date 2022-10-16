@@ -36,7 +36,7 @@ public class MenuScreen implements Screen  {
     public TextField tDialogRegisterTextTitle, tDialogRegisterTextLogin, tDialogRegisterTextMail, tDialogRegisterTextPassword, tDialogRegisterTextRepeatPassword, tDialogRegisterErrors;
     public TextField fDialogRegisterLogin, fDialogRegisterMail, fDialogRegisterPassword, fDialogRegisterRepeatPassword;
 
-    public BitmapFont fontTitle, fontText;
+    public BitmapFont fontTitle, fontText, fontText_error;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     public TextureAtlas taButtonsAtlas, taButtonsSettings, taButtonsDefault, taDialogBack;
@@ -143,11 +143,13 @@ public class MenuScreen implements Screen  {
         textFieldStyleManager.setTextFieldStyleCursor(formTextFieldStyle, images_settings, fontText, "textBar", Color.WHITE);
         textFieldStyleManager.setTextFieldStyle(textFieldStyle, images_settings, fontText, "textBar", Color.WHITE);
         textFieldStyleManager.setTextFieldStyle(titleTextFieldStyle, images_settings, fontTitle, "empty_background", Color.BLACK);
-        textFieldStyleManager.setTextFieldStyle(errorTextFieldStyle, images_settings, fontText, "textBar", Color.valueOf("8f0500"));
+        textFieldStyleManager.setTextFieldStyle(errorTextFieldStyle, images_settings, fontText_error, "textBar", Color.valueOf("8f0500"));
         textFieldStyleManager.setTextFieldStyle(texttitleTextFieldStyle, images_settings, fontText, "empty_background", Color.WHITE);
 
         tDialogLoginTextTitle= new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginTitle"), textFieldStyleManager.returnTextFieldStyle(titleTextFieldStyle));
         tDialogLoginStayLogged = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginStayLogged"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tDialogLoginStayLogged.setAlignment(Align.center);
+
         tDialogLoginTextLogin = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginTextLogin"), textFieldStyleManager.returnTextFieldStyle(texttitleTextFieldStyle));
         tDialogLoginTextPassword = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginTextPassword"), textFieldStyleManager.returnTextFieldStyle(texttitleTextFieldStyle));
 
@@ -310,6 +312,7 @@ public class MenuScreen implements Screen  {
                 {
                     buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogStayLogged, images_settings, fontText, "checkbox_on", "checkbox_on");
                     cDialogStayLogged = new TextButton(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginStayLogged"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_cDialogStayLogged));
+
                 }
 
 
@@ -564,24 +567,25 @@ public class MenuScreen implements Screen  {
                 cloudsPosition_front = 0;
 
             game.batch.begin();
+        game.batch.draw(background, 0,0);
+        game.batch.draw(clouds, cloudsPosition,0);
+        game.batch.draw(castle, 0,0);
+        game.batch.draw(clouds_front, cloudsPosition_front, 0);
+        game.batch.draw(front, 0,0);
             if(isDialog){
-                game.batch.draw(backgroundForDialog, 0,0);
-                bPlay.setVisible(false);
-                bLogin.setVisible(false);
-                bSettings.setVisible(false);
-                bCredits.setVisible(false);
-                bExit.setVisible(false);
+                //game.batch.draw(backgroundForDialog, 0,0);
+                bPlay.setTouchable(Touchable.disabled);
+                bLogin.setTouchable(Touchable.disabled);
+                bSettings.setTouchable(Touchable.disabled);
+                bCredits.setTouchable(Touchable.disabled);
+                bExit.setTouchable(Touchable.disabled);
             }else{
-                game.batch.draw(background, 0,0);
-                game.batch.draw(clouds, cloudsPosition,0);
-                game.batch.draw(castle, 0,0);
-                game.batch.draw(clouds_front, cloudsPosition_front, 0);
-                game.batch.draw(front, 0,0);
-                bPlay.setVisible(true);
-                bLogin.setVisible(true);
-                bSettings.setVisible(true);
-                bCredits.setVisible(true);
-                bExit.setVisible(true);
+
+                bPlay.setTouchable(Touchable.enabled);
+                bLogin.setTouchable(Touchable.enabled);
+                bSettings.setTouchable(Touchable.enabled);
+                bCredits.setTouchable(Touchable.enabled);
+                bExit.setTouchable(Touchable.enabled);
             }
             game.batch.end();
             stage.act(delta);
@@ -631,15 +635,19 @@ public class MenuScreen implements Screen  {
         fontTitle = new BitmapFont();
         fontText = new BitmapFont();
 
-        parameter.size = 32;
+        parameter.size = (int) (32 * ((Gdx.graphics.getWidth() / 1280.0)));
         parameter.color = Color.valueOf("938672");
         parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
 
         fontTitle = generator.generateFont(parameter);
 
-        parameter.size = 15;
+        parameter.size = (int) (10* ((Gdx.graphics.getWidth() / 1280.0)));
         parameter.color = Color.WHITE;
         fontText = generator.generateFont(parameter);
+
+        parameter.size = 10;
+        parameter.color = Color.WHITE;
+        fontText_error = generator.generateFont(parameter);
 
         connectionManager = new ConnectionManager();
         taButtonsAtlas = new TextureAtlas("assets/buttons/buttons_menu.pack");
