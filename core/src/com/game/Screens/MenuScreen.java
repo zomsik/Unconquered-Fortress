@@ -26,7 +26,7 @@ import java.util.Objects;
 
 public class MenuScreen implements Screen  {
     private Main game;
-    private Texture front, clouds, background, backgroundForDialog;
+    private Texture front, clouds, clouds_front, castle, background, backgroundForDialog;
     public TextButton bExit, bLogin ,bPlay, bSettings, bCredits;
 
     public TextButton bDialogLogin, bDialogLoginRegister, cDialogStayLogged, bDialogExit, bDialogExit2;
@@ -53,8 +53,8 @@ public class MenuScreen implements Screen  {
     private Music backgroundMusic;
     private Dialog menuDialog;
 
-    private float cloudsPosition;
-    private float cloudsSpeed;
+    private float cloudsPosition, cloudsPosition_front;
+    private float cloudsSpeed, cloudsSpeed_front;
 
     public boolean stayLogged = false;
 
@@ -269,13 +269,6 @@ public class MenuScreen implements Screen  {
         table_dialogRegister.row();
         table_dialogRegister.add(bDialogExit2).width(128).height(32).align(Align.right);
         table_dialogRegister.add(bDialogRegisterLogin).width(128).height(32).align(Align.left);
-
-
-        //table_dialogLogin.debug();
-        table_dialogRegister.debug();
-
-
-
 
         bLogin.addListener(new ClickListener(){
             @Override
@@ -561,9 +554,14 @@ public class MenuScreen implements Screen  {
 
             //cloudsSpeed can be set randomly every few seconds
             cloudsPosition -= delta*cloudsSpeed;
+            cloudsPosition_front -= delta*cloudsSpeed_front;
+
 
             if (cloudsPosition <= -3840)
                 cloudsPosition = 0;
+
+            if(cloudsPosition_front <= -3840)
+                cloudsPosition_front = 0;
 
             game.batch.begin();
             if(isDialog){
@@ -576,6 +574,8 @@ public class MenuScreen implements Screen  {
             }else{
                 game.batch.draw(background, 0,0);
                 game.batch.draw(clouds, cloudsPosition,0);
+                game.batch.draw(castle, 0,0);
+                game.batch.draw(clouds_front, cloudsPosition_front, 0);
                 game.batch.draw(front, 0,0);
                 bPlay.setVisible(true);
                 bLogin.setVisible(true);
@@ -617,9 +617,12 @@ public class MenuScreen implements Screen  {
     private void initSettingsUI(){
         cloudsPosition = 0;
         cloudsSpeed = 30;
+        cloudsSpeed_front = 60;
         background = new Texture("back.png");
         front = new Texture("front.png");
         clouds = new Texture("clouds.png");
+        clouds_front = new Texture("clouds_front.png");
+        castle = new Texture("castle.png");
 
         backgroundForDialog = new Texture("tempBackground.png");
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
@@ -629,7 +632,7 @@ public class MenuScreen implements Screen  {
         fontText = new BitmapFont();
 
         parameter.size = 32;
-        parameter.color = Color.BLACK;
+        parameter.color = Color.valueOf("938672");
         parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
 
         fontTitle = generator.generateFont(parameter);
