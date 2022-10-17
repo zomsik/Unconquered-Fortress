@@ -74,7 +74,7 @@ public class ProfileManager {
 
         return t;
     }
-    private long stringToSeed(String s) {
+    public long stringToSeed(String s) {
         final ThreadLocal<Random> RANDOM_THREAD_LOCAL = ThreadLocal.withInitial(Random::new);
         Random random = RANDOM_THREAD_LOCAL.get();
         long hash = 0;
