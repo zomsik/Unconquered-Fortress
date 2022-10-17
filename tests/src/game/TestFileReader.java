@@ -12,8 +12,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class FileReaderTest {
-    public FileReaderTest(){
+public class TestFileReader {
+    public TestFileReader(){
 
     }
 
