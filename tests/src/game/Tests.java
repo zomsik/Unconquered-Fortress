@@ -102,22 +102,33 @@ public class Tests {
     @Test
     public void deleteProfileTest() throws IOException {
         FileReaderTest fileReaderTest = new FileReaderTest();
-        if(fileReaderTest.fileExists("../save/save01l.json")){
-            File src = new File("../save/save01l.json");
-            File target = new File("../save/save04l.json");
-
-            Files.copy(src.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            fileReaderTest.deleteSave(4);
-            if(fileReaderTest.fileExists("../save/save04l.json")){
-                fail("Plik nie został usunięty.");
-            }
+        ProfileManager profileManager = new ProfileManager();
+        boolean created = false;
+        if(fileReaderTest.fileExists("../save/save03l.json")){
         }else{
-            fail("Brak pliku testowego.");
+            fileReaderTest.setSave(profileManager.createEmptySave("normal",3,""));
+            created = true;
         }
+        File src = new File("../save/save03l.json");
+        File target = new File("../save/save04l.json");
+
+        Files.copy(src.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        fileReaderTest.deleteSave(4);
+        if(created)
+            fileReaderTest.deleteSave(3);
+
+        if(fileReaderTest.fileExists("../save/save04l.json")){
+            fail("Plik nie został usunięty.");
+        }
+
 
     }
 
-
+    @Test
+    public void multiplierTest() {
+        //FileReader fileReader = new FileReader();
+        //Assertions.assertEquals(50, fileReader.downloadFileAsJSONObject("assets/towers.json").getJSONArray("meleeTower").getJSONObject(0).getFloat("dmg"));
+    }
     @Test
     public void thisAlwaysPasses()
     {
