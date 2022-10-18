@@ -30,14 +30,14 @@ import java.util.Random;
 public class GameScreen implements Screen {
     private Main game;
     private Stage stage, pauseStage, gameOverStage;
-    private Texture background;
+    private Texture background, shopBackground;
     private BitmapFont font;
     private TextureAtlas taButtonsSettings, taButtonsDefault, taDialogBack, taButtonsPause, taStatsCover, taButtonTips;
     private Skin images, images_default, dialog, images_map, images_buildings, images_pause, images_stats, images_tips;
-    private TextButton  bSaveDialog, bExitDialog, bSaveAndExitDialog, bTest, bNextWave, bResume, bPauseMenu, bUpgrade, bTips;
+    private TextButton  bSaveDialog, bExitDialog, bSaveAndExitDialog, bNextWave, bResume, bPauseMenu, bUpgrade, bTips;
 
     private Table table_info, table_map, table_dialogPause, table_nextWave, table_operations, table_operationsSelected , table_buildings, table_dialogGameOver, table_enemies, table_stats, table_menuPause, table_tips;
-    private TextField hpTextField,hpTextValue, goldTextField, goldTextValue, GameOverTitle;
+    private TextField GameOverTitle;
     private TextField.TextFieldStyle statsTextFieldStyle, rightStatsTextFieldStyle, leftStatsTextFieldStyle;
     private ArrayList<String> resolutions;
     private ArrayList<String> languages;
@@ -46,7 +46,6 @@ public class GameScreen implements Screen {
     private TextButton.TextButtonStyle textButtonStyle_bLeft, textButtonStyle_bRight, textButtonStyle_bBack, textButtonStyle_bNotAvailable, textButtonStyle_bPauseMenu, textButtonStyle_bTips;
     private TextField.TextFieldStyle textFieldStyle;
     private Music backgroundMusic;
-    private Slider volumeSlider;
     private Slider.SliderStyle sliderStyle;
     private Resolutions resolutionsClass;
     private ButtonStyleManager buttonStyleManager;
@@ -58,7 +57,7 @@ public class GameScreen implements Screen {
     private JSONObject actualGame, enemies;
     private boolean isLocal;
     private ConnectionManager connectionManager;
-    private Image[][] mapArr, operationsArr, operationsSelectedArr, buildingsArr;
+    private Image[][] mapArr, operationsArr, operationsSelectedArr;
     private String chosenOperation = null;
     private int chosenOperationX, chosenOperationY;
     private int tick=0;
@@ -83,20 +82,12 @@ public class GameScreen implements Screen {
 
     OrthographicCamera hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-    private Dialog eventDialog, infoDialog, upgradeDialog, tipsDialog;
+    private Dialog eventDialog, infoDialog, upgradeDialog;
     private TextButton bBackEventDialog, bBackInfoDialog;
 
     private TextButton bGameOverExit, bGameOverReplay, bGameOverSaveExit, bGameOverNewMap;
 
     private TipsManager tipsManager;
-
-    /*
-    public enum State{
-        Running, Paused, Resumed, GameOver
-    }
-
-    private State state = State.Running;
-    */
 
     private JSONObject turretLevels;
 
@@ -184,7 +175,7 @@ public class GameScreen implements Screen {
         bBackEventDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         bBackInfoDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         table_operations = GameFunctions.getOperationsTable(operationsArr, scale, bUpgrade);
-        Texture shopBackground = new Texture(new FileHandle("assets/shopBackground.png"));
+
         table_operations.setBackground(new TextureRegionDrawable(new TextureRegion(shopBackground)));
         operationsSelectedArr = GameFunctions.getOperationsSelectedArr();
         table_operationsSelected = GameFunctions.getOperationsTable(operationsSelectedArr, scale, bUpgrade);
@@ -1069,7 +1060,8 @@ public class GameScreen implements Screen {
     }
     private void initSettingsUI(){
         worldManager = new WorldManager();
-        background = new Texture("tempBackground.png");
+        background = new Texture("assets/backgrounds/tempBackground.png");
+        shopBackground = new Texture(new FileHandle("assets/backgrounds/game/shopBackground.png"));
         resolutions = new ArrayList<>();
         resolutions = resolutionsClass.getResolutionsArrayList();
         languages = new ArrayList<>();

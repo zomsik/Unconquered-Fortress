@@ -124,7 +124,7 @@ public class StatsTableManager {
         difficultyTextField.setAlignment(Align.center);
         difficultyTextValue.setAlignment(Align.center);
 
-        Texture table_statsBackground = new Texture(new FileHandle("assets/statsBackground.png"));
+        Texture table_statsBackground = new Texture(new FileHandle("assets/backgrounds/game/statsBackground.png"));
 
         statsTable.setBounds(Gdx.graphics.getWidth()-224*scale,(Gdx.graphics.getHeight()-Gdx.graphics.getWidth()/30*16)/2+48*scale+32*scale+350*scale,224*scale,204*scale);
         statsTable.setBackground(new TextureRegionDrawable(new TextureRegion(table_statsBackground)));

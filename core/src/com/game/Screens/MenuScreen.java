@@ -25,7 +25,7 @@ import java.util.Objects;
 
 public class MenuScreen implements Screen  {
     private Main game;
-    private Texture front, clouds, clouds_front, castle, background, backgroundForDialog;
+    private Texture front, clouds, clouds_front, castle, background;
     public TextButton bExit, bLogin ,bPlay, bSettings, bCredits;
     public TextButton bDialogLogin, bDialogLoginRegister, cDialogStayLogged, bDialogExit, bDialogExit2;
     public TextField tDialogLoginTextTitle, tDialogLoginTextLogin, tDialogLoginTextPassword, tDialogLoginStayLogged, tDialogLoginErrors;
@@ -540,13 +540,11 @@ public class MenuScreen implements Screen  {
         cloudsSpeed = 30;
         cloudsSpeed_front = 60;
 
-        background = new Texture("back.png");
-        front = new Texture("front.png");
-        clouds = new Texture("clouds.png");
-        clouds_front = new Texture("clouds_front.png");
-        castle = new Texture("castle.png");
-
-        backgroundForDialog = new Texture("tempBackground.png");
+        background = new Texture("backgrounds/menu/back.png");
+        front = new Texture("backgrounds/menu/front.png");
+        clouds = new Texture("backgrounds/menu/clouds.png");
+        clouds_front = new Texture("backgrounds/menu/clouds_front.png");
+        castle = new Texture("backgrounds/menu/castle.png");
 
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();

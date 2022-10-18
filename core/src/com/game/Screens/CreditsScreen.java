@@ -213,7 +213,7 @@ public class CreditsScreen implements Screen {
     @Override
     public void dispose() {}
     private void initSettingsUI(){
-        background = new Texture("background.png");
+        background = new Texture("backgrounds/tempBackground.png");
 
         languagesList = new ArrayList<>();
         languagesList.add("English");

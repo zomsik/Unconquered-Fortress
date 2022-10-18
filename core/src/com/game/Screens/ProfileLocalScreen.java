@@ -592,7 +592,7 @@ public class ProfileLocalScreen implements Screen {
     private void initProfileLocalUI(){
         stage = new Stage();
 
-        background = new Texture("background.png");
+        background = new Texture("backgrounds/tempBackground.png");
 
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
