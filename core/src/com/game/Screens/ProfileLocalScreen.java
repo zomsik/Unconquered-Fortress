@@ -114,7 +114,7 @@ public class ProfileLocalScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        Texture profileBannerBackground = new Texture(new FileHandle("assets/profile_banner.png"));
+        Texture profileBannerBackground = new Texture(new FileHandle("assets/backgrounds/profile_banner.png"));
         Texture loginRegisterDialogBackground = new Texture(new FileHandle("assets/dialog/loginregisterDialog.png"));
         Texture deleteDialogBackground = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
 

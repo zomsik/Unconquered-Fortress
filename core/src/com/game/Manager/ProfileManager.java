@@ -26,7 +26,7 @@ public class ProfileManager {
     public Table createProfileTable(JSONObject save, BitmapFont font, LanguageManager languageManager, int x, String icon){
         Table t = new Table();
         t.setBounds(x, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
-        t.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/profile_banner.png")))));
+        t.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/backgrounds/profile_banner.png")))));
 
         TextField.TextFieldStyle tFS = new TextField.TextFieldStyle();
         TextFieldStyleManager tSM = new TextFieldStyleManager();
@@ -63,7 +63,7 @@ public class ProfileManager {
 
         Table t = new Table();
         t.setBounds(x, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
-        t.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/profile_banner.png")))));
+        t.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/backgrounds/profile_banner.png")))));
 
         ButtonStyleManager bSM = new ButtonStyleManager();
         TextButton.TextButtonStyle tBS = new TextButton.TextButtonStyle();
