@@ -16,16 +16,15 @@ public class TowerManager {
     private ArrayList<Tower> towers;
     private ArrayList<Enemy> enemies;
 
-    private float scale;
     private boolean isDisabledListeners;
 
-    public TowerManager(){
+    public TowerManager() {
         towers = new ArrayList<>();
 
 
     }
 
-    public TowerManager(ArrayList<Enemy> enemies){
+    public TowerManager(ArrayList<Enemy> enemies) {
         this.enemies = enemies;
         towers = new ArrayList<>();
         isDisabledListeners = false;
@@ -54,8 +53,7 @@ public class TowerManager {
     public JSONArray getTowers() {
         JSONArray j = new JSONArray();
 
-        for (Tower tower: towers)
-        {
+        for (Tower tower : towers) {
             JSONObject t = new JSONObject();
             t.put("name", tower.getName());
             t.put("x", tower.getTileX());
@@ -110,7 +108,7 @@ public class TowerManager {
     }
 
 
-    public boolean getIsDisabledListeners(){
+    public boolean getIsDisabledListeners() {
         return isDisabledListeners;
     }
 

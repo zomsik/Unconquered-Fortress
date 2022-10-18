@@ -594,7 +594,7 @@ public class ProfileLocalScreen implements Screen {
 
         background = new Texture("backgrounds/tempBackground.png");
 
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 13;
         parameter.color = Color.WHITE;

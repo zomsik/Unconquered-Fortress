@@ -23,18 +23,14 @@ public class TipsManager {
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private Base base;
     private float scale;
-    private TextureAtlas taTips, taTextTips, taTips2; //<-to change with taTips later
-    private Skin images_tips, text_tips, images_tips2; //<- to chane with images_tips later
-
-    //private TextFieldStyleManager textFieldStyleManager;
-    //private TextField tDifficulty, tDifficultyDescription, tCurrency, tGold, tDiamonds, tShop, tShopDescription, tObstacles, tObstaclesDescription;
-    //private TextField.TextFieldStyle textFieldStyle;
+    private TextureAtlas taTips, taTextTips, taTips2;
+    private Skin images_tips;
 
     private ButtonStyleManager buttonStyleManager;
-    private TextButton bMechanics, bEnemies, bTowers, bUpgrades, bBack;
+    private TextButton bMechanics, bEnemies, bTowers, bBack;
     private TextButton.TextButtonStyle textButtonStyleMechanics, textButtonStyleEnemies, textButtonStyleTowers, textButtonStyleBack, textButtonStyleMechanicsChosen, textButtonStyleEnemiesChosen, textButtonStyleTowersChosen;
 
-    private Table table_mechanics, table_enemies, table_upgrades, table_towers, table_buttons;
+    private Table table_mechanics, table_enemies, table_towers, table_buttons;
 
     private Dialog tipsDialog;
     private Pixmap scaledpm, pm;
@@ -46,24 +42,22 @@ public class TipsManager {
         this.base = base;
         this.scale = scale;
 
-        //textFieldStyleManager = new TextFieldStyleManager();
         buttonStyleManager = new ButtonStyleManager();
         initSettingUI();
-
 
         createTipsButtonTable();
         initListeners();
         createTipsMechanicsTable();
         createTipsEnemiesTable();
         createTipsTowersTable();
-        //createTipsUpgradesTable();
     }
     public void createTipsDialog(){
 
         pm = new Pixmap(new FileHandle("assets/backgrounds/game/tempBackground.png"));
         System.out.println("pm: " + pm.getWidth() + " : " + pm.getHeight());
         scaledpm = new Pixmap((int) (1920*scale/1.5f), (int) (1080*scale/1.5f), pm.getFormat());
-        scaledpm.drawPixmap(pm,
+        scaledpm.drawPixmap(
+                pm,
                 0, 0, pm.getWidth(), pm.getHeight(),
                 0, 0, scaledpm.getWidth(), scaledpm.getHeight()
         );
@@ -87,7 +81,6 @@ public class TipsManager {
         bMechanics = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bMechanics"), buttonStyleManager.returnTextButtonStyle(textButtonStyleMechanics));
         bEnemies = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bEnemies"), buttonStyleManager.returnTextButtonStyle(textButtonStyleEnemies));
         bTowers = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bTowers"), buttonStyleManager.returnTextButtonStyle(textButtonStyleTowers));
-        //bUpgrades = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bUpgrades"), buttonStyleManager.returnTextButtonStyle(textButtonStyleMechanis));
         bBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBackTips"), buttonStyleManager.returnTextButtonStyle(textButtonStyleBack));
         bMechanics.getLabel();
         table_buttons.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/10+28*scale);
@@ -99,15 +92,13 @@ public class TipsManager {
     }
     public void createTipsMechanicsTable(){
         this.table_mechanics = new Table();
-        //TODO textfield out, label in
-        //table_mechanics.debug();
         table_mechanics.setBounds(0,0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight()/10*8);
         table_mechanics.row();
         table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tDifficulty"), bigLabelStyle)).width(Gdx.graphics.getWidth()).padLeft(4*scale);
         table_mechanics.row();
         table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tDifficultyDescription"), labelStyle)).width(Gdx.graphics.getWidth()).height(Gdx.graphics.getHeight()/10*2-64*scale).padLeft(4*scale);
         table_mechanics.row();
-        table_mechanics.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(4*scale).padLeft(4*scale).padBottom(4*scale);
+        table_mechanics.add(new Image(images_tips, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(4*scale).padLeft(4*scale).padBottom(4*scale);
         table_mechanics.row();
         table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tCurrency"), bigLabelStyle)).width(Gdx.graphics.getWidth()).padLeft(4*scale);
         table_mechanics.row();
@@ -115,19 +106,19 @@ public class TipsManager {
         table_mechanics.row();
         table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tDiamondsDescription"), labelStyle)).width(Gdx.graphics.getWidth()).height(Gdx.graphics.getHeight()/10*2-64*scale).padLeft(4*scale);
         table_mechanics.row();
-        table_mechanics.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(4*scale).padLeft(4*scale).padBottom(4*scale);
+        table_mechanics.add(new Image(images_tips, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(4*scale).padLeft(4*scale).padBottom(4*scale);
         table_mechanics.row();
         table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tShop"), bigLabelStyle)).width(Gdx.graphics.getWidth()).padLeft(4*scale);
         table_mechanics.row();
         table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tShopDescription"), labelStyle)).width(Gdx.graphics.getWidth()).height(Gdx.graphics.getHeight()/10*2-64*scale).padLeft(4*scale);
         table_mechanics.row();
-        table_mechanics.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(4*scale).padLeft(4*scale).padBottom(4*scale);
+        table_mechanics.add(new Image(images_tips, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(4*scale).padLeft(4*scale).padBottom(4*scale);
         table_mechanics.row();
         table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tLuck"), bigLabelStyle)).width(Gdx.graphics.getWidth()).padLeft(4*scale);
         table_mechanics.row();
         table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tLuckDescription"), labelStyle)).width(Gdx.graphics.getWidth()).height(Gdx.graphics.getHeight()/10*2-64*scale).padLeft(4*scale);
         table_mechanics.row();
-        table_mechanics.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(4*scale).padLeft(4*scale).padBottom(4*scale);
+        table_mechanics.add(new Image(images_tips, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).height(4*scale).padLeft(4*scale).padBottom(4*scale);
         table_mechanics.row();
         table_mechanics.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tEvent"), bigLabelStyle)).width(Gdx.graphics.getWidth()).padLeft(4*scale);
         table_mechanics.row();
@@ -151,42 +142,36 @@ public class TipsManager {
         table_enemies.row();
         table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tEnemiesDescription"), labelStyle)).width(Gdx.graphics.getWidth()).height(Gdx.graphics.getHeight()/10*2-64*scale).colspan(6).padLeft(8*scale);
         table_enemies.row();
-        table_enemies.add(new Image(images_tips2, "separator")).width(Gdx.graphics.getWidth()).colspan(6).height(18*scale);
+        table_enemies.add(new Image(images_tips, "separator")).width(Gdx.graphics.getWidth()).colspan(6).height(18*scale);
         table_enemies.row();
-        table_enemies.add(new Image(images_tips2, "warrior")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
+        table_enemies.add(new Image(images_tips, "warrior")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
         table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tWarrior"), labelStyle)).height(80*scale).align(Align.left).colspan(5).expandX().padLeft(30*scale);
         table_enemies.row();
-        table_enemies.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
+        table_enemies.add(new Image(images_tips, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
         table_enemies.row();
         table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tAssassin"), labelStyle)).height(80*scale).align(Align.right).colspan(5).expandX().padRight(-24*scale);
-        table_enemies.add(new Image(images_tips2, "assassin")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
+        table_enemies.add(new Image(images_tips, "assassin")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
         table_enemies.row();
-        table_enemies.add(new Image(images_tips2, "objectSeparatorRight")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
+        table_enemies.add(new Image(images_tips, "objectSeparatorRight")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
         table_enemies.row();
-        table_enemies.add(new Image(images_tips2, "incubus")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
+        table_enemies.add(new Image(images_tips, "incubus")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
         table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tIncubus"), labelStyle)).height(80*scale).align(Align.left).colspan(5).expandX().padLeft(30*scale);
         table_enemies.row();
-        table_enemies.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
+        table_enemies.add(new Image(images_tips, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
         table_enemies.row();
         table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tBlob"), labelStyle)).height(80*scale).align(Align.right).colspan(5).expandX().padRight(-24*scale);
-        table_enemies.add(new Image(images_tips2, "blob")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
+        table_enemies.add(new Image(images_tips, "blob")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
         table_enemies.row();
-        table_enemies.add(new Image(images_tips2, "objectSeparatorRight")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
+        table_enemies.add(new Image(images_tips, "objectSeparatorRight")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
         table_enemies.row();
-        table_enemies.add(new Image(images_tips2, "summoner")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
+        table_enemies.add(new Image(images_tips, "summoner")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
         table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tSummoner"), labelStyle)).height(80*scale).align(Align.left).colspan(5).expandX().padLeft(30*scale);
         table_enemies.row();
-        table_enemies.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
+        table_enemies.add(new Image(images_tips, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
         table_enemies.row();
         table_enemies.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tGladiator"), labelStyle)).height(80*scale).align(Align.right).colspan(5).expandX().padRight(-24*scale);
-        table_enemies.add(new Image(images_tips2, "gladiator")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
+        table_enemies.add(new Image(images_tips, "gladiator")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
     }
-
-    /*public void createTipsUpgradesTable(){
-        this.table_upgrades = new Table();
-
-        table_upgrades.setBounds(0,0, Gdx.graphics.getWidth(),Gdx.graphics.getHeight()/10*8);
-    }*/
 
     public void createTipsTowersTable(){
         this.table_towers = new Table();
@@ -205,35 +190,35 @@ public class TipsManager {
         table_towers.row();
         table_towers.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tTowersDescription"), labelStyle)).width(Gdx.graphics.getWidth()).height(Gdx.graphics.getHeight()/10*2-64*scale).colspan(6).padLeft(8*scale);
         table_towers.row();
-        table_towers.add(new Image(images_tips2, "separator")).width(Gdx.graphics.getWidth()).colspan(6).height(18*scale);
+        table_towers.add(new Image(images_tips, "separator")).width(Gdx.graphics.getWidth()).colspan(6).height(18*scale);
         table_towers.row();
-        table_towers.add(new Image(images_tips2, "melee")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
+        table_towers.add(new Image(images_tips, "melee")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
         table_towers.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tMelee"), labelStyle)).height(80*scale).align(Align.left).colspan(5).expandX().padLeft(30*scale);
         table_towers.row();
-        table_towers.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
+        table_towers.add(new Image(images_tips, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
         table_towers.row();
         table_towers.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tCrossbow"), labelStyle)).height(80*scale).align(Align.right).colspan(5).expandX().padRight(-24*scale);
-        table_towers.add(new Image(images_tips2, "crossbow")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
+        table_towers.add(new Image(images_tips, "crossbow")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
         table_towers.row();
-        table_towers.add(new Image(images_tips2, "objectSeparatorRight")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
+        table_towers.add(new Image(images_tips, "objectSeparatorRight")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
         table_towers.row();
-        table_towers.add(new Image(images_tips2, "mage")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
+        table_towers.add(new Image(images_tips, "mage")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
         table_towers.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tMage"), labelStyle)).height(80*scale).align(Align.left).colspan(5).expandX().padLeft(30*scale);
         table_towers.row();
-        table_towers.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
+        table_towers.add(new Image(images_tips, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
         table_towers.row();
         table_towers.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tCannon"), labelStyle)).height(80*scale).align(Align.right).colspan(5).expandX().padRight(-24*scale);
-        table_towers.add(new Image(images_tips2, "cannon")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
+        table_towers.add(new Image(images_tips, "cannon")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
         table_towers.row();
-        table_towers.add(new Image(images_tips2, "objectSeparatorRight")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
+        table_towers.add(new Image(images_tips, "objectSeparatorRight")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
         table_towers.row();
-        table_towers.add(new Image(images_tips2, "sticky")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
+        table_towers.add(new Image(images_tips, "sticky")).width(80*scale).height(80*scale).align(Align.left).colspan(1).padLeft(16);
         table_towers.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tSticky"), labelStyle)).height(80*scale).align(Align.left).colspan(5).expandX().padLeft(30*scale);
         table_towers.row();
-        table_towers.add(new Image(images_tips2, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
+        table_towers.add(new Image(images_tips, "objectSeparatorLeft")).width(Gdx.graphics.getWidth()).colspan(6).height(4*scale);
         table_towers.row();
         table_towers.add(new Label(languageManager.getValue(languageManager.getLanguage(), "tNeedles"), labelStyle)).height(80*scale).align(Align.right).colspan(5).expandX().padRight(-24*scale);
-        table_towers.add(new Image(images_tips2, "needles")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
+        table_towers.add(new Image(images_tips, "needles")).width(80*scale).height(80*scale).align(Align.right).colspan(1).padLeft(-512*scale).padRight(16);
     }
 
     public Table returnTipsButtonsTable(){
@@ -247,9 +232,6 @@ public class TipsManager {
     }
     public Table returnTipsTowersTable(){
         return  table_towers;
-    }
-    public Table returnTipsUpgradesTable(){
-        return  table_upgrades;
     }
 
     public void setChosenButton(String name){
@@ -277,18 +259,16 @@ public class TipsManager {
         images_tips = new Skin(taTips);
 
         taTips2 = new TextureAtlas("assets/icons/tipsImages.pack");
-        images_tips2 = new Skin(taTips2);
+        images_tips = new Skin(taTips2);
 
         taTextTips = new TextureAtlas("assets/buttons/text_credits.pack");
-        text_tips = new Skin(taTextTips);
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 20;
         parameter.color = Color.WHITE;
         parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
         bigFont = new BitmapFont();
         bigFont = generator.generateFont(parameter);
-        //textFieldStyle = new TextField.TextFieldStyle();
         textButtonStyleMechanics = new TextButton.TextButtonStyle();
         textButtonStyleBack = new TextButton.TextButtonStyle();
         textButtonStyleEnemies = new TextButton.TextButtonStyle();
@@ -296,19 +276,18 @@ public class TipsManager {
         textButtonStyleMechanicsChosen = new TextButton.TextButtonStyle();
         textButtonStyleEnemiesChosen = new TextButton.TextButtonStyle();
         textButtonStyleTowersChosen = new TextButton.TextButtonStyle();
-        buttonStyleManager.setTextButtonStyle(textButtonStyleMechanics, images_tips2, font, "mechanics_up", "mechanics_down");
-        buttonStyleManager.setTextButtonStyle(textButtonStyleEnemies, images_tips2, font, "enemies_up", "enemies_down");
-        buttonStyleManager.setTextButtonStyle(textButtonStyleTowers, images_tips2, font, "towers_up", "towers_down");
-        buttonStyleManager.setTextButtonStyle(textButtonStyleBack, images_tips2, font, "back_up", "back_down");
-        buttonStyleManager.setTextButtonStyle(textButtonStyleMechanicsChosen, images_tips2, font, "mechanics_down", "mechanics_down");
-        buttonStyleManager.setTextButtonStyle(textButtonStyleEnemiesChosen, images_tips2, font, "enemies_down", "enemies_down");
-        buttonStyleManager.setTextButtonStyle(textButtonStyleTowersChosen, images_tips2, font, "towers_down", "towers_down");
+        buttonStyleManager.setTextButtonStyle(textButtonStyleMechanics, images_tips, font, "mechanics_up", "mechanics_down");
+        buttonStyleManager.setTextButtonStyle(textButtonStyleEnemies, images_tips, font, "enemies_up", "enemies_down");
+        buttonStyleManager.setTextButtonStyle(textButtonStyleTowers, images_tips, font, "towers_up", "towers_down");
+        buttonStyleManager.setTextButtonStyle(textButtonStyleBack, images_tips, font, "back_up", "back_down");
+        buttonStyleManager.setTextButtonStyle(textButtonStyleMechanicsChosen, images_tips, font, "mechanics_down", "mechanics_down");
+        buttonStyleManager.setTextButtonStyle(textButtonStyleEnemiesChosen, images_tips, font, "enemies_down", "enemies_down");
+        buttonStyleManager.setTextButtonStyle(textButtonStyleTowersChosen, images_tips, font, "towers_down", "towers_down");
         labelStyle = new Label.LabelStyle(font, Color.WHITE);
         bigLabelStyle = new Label.LabelStyle(bigFont, Color.WHITE);
     }
 
     public void initListeners(){
-        //TODO wersja robocza, może tworzyć dialog w tej klasie i usuwać dodawać tablice tutaj do dialogu
         bMechanics.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -339,15 +318,6 @@ public class TipsManager {
                 setChosenButton("bTowers");
             }
         });
-        /*bUpgrades.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                tipsDialog.clear();
-                tipsDialog.add(returnTipsButtonsTable());
-                tipsDialog.row();
-                tipsDialog.add(returnTipsUpgradesTable());
-            }
-        });*/
 
         bBack.addListener(new ClickListener() {
             @Override
@@ -360,5 +330,4 @@ public class TipsManager {
             }
         });
     }
-
 }

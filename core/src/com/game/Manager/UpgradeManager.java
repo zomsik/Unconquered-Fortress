@@ -29,7 +29,6 @@ public class UpgradeManager {
     private Upgrade uFork, uScythe, uDagger, uSword, uBattleAxe, uMace, uBow, uCrossbow, uCannon, uCannonBall, uBetterCannon, uSceptre, uBook, uGear, uSonar, uHealth, uBetterHealth, uBetterBetterHealth, uRegeneration, uShield, uGold, uBetterGold, uDiamonds, uBetterDiamonds, uDiscount10, uDiscount20, uDiscount30, uUpgrade, uHammer, uBetterUpgrade, uLuck;
     private Skin images_upgrades;
     private Table table_upgrade;
-    private Dialog upgradeDialog;
     private TextureAtlas taButtonsDefault;
     private Skin images_default;
     private LanguageManager languageManager;
@@ -50,8 +49,8 @@ public class UpgradeManager {
     private float scale;
     private BitmapFont font;
 
-    public UpgradeManager(LanguageManager languageManager, BitmapFont font, Base base, JSONObject upgrades, JSONArray unlockedUpgrades, float scale){
-        this.images_upgrades = new Skin(new TextureAtlas("assets/icons/upgrade_icons.pack"));;
+    public UpgradeManager(LanguageManager languageManager, BitmapFont font, Base base, JSONObject upgrades, JSONArray unlockedUpgrades, float scale) {
+        this.images_upgrades = new Skin(new TextureAtlas("assets/icons/upgrade_icons.pack"));
         this.languageManager = languageManager;
         this.font = font;
         this.base = base;
@@ -67,7 +66,7 @@ public class UpgradeManager {
         bUpgradeBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle));
         Drawable tooltipBackground = new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/settings_dialog.png"))));
         textTooltipStyle = new TextTooltip.TextTooltipStyle();
-        this.font.getData().markupEnabled=true;
+        this.font.getData().markupEnabled = true;
 
         textTooltipStyle.label = new Label.LabelStyle(font, Color.WHITE);
 
@@ -81,16 +80,16 @@ public class UpgradeManager {
         loadUpgrades();
 
     }
-    public Table returnUpgradeTable(){
-        return  table_upgrade;
+
+    public Table returnUpgradeTable() {
+        return table_upgrade;
     }
 
-    public void createUpgradeTable(){
+    public void createUpgradeTable() {
         this.table_upgrade = new Table();
 
 
-
-        table_upgrade.setBounds(0,0, Gdx.graphics.getWidth()/10*7,Gdx.graphics.getHeight()/10*8);
+        table_upgrade.setBounds(0, 0, Gdx.graphics.getWidth() / 10 * 7, Gdx.graphics.getHeight() / 10 * 8);
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
         table_upgrade.add(new Label(languageManager.getValue(languageManager.getLanguage(), "upgrade_dialog_field_text"), labelStyle)).colspan(12).padBottom(16);
         table_upgrade.row();
@@ -225,12 +224,9 @@ public class UpgradeManager {
         table_upgrade.padBottom(16);
         table_upgrade.padLeft(16);
         table_upgrade.padRight(16);
-
-
-        //table_upgrade.setScale(scale);
     }
 
-    private void initUpgrades(){
+    private void initUpgrades() {
         upgradeList = new ArrayList<>();
 
         uFork = new Upgrade("fork", 0, upgrades.getJSONArray("fork"), images_upgrades, "upgradeIcons_attackFork", languageManager);
@@ -266,33 +262,33 @@ public class UpgradeManager {
         uLuck = new Upgrade("luck", -1, upgrades.getJSONArray("luck"), images_upgrades, "upgradeIcons_incomeLuck", languageManager);
 
 
-        uFork.addNextUpgrade(uScythe,1);
-        uScythe.addNextUpgrade(uBow,1);
-        uScythe.addNextUpgrade(uDagger,1);
-        uDagger.addNextUpgrade(uSword,1);
-        uDagger.addNextUpgrade(uSceptre,2);
-        uSword.addNextUpgrade(uBattleAxe,1);
-        uBattleAxe.addNextUpgrade(uCannon,1);
+        uFork.addNextUpgrade(uScythe, 1);
+        uScythe.addNextUpgrade(uBow, 1);
+        uScythe.addNextUpgrade(uDagger, 1);
+        uDagger.addNextUpgrade(uSword, 1);
+        uDagger.addNextUpgrade(uSceptre, 2);
+        uSword.addNextUpgrade(uBattleAxe, 1);
+        uBattleAxe.addNextUpgrade(uCannon, 1);
         uBattleAxe.addNextUpgrade(uMace, uBattleAxe.getMaxLevel());
         uBow.addNextUpgrade(uCrossbow, uBow.getMaxLevel());
-        uCannon.addNextUpgrade(uCannonBall,1);
-        uCannonBall.addNextUpgrade(uBetterCannon,1);
-        uSceptre.addNextUpgrade(uBook,1);
+        uCannon.addNextUpgrade(uCannonBall, 1);
+        uCannonBall.addNextUpgrade(uBetterCannon, 1);
+        uSceptre.addNextUpgrade(uBook, 1);
         uGear.addNextUpgrade(uSonar, uGear.getMaxLevel());
         uHealth.addNextUpgrade(uBetterHealth, uHealth.getMaxLevel());
-        uBetterHealth.addNextUpgrade(uRegeneration,1);
-        uRegeneration.addNextUpgrade(uShield,1);
-        uShield.addNextUpgrade(uBetterBetterHealth,1);
-        uGold.addNextUpgrade(uDiscount10,1);
+        uBetterHealth.addNextUpgrade(uRegeneration, 1);
+        uRegeneration.addNextUpgrade(uShield, 1);
+        uShield.addNextUpgrade(uBetterBetterHealth, 1);
+        uGold.addNextUpgrade(uDiscount10, 1);
         uGold.addNextUpgrade(uBetterGold, uGold.getMaxLevel());
-        uBetterGold.addNextUpgrade(uDiamonds,1);
+        uBetterGold.addNextUpgrade(uDiamonds, 1);
         uDiamonds.addNextUpgrade(uBetterDiamonds, uDiscount10.getMaxLevel());
-        uDiscount10.addNextUpgrade(uDiscount20,1);
-        uDiscount10.addNextUpgrade(uUpgrade,1);
-        uDiscount20.addNextUpgrade(uDiscount30,1);
-        uUpgrade.addNextUpgrade(uHammer,1);
-        uHammer.addNextUpgrade(uLuck,1);
-        uHammer.addNextUpgrade(uBetterUpgrade,2);
+        uDiscount10.addNextUpgrade(uDiscount20, 1);
+        uDiscount10.addNextUpgrade(uUpgrade, 1);
+        uDiscount20.addNextUpgrade(uDiscount30, 1);
+        uUpgrade.addNextUpgrade(uHammer, 1);
+        uHammer.addNextUpgrade(uLuck, 1);
+        uHammer.addNextUpgrade(uBetterUpgrade, 2);
 
         upgradeList.add(uFork);
         upgradeList.add(uScythe);
@@ -328,37 +324,32 @@ public class UpgradeManager {
 
     }
 
-    public void initListeners()
-    {
+    public void initListeners() {
         bUpgradeBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 base.setState(Base.State.Resumed);
             }
         });
-        for (Upgrade u: upgradeList)
-        {
-            u.getImage().addListener(new ClickListener(){
+        for (Upgrade u : upgradeList) {
+            u.getImage().addListener(new ClickListener() {
                 private boolean isClicked = false;
 
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     isClicked = true;
                     System.out.println("kliklem na:" + u.getUpgradeName());
-                    if (!u.isMaxLevel())
-                    {
-                        if (base.getDiamonds()>=u.getCostToUpgrade())
-                        {
-                            base.setPassiveUpgrade(u.getUpgrade(),false);
+                    if (!u.isMaxLevel()) {
+                        if (base.getDiamonds() >= u.getCostToUpgrade()) {
+                            base.setPassiveUpgrade(u.getUpgrade(), false);
 
                             u.levelUp();
 
                             unlockedUpgrades.put(u.getUpgradeName());
 
                             int j = u.getUnlocksLeft();
-                            for (int i=0; i<j; i++)
-                            {
-                                if(u.getLevel() == u.getLevelToUnlock()){
+                            for (int i = 0; i < j; i++) {
+                                if (u.getLevel() == u.getLevelToUnlock()) {
                                     u.getNextUpgrade().unlock(images_upgrades);
                                     u.removeUnlocked();
                                 }
@@ -367,14 +358,13 @@ public class UpgradeManager {
                     }
 
 
-
                 }
 
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    if (tooltip!=null) {
+                    if (tooltip != null) {
                         tooltip.exit(event, x, y, pointer, fromActor);
-                        tooltip=null;
+                        tooltip = null;
                     }
 
                     Label information;
@@ -383,9 +373,9 @@ public class UpgradeManager {
                     tooltip = new TextTooltip("", textTooltipStyle);
                     tooltip.setActor(information);
                     tooltip.setInstant(true);
-                    tooltip.enter(event, 32*scale, 32*scale*1.5f, pointer, fromActor);
+                    tooltip.enter(event, 32 * scale, 32 * scale * 1.5f, pointer, fromActor);
                 }
-//EO
+
                 @Override
                 public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                     if (isClicked) {
@@ -394,8 +384,6 @@ public class UpgradeManager {
                     }
                     tooltip.exit(event, x, y, pointer, fromActor);
                 }
-
-
             });
 
         }
@@ -410,13 +398,12 @@ public class UpgradeManager {
         this.tooltip = tooltip;
     }
 
-    public UpgradeManager getThis(){
+    public UpgradeManager getThis() {
         return this;
     }
 
     private Upgrade findUpgrade(String upgradeName) {
-        for (Upgrade u: upgradeList)
-        {
+        for (Upgrade u : upgradeList) {
             if (Objects.equals(u.getUpgradeName(), upgradeName))
                 return u;
         }
@@ -426,16 +413,15 @@ public class UpgradeManager {
 
     private void loadUpgrades() {
 
-        for (int k=0; k < unlockedUpgrades.length(); k++) {
+        for (int k = 0; k < unlockedUpgrades.length(); k++) {
             Upgrade upgrade = findUpgrade(unlockedUpgrades.getString(k));
-            base.setPassiveUpgrade(upgrade.getUpgrade(),true);
+            base.setPassiveUpgrade(upgrade.getUpgrade(), true);
             upgrade.levelUp();
 
 
             int j = upgrade.getUnlocksLeft();
-            for (int i=0; i<j; i++)
-            {
-                if(upgrade.getLevel() == upgrade.getLevelToUnlock()){
+            for (int i = 0; i < j; i++) {
+                if (upgrade.getLevel() == upgrade.getLevelToUnlock()) {
                     upgrade.getNextUpgrade().unlock(images_upgrades);
                     upgrade.removeUnlocked();
                 }

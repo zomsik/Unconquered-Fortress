@@ -219,7 +219,7 @@ public class CreditsScreen implements Screen {
         languagesList.add("English");
         languagesList.add("Polski");
 
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         stage = new Stage();

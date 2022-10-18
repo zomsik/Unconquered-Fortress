@@ -546,7 +546,7 @@ public class MenuScreen implements Screen  {
         clouds_front = new Texture("backgrounds/menu/clouds_front.png");
         castle = new Texture("backgrounds/menu/castle.png");
 
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         stage = new Stage();
