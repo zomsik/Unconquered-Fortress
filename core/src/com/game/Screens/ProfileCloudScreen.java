@@ -49,8 +49,7 @@ public class ProfileCloudScreen implements Screen {
     private TextButton.TextButtonStyle textButtonStyle_bBack,textButtonStyle_bSave, textButtonStyle_bPrevious, textButtonStyle_bNewProfile, textButtonStyle_cDialogDifficultyChecked, textButtonStyle_cDialogDifficultyUnchecked;
     private TextField.TextFieldStyle textFieldStyle, seedFieldStyle;
     private Music backgroundMusic;
-
-    private boolean isDialog = false;//<- to delete or leave
+    private boolean isDialog = false;
     private JSONObject loadResponse;
     private Dialog newGameDialog, deleteGameDialog, migrateSaveDialog;;
     private String chosenDifficulty = null;
@@ -63,20 +62,21 @@ public class ProfileCloudScreen implements Screen {
         stage = new Stage();
         fileReader = new FileReader();
         fileReader.downloadSettings();
-        if(fileReader.getLanguageValue() != null){
+        if(fileReader.getLanguageValue() != null) {
             languageManager = new LanguageManager(fileReader.getLanguageValue());
-        }else{
+        } else {
             languageManager = new LanguageManager("English");
         }
 
         profileManager = new ProfileManager();
 
-
         this.loadResponse = loadResponse;
 
         initProfileCloudUI();
+
         buttonStyleManager = new ButtonStyleManager();
         textFieldStyleManager = new TextFieldStyleManager();
+
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
         bBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bSave, images_default, font, "defaultButton", "defaultButton");
@@ -84,8 +84,6 @@ public class ProfileCloudScreen implements Screen {
 
         bDialogCreate = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bDialogCreate"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
         bDialogCancel = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bDialogCancel"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
-
-        //TODO Dialog Seed input
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogDifficultyChecked, images_settings, font, "checkbox_on", "checkbox_on");
         buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogDifficultyUnchecked, images_settings, font, "checkbox_off", "checkbox_off");
@@ -96,7 +94,6 @@ public class ProfileCloudScreen implements Screen {
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bPrevious, image_profiles, font, "previous_screen_button", "previous_screen_button");
         bOtherScreen = new TextButton(null, buttonStyleManager.returnTextButtonStyle(textButtonStyle_bPrevious));
-
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bNewProfile, image_profiles, font, "new_profile_button_up", "new_profile_button_down");
         bNewProfile01 = new TextButton(null, buttonStyleManager.returnTextButtonStyle(textButtonStyle_bNewProfile));
@@ -111,31 +108,24 @@ public class ProfileCloudScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        Texture bg = new Texture(new FileHandle("assets/profile_banner.png"));
-        Texture dialogBg = new Texture(new FileHandle("assets/dialog/loginregisterDialog.png"));
-        Texture deleteDialogBg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
+        Texture profileBannerBackground = new Texture(new FileHandle("assets/profile_banner.png"));
+        Texture loginRegisterDialogBackground = new Texture(new FileHandle("assets/dialog/loginregisterDialog.png"));
+        Texture deleteDialogBackground = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
 
         table_profile_01.setBounds(Gdx.graphics.getWidth()/10*2, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
-        table_profile_01.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
+        table_profile_01.setBackground(new TextureRegionDrawable(new TextureRegion(profileBannerBackground)));
         table_profile_02.setBounds(Gdx.graphics.getWidth()/10*4, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
-        table_profile_02.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
+        table_profile_02.setBackground(new TextureRegionDrawable(new TextureRegion(profileBannerBackground)));
         table_profile_03.setBounds(Gdx.graphics.getWidth()/10*6, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
-        table_profile_03.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
+        table_profile_03.setBackground(new TextureRegionDrawable(new TextureRegion(profileBannerBackground)));
 
-
-
-
-
-        if (loadResponse.getInt("status") == 200)
-        {
+        if (loadResponse.getInt("status") == 200) {
             int numberOfLoadedSaves = loadResponse.getJSONArray("loadedData").length();
             JSONObject save;
-            for (int i =0; i<numberOfLoadedSaves; i++)
-            {
+            for (int i =0; i<numberOfLoadedSaves; i++) {
                 save =  loadResponse.getJSONArray("loadedData").getJSONObject(i);
 
-                if( save.getInt("profileNumber")==1)
-                {
+                if( save.getInt("profileNumber")==1) {
                     save1 = save;
                     table_profile_01 = profileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*2, "assets/icons/cloud.png");
                     table_profile_01.addListener(new ClickListener(){
@@ -153,7 +143,6 @@ public class ProfileCloudScreen implements Screen {
                         public void clicked(InputEvent event, float x, float y) {
                             saveToDelete=1;
                             deleteGameDialog.show(stage);
-
                         }
                     });
 
@@ -165,13 +154,9 @@ public class ProfileCloudScreen implements Screen {
                         }
                     });
 
-
                     stage.addActor(delete1);
                     stage.addActor(migrationSave1);
-
-                }
-                else if( save.getInt("profileNumber")==2)
-                {
+                } else if( save.getInt("profileNumber")==2) {
                     save2 = save;
                     table_profile_02 = profileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*4,"assets/icons/cloud.png");
                     table_profile_02.addListener(new ClickListener(){
@@ -188,7 +173,6 @@ public class ProfileCloudScreen implements Screen {
                         public void clicked(InputEvent event, float x, float y) {
                             saveToDelete=2;
                             deleteGameDialog.show(stage);
-
                         }
                     });
 
@@ -200,12 +184,9 @@ public class ProfileCloudScreen implements Screen {
                         }
                     });
 
-
                     stage.addActor(delete2);
                     stage.addActor(migrationSave2);
-                }
-                else if( save.getInt("profileNumber")==3)
-                {
+                } else if( save.getInt("profileNumber")==3) {
                     save3 = save;
                     table_profile_03 = profileManager.createProfileTable(save, font_profile, languageManager, Gdx.graphics.getWidth()/10*6, "assets/icons/cloud.png");
                     table_profile_03.addListener(new ClickListener(){
@@ -222,7 +203,6 @@ public class ProfileCloudScreen implements Screen {
                         public void clicked(InputEvent event, float x, float y) {
                             saveToDelete=3;
                             deleteGameDialog.show(stage);
-
                         }
                     });
 
@@ -234,18 +214,11 @@ public class ProfileCloudScreen implements Screen {
                         }
                     });
 
-
                     stage.addActor(delete3);
                     stage.addActor(migrationSave3);
-
                 }
-
-
-
-
-            }//for
-        }//if_downloaded
-
+            }
+        }
 
         //no saves -> make +
         if (table_profile_01.getChildren().size==0) {
@@ -279,7 +252,6 @@ public class ProfileCloudScreen implements Screen {
             });
         }
 
-
         stage.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -292,26 +264,19 @@ public class ProfileCloudScreen implements Screen {
             }
         });
 
-
-
-
         //to calibrate
         table_previous.setBounds((Gdx.graphics.getWidth()-Gdx.graphics.getWidth()/10*9 - Gdx.graphics.getHeight()/10), Gdx.graphics.getWidth()/10*2,Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*2);
-
         table_previous.add(bOtherScreen);
+
         stage.addActor(table_previous);
+
         bOtherScreen.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new ProfileLocalScreen(game));
             }
         });
-
-
-
-
-
-        newGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(dialogBg)))) {
+        newGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(loginRegisterDialogBackground)))) {
             public void result(Object obj) {
                 newGameDialog.cancel();
             }
@@ -330,7 +295,7 @@ public class ProfileCloudScreen implements Screen {
         tDialogDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "difficulty_field"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogDifficulty.setDisabled(true);
 
-        deleteGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(deleteDialogBg)))) {
+        deleteGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(deleteDialogBackground)))) {
             public void result(Object obj) {
                 deleteGameDialog.cancel();
             }
@@ -432,8 +397,7 @@ public class ProfileCloudScreen implements Screen {
         bDialogCreate.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                if (chosenDifficulty !=null)
-                {
+                if (chosenDifficulty !=null) {
                     System.out.println("Stworzono gre na profilu " + chosenProfile + "o poziomie trudnosci " + chosenDifficulty);
                     GameState.setGameState(GameState.PLAYING);
                     ///in cloud put profileNumber
@@ -442,25 +406,14 @@ public class ProfileCloudScreen implements Screen {
             }
         });
 
-
-
-
-
-
-
-
-
         table_default.setBounds(Gdx.graphics.getWidth()/10*3, Gdx.graphics.getHeight()/20, Gdx.graphics.getWidth()/10*4,50);
-
         table_default.add(bBack).padRight(200);
         table_default.add(bPlay).padLeft(90);
-
 
         stage.addActor(table_profile_01);
         stage.addActor(table_profile_02);
         stage.addActor(table_profile_03);
         stage.addActor(table_default);
-
 
         bBack.addListener(new ClickListener() {
             @Override
@@ -481,7 +434,7 @@ public class ProfileCloudScreen implements Screen {
         table_migrateSave.row().padBottom(8);
         table_migrateSave.add(bMigrateSaveDialogBack);
         table_migrateSave.add(bMigrateSaveDialogOk);
-        migrateSaveDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(deleteDialogBg)))) {
+        migrateSaveDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(deleteDialogBackground)))) {
             public void result(Object obj) {
                 deleteGameDialog.cancel();
             }
@@ -489,10 +442,9 @@ public class ProfileCloudScreen implements Screen {
     }
 
     private void migrateSave(int saveNumber, JSONObject saveToMigrate) {
-
         migrateSaveDialog.addActor(table_migrateSave);
-        if (fileReader.fileExists("save/save01l.json") && fileReader.fileExists("save/save02l.json") && fileReader.fileExists("save/save03l.json"))
-        {
+
+        if (fileReader.fileExists("save/save01l.json") && fileReader.fileExists("save/save02l.json") && fileReader.fileExists("save/save03l.json")) {
             table_migrateSave.removeActor(bMigrateSaveDialogOk);
             table_migrateSave.removeActor(bMigrateSaveDialogBack);
             table_migrateSave.row().padBottom(8);
@@ -506,14 +458,12 @@ public class ProfileCloudScreen implements Screen {
                     migrateSaveDialog.hide();
                 }
             });
-
             migrateSaveDialog.show(stage);
             return;
         }
-        for(int i=1 ; i<=3; i++)
-        {
-            if(!fileReader.fileExists("save/save0"+i+"l.json"))
-            {
+
+        for(int i=1 ; i<=3; i++) {
+            if(!fileReader.fileExists("save/save0"+i+"l.json")) {
                 tMigrateSaveText.setText(languageManager.getValue(languageManager.getLanguage(), "tDoYouWantDownload") + i+"?");
                 int finalI = i;
                 bMigrateSaveDialogOk.addListener(new ClickListener() {
@@ -532,17 +482,12 @@ public class ProfileCloudScreen implements Screen {
                 migrateSaveDialog.show(stage);
                 return;
             }
-
         }
 
         tMigrateSaveText.setText("brak pustych");
-
-
     }
 
-
     private void uploadAndDelete(int saveNumber, int emptyProfileNumber, JSONObject saveToMigrate) {
-
         saveToMigrate.put("profileNumber", emptyProfileNumber);
         saveToMigrate.remove("login");
         saveToMigrate.remove("_id");
@@ -554,9 +499,7 @@ public class ProfileCloudScreen implements Screen {
     }
 
     private void removeDeletedFromResponse() {
-
-        for(int i=0; i<loadResponse.getJSONArray("loadedData").length(); i++)
-        {
+        for(int i=0; i<loadResponse.getJSONArray("loadedData").length(); i++) {
             if( loadResponse.getJSONArray("loadedData").getJSONObject(i).getInt("profileNumber")==saveToDelete) {
                 JSONArray j = loadResponse.getJSONArray("loadedData");
                 j.remove(i);
@@ -564,9 +507,6 @@ public class ProfileCloudScreen implements Screen {
                 break;
             }
         }
-
-
-
     }
 
     @Override
@@ -574,7 +514,8 @@ public class ProfileCloudScreen implements Screen {
         Gdx.gl.glClearColor(1,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-        if(isDialog){
+
+        if(isDialog) {
             Gdx.gl.glClearColor(0,0,0,1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             table_profile_01.setVisible(false);
@@ -589,7 +530,7 @@ public class ProfileCloudScreen implements Screen {
 
             table_default.setVisible(false);
             table_previous.setVisible(false);
-        }else{
+        } else {
             game.batch.draw(background, 0,0);
             table_profile_01.setVisible(true);
             table_profile_02.setVisible(true);
@@ -603,57 +544,51 @@ public class ProfileCloudScreen implements Screen {
             table_default.setVisible(true);
             table_previous.setVisible(true);
         }
+
         game.batch.end();
         stage.act(delta);
         stage.draw();
     }
+    @Override
+    public void resize(int width, int height) {}
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void pause() {}
 
     @Override
-    public void pause() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void hide() {}
 
     @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
+    public void dispose() {}
 
     private void initProfileCloudUI() {
         stage = new Stage();
+
         background = new Texture("background.png");
+
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 13;
-
         parameter.color = Color.WHITE;
         parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
+
         font = new BitmapFont();
         font = generator.generateFont(parameter);
-        if(Gdx.graphics.getWidth() < 1281){
+
+        if(Gdx.graphics.getWidth() < 1281) {
             parameter.size = 9;
-        }
-        else if(Gdx.graphics.getWidth() < 1601){
+        } else if(Gdx.graphics.getWidth() < 1601) {
             parameter.size = 11;
-        }else{
+        } else {
             parameter.size = 13;
         }
+
         font_profile = new BitmapFont();
         font_profile = generator.generateFont(parameter);
+
         taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");
         taEmptyTextfield = new TextureAtlas("assets/buttons/buttons_settings.pack");
         taButtonsProfile = new TextureAtlas("assets/buttons/buttons_profile.pack");
@@ -664,9 +599,10 @@ public class ProfileCloudScreen implements Screen {
         images_empty = new Skin(taEmptyTextfield);
         image_profiles = new Skin(taButtonsProfile);
         images_settings = new Skin(new TextureAtlas("assets/buttons/buttons_settings.pack"));
-        table_default = new Table(images_default);
-        table_previous = new Table(images_default);
-        table_Dialog = new Table(images_settings);
+
+        table_default = new Table();
+        table_previous = new Table();
+        table_Dialog = new Table();
         table_profile_01 = new Table();
         table_profile_02 = new Table();
         table_profile_03 = new Table();
@@ -679,19 +615,17 @@ public class ProfileCloudScreen implements Screen {
         migrationSave3 = new Table();
         table_migrateSave = new Table();
 
-
         textButtonStyle_bBack = new TextButton.TextButtonStyle();
         textButtonStyle_bSave = new TextButton.TextButtonStyle();
         textButtonStyle_bPrevious = new TextButton.TextButtonStyle();
         textButtonStyle_bNewProfile = new TextButton.TextButtonStyle();
+
         textFieldStyle = new TextField.TextFieldStyle();
         seedFieldStyle = new TextField.TextFieldStyle();
+
         backgroundMusic = game.getMusic();
+
         textButtonStyle_cDialogDifficultyChecked = new TextButton.TextButtonStyle();
         textButtonStyle_cDialogDifficultyUnchecked  = new TextButton.TextButtonStyle();
-
-
-
-
     }
 }

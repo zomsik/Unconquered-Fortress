@@ -23,7 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.game.Main;
 import com.game.Manager.*;
-import com.game.State.GameState;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -38,29 +37,34 @@ public class SettingsScreen implements Screen {
     private TextButton bLeftResolution, bRightResolution, bBack, bSave, bLeftLanguage, bRightLanguage, bBackDialog;
     private Table table_resolution, table_default, table_volume, table_volume2, table_language;
     private TextField tResolutionField, tResolutionFieldText, tVolumeFieldText, tVolumeEffectsFieldText, tLanguageFieldText, tLanguageField;
-    private ArrayList<String> resolutions;
-    private ArrayList<String> languages;
+    private ArrayList<String> resolutionsList;
+    private ArrayList<String> languagesList;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private TextButton.TextButtonStyle textButtonStyle_bLeft, textButtonStyle_bRight, textButtonStyle_bBack, textButtonStyle_bSave;
     private TextField.TextFieldStyle textFieldStyle;
     private Music backgroundMusic;
-    private Slider volumeSlider, volumeSlider2;
+    private Slider volumeMusicSlider, volumeEffectsSlider;
     private Slider.SliderStyle sliderStyle;
-    private Resolutions resolutionsClass;
+    private Resolutions resolutions;
     private ButtonStyleManager buttonStyleManager;
     private TextFieldStyleManager textFieldStyleManager;
     private FileReader fileReader;
     private LanguageManager languageManager;
     private Dialog backDialog;
-
     private boolean isDialog = false;
     public SettingsScreen (Main game){
         this.game = game;
-        resolutionsClass = new Resolutions();
+        resolutions = new Resolutions();
         fileReader = new FileReader();
         fileReader.downloadSettings();
-        if(fileReader.getLanguageValue() != null){languageManager = new LanguageManager(fileReader.getLanguageValue());}else{languageManager = new LanguageManager("English");}
+
+        if(fileReader.getLanguageValue() != null){
+            languageManager = new LanguageManager(fileReader.getLanguageValue());
+        } else {
+            languageManager = new LanguageManager("English");
+        }
+
         initSettingsUI();
         buttonStyleManager = new ButtonStyleManager();
         textFieldStyleManager = new TextFieldStyleManager();
@@ -80,19 +84,17 @@ public class SettingsScreen implements Screen {
         textFieldStyleManager.setTextFieldStyle(textFieldStyle, images, font, "textBar", Color.WHITE);
         tResolutionFieldText = new TextField(languageManager.getValue(languageManager.getLanguage(), "resolution_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
 
-        //dialog_field = new TextField(languageManager.getValue(languageManager.getLanguage(), "dialog_field_text"),textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-
         tVolumeFieldText = new TextField(languageManager.getValue(languageManager.getLanguage(), "volume_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tVolumeEffectsFieldText = new TextField(languageManager.getValue(languageManager.getLanguage(), "volumeEffects_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         sliderStyle.disabledBackground = images.getDrawable("slider_background");
         sliderStyle.disabledKnob = images.getDrawable("slider_knob");
         sliderStyle.background = images.getDrawable("slider_background");
         sliderStyle.knob = images.getDrawable("slider_knob");
-        volumeSlider = new Slider(0,100,1,false, sliderStyle);
-        volumeSlider.setValue(fileReader.getVolumeValue());
+        volumeMusicSlider = new Slider(0,100,1,false, sliderStyle);
+        volumeMusicSlider.setValue(fileReader.getVolumeValue());
 
-        volumeSlider2 = new Slider(0,100,1,false, sliderStyle);
-        volumeSlider2.setValue(fileReader.getVolumeEffectsValue());
+        volumeEffectsSlider = new Slider(0,100,1,false, sliderStyle);
+        volumeEffectsSlider.setValue(fileReader.getVolumeEffectsValue());
 
         tLanguageFieldText = new TextField(languageManager.getValue(languageManager.getLanguage(), "language_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         bLeftLanguage = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLeft));
@@ -112,85 +114,80 @@ public class SettingsScreen implements Screen {
         bRightResolution.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                if(resolutions.size() == 3){
-                    if(tResolutionField.getText().equals(resolutions.get(0)))
-                    {
-                        tResolutionField.setText(resolutions.get(1));
-                    } else if (tResolutionField.getText().equals(resolutions.get(1))) {
-                        tResolutionField.setText(resolutions.get(2));
-                    }else if (Objects.equals(tResolutionField.getText(), resolutions.get(2))) {
-                        tResolutionField.setText(resolutions.get(0));
+                if(resolutionsList.size() == 3){
+                    if(tResolutionField.getText().equals(resolutionsList.get(0))) {
+                        tResolutionField.setText(resolutionsList.get(1));
+                    } else if (tResolutionField.getText().equals(resolutionsList.get(1))) {
+                        tResolutionField.setText(resolutionsList.get(2));
+                    } else if (Objects.equals(tResolutionField.getText(), resolutionsList.get(2))) {
+                        tResolutionField.setText(resolutionsList.get(0));
                     }
-                }else if(resolutions.size() == 2){
-                    if(tResolutionField.getText().equals(resolutions.get(0)))
-                    {
-                        tResolutionField.setText(resolutions.get(1));
-                    } else if (tResolutionField.getText().equals(resolutions.get(1))) {
-                        tResolutionField.setText(resolutions.get(0));
+                } else if(resolutionsList.size() == 2){
+                    if(tResolutionField.getText().equals(resolutionsList.get(0))) {
+                        tResolutionField.setText(resolutionsList.get(1));
+                    } else if (tResolutionField.getText().equals(resolutionsList.get(1))) {
+                        tResolutionField.setText(resolutionsList.get(0));
                     }
                 }
-                else if(resolutions.size() == 1){
-                    if(tResolutionField.getText().equals(resolutions.get(0))) {
-                        tResolutionField.setText(resolutions.get(0));
+                else if(resolutionsList.size() == 1) {
+                    if(tResolutionField.getText().equals(resolutionsList.get(0))) {
+                        tResolutionField.setText(resolutionsList.get(0));
                     }
                 }
-
             }
         });
 
-        volumeSlider.addListener(new ChangeListener() {
+        volumeMusicSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                backgroundMusic.setVolume(volumeSlider.getValue()/100);
-
+                backgroundMusic.setVolume(volumeMusicSlider.getValue()/100);
             }
         });
 
         bLeftResolution.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                if(resolutions.size() == 3){
-                    if(tResolutionField.getText().equals(resolutions.get(0)))
-                    {
-                        tResolutionField.setText(resolutions.get(2));
-                    } else if (tResolutionField.getText().equals(resolutions.get(2))) {
-                        tResolutionField.setText(resolutions.get(1));
-                    }else if (Objects.equals(tResolutionField.getText(), resolutions.get(1))) {
-                        tResolutionField.setText(resolutions.get(0));
+                if(resolutionsList.size() == 3) {
+                    if(tResolutionField.getText().equals(resolutionsList.get(0))) {
+                        tResolutionField.setText(resolutionsList.get(2));
+                    } else if (tResolutionField.getText().equals(resolutionsList.get(2))) {
+                        tResolutionField.setText(resolutionsList.get(1));
+                    }else if (Objects.equals(tResolutionField.getText(), resolutionsList.get(1))) {
+                        tResolutionField.setText(resolutionsList.get(0));
                     }
-                }else if(resolutions.size() == 2){
-                    if(tResolutionField.getText().equals(resolutions.get(0)))
-                    {
-                        tResolutionField.setText(resolutions.get(1));
-                    }else if (Objects.equals(tResolutionField.getText(), resolutions.get(1))) {
-                        tResolutionField.setText(resolutions.get(0));
+                } else if(resolutionsList.size() == 2) {
+                    if(tResolutionField.getText().equals(resolutionsList.get(0))) {
+                        tResolutionField.setText(resolutionsList.get(1));
+                    } else if (Objects.equals(tResolutionField.getText(), resolutionsList.get(1))) {
+                        tResolutionField.setText(resolutionsList.get(0));
                     }
-                }else if(resolutions.size() == 1){
-                    if(tResolutionField.getText().equals(resolutions.get(0)))
+                } else if(resolutionsList.size() == 1) {
+                    if(tResolutionField.getText().equals(resolutionsList.get(0)))
                     {
-                        tResolutionField.setText(resolutions.get(0));
+                        tResolutionField.setText(resolutionsList.get(0));
                     }
                 }
-
             }
         });
+
         bRightLanguage.addListener(new ClickListener(){
             @Override
             public  void clicked(InputEvent event, float x, float y){
-                if(tLanguageField.getText().equals(languages.get(0))){
-                    tLanguageField.setText(languages.get(1));
-                }else{
-                    tLanguageField.setText(languages.get(0));
+                if(tLanguageField.getText().equals(languagesList.get(0))) {
+                    tLanguageField.setText(languagesList.get(1));
+                } else {
+                    tLanguageField.setText(languagesList.get(0));
                 }
             }
         });
+
         bLeftLanguage.addListener(new ClickListener(){
             @Override
             public  void clicked(InputEvent event, float x, float y){
-                if(tLanguageField.getText().equals(languages.get(1))){
-                    tLanguageField.setText(languages.get(0));
-                }else{
-                    tLanguageField.setText(languages.get(1));
+                if(tLanguageField.getText().equals(languagesList.get(1))) {
+                    tLanguageField.setText(languagesList.get(0));
+                } else {
+                    tLanguageField.setText(languagesList.get(1));
                 }
             }
         });
@@ -198,10 +195,10 @@ public class SettingsScreen implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y){
-                if(tLanguageField.getText().equals(fileReader.getLanguageValue()) && tResolutionField.getText().equals(fileReader.getResolutionValue()) && Math.round(volumeSlider.getValue()) == fileReader.getVolumeValue() && Math.round(volumeSlider2.getValue()) == fileReader.getVolumeEffectsValue()){
+                if(tLanguageField.getText().equals(fileReader.getLanguageValue()) && tResolutionField.getText().equals(fileReader.getResolutionValue()) && Math.round(volumeMusicSlider.getValue()) == fileReader.getVolumeValue() && Math.round(volumeEffectsSlider.getValue()) == fileReader.getVolumeEffectsValue()){
                     game.setScreen(new MenuScreen(game));
                     dispose();
-                }else {
+                } else {
                     isDialog = true;
                     Texture bg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
                     backDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
@@ -220,14 +217,15 @@ public class SettingsScreen implements Screen {
                 }
             }
         });
+
         stage.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
-                    if(tLanguageField.getText().equals(fileReader.getLanguageValue()) && tResolutionField.getText().equals(fileReader.getResolutionValue()) && Math.round(volumeSlider.getValue()) == fileReader.getVolumeValue() && Math.round(volumeSlider2.getValue()) == fileReader.getVolumeEffectsValue()){
+                    if(tLanguageField.getText().equals(fileReader.getLanguageValue()) && tResolutionField.getText().equals(fileReader.getResolutionValue()) && Math.round(volumeMusicSlider.getValue()) == fileReader.getVolumeValue() && Math.round(volumeEffectsSlider.getValue()) == fileReader.getVolumeEffectsValue()){
                         game.setScreen(new MenuScreen(game));
                         dispose();
-                    }else if(!isDialog){
+                    } else if(!isDialog) {
                         isDialog = true;
                         Texture bg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
                         backDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
@@ -257,54 +255,54 @@ public class SettingsScreen implements Screen {
             }
         });
 
-        System.out.println(resolutions);
+        System.out.println(resolutionsList);
         bSave.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 if(tResolutionField.getText().equals("1920 X 1080 Fullscreen") || tResolutionField.getText().equals("1280 X 720 Fullscreen") || tResolutionField.getText().equals("1600 X 900 Fullscreen"))
-                {
+                 {
                     Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
                 } else if (tResolutionField.getText().equals("1920 X 1080 Windowed")) {
                     Gdx.graphics.setWindowedMode(1920,1080);
-                }else if (tResolutionField.getText().equals("1280 X 720 Windowed")) {
+                } else if (tResolutionField.getText().equals("1280 X 720 Windowed")) {
                     Gdx.graphics.setWindowedMode(1280,720);
-                }else if (tResolutionField.getText().equals("1600 X 900 Windowed")) {
+                } else if (tResolutionField.getText().equals("1600 X 900 Windowed")) {
                     Gdx.graphics.setWindowedMode(1600,900);
                 }
-                fileReader.setSettings(tResolutionField.getText(), volumeSlider.getValue(), volumeSlider2.getValue(),tLanguageField.getText());
+
+                fileReader.setSettings(tResolutionField.getText(), volumeMusicSlider.getValue(), volumeEffectsSlider.getValue(),tLanguageField.getText());
                 game.setScreen(new MenuScreen(game));
                 dispose();
             }
         });
-        if(fileReader.getResolutionValue() != null){
+        if(fileReader.getResolutionValue() != null) {
             tResolutionField = new TextField(fileReader.getResolutionValue(), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-        }else
-        {
-            if(Gdx.graphics.getWidth() == 1920){
-                if(resolutions.contains("1920 X 1080 Fullscreen")){
-                    tResolutionField = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Fullscreen")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-                }else if(resolutions.contains("1920 X 1080 Windowed")){
-                    tResolutionField = new TextField(resolutions.get(resolutions.indexOf("1920 X 1080 Windowed")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        } else {
+            if(Gdx.graphics.getWidth() == 1920) {
+                if(resolutionsList.contains("1920 X 1080 Fullscreen")) {
+                    tResolutionField = new TextField(resolutionsList.get(resolutionsList.indexOf("1920 X 1080 Fullscreen")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+                } else if(resolutionsList.contains("1920 X 1080 Windowed")) {
+                    tResolutionField = new TextField(resolutionsList.get(resolutionsList.indexOf("1920 X 1080 Windowed")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
                 }
-
-            }else if(Gdx.graphics.getWidth() == 1280){
-                if(resolutions.contains("1280 X 720 Fullscreen")){
-                    tResolutionField = new TextField(resolutions.get(resolutions.indexOf("1280 X 720 Fullscreen")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-                }else if(resolutions.contains("1280 X 720 Windowed")){
-                    tResolutionField = new TextField(resolutions.get(resolutions.indexOf("1280 X 720 Windowed")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+            } else if(Gdx.graphics.getWidth() == 1280) {
+                if(resolutionsList.contains("1280 X 720 Fullscreen")) {
+                    tResolutionField = new TextField(resolutionsList.get(resolutionsList.indexOf("1280 X 720 Fullscreen")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+                } else if(resolutionsList.contains("1280 X 720 Windowed")) {
+                    tResolutionField = new TextField(resolutionsList.get(resolutionsList.indexOf("1280 X 720 Windowed")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
                 }
-            }else{
-                if(resolutions.contains("1600 X 900 Fullscreen")){
-                    tResolutionField = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Fullscreen")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-                }else if(resolutions.contains("1600 X 900 Windowed")){
-                    tResolutionField = new TextField(resolutions.get(resolutions.indexOf("1600 X 900 Windowed")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+            } else {
+                if(resolutionsList.contains("1600 X 900 Fullscreen")) {
+                    tResolutionField = new TextField(resolutionsList.get(resolutionsList.indexOf("1600 X 900 Fullscreen")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+                } else if(resolutionsList.contains("1600 X 900 Windowed")) {
+                    tResolutionField = new TextField(resolutionsList.get(resolutionsList.indexOf("1600 X 900 Windowed")), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
                 }
             }
         }
-        if(fileReader.getLanguageValue() != null){
+
+        if(fileReader.getLanguageValue() != null) {
             tLanguageField = new TextField(fileReader.getLanguageValue(), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-        }else{
-            tLanguageField = new TextField(languages.get(0), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        } else {
+            tLanguageField = new TextField(languagesList.get(0), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         }
 
         //to po lewo
@@ -318,22 +316,22 @@ public class SettingsScreen implements Screen {
         table_resolution.add(bLeftResolution).width(32).height(32);
         table_resolution.add(tResolutionField).width(320).height(32);
         table_resolution.add(bRightResolution).width(32).height(32);
+
         table_default.add(bBack).padRight(200);
         table_default.add(bSave).padLeft(90);
 
         table_volume.add(tVolumeFieldText).padRight(100).width(320);
-        table_volume.add(volumeSlider).width(384).height(32);
+        table_volume.add(volumeMusicSlider).width(384).height(32);
 
         table_volume2.add(tVolumeEffectsFieldText).padRight(100).width(320);
-        table_volume2.add(volumeSlider2).width(384).height(32);
+        table_volume2.add(volumeEffectsSlider).width(384).height(32);
 
         tLanguageField.setAlignment(Align.center);
         table_language.add(tLanguageFieldText).padRight(100).width(320);
         table_language.add(bLeftLanguage).width(32).height(32);
         table_language.add(tLanguageField).width(320).height(32);
         table_language.add(bRightLanguage).width(32).height(32);
-        //table_resolution.debug();
-        //table_default.debug();
+
         stage.addActor(table_resolution);
         stage.addActor(table_default);
         stage.addActor(table_volume);
@@ -346,24 +344,24 @@ public class SettingsScreen implements Screen {
         Gdx.gl.glClearColor(1,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-        if(isDialog){
+        if(isDialog) {
             game.batch.draw(backgroundForDialog, 0,0);
-            //Gdx.gl.glClearColor(0,0,0,1);
-            //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
             table_language.setVisible(false);
             table_volume.setVisible(false);
             table_volume2.setVisible(false);
             table_resolution.setVisible(false);
-        }else{
+        } else {
             game.batch.draw(background, 0,0);
             table_language.setVisible(true);
             table_volume.setVisible(true);
             table_volume2.setVisible(true);
             table_resolution.setVisible(true);
         }
+
         game.batch.end();
-        tVolumeFieldText.setText(languageManager.getValue(languageManager.getLanguage(), "volume_field_text") + Math.round(volumeSlider.getValue()));
-        tVolumeEffectsFieldText.setText(languageManager.getValue(languageManager.getLanguage(), "volumeEffects_field_text") + Math.round(volumeSlider2.getValue()));
+        tVolumeFieldText.setText(languageManager.getValue(languageManager.getLanguage(), "volume_field_text") + Math.round(volumeMusicSlider.getValue()));
+        tVolumeEffectsFieldText.setText(languageManager.getValue(languageManager.getLanguage(), "volumeEffects_field_text") + Math.round(volumeEffectsSlider.getValue()));
         stage.act(delta);
         stage.draw();
     }
@@ -374,57 +372,59 @@ public class SettingsScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-    }
+    public void hide() {}
 
     @Override
-    public void dispose() {
-
-    }
+    public void dispose() {}
     private void initSettingsUI(){
         background = new Texture("background.png");
         backgroundForDialog = new Texture("tempBackground.png");
-        resolutions = new ArrayList<>();
-        resolutions = resolutionsClass.getResolutionsArrayList();
-        languages = new ArrayList<>();
-        languages.add("English");
-        languages.add("Polski");
+
+        resolutionsList = new ArrayList<>();
+        resolutionsList = resolutions.getResolutionsArrayList();
+        languagesList = new ArrayList<>();
+        languagesList.add("English");
+        languagesList.add("Polski");
+
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
         stage = new Stage();
+
         parameter.size = 15;
         parameter.color = Color.WHITE;
         parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
+
         font = new BitmapFont();
         font = generator.generateFont(parameter);
 
         taButtonsSettings = new TextureAtlas("assets/buttons/buttons_settings.pack");
         taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");
+
         images = new Skin(taButtonsSettings);
         images_default = new Skin(taButtonsDefault);
-        table_resolution = new Table(images);
-        table_default = new Table(images_default);
-        table_volume = new Table(images);
-        table_language = new Table(images);
-        table_volume2 = new Table(images);
+
+        table_resolution = new Table();
+        table_default = new Table();
+        table_volume = new Table();
+        table_language = new Table();
+        table_volume2 = new Table();
+
         textButtonStyle_bLeft = new TextButton.TextButtonStyle();
         textButtonStyle_bRight = new TextButton.TextButtonStyle();
         textButtonStyle_bBack = new TextButton.TextButtonStyle();
         textButtonStyle_bSave = new TextButton.TextButtonStyle();
+
         textFieldStyle = new TextField.TextFieldStyle();
+
         sliderStyle = new Slider.SliderStyle();
 
         backgroundMusic = game.getMusic();
-
     }
 }

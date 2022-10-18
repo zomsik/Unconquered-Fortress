@@ -34,14 +34,13 @@ public class ProfileLocalScreen implements Screen {
     private Main game;
     private FileReader fileReader;
     private ButtonStyleManager buttonStyleManager;
-
     private TextFieldStyleManager textFieldStyleManager;
-    private List<User_save> profiles;
+    private List<User_save> profilesList;
     private Stage stage;
     private Texture background;
     private BitmapFont font, font_profile;
     private TextureAtlas taButtonsDefault, taEmptyTextfield, taButtonsProfile, taDialog;
-    private Skin images_default, images_empty, image_profiles, images_settings; //<- to delete
+    private Skin images_default, images_empty, image_profiles, images_settings;
     private TextButton bMigrateSaveDialogOk, bMigrateSaveDialogBack, bDeleteDialogDelete, bDeleteDialogCancel, bBack, bPlay, bOtherScreen, bNewProfile01, bNewProfile02, bNewProfile03, bDialogCancel, bDialogCreate, cDialogEasyDifficulty, cDialogNormalDifficulty, cDialogHardDifficulty;
     private Table table_profile_01, table_profile_02, table_profile_03, table_default, table_next, table_Dialog, table_deleteDialog;
     private Table delete1, delete2, delete3;
@@ -56,13 +55,11 @@ public class ProfileLocalScreen implements Screen {
     private LanguageManager languageManager;
     private ConnectionManager connectionManager;
     private JSONObject save1, save2, save3;
-
     private JSONObject loadResponse;
     private Dialog newGameDialog, deleteGameDialog, migrateSaveDialog;
     private String chosenDifficulty = null;
     private int chosenProfile;
-
-    private boolean isDialog = false;//<- to delete or leave
+    private boolean isDialog = false;
     private int saveToDelete;
     private ProfileManager profileManager;
 
@@ -70,18 +67,20 @@ public class ProfileLocalScreen implements Screen {
         this.game = game;
         fileReader = new FileReader();
         fileReader.downloadSettings();
-        if(fileReader.getLanguageValue() != null){
+        if(fileReader.getLanguageValue() != null) {
             languageManager = new LanguageManager(fileReader.getLanguageValue());
-        }else{
+        } else {
             languageManager = new LanguageManager("English");
         }
 
         profileManager = new ProfileManager();
 
         initProfileLocalUI();
-        profiles = new ArrayList<>();
+
+        profilesList = new ArrayList<>();
         buttonStyleManager = new ButtonStyleManager();
         textFieldStyleManager = new TextFieldStyleManager();
+
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
         bBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bSave, images_default, font, "defaultButton", "defaultButton");
@@ -92,9 +91,6 @@ public class ProfileLocalScreen implements Screen {
 
         bDeleteDialogDelete = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bDelete"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
         bDeleteDialogCancel = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bDialogCancel"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
-
-
-        //TODO Dialog Seed input
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogDifficultyChecked, images_settings, font, "checkbox_on", "checkbox_on");
         buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogDifficultyUnchecked, images_settings, font, "checkbox_off", "checkbox_off");
@@ -118,35 +114,38 @@ public class ProfileLocalScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
+        Texture profileBannerBackground = new Texture(new FileHandle("assets/profile_banner.png"));
+        Texture loginRegisterDialogBackground = new Texture(new FileHandle("assets/dialog/loginregisterDialog.png"));
+        Texture deleteDialogBackground = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
 
-
-        Texture bg = new Texture(new FileHandle("assets/profile_banner.png"));
-        Texture dialogBg = new Texture(new FileHandle("assets/dialog/loginregisterDialog.png"));
-        Texture deleteDialogBg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
-
-        newGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(dialogBg)))) {
+        newGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(loginRegisterDialogBackground)))) {
             public void result(Object obj) {
                 newGameDialog.cancel();
             }
         };
+
         tDialogEasyDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "tEasyDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogNormalDifficulty  = new TextField(languageManager.getValue(languageManager.getLanguage(), "tNormalDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogHardDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "tHardDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+
         tDialogSeed = new TextField(languageManager.getValue(languageManager.getLanguage(), "seed"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogSeed.setDisabled(true);
         tDialogSeed.setAlignment(Align.center);
+
         tDialogEasyDifficulty.setAlignment(Align.center);
         tDialogNormalDifficulty.setAlignment(Align.center);
         tDialogHardDifficulty.setAlignment(Align.center);
+
         tDialogSeedValue = new TextField("", textFieldStyleManager.returnTextFieldStyle(seedFieldStyle));
         tDialogSeedValue.setAlignment(Align.center);
         tDialogDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "difficulty_field"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogDifficulty.setDisabled(true);
-        deleteGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(deleteDialogBg)))) {
+        deleteGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(deleteDialogBackground)))) {
             public void result(Object obj) {
                 deleteGameDialog.cancel();
             }
         };
+
         table_Dialog.setWidth(360);
         table_Dialog.setHeight(420);
         table_Dialog.setX(0);
@@ -178,6 +177,7 @@ public class ProfileLocalScreen implements Screen {
         deleteGameDialog.addActor(table_deleteDialog);
         deleteGameDialog.button(bDeleteDialogCancel).padBottom(80-bDeleteDialogDelete.getHeight()/2);
         deleteGameDialog.button(bDeleteDialogDelete).padBottom(80-bDeleteDialogDelete.getHeight()/2);
+
         cDialogEasyDifficulty.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -208,7 +208,6 @@ public class ProfileLocalScreen implements Screen {
             }
         });
 
-
         bDialogCancel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -219,11 +218,9 @@ public class ProfileLocalScreen implements Screen {
         bDialogCreate.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                if (chosenDifficulty !=null)
-                {
+                if (chosenDifficulty !=null) {
                     System.out.println("Stworzono gre na profilu " + chosenProfile + "o poziomie trudnosci " + chosenDifficulty);
                     GameState.setGameState(GameState.PLAYING);
-                    ///in cloud put profileNumber
                     game.setScreen(new GameScreen(game, profileManager.createEmptySave(chosenDifficulty, chosenProfile, tDialogSeedValue.getText()), true));
                 }
             }
@@ -244,15 +241,15 @@ public class ProfileLocalScreen implements Screen {
         });
 
         table_profile_01.setBounds(Gdx.graphics.getWidth()/10*2, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
-        table_profile_01.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
+        table_profile_01.setBackground(new TextureRegionDrawable(new TextureRegion(profileBannerBackground)));
         table_profile_02.setBounds(Gdx.graphics.getWidth()/10*4, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
-        table_profile_02.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
+        table_profile_02.setBackground(new TextureRegionDrawable(new TextureRegion(profileBannerBackground)));
         table_profile_03.setBounds(Gdx.graphics.getWidth()/10*6, Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10*3, Gdx.graphics.getWidth()/10*3);
-        table_profile_03.setBackground(new TextureRegionDrawable(new TextureRegion(bg)));
+        table_profile_03.setBackground(new TextureRegionDrawable(new TextureRegion(profileBannerBackground)));
 
         table_default.setBounds(Gdx.graphics.getWidth()/10*3, Gdx.graphics.getHeight()/20, Gdx.graphics.getWidth()/10*4,50);
 
-        if(fileReader.fileExists("save/save01l.json")){
+        if(fileReader.fileExists("save/save01l.json")) {
             save1 = fileReader.downloadSaveAsJSONObject("save/save01l.json");
             save1.put("profileNumber",1);
             table_profile_01 = profileManager.createProfileTable(save1, font_profile, languageManager, Gdx.graphics.getWidth()/10*2, "assets/icons/local.png");
@@ -277,13 +274,12 @@ public class ProfileLocalScreen implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     System.out.println("zostałem wybrany");
-                    //wyłapuje tylko na textfieldach, a nie na całym table_profile
                     GameState.setGameState(GameState.PLAYING);
                     game.setScreen(new GameScreen(game, save1, true));
 
                 }
             });
-        }else{
+        } else {
             table_profile_01 = profileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*2);
             table_profile_01.addListener(new ClickListener(){
                 @Override
@@ -294,7 +290,7 @@ public class ProfileLocalScreen implements Screen {
             });
         }
 
-        if(fileReader.fileExists("save/save02l.json")){
+        if(fileReader.fileExists("save/save02l.json")) {
             save2 = fileReader.downloadSaveAsJSONObject("save/save02l.json");
             save2.put("profileNumber",2);
             table_profile_02 = profileManager.createProfileTable(save2, font_profile, languageManager, Gdx.graphics.getWidth()/10*4, "assets/icons/local.png");
@@ -321,10 +317,9 @@ public class ProfileLocalScreen implements Screen {
                 public void clicked(InputEvent event, float x, float y) {
                     GameState.setGameState(GameState.PLAYING);
                     game.setScreen(new GameScreen(game, save2, true));
-
                 }
             });
-        }else{
+        } else {
             table_profile_02 = profileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*4);
             table_profile_02.addListener(new ClickListener(){
                 @Override
@@ -335,7 +330,7 @@ public class ProfileLocalScreen implements Screen {
             });
         }
 
-        if(fileReader.fileExists("save/save03l.json")){
+        if(fileReader.fileExists("save/save03l.json")) {
             save3 = fileReader.downloadSaveAsJSONObject("save/save03l.json");
             save3.put("profileNumber",3);
             table_profile_03 = profileManager.createProfileTable(save3, font_profile, languageManager, Gdx.graphics.getWidth()/10*6, "assets/icons/local.png");
@@ -345,7 +340,6 @@ public class ProfileLocalScreen implements Screen {
                 public void clicked(InputEvent event, float x, float y) {
                     saveToDelete=3;
                     deleteGameDialog.show(stage);
-
                 }
             });
 
@@ -364,7 +358,7 @@ public class ProfileLocalScreen implements Screen {
                     game.setScreen(new GameScreen(game, save3, true));
                 }
             });
-        }else{
+        } else {
             table_profile_03 = profileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*6);
             table_profile_03.addListener(new ClickListener(){
                 @Override
@@ -373,12 +367,10 @@ public class ProfileLocalScreen implements Screen {
                     newGameDialog.show(stage);
                 }
             });
-
         }
 
         table_default.add(bBack).padRight(200);
         table_default.add(bPlay).padLeft(90);
-
 
         stage.addActor(table_profile_01);
         stage.addActor(table_profile_02);
@@ -388,7 +380,6 @@ public class ProfileLocalScreen implements Screen {
         stage.addActor(delete3);
         stage.addActor(table_default);
 
-
         bBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -396,7 +387,6 @@ public class ProfileLocalScreen implements Screen {
             }
         });
 
-        //temp?
         stage.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -409,12 +399,8 @@ public class ProfileLocalScreen implements Screen {
             }
         });
 
-
-
-
-
         //cloud connection
-        if(game.getIsLogged()){
+        if(game.getIsLogged()) {
             table_next.setBounds(Gdx.graphics.getWidth()/10*9, Gdx.graphics.getWidth()/10*2,Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*2);
             table_next.add(bOtherScreen);
 
@@ -430,7 +416,6 @@ public class ProfileLocalScreen implements Screen {
 
                 if (loadResponse.getInt("status") == 200 || loadResponse.getInt("status") == 201) {
                     stage.addActor(table_next);
-
                     if (fileReader.fileExists("save/save01l.json")) {
                         stage.addActor(migrationSave1);
                     }
@@ -440,9 +425,6 @@ public class ProfileLocalScreen implements Screen {
                     if(fileReader.fileExists("save/save03l.json")) {
                         stage.addActor(migrationSave3);
                     }
-
-
-
                 } else {
                     System.out.println(languageManager.getValue(languageManager.getLanguage(), loadResponse.getString("message")));
                 }
@@ -458,10 +440,6 @@ public class ProfileLocalScreen implements Screen {
             });
         }
 
-
-        //Texture dialogBg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
-
-
         tMigrateSaveText = new TextField(null, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tMigrateSaveText.setAlignment(Align.center);
         bMigrateSaveDialogOk = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSend"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
@@ -475,7 +453,7 @@ public class ProfileLocalScreen implements Screen {
         table_migrateSave.row().padBottom(8);
         table_migrateSave.add(bMigrateSaveDialogBack);
         table_migrateSave.add(bMigrateSaveDialogOk);
-        migrateSaveDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(deleteDialogBg)))) {
+        migrateSaveDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(deleteDialogBackground)))) {
             public void result(Object obj) {
                 deleteGameDialog.cancel();
             }
@@ -487,8 +465,7 @@ public class ProfileLocalScreen implements Screen {
 
         int numberOfLoadedSaves = loadResponse.getJSONArray("loadedData").length();
 
-        if (numberOfLoadedSaves==3)
-        {
+        if (numberOfLoadedSaves==3) {
             System.out.println("zajete");
             tMigrateSaveText.setText(languageManager.getValue(languageManager.getLanguage(),"noAvailableSlots"));
             table_migrateSave.removeActor(bMigrateSaveDialogOk);
@@ -508,13 +485,11 @@ public class ProfileLocalScreen implements Screen {
 
         List<Integer> existSave = new ArrayList<>();
 
-
         for (int i = 0; i < numberOfLoadedSaves; i++) {
             existSave.add(loadResponse.getJSONArray("loadedData").getJSONObject(i).getInt("profileNumber"));
         }
         Collections.sort(existSave);
-        for(int i=1 ; i<=3; i++)
-        {
+        for(int i=1 ; i<=3; i++) {
             if (!existSave.contains(i)) {
                 tMigrateSaveText.setText(languageManager.getValue(languageManager.getLanguage(), "tDoYouWantSend") + i+"?");
                 int finalI = i;
@@ -535,14 +510,12 @@ public class ProfileLocalScreen implements Screen {
                 return;
             }
         }
-
     }
 
     private void uploadAndDelete(int saveNumber, int emptyProfileNumber) {
         JSONObject saveToUpload = new JSONObject();
 
-        switch (saveNumber)
-        {
+        switch (saveNumber) {
             case 1-> saveToUpload = save1;
             case 2-> saveToUpload = save2;
             case 3-> saveToUpload = save3;
@@ -558,8 +531,6 @@ public class ProfileLocalScreen implements Screen {
     public void deleteSave(int saveNumber){
         fileReader.deleteSave(saveNumber);
         game.setScreen(new ProfileLocalScreen(game));
-
-
     }
 
     @Override
@@ -567,7 +538,8 @@ public class ProfileLocalScreen implements Screen {
         Gdx.gl.glClearColor(1,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-        if(isDialog){
+
+        if(isDialog) {
             Gdx.gl.glClearColor(0,0,0,1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             table_profile_01.setVisible(false);
@@ -582,7 +554,7 @@ public class ProfileLocalScreen implements Screen {
 
             table_default.setVisible(false);
             table_next.setVisible(false);
-        }else{
+        } else {
             game.batch.draw(background, 0,0);
             table_profile_01.setVisible(true);
             table_profile_02.setVisible(true);
@@ -596,71 +568,69 @@ public class ProfileLocalScreen implements Screen {
             table_default.setVisible(true);
             table_next.setVisible(true);
         }
+
         game.batch.end();
         stage.act(delta);
         stage.draw();
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void resize(int width, int height) {}
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
 
     @Override
-    public void dispose() {
-
-    }
+    public void dispose() {}
 
     private void initProfileLocalUI(){
         stage = new Stage();
+
         background = new Texture("background.png");
+
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 13;
-
         parameter.color = Color.WHITE;
         parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
+
         font = new BitmapFont();
         font = generator.generateFont(parameter);
-        if(Gdx.graphics.getWidth() < 1281){
+
+        if(Gdx.graphics.getWidth() < 1281) {
             parameter.size = 9;
-        }
-        else if(Gdx.graphics.getWidth() < 1601){
+        } else if(Gdx.graphics.getWidth() < 1601){
             parameter.size = 11;
-        }else{
+        } else {
             parameter.size = 13;
         }
+
         font_profile = new BitmapFont();
         font_profile = generator.generateFont(parameter);
+
         taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");
-        //TODO dodaj jeden więcej przycisk >
+
         taEmptyTextfield = new TextureAtlas("assets/buttons/buttons_settings.pack");
         taButtonsProfile = new TextureAtlas("assets/buttons/buttons_profile.pack");
         taDialog = new TextureAtlas("assets/dialog/skin_dialog.pack");//<- to delete
+
         connectionManager = new ConnectionManager();
+
         images_default = new Skin(taButtonsDefault);
         images_empty = new Skin(taEmptyTextfield);
         image_profiles = new Skin(taButtonsProfile);
         images_settings = new Skin(new TextureAtlas("assets/buttons/buttons_settings.pack"));
-        table_default = new Table(images_default);
-        table_next = new Table(images_default);
+
+        table_default = new Table();
+        table_next = new Table();
         table_deleteDialog = new Table();
-        table_Dialog = new Table(images_settings);
+        table_Dialog = new Table();
         table_profile_01 = new Table();
         table_profile_02 = new Table();
         table_profile_03 = new Table();
@@ -672,17 +642,18 @@ public class ProfileLocalScreen implements Screen {
         migrationSave3 = new Table();
         table_migrateSave = new Table();
 
-
         textButtonStyle_bBack = new TextButton.TextButtonStyle();
         textButtonStyle_bSave = new TextButton.TextButtonStyle();
         textButtonStyle_bNext = new TextButton.TextButtonStyle();
         textButtonStyle_bNewProfile = new TextButton.TextButtonStyle();
+
         textFieldStyle = new TextField.TextFieldStyle();
         seedFieldStyle = new TextField.TextFieldStyle();
+
         backgroundMusic = game.getMusic();
+
         textButtonStyle_cDialogDifficultyChecked = new TextButton.TextButtonStyle();
         textButtonStyle_cDialogDifficultyUnchecked  = new TextButton.TextButtonStyle();
-
     }
 
 

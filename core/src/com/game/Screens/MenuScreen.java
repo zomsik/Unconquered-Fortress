@@ -6,7 +6,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -28,14 +27,12 @@ public class MenuScreen implements Screen  {
     private Main game;
     private Texture front, clouds, clouds_front, castle, background, backgroundForDialog;
     public TextButton bExit, bLogin ,bPlay, bSettings, bCredits;
-
     public TextButton bDialogLogin, bDialogLoginRegister, cDialogStayLogged, bDialogExit, bDialogExit2;
     public TextField tDialogLoginTextTitle, tDialogLoginTextLogin, tDialogLoginTextPassword, tDialogLoginStayLogged, tDialogLoginErrors;
     public TextField fDialogLoginLogin, fDialogLoginPassword;
     public TextButton bDialogRegister, bDialogRegisterLogin;
     public TextField tDialogRegisterTextTitle, tDialogRegisterTextLogin, tDialogRegisterTextMail, tDialogRegisterTextPassword, tDialogRegisterTextRepeatPassword, tDialogRegisterErrors;
     public TextField fDialogRegisterLogin, fDialogRegisterMail, fDialogRegisterPassword, fDialogRegisterRepeatPassword;
-
     public BitmapFont fontTitle, fontText, fontText_error;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
@@ -44,7 +41,7 @@ public class MenuScreen implements Screen  {
     public Stage stage;
     public Table table_bExit, table_bPlay, table_bSettings, table_bLogin, table_bCredits, table_dialogLogin, table_dialogRegister;
     private TextButton.TextButtonStyle textButtonStyle_bDialogExit, textButtonStyle_tDialogStayLogged, textButtonStyle_bExit, textButtonStyle_bPlay, textButtonStyle_bSettings, textButtonStyle_bCredits, textButtonStyle_bLogin, textButtonStyle_bDialogLogin, textButtonStyle_cDialogStayLogged;
-    private TextField.TextFieldStyle textFieldStyle, formTextFieldStyle, titleTextFieldStyle, errorTextFieldStyle, texttitleTextFieldStyle;
+    private TextField.TextFieldStyle textFieldStyle, formTextFieldStyle, titleTextFieldStyle, errorTextFieldStyle, textTitleTextFieldStyle;
     private ConnectionManager connectionManager;
     private ButtonStyleManager buttonStyleManager;
     private TextFieldStyleManager textFieldStyleManager;
@@ -52,15 +49,11 @@ public class MenuScreen implements Screen  {
     private FileReader fileReader;
     private Music backgroundMusic;
     private Dialog menuDialog;
-
     private float cloudsPosition, cloudsPosition_front;
     private float cloudsSpeed, cloudsSpeed_front;
-
     public boolean stayLogged = false;
-
     public boolean isDialog = false;
 
-    private Pixmap cursorColor;
     public MenuScreen(Main game){
         this.game = game;
 
@@ -69,28 +62,24 @@ public class MenuScreen implements Screen  {
         textFieldStyleManager = new TextFieldStyleManager();
         fileReader = new FileReader();
         fileReader.downloadSettings();
-        if(fileReader.getLanguageValue() != null){
+        if(fileReader.getLanguageValue() != null) {
             languageManager = new LanguageManager(fileReader.getLanguageValue());
-        }else{
+        } else {
             languageManager = new LanguageManager("English");
         }
 
         fileReader.downloadUserInfo();
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bLogin, images, fontTitle, "tempmainlog", "tempmainlog");
-        if (fileReader.getTokenValue()!=null || game.getIsLogged())
-        {
+        if (fileReader.getTokenValue()!=null || game.getIsLogged()) {
             game.setIsLogged(true);
             if (fileReader.getTokenValue()!=null)
                 game.setLogin(fileReader.getLoginFromToken());
 
             bLogin = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bLogout"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLogin));
-
-        }
-        else
-        {
+        } else {
             bLogin = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bLogin"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLogin));
-
         }
+
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bExit, images, fontTitle, "tempmain", "tempmain");
         bExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bExit));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bPlay, images, fontTitle, "tempmain", "tempmain");
@@ -100,16 +89,12 @@ public class MenuScreen implements Screen  {
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bCredits, images, fontTitle, "tempmain", "tempmain");
         bCredits = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bCredits"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bCredits));
 
-
-
         backgroundMusic.setVolume(fileReader.getVolumeValue()/100);
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
-
     }
     @Override
     public void show() {
-
         Gdx.input.setInputProcessor(stage);
         bExit.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*8+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/10*2, Gdx.graphics.getHeight()/100*7+8);
         //Ustawienie pozycji przycisków, skalowane z wymiarami okna
@@ -118,15 +103,6 @@ public class MenuScreen implements Screen  {
         table_bExit.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*8+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/10*2, Gdx.graphics.getHeight()/100*7+8);
         table_bPlay.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*5+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/10*2, Gdx.graphics.getHeight()/100*7+8);
         table_bSettings.setBounds(Gdx.graphics.getWidth()/10,Gdx.graphics.getHeight() - (Gdx.graphics.getHeight()/10*6+Gdx.graphics.getHeight()/100*7+8),Gdx.graphics.getWidth()/10*2, Gdx.graphics.getHeight()/100*7+8);
-
-        bExit.addListener(new ClickListener(){
-           @Override
-           public void clicked(InputEvent event, float x, float y){
-               Gdx.app.exit();
-           }
-        });
-
-
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bDialogLogin, images_default, fontText, "defaultButton", "defaultButton");
         bDialogLogin = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bLogin"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bDialogLogin));
@@ -144,14 +120,14 @@ public class MenuScreen implements Screen  {
         textFieldStyleManager.setTextFieldStyle(textFieldStyle, images_settings, fontText, "textBar", Color.WHITE);
         textFieldStyleManager.setTextFieldStyle(titleTextFieldStyle, images_settings, fontTitle, "empty_background", Color.BLACK);
         textFieldStyleManager.setTextFieldStyle(errorTextFieldStyle, images_settings, fontText_error, "textBar", Color.valueOf("b77c7c"));
-        textFieldStyleManager.setTextFieldStyle(texttitleTextFieldStyle, images_settings, fontText, "empty_background", Color.WHITE);
+        textFieldStyleManager.setTextFieldStyle(textTitleTextFieldStyle, images_settings, fontText, "empty_background", Color.WHITE);
 
         tDialogLoginTextTitle= new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginTitle"), textFieldStyleManager.returnTextFieldStyle(titleTextFieldStyle));
         tDialogLoginStayLogged = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginStayLogged"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogLoginStayLogged.setAlignment(Align.center);
 
-        tDialogLoginTextLogin = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginTextLogin"), textFieldStyleManager.returnTextFieldStyle(texttitleTextFieldStyle));
-        tDialogLoginTextPassword = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginTextPassword"), textFieldStyleManager.returnTextFieldStyle(texttitleTextFieldStyle));
+        tDialogLoginTextLogin = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginTextLogin"), textFieldStyleManager.returnTextFieldStyle(textTitleTextFieldStyle));
+        tDialogLoginTextPassword = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginTextPassword"), textFieldStyleManager.returnTextFieldStyle(textTitleTextFieldStyle));
 
         fDialogLoginLogin = new TextField(null, textFieldStyleManager.returnTextFieldStyle(formTextFieldStyle));
         fDialogLoginLogin.setAlignment(Align.center);
@@ -175,10 +151,10 @@ public class MenuScreen implements Screen  {
         tDialogLoginErrors.setAlignment(Align.center);
 
         tDialogRegisterTextTitle = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTitle"), textFieldStyleManager.returnTextFieldStyle(titleTextFieldStyle));
-        tDialogRegisterTextLogin = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTextLogin"), textFieldStyleManager.returnTextFieldStyle(texttitleTextFieldStyle));
-        tDialogRegisterTextMail = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTextMail"), textFieldStyleManager.returnTextFieldStyle(texttitleTextFieldStyle));
-        tDialogRegisterTextPassword = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTextPassword"), textFieldStyleManager.returnTextFieldStyle(texttitleTextFieldStyle));
-        tDialogRegisterTextRepeatPassword = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTextRepeatPassword"), textFieldStyleManager.returnTextFieldStyle(texttitleTextFieldStyle));
+        tDialogRegisterTextLogin = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTextLogin"), textFieldStyleManager.returnTextFieldStyle(textTitleTextFieldStyle));
+        tDialogRegisterTextMail = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTextMail"), textFieldStyleManager.returnTextFieldStyle(textTitleTextFieldStyle));
+        tDialogRegisterTextPassword = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTextPassword"), textFieldStyleManager.returnTextFieldStyle(textTitleTextFieldStyle));
+        tDialogRegisterTextRepeatPassword = new TextField(languageManager.getValue(languageManager.getLanguage(), "tDialogRegisterTextRepeatPassword"), textFieldStyleManager.returnTextFieldStyle(textTitleTextFieldStyle));
 
         fDialogRegisterLogin = new TextField(null, textFieldStyleManager.returnTextFieldStyle(formTextFieldStyle));
         fDialogRegisterLogin.setAlignment(Align.center);
@@ -211,16 +187,16 @@ public class MenuScreen implements Screen  {
 
         tDialogRegisterErrors.setDisabled(true);
 
-
-        Texture bg = new Texture(new FileHandle("assets/dialog/loginregisterDialog.png"));
-        menuDialog = new Dialog("", new Window.WindowStyle(fontTitle, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
+        Texture loginRegisterDialogBackground = new Texture(new FileHandle("assets/dialog/loginregisterDialog.png"));
+        menuDialog = new Dialog("", new Window.WindowStyle(fontTitle, Color.WHITE, new TextureRegionDrawable(new TextureRegion(loginRegisterDialogBackground)))) {
             public void result(Object obj) {
                 menuDialog.cancel();
             }
         };
-        //menuDialog.getButtonTable().debug();
+
         tDialogLoginErrors.setVisible(false);
         tDialogRegisterErrors.setVisible(false);
+
         // Login Dialog
         table_dialogLogin.setBounds(0,0,360,420);
         table_dialogLogin.row().colspan(2).width(256).align(Align.center).padBottom(12);
@@ -245,13 +221,12 @@ public class MenuScreen implements Screen  {
         // Register Dialog
         table_dialogRegister.setBounds(0,0,360,420);
         table_dialogRegister.row().colspan(2).width(256).align(Align.center).padBottom(12);
-        if(languageManager.getLanguage().equals("Polski")){
+        if(languageManager.getLanguage().equals("Polski")) {
             table_dialogRegister.add(tDialogRegisterTextTitle).align(Align.center).expandX().padRight(24);
-
-        }else{
+        } else {
             table_dialogRegister.add(tDialogRegisterTextTitle).align(Align.left).expandX();
-
         }
+
         table_dialogRegister.row().padBottom(12);
         table_dialogRegister.add(tDialogRegisterTextLogin).align(Align.center);
         table_dialogRegister.add(fDialogRegisterLogin).align(Align.center);
@@ -279,7 +254,6 @@ public class MenuScreen implements Screen  {
                 if (game.getIsLogged()) {
                     if (fileReader.getTokenValue()!=null){
                         fDialogLoginLogin.setText(fileReader.getLoginFromToken());
-
                     }
 
                     fileReader.setUserInfo(null);
@@ -293,7 +267,13 @@ public class MenuScreen implements Screen  {
                 menuDialog.removeActor(table_dialogRegister);
                 menuDialog.addActor(table_dialogLogin);
                 menuDialog.show(stage);
+            }
+        });
 
+        bExit.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                Gdx.app.exit();
             }
         });
 
@@ -303,43 +283,30 @@ public class MenuScreen implements Screen  {
             //public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
             public void clicked(InputEvent event, float x, float y){
                 stayLogged = !stayLogged;
-                if (!stayLogged)
-                {
+                if (!stayLogged) {
                     buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogStayLogged, images_settings, fontText, "checkbox_off", "checkbox_off");
                     cDialogStayLogged = new TextButton(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginStayLogged"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_cDialogStayLogged));
-                }
-                else
-                {
+                } else {
                     buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogStayLogged, images_settings, fontText, "checkbox_on", "checkbox_on");
                     cDialogStayLogged = new TextButton(languageManager.getValue(languageManager.getLanguage(), "tDialogLoginStayLogged"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_cDialogStayLogged));
-
                 }
-
-
-
             }
         });
-
-
-
 
         bDialogLogin.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
 
-                if (fDialogLoginLogin.getText().isEmpty() || fDialogLoginPassword.getText().isEmpty())
-                {
+                if (fDialogLoginLogin.getText().isEmpty() || fDialogLoginPassword.getText().isEmpty()) {
                     tDialogLoginErrors.setVisible(true);
                     tDialogLoginErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorEmptyFields"));
                     return;
                 }
-                if (fDialogLoginLogin.getText().length() < 5 || fDialogLoginLogin.getText().length() > 20 )
-                {
+                if (fDialogLoginLogin.getText().length() < 5 || fDialogLoginLogin.getText().length() > 20 ) {
                     tDialogLoginErrors.setVisible(true);
                     tDialogLoginErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfLogin"));
                     return;
                 }
-                if (fDialogLoginPassword.getText().length() < 5 || fDialogLoginPassword.getText().length() > 20 )
-                {
+                if (fDialogLoginPassword.getText().length() < 5 || fDialogLoginPassword.getText().length() > 20 ) {
                     tDialogLoginErrors.setVisible(true);
                     tDialogLoginErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfPassword"));
                     return;
@@ -349,8 +316,6 @@ public class MenuScreen implements Screen  {
 
                 loginData.put("login",fDialogLoginLogin.getText());
                 loginData.put("password", fDialogLoginPassword.getText());
-
-
 
                 new Thread(() -> {
                     JSONObject response = connectionManager.requestSend(loginData, "api/login");
@@ -373,8 +338,6 @@ public class MenuScreen implements Screen  {
                     }
 
                 }).start();
-
-
             }
         });
 
@@ -402,42 +365,33 @@ public class MenuScreen implements Screen  {
                 menuDialog.addActor(table_dialogRegister);
                 menuDialog.getButtonTable().clearChildren();
                 tDialogRegisterErrors.setVisible(false);
-                //menuDialog.button(bDialogRegister);
-                //menuDialog.button(bDialogRegisterLogin);
             }
         });
-
-
 
         bDialogRegister.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                if (fDialogRegisterLogin.getText().isEmpty() || fDialogRegisterMail.getText().isEmpty() || fDialogRegisterPassword.getText().isEmpty() || fDialogRegisterRepeatPassword.getText().isEmpty())
-                {
+                if (fDialogRegisterLogin.getText().isEmpty() || fDialogRegisterMail.getText().isEmpty() || fDialogRegisterPassword.getText().isEmpty() || fDialogRegisterRepeatPassword.getText().isEmpty()) {
                     tDialogRegisterErrors.setVisible(true);
                     tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorEmptyFields"));
                     return;
                 }
-                if (fDialogRegisterLogin.getText().length() < 5 || fDialogRegisterLogin.getText().length() > 20 )
-                {
+                if (fDialogRegisterLogin.getText().length() < 5 || fDialogRegisterLogin.getText().length() > 20 ) {
                     tDialogRegisterErrors.setVisible(true);
                     tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfLogin"));
                     return;
                 }
-                if (!isValidEmailAddress(fDialogRegisterMail.getText()))
-                {
+                if (!isValidEmailAddress(fDialogRegisterMail.getText())) {
                     tDialogRegisterErrors.setVisible(true);
                     tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorInvalidMail"));
                     return;
                 }
-                if (fDialogRegisterPassword.getText().length() < 5 || fDialogRegisterPassword.getText().length() > 20 )
-                {
+                if (fDialogRegisterPassword.getText().length() < 5 || fDialogRegisterPassword.getText().length() > 20 ) {
                     tDialogRegisterErrors.setVisible(true);
                     tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), "ErrorLengthOfPassword"));
                     return;
                 }
-                if (!Objects.equals(fDialogRegisterPassword.getText(), fDialogRegisterRepeatPassword.getText()))
-                {
+                if (!Objects.equals(fDialogRegisterPassword.getText(), fDialogRegisterRepeatPassword.getText())) {
                     System.out.println(fDialogRegisterPassword.getText());
                     System.out.println(fDialogRegisterRepeatPassword.getText());
                     tDialogRegisterErrors.setVisible(true);
@@ -445,23 +399,16 @@ public class MenuScreen implements Screen  {
                     return;
                 }
 
-
-
-
-
-
                 JSONObject RegisterData = new JSONObject();
 
                 RegisterData.put("login", fDialogRegisterLogin.getText());
                 RegisterData.put("mail", fDialogRegisterMail.getText());
                 RegisterData.put("password",fDialogRegisterPassword.getText());
 
-
                 new Thread(() -> {
                     JSONObject response = connectionManager.requestSend(RegisterData, "api/register");
 
-                if (response.getInt("status") == 200)
-                {
+                if (response.getInt("status") == 200) {
                     fDialogRegisterLogin.setText(null);
                     fDialogRegisterMail.setText(null);
                     fDialogRegisterPassword.setText(null);
@@ -469,20 +416,12 @@ public class MenuScreen implements Screen  {
                     tDialogRegisterErrors.setText(null);
                     isDialog = false;
                     menuDialog.hide();
-
-                }
-                else
-                {
+                } else {
                     tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), response.getString("message")));
                 }
-
                 }).start();
-
-
             }
         });
-
-
 
         bDialogRegisterLogin.addListener(new ClickListener(){
             @Override
@@ -492,10 +431,9 @@ public class MenuScreen implements Screen  {
                 menuDialog.addActor(table_dialogLogin);
                 menuDialog.getButtonTable().clearChildren();
                 tDialogLoginErrors.setVisible(false);
-                //menuDialog.button(bDialogLogin);
-                //menuDialog.button(bDialogLoginRegister);
             }
         });
+
         bPlay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -531,19 +469,12 @@ public class MenuScreen implements Screen  {
         table_bSettings.add(bSettings).width(Gdx.graphics.getWidth()/10*2).height(Gdx.graphics.getHeight()/100*7+8);
         table_bCredits.add(bCredits).width(Gdx.graphics.getWidth()/10*2).height(Gdx.graphics.getHeight()/100*7+8);
 
-        //table_bExit.debug();
-        //table_bPlay.debug();
-        //table_bLogin.debug();
-        //table_bSettings.debug();
-        //table_bCredits.debug();
-
         stage.addActor(table_bCredits);
         stage.addActor(table_bLogin);
         stage.addActor(table_bExit);
         stage.addActor(table_bLogin);
         stage.addActor(table_bSettings);
         stage.addActor(table_bPlay);
-
     }
 
     private boolean isValidEmailAddress(String email) {
@@ -558,10 +489,8 @@ public class MenuScreen implements Screen  {
             Gdx.gl.glClearColor(1,1,1,1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-            //cloudsSpeed can be set randomly every few seconds
             cloudsPosition -= delta*cloudsSpeed;
             cloudsPosition_front -= delta*cloudsSpeed_front;
-
 
             if (cloudsPosition <= -3840)
                 cloudsPosition = 0;
@@ -570,61 +499,47 @@ public class MenuScreen implements Screen  {
                 cloudsPosition_front = 0;
 
             game.batch.begin();
-        game.batch.draw(background, 0,0);
-        game.batch.draw(clouds, cloudsPosition,0);
-        game.batch.draw(castle, 0,0);
-        game.batch.draw(clouds_front, cloudsPosition_front, 0);
-        game.batch.draw(front, 0,0);
-            if(isDialog){
-                //game.batch.draw(backgroundForDialog, 0,0);
+            game.batch.draw(background, 0,0);
+            game.batch.draw(clouds, cloudsPosition,0);
+            game.batch.draw(castle, 0,0);
+            game.batch.draw(clouds_front, cloudsPosition_front, 0);
+            game.batch.draw(front, 0,0);
+
+            if(isDialog) {
                 bPlay.setTouchable(Touchable.disabled);
                 bLogin.setTouchable(Touchable.disabled);
                 bSettings.setTouchable(Touchable.disabled);
                 bCredits.setTouchable(Touchable.disabled);
                 bExit.setTouchable(Touchable.disabled);
-            }else{
-
+            } else {
                 bPlay.setTouchable(Touchable.enabled);
                 bLogin.setTouchable(Touchable.enabled);
                 bSettings.setTouchable(Touchable.enabled);
                 bCredits.setTouchable(Touchable.enabled);
                 bExit.setTouchable(Touchable.enabled);
             }
+
             game.batch.end();
             stage.act(delta);
             stage.draw();
-
-
     }
 
     @Override
-    public void resize(int width, int height) {
-    }
-
+    public void resize(int width, int height) {}
     @Override
-    public void pause() {
-
-    }
-
+    public void pause() {}
     @Override
-    public void resume() {
-
-    }
-
+    public void resume() {}
     @Override
-    public void hide() {
-
-    }
-
+    public void hide() {}
     @Override
-    public void dispose() {
-
-    }
+    public void dispose() {}
 
     private void initSettingsUI(){
         cloudsPosition = 0;
         cloudsSpeed = 30;
         cloudsSpeed_front = 60;
+
         background = new Texture("back.png");
         front = new Texture("front.png");
         clouds = new Texture("clouds.png");
@@ -632,9 +547,12 @@ public class MenuScreen implements Screen  {
         castle = new Texture("castle.png");
 
         backgroundForDialog = new Texture("tempBackground.png");
+
         generator = new FreeTypeFontGenerator(Gdx.files.internal("Silkscreen.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
         stage = new Stage();
+
         fontTitle = new BitmapFont();
         fontText = new BitmapFont();
 
@@ -646,32 +564,39 @@ public class MenuScreen implements Screen  {
 
         parameter.size = (int) (10* ((Gdx.graphics.getWidth() / 1280.0)));
         parameter.color = Color.WHITE;
+
         fontText = generator.generateFont(parameter);
 
         parameter.size = 10;
         parameter.color = Color.WHITE;
+
         fontText_error = generator.generateFont(parameter);
 
         connectionManager = new ConnectionManager();
+
         taButtonsAtlas = new TextureAtlas("assets/buttons/buttons_menu.pack");
         taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");
         taButtonsSettings = new TextureAtlas("assets/buttons/buttons_settings.pack");
         taDialogBack = new TextureAtlas("assets/dialog/skin_dialog.pack");
+
         images = new Skin(taButtonsAtlas);
         images_settings = new Skin(taButtonsSettings);
         images_default = new Skin(taButtonsDefault);
-        table_bExit = new Table(images);
-        table_bPlay = new Table(images);
-        table_bLogin = new Table(images);
-        table_bCredits = new Table(images);
-        table_bSettings = new Table(images);
-        table_dialogLogin = new Table(images_settings);
-        table_dialogRegister = new Table(images_settings);
+
+        table_bExit = new Table();
+        table_bPlay = new Table();
+        table_bLogin = new Table();
+        table_bCredits = new Table();
+        table_bSettings = new Table();
+        table_dialogLogin = new Table();
+        table_dialogRegister = new Table();
+
         textFieldStyle = new TextField.TextFieldStyle();
         formTextFieldStyle = new TextField.TextFieldStyle();
         errorTextFieldStyle = new TextField.TextFieldStyle();
         titleTextFieldStyle = new TextField.TextFieldStyle();
-        texttitleTextFieldStyle = new TextField.TextFieldStyle();
+        textTitleTextFieldStyle = new TextField.TextFieldStyle();
+
         textButtonStyle_bExit = new TextButton.TextButtonStyle();
         textButtonStyle_bPlay = new TextButton.TextButtonStyle();
         textButtonStyle_bSettings = new TextButton.TextButtonStyle();
@@ -681,8 +606,7 @@ public class MenuScreen implements Screen  {
         textButtonStyle_cDialogStayLogged = new TextButton.TextButtonStyle();
         textButtonStyle_tDialogStayLogged = new TextButton.TextButtonStyle();
         textButtonStyle_bDialogExit =  new TextButton.TextButtonStyle();
+
         backgroundMusic = game.getMusic();
-
     }
-
 }
