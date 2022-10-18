@@ -218,5 +218,8 @@
   "tCannonMT": "Cannon",
   "tMageMT": "Mage",
   "tMax": "Maximum",
-  "diamondsPrice": "diamonds"
+  "diamondsPrice": "diamonds",
+  "eventDamage": "Podczas ścinania drzewa, jeden z twoich pracowników zmarł na zawał.\nOtrzymujesz obrażeia.",
+  "eventGold": "Los się do ciebie uśmiechnął.\nOtrzymujesz złoto.",
+  "eventDiamond": "Znalazłeś skarb.\nOtrzymujesz diamenty."
 }
