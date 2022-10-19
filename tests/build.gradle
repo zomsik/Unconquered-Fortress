@@ -44,6 +44,7 @@ task dist(type: Jar) {
 }
 
 dependencies {
+    implementation 'de.nycode:bcrypt:2.3.0'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 }
 

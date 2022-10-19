@@ -1,3 +1,10 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.4'
+    id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+    id 'java'
+}
+
+
 sourceCompatibility = 1.17
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
@@ -5,3 +12,13 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 
 eclipse.project.name = appName + "-core"
 
+dependencies {
+    implementation 'org.springframework:spring-web:5.3.23'
+    implementation 'org.springframework.data:spring-data-rest-core:3.7.5'
+    implementation 'org.springframework.security:spring-security-core:5.7.3'
+    implementation 'org.springframework:spring-core:5.3.23'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive:2.7.4'
+    implementation 'de.nycode:bcrypt:2.3.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+}

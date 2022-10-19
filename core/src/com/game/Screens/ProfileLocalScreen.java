@@ -620,7 +620,7 @@ public class ProfileLocalScreen implements Screen {
         taButtonsProfile = new TextureAtlas("assets/buttons/buttons_profile.pack");
         taDialog = new TextureAtlas("assets/dialog/skin_dialog.pack");//<- to delete
 
-        connectionManager = new ConnectionManager();
+        connectionManager = new ConnectionManager(game);
 
         images_default = new Skin(taButtonsDefault);
         images_empty = new Skin(taEmptyTextfield);

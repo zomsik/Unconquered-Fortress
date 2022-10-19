@@ -1,3 +1,9 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.4'
+    id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+    id 'java'
+}
+
 sourceCompatibility = 1.17
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = ["../assets"]
@@ -45,3 +51,8 @@ task dist(type: Jar) {
 dist.dependsOn classes
 
 eclipse.project.name = appName + "-desktop"
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:2.7.4'
+
+}

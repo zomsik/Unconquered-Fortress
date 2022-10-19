@@ -328,12 +328,14 @@ public class MenuScreen implements Screen  {
                         }
 
                         tDialogLoginErrors.setText(null);
+                        tDialogLoginErrors.setVisible(false);
                         bLogin.setText(languageManager.getValue(languageManager.getLanguage(), "bLogout"));
                         game.setLogin(fDialogLoginLogin.getText());
                         game.setIsLogged(true);
                         isDialog = false;
                         menuDialog.hide();
                     } else {
+                        tDialogLoginErrors.setVisible(true);
                         tDialogLoginErrors.setText(languageManager.getValue(languageManager.getLanguage(), response.getString("message")));
                     }
 
@@ -408,15 +410,19 @@ public class MenuScreen implements Screen  {
                 new Thread(() -> {
                     JSONObject response = connectionManager.requestSend(RegisterData, "api/register");
 
+                    System.out.println(response);
+
                 if (response.getInt("status") == 200) {
                     fDialogRegisterLogin.setText(null);
                     fDialogRegisterMail.setText(null);
                     fDialogRegisterPassword.setText(null);
                     fDialogRegisterRepeatPassword.setText(null);
                     tDialogRegisterErrors.setText(null);
+                    tDialogRegisterErrors.setVisible(false);
                     isDialog = false;
                     menuDialog.hide();
                 } else {
+                    tDialogRegisterErrors.setVisible(true);
                     tDialogRegisterErrors.setText(languageManager.getValue(languageManager.getLanguage(), response.getString("message")));
                 }
                 }).start();
@@ -570,7 +576,7 @@ public class MenuScreen implements Screen  {
 
         fontText_error = generator.generateFont(parameter);
 
-        connectionManager = new ConnectionManager();
+        connectionManager = new ConnectionManager(game);
 
         taButtonsAtlas = new TextureAtlas("assets/buttons/buttons_menu.pack");
         taButtonsDefault = new TextureAtlas("assets/buttons/buttons_default.pack");

@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.Manager.ConnectionManager;
 import com.game.Manager.FileReader;
 import com.game.Screens.MenuScreen;
+import com.game.Server.SavesRepository;
+import com.game.Server.UsersRepository;
 import org.json.JSONObject;
 
 public class Main extends Game {
@@ -15,6 +17,30 @@ public class Main extends Game {
 	private boolean isLogged;
 	private String login;
 	private ConnectionManager connectionManager;
+
+	private UsersRepository usersRepository;
+	private SavesRepository savesRepository;
+
+	public Main(UsersRepository usersRepository, SavesRepository savesRepository) {
+		this.usersRepository = usersRepository;
+		this.savesRepository = savesRepository;
+	}
+
+	public UsersRepository getUsersRepository() {
+		return usersRepository;
+	}
+
+	public void setUsersRepository(UsersRepository usersRepository) {
+		this.usersRepository = usersRepository;
+	}
+
+	public SavesRepository getSavesRepository() {
+		return savesRepository;
+	}
+
+	public void setSavesRepository(SavesRepository savesRepository) {
+		this.savesRepository = savesRepository;
+	}
 
 	public void setIsLogged(boolean isLogged)
 	{
@@ -37,7 +63,7 @@ public class Main extends Game {
 	@Override
 	public void create () {
 
-		connectionManager = new ConnectionManager();
+		connectionManager = new ConnectionManager(this);
 		new Thread(() -> connectionManager.requestSend(new JSONObject(), "api/ping")).start();
 
 		batch = new SpriteBatch();
