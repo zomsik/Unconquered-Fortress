@@ -40,7 +40,7 @@ public class MenuScreen implements Screen  {
     public Skin images, images_settings, images_default;
     public Stage stage;
     public Table table_bExit, table_bPlay, table_bSettings, table_bLogin, table_bCredits, table_dialogLogin, table_dialogRegister;
-    private TextButton.TextButtonStyle textButtonStyle_bDialogExit, textButtonStyle_tDialogStayLogged, textButtonStyle_bExit, textButtonStyle_bPlay, textButtonStyle_bSettings, textButtonStyle_bCredits, textButtonStyle_bLogin, textButtonStyle_bDialogLogin, textButtonStyle_cDialogStayLogged;
+    private TextButton.TextButtonStyle textButtonStyle_bDialogExit, textButtonStyle_bExit, textButtonStyle_bPlay, textButtonStyle_bSettings, textButtonStyle_bCredits, textButtonStyle_bLogin, textButtonStyle_bDialogLogin, textButtonStyle_cDialogStayLogged;
     private TextField.TextFieldStyle textFieldStyle, formTextFieldStyle, titleTextFieldStyle, errorTextFieldStyle, textTitleTextFieldStyle;
     private ConnectionManager connectionManager;
     private ButtonStyleManager buttonStyleManager;
@@ -169,8 +169,8 @@ public class MenuScreen implements Screen  {
         tDialogRegisterErrors.setAlignment(Align.center);
 
         tDialogRegisterTextTitle.setDisabled(true);
-        tDialogRegisterTextTitle.setAlignment(Align.right);
-        tDialogRegisterTextTitle.setSize(150,30);
+        tDialogRegisterTextTitle.setAlignment(Align.center);
+        tDialogRegisterTextTitle.setHeight(30);
         tDialogRegisterTextLogin.setDisabled(true);
         tDialogRegisterTextLogin.setAlignment(Align.center);
         tDialogRegisterTextMail.setDisabled(true);
@@ -220,13 +220,8 @@ public class MenuScreen implements Screen  {
 
         // Register Dialog
         table_dialogRegister.setBounds(0,0,360,420);
-        table_dialogRegister.row().colspan(2).width(256).align(Align.center).padBottom(12);
-        if(languageManager.getLanguage().equals("Polski")) {
-            table_dialogRegister.add(tDialogRegisterTextTitle).align(Align.center).expandX().padRight(24);
-        } else {
-            table_dialogRegister.add(tDialogRegisterTextTitle).align(Align.left).expandX();
-        }
-
+        table_dialogRegister.row().colspan(2).width(320).align(Align.center).padBottom(12);
+        table_dialogRegister.add(tDialogRegisterTextTitle).align(Align.center).expandX();
         table_dialogRegister.row().padBottom(12);
         table_dialogRegister.add(tDialogRegisterTextLogin).align(Align.center);
         table_dialogRegister.add(fDialogRegisterLogin).align(Align.center);
@@ -264,6 +259,7 @@ public class MenuScreen implements Screen  {
                 isDialog = true;
 
                 tDialogLoginErrors.setText(null);
+                tDialogLoginErrors.setVisible(false);
                 menuDialog.removeActor(table_dialogRegister);
                 menuDialog.addActor(table_dialogLogin);
                 menuDialog.show(stage);
@@ -363,6 +359,7 @@ public class MenuScreen implements Screen  {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 tDialogLoginErrors.setText(null);
+                tDialogLoginErrors.setVisible(false);
                 menuDialog.removeActor(table_dialogLogin);
                 menuDialog.addActor(table_dialogRegister);
                 menuDialog.getButtonTable().clearChildren();
@@ -410,8 +407,6 @@ public class MenuScreen implements Screen  {
                 new Thread(() -> {
                     JSONObject response = connectionManager.requestSend(RegisterData, "api/register");
 
-                    System.out.println(response);
-
                 if (response.getInt("status") == 200) {
                     fDialogRegisterLogin.setText(null);
                     fDialogRegisterMail.setText(null);
@@ -433,6 +428,7 @@ public class MenuScreen implements Screen  {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 tDialogRegisterErrors.setText(null);
+                tDialogRegisterErrors.setVisible(false);
                 menuDialog.removeActor(table_dialogRegister);
                 menuDialog.addActor(table_dialogLogin);
                 menuDialog.getButtonTable().clearChildren();
@@ -560,7 +556,7 @@ public class MenuScreen implements Screen  {
         fontTitle = new BitmapFont();
         fontText = new BitmapFont();
 
-        parameter.size = (int) (32 * ((Gdx.graphics.getWidth() / 1280.0)));
+        parameter.size = (int) (20 * ((Gdx.graphics.getWidth() / 1280.0)));
         parameter.color = Color.valueOf("938672");
         parameter.characters = "ąćęłńóśżźabcdefghijklmnopqrstuvwxyzĄĆĘÓŁŃŚŻŹABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
 
@@ -608,7 +604,6 @@ public class MenuScreen implements Screen  {
         textButtonStyle_bLogin = new TextButton.TextButtonStyle();
         textButtonStyle_bDialogLogin = new TextButton.TextButtonStyle();
         textButtonStyle_cDialogStayLogged = new TextButton.TextButtonStyle();
-        textButtonStyle_tDialogStayLogged = new TextButton.TextButtonStyle();
         textButtonStyle_bDialogExit =  new TextButton.TextButtonStyle();
 
         backgroundMusic = game.getMusic();

@@ -1,11 +1,8 @@
 package com.game.Manager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.game.Entity.Bullet;
 import com.game.Entity.Enemy.Enemy;
 import com.game.Entity.RoadObstacle.RoadObstacle;
-import com.game.Entity.Tower.Tower;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,20 +17,17 @@ public class RoadObstaclesManager {
 
     private boolean isDisabledListeners;
 
-    public RoadObstaclesManager(ArrayList<Enemy> enemies, int[][] buildArr){
+    public RoadObstaclesManager(ArrayList<Enemy> enemies, int[][] buildArr) {
         this.enemies = enemies;
         this.roadObstacles = new ArrayList<>();
         this.buildArr = buildArr;
         this.isDisabledListeners = false;
-
-
     }
 
     public JSONArray getRoadObstacles() {
         JSONArray j = new JSONArray();
 
-        for (RoadObstacle roadObstacle: roadObstacles)
-        {
+        for (RoadObstacle roadObstacle : roadObstacles) {
             JSONObject t = new JSONObject();
             t.put("name", roadObstacle.getName());
             t.put("x", roadObstacle.getTileX());
@@ -41,7 +35,6 @@ public class RoadObstaclesManager {
             t.put("usesLeft", roadObstacle.getUsesLeft());
             j.put(t);
         }
-
         return j;
     }
 
@@ -51,36 +44,28 @@ public class RoadObstaclesManager {
     }
 
     public void update(float deltaTime) {
-
         Iterator<RoadObstacle> rIterator = roadObstacles.iterator();
         while (rIterator.hasNext()) {
             RoadObstacle r = rIterator.next();
-
             r.update(deltaTime, enemies);
-
-            if (r.getUsesLeft() <= 0)
-            {
+            if (r.getUsesLeft() <= 0) {
                 if (r.getIsOnMap()) {
                     r.setIsOnMap(false);
                     buildArr[r.getTileX()][r.getTileY()] = 0;
                     r.setBounds(0, 0, 0, 0);
                     r.clearImage();
                 }
-                if(r.getSlowedEnemies().size()==0)
+                if (r.getSlowedEnemies().size() == 0)
                     rIterator.remove();
             }
-
         }
-
     }
 
     public void render(SpriteBatch spritebatch) {
-
         for (RoadObstacle r : roadObstacles) {
             r.render(spritebatch);
         }
     }
-
 
     public void initObstacles(ArrayList<RoadObstacle> roadObstaclesLoad) {
         this.roadObstacles = roadObstaclesLoad;
@@ -95,15 +80,11 @@ public class RoadObstaclesManager {
     }
 
     public int getSellWorth(int x, int y) {
-
         for (RoadObstacle r : roadObstacles)
             if (r.getTileX() == x && r.getTileY() == y)
                 return r.getSellWorth();
-
         return 0;
     }
-
-
 
     public void disableListeners() {
         isDisabledListeners = true;
@@ -119,13 +100,7 @@ public class RoadObstaclesManager {
         }
     }
 
-
-    public boolean getIsDisabledListeners(){
+    public boolean getIsDisabledListeners() {
         return isDisabledListeners;
     }
-
-
-
-
 }
-

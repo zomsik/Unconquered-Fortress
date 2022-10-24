@@ -45,7 +45,6 @@ public class Tests {
                     fail("Swiaty nie są takie same.");
             }
         }
-        assertTrue(true);
     }
 
 
@@ -82,9 +81,7 @@ public class Tests {
             {
                 fail("Fala nie posiada bossa.");
             }
-
         }
-        assertTrue(true);
     }
 
 
@@ -98,39 +95,19 @@ public class Tests {
     }
 
     @Test
-    public void deleteProfileTest() throws IOException {
+    public void createAndDeleteSaveTest() {
         TestFileReader testFileReader = new TestFileReader();
         ProfileManager profileManager = new ProfileManager();
-        boolean created = false;
-        if(testFileReader.fileExists("../save/save03l.json")){
-        }else{
-            testFileReader.setSave(profileManager.createEmptySave("normal",3,""));
-            created = true;
+
+        testFileReader.setSave(profileManager.createEmptySave("normal",99,""));
+        if(!testFileReader.fileExists("../save/save099l.json")){
+            fail("Plik nie został zapisany.");
         }
-        File src = new File("../save/save03l.json");
-        File target = new File("../save/save04l.json");
 
-        Files.copy(src.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        testFileReader.deleteSave(4);
-        if(created)
-            testFileReader.deleteSave(3);
-
-        if(testFileReader.fileExists("../save/save04l.json")){
+        testFileReader.deleteSave(99);
+        if(testFileReader.fileExists("../save/save099l.json")){
             fail("Plik nie został usunięty.");
         }
-
-
-    }
-
-    @Test
-    public void multiplierTest() {
-        //FileReader fileReader = new FileReader();
-        //Assertions.assertEquals(50, fileReader.downloadFileAsJSONObject("assets/towers.json").getJSONArray("meleeTower").getJSONObject(0).getFloat("dmg"));
-    }
-    @Test
-    public void thisAlwaysPasses()
-    {
-        assertTrue(true);
     }
 
 }
