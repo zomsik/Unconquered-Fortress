@@ -53,17 +53,13 @@ public class SettingsScreen implements Screen {
     private LanguageManager languageManager;
     private Dialog backDialog;
     private boolean isDialog = false;
-    public SettingsScreen (Main game){
+    private String language;
+    public SettingsScreen (Main game, FileReader fileReader, LanguageManager languageManager){
         this.game = game;
         resolutions = new Resolutions();
-        fileReader = new FileReader();
-        fileReader.downloadSettings();
-
-        if(fileReader.getLanguageValue() != null){
-            languageManager = new LanguageManager(fileReader.getLanguageValue());
-        } else {
-            languageManager = new LanguageManager("English");
-        }
+        this.fileReader = fileReader;
+        this.languageManager = languageManager;
+        this.language = languageManager.getLanguage();
 
         initSettingsUI();
         buttonStyleManager = new ButtonStyleManager();
@@ -74,18 +70,18 @@ public class SettingsScreen implements Screen {
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bRight, images, font, "resolutionButtonRight_up","resolutionButtonRight_down" );
         bRightResolution = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bRight));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
-        bBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bBack = new TextButton(languageManager.getValue(language, "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bSave, images_default, font, "defaultButton", "defaultButton");
-        bSave = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        bSave = new TextButton(languageManager.getValue(language, "bSave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
-        bBackDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBackDialog"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bBackDialog = new TextButton(languageManager.getValue(language, "bBackDialog"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
 
         textFieldStyleManager.setTextFieldStyle(textFieldStyle, images, font, "textBar", Color.WHITE);
-        tResolutionFieldText = new TextField(languageManager.getValue(languageManager.getLanguage(), "resolution_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tResolutionFieldText = new TextField(languageManager.getValue(language, "resolution_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
 
-        tVolumeFieldText = new TextField(languageManager.getValue(languageManager.getLanguage(), "volume_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-        tVolumeEffectsFieldText = new TextField(languageManager.getValue(languageManager.getLanguage(), "volumeEffects_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tVolumeFieldText = new TextField(languageManager.getValue(language, "volume_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tVolumeEffectsFieldText = new TextField(languageManager.getValue(language, "volumeEffects_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         sliderStyle.disabledBackground = images.getDrawable("slider_background");
         sliderStyle.disabledKnob = images.getDrawable("slider_knob");
         sliderStyle.background = images.getDrawable("slider_background");
@@ -96,7 +92,7 @@ public class SettingsScreen implements Screen {
         volumeEffectsSlider = new Slider(0,100,1,false, sliderStyle);
         volumeEffectsSlider.setValue(fileReader.getVolumeEffectsValue());
 
-        tLanguageFieldText = new TextField(languageManager.getValue(languageManager.getLanguage(), "language_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tLanguageFieldText = new TextField(languageManager.getValue(language, "language_field_text"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         bLeftLanguage = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bLeft));
         bRightLanguage = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bRight));
     }
@@ -196,50 +192,45 @@ public class SettingsScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 if(tLanguageField.getText().equals(fileReader.getLanguageValue()) && tResolutionField.getText().equals(fileReader.getResolutionValue()) && Math.round(volumeMusicSlider.getValue()) == fileReader.getVolumeValue() && Math.round(volumeEffectsSlider.getValue()) == fileReader.getVolumeEffectsValue()){
-                    game.setScreen(new MenuScreen(game));
+                    game.setScreen(new MenuScreen(game, fileReader, languageManager));
                     dispose();
                 } else {
                     isDialog = true;
                     Texture bg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
                     backDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
                         public void result(Object obj) {
-                            System.out.println("result " + obj);
                         }
                     };
 
                     Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
-                    backDialog.text(languageManager.getValue(languageManager.getLanguage(), "dialog_field_text"), labelStyle);
+                    backDialog.text(languageManager.getValue(language, "dialog_field_text"), labelStyle);
                     backDialog.button(bBackDialog).padBottom(16);
                     backDialog.button(bSave).padBottom(16);
                     backDialog.show(stage);
-                    System.out.println("Dialog width: " + backDialog.getWidth() + " height: " + backDialog.getHeight());
                     table_default.remove();
                 }
             }
         });
-
         stage.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
                     if(tLanguageField.getText().equals(fileReader.getLanguageValue()) && tResolutionField.getText().equals(fileReader.getResolutionValue()) && Math.round(volumeMusicSlider.getValue()) == fileReader.getVolumeValue() && Math.round(volumeEffectsSlider.getValue()) == fileReader.getVolumeEffectsValue()){
-                        game.setScreen(new MenuScreen(game));
+                        game.setScreen(new MenuScreen(game, fileReader, languageManager));
                         dispose();
                     } else if(!isDialog) {
                         isDialog = true;
                         Texture bg = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
                         backDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(bg)))) {
                             public void result(Object obj) {
-                                System.out.println("result " + obj);
                             }
                         };
 
                         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
-                        backDialog.text(languageManager.getValue(languageManager.getLanguage(), "dialog_field_text"), labelStyle);
+                        backDialog.text(languageManager.getValue(language, "dialog_field_text"), labelStyle);
                         backDialog.button(bBackDialog).padBottom(16);
                         backDialog.button(bSave).padBottom(16);
                         backDialog.show(stage);
-                        System.out.println("Dialog width: " + backDialog.getWidth() + " height: " + backDialog.getHeight());
                         table_default.remove();
                     }
                     return true;
@@ -250,12 +241,11 @@ public class SettingsScreen implements Screen {
         bBackDialog.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new MenuScreen(game, fileReader, languageManager));
                 dispose();
             }
         });
 
-        System.out.println(resolutionsList);
         bSave.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -271,7 +261,8 @@ public class SettingsScreen implements Screen {
                 }
 
                 fileReader.setSettings(tResolutionField.getText(), volumeMusicSlider.getValue(), volumeEffectsSlider.getValue(),tLanguageField.getText());
-                game.setScreen(new MenuScreen(game));
+                languageManager = new LanguageManager(tLanguageField.getText());
+                game.setScreen(new MenuScreen(game, fileReader, languageManager));
                 dispose();
             }
         });
@@ -305,12 +296,11 @@ public class SettingsScreen implements Screen {
             tLanguageField = new TextField(languagesList.get(0), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         }
 
-        //to po lewo
         tResolutionFieldText.setAlignment(Align.center);
         tVolumeFieldText.setAlignment(Align.center);
         tVolumeEffectsFieldText.setAlignment(Align.center);
         tLanguageFieldText.setAlignment(Align.center);
-        //to po prawo
+
         tResolutionField.setAlignment(Align.center);
         table_resolution.add(tResolutionFieldText).padRight(100).width(320);
         table_resolution.add(bLeftResolution).width(32).height(32);
@@ -358,8 +348,8 @@ public class SettingsScreen implements Screen {
         }
 
         game.batch.end();
-        tVolumeFieldText.setText(languageManager.getValue(languageManager.getLanguage(), "volume_field_text") + Math.round(volumeMusicSlider.getValue()));
-        tVolumeEffectsFieldText.setText(languageManager.getValue(languageManager.getLanguage(), "volumeEffects_field_text") + Math.round(volumeEffectsSlider.getValue()));
+        tVolumeFieldText.setText(languageManager.getValue(language, "volume_field_text") + Math.round(volumeMusicSlider.getValue()));
+        tVolumeEffectsFieldText.setText(languageManager.getValue(language, "volumeEffects_field_text") + Math.round(volumeEffectsSlider.getValue()));
         stage.act(delta);
         stage.draw();
     }

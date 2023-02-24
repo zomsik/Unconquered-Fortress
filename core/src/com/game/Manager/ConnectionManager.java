@@ -15,13 +15,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class ConnectionManager {
-    private static final String urlHeader = "https://projektgame.azurewebsites.net/";
-    private static final String urlHeaderTest = "http://localhost:9000/";
     private Main game;
     public ConnectionManager(Main game)  {
         this.game = game;
     }
-
 
     public JSONObject ping()
     {
@@ -190,109 +187,6 @@ public class ConnectionManager {
         return response;
 
 
-/*
-        Main.repository.save(new Customer("Alice", "Smith"));
-        Main.repository.save(new Customer("Bob", "Smith"));
-
-        // fetch all customers
-        System.out.println("Customers found with findAll():");
-        System.out.println("-------------------------------");
-        for (Customer customer : Main.repository.findAll()) {
-            System.out.println(customer);
-        }
-        System.out.println();
-*/
-        /*
-        URL url = new URL(urlHeader+Url);
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("POST");
-
-        con.setDoOutput(true);
-        con.setDoInput(true);
-        con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-        con.setRequestProperty("Accept", "application/json");
-
-
-
-        for (String keyStr : dataToSend.keySet()) {
-            Object keyValue = dataToSend.get(keyStr);
-            con.setRequestProperty(keyStr, keyValue.toString());
-
-            //Print key and value
-            //System.out.println("key: "+ keyStr + " value: " + keyValue);
-
-            //for nested objects iteration if required
-            //if (keyvalue instanceof JSONObject)
-            //    printJsonObject((JSONObject)keyvalue);
-        }
-
-        StringBuilder response = new StringBuilder();
-
-
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
-            String responseLine;
-            while ((responseLine = br.readLine()) != null) {
-                response.append(responseLine.trim());
-            }
-
-
-        }
-        catch(Exception e) {
-            return new JSONObject().put("status", 110).put("message","ResponseErrorConnectionWithServer");
-        }
-
-        return new JSONObject(response.toString().replaceAll("\"","\\\""));
-        */
-
     }
-
-    public JSONObject requestSend2(JSONObject dataToSend, String Url) {
-
-        try {
-
-            URL url = new URL(urlHeader+Url);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("POST");
-
-            con.setDoOutput(true);
-            con.setDoInput(true);
-            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            con.setRequestProperty("Accept", "application/json");
-
-            for (String keyStr : dataToSend.keySet()) {
-                Object keyValue = dataToSend.get(keyStr);
-                con.setRequestProperty(keyStr, keyValue.toString());
-
-                //Print key and value
-                //System.out.println("key: "+ keyStr + " value: " + keyValue);
-
-                //for nested objects iteration if required
-                //if (keyvalue instanceof JSONObject)
-                //    printJsonObject((JSONObject)keyvalue);
-            }
-
-            StringBuilder response = new StringBuilder();
-
-
-            try {
-                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
-                String responseLine;
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
-                }
-            }
-            catch(Exception e) {
-                return new JSONObject().put("status", 110).put("message","ResponseErrorConnectionWithServer");
-            }
-
-            return new JSONObject(response.toString().replaceAll("\"","\\\""));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new JSONObject().put("status", 406).put("message","ResponseClientInternalError");
-        }
-    }
-
 
 }

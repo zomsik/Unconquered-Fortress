@@ -45,18 +45,14 @@ public class CreditsScreen implements Screen {
     private TextFieldStyleManager textFieldStyleManager;
     private FileReader fileReader;
     private LanguageManager languageManager;
+    private String language;
 
-    public CreditsScreen(Main game){
+    public CreditsScreen(Main game, FileReader fileReader, LanguageManager languageManager){
         this.game = game;
         textFieldStyleManager = new TextFieldStyleManager();
-        fileReader = new FileReader();
-        fileReader.downloadSettings();
-
-        if(fileReader.getLanguageValue() != null) {
-            languageManager = new LanguageManager(fileReader.getLanguageValue());
-        } else {
-            languageManager = new LanguageManager("English");
-        }
+        this.fileReader = fileReader;
+        this.languageManager = languageManager;
+        this.language = languageManager.getLanguage();
 
         initSettingsUI();
     }
@@ -68,7 +64,7 @@ public class CreditsScreen implements Screen {
         stage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new MenuScreen(game,fileReader, languageManager));
                 dispose();
             }
 
@@ -79,7 +75,7 @@ public class CreditsScreen implements Screen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
-                    game.setScreen(new MenuScreen(game));
+                    game.setScreen(new MenuScreen(game,fileReader, languageManager));
                     dispose();
                     return true;
                 }
@@ -90,10 +86,10 @@ public class CreditsScreen implements Screen {
         textFieldStyleManager.setTextFieldStyle(textFieldStyle, images, fontText, "empty_text", Color.WHITE);
         textFieldStyleManager.setTextFieldStyle(textTitleFieldStyle, images, fontTitle, "title_text", Color.WHITE);
 
-        tCreditsTitleGame = new TextField(languageManager.getValue(languageManager.getLanguage(), "creditsGame"), textFieldStyleManager.returnTextFieldStyle(textTitleFieldStyle));
-        tCreditsTitleMusic = new TextField(languageManager.getValue(languageManager.getLanguage(), "creditsMusic"), textFieldStyleManager.returnTextFieldStyle(textTitleFieldStyle));
-        tCreditsTitleGraphics = new TextField(languageManager.getValue(languageManager.getLanguage(), "creditsGraphics"), textFieldStyleManager.returnTextFieldStyle(textTitleFieldStyle));
-        tCreditsTitleStack = new TextField(languageManager.getValue(languageManager.getLanguage(), "creditsStack"), textFieldStyleManager.returnTextFieldStyle(textTitleFieldStyle));
+        tCreditsTitleGame = new TextField(languageManager.getValue(language, "creditsGame"), textFieldStyleManager.returnTextFieldStyle(textTitleFieldStyle));
+        tCreditsTitleMusic = new TextField(languageManager.getValue(language, "creditsMusic"), textFieldStyleManager.returnTextFieldStyle(textTitleFieldStyle));
+        tCreditsTitleGraphics = new TextField(languageManager.getValue(language, "creditsGraphics"), textFieldStyleManager.returnTextFieldStyle(textTitleFieldStyle));
+        tCreditsTitleStack = new TextField(languageManager.getValue(language, "creditsStack"), textFieldStyleManager.returnTextFieldStyle(textTitleFieldStyle));
 
         tCreditsGame1 = new TextField("Artur Węcławski", textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tCreditsGame2 = new TextField("Tomasz Wiejak", textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
@@ -189,7 +185,7 @@ public class CreditsScreen implements Screen {
                 table_credits.setBounds(0, table_credits.getY()+1, Gdx.graphics.getWidth(), Gdx.graphics.getWidth() / 10 * 3);
 
                 if (table_credits.getY() > Gdx.graphics.getHeight()) {
-                    game.setScreen(new MenuScreen(game));
+                    game.setScreen(new MenuScreen(game,fileReader, languageManager));
                     dispose();
                 }
             }

@@ -16,10 +16,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 
-//https://kottke.org/plus/type/silkscreen/index.html
-//Link to font licence
-//Music: The Sleeping Prophet by Jesse Gallagher - YouTube licence
-
 @SpringBootApplication
 public class DesktopLauncher implements CommandLineRunner {
 
@@ -29,10 +25,20 @@ public class DesktopLauncher implements CommandLineRunner {
 	@Autowired
 	private SavesRepository savesRepository;
 
+	private static final String HOST = "cluster0.pwqq0.mongodb.net";
+	private static final String DB = "Gra?retryWrites=true&w=majority";
+	private static final String USER = "user";
+	private static final String PASS = "user1";
 
 	public static void main(String[] args) {
 
+		System.setProperty(
+				"spring.data.mongodb.uri",
+				"mongodb+srv://" + USER + ":" + PASS + "@" + HOST + "/" + DB
+		);
+
 		SpringApplication.run(DesktopLauncher.class, args);
+
 	}
 
 	@Override

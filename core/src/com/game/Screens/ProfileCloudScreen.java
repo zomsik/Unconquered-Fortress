@@ -57,17 +57,14 @@ public class ProfileCloudScreen implements Screen {
     private int saveToDelete;
     private ProfileManager profileManager;
 
-    public ProfileCloudScreen(Main game, JSONObject loadResponse){
+    private String language;
+
+    public ProfileCloudScreen(Main game, JSONObject loadResponse, FileReader fileReader, LanguageManager languageManager){
         this.game = game;
         stage = new Stage();
-        fileReader = new FileReader();
-        fileReader.downloadSettings();
-        if(fileReader.getLanguageValue() != null) {
-            languageManager = new LanguageManager(fileReader.getLanguageValue());
-        } else {
-            languageManager = new LanguageManager("English");
-        }
-
+        this.fileReader = fileReader;
+        this.languageManager = languageManager;
+        this.language = languageManager.getLanguage();
         profileManager = new ProfileManager();
 
         this.loadResponse = loadResponse;
@@ -78,12 +75,12 @@ public class ProfileCloudScreen implements Screen {
         textFieldStyleManager = new TextFieldStyleManager();
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bBack, images_default, font, "defaultButton", "defaultButton");
-        bBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bBack = new TextButton(languageManager.getValue(language, "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bSave, images_default, font, "defaultButton", "defaultButton");
-        bPlay = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bPlay"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        bPlay = new TextButton(languageManager.getValue(language, "bPlay"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
 
-        bDialogCreate = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bDialogCreate"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
-        bDialogCancel = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bDialogCancel"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        bDialogCreate = new TextButton(languageManager.getValue(language, "bDialogCreate"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        bDialogCancel = new TextButton(languageManager.getValue(language, "bDialogCancel"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
 
         buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogDifficultyChecked, images_settings, font, "checkbox_on", "checkbox_on");
         buttonStyleManager.setTextButtonStyle(textButtonStyle_cDialogDifficultyUnchecked, images_settings, font, "checkbox_off", "checkbox_off");
@@ -131,9 +128,8 @@ public class ProfileCloudScreen implements Screen {
                     table_profile_01.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            System.out.println("zostałem wybrany");
                             GameState.setGameState(GameState.PLAYING);
-                            game.setScreen(new GameScreen(game, save1, false));
+                            game.setScreen(new GameScreen(game, save1, false, fileReader, languageManager));
                         }
                     });
 
@@ -163,7 +159,7 @@ public class ProfileCloudScreen implements Screen {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
                             GameState.setGameState(GameState.PLAYING);
-                            game.setScreen(new GameScreen(game, save2, false));
+                            game.setScreen(new GameScreen(game, save2, false, fileReader, languageManager));
                         }
                     });
 
@@ -193,7 +189,7 @@ public class ProfileCloudScreen implements Screen {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
                             GameState.setGameState(GameState.PLAYING);
-                            game.setScreen(new GameScreen(game, save3, false));
+                            game.setScreen(new GameScreen(game, save3, false, fileReader, languageManager));
                         }
                     });
 
@@ -220,7 +216,6 @@ public class ProfileCloudScreen implements Screen {
             }
         }
 
-        //no saves -> make +
         if (table_profile_01.getChildren().size==0) {
             table_profile_01 = profileManager.createEmptyProfileTable(font, Gdx.graphics.getWidth()/10*2);
             table_profile_01.addListener(new ClickListener(){
@@ -256,7 +251,7 @@ public class ProfileCloudScreen implements Screen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
-                    game.setScreen(new MenuScreen(game));
+                    game.setScreen(new MenuScreen(game, fileReader, languageManager));
                     dispose();
                     return true;
                 }
@@ -264,7 +259,6 @@ public class ProfileCloudScreen implements Screen {
             }
         });
 
-        //to calibrate
         table_previous.setBounds((Gdx.graphics.getWidth()-Gdx.graphics.getWidth()/10*9 - Gdx.graphics.getHeight()/10), Gdx.graphics.getWidth()/10*2,Gdx.graphics.getHeight()/10, Gdx.graphics.getWidth()/10*2);
         table_previous.add(bOtherScreen);
 
@@ -273,7 +267,7 @@ public class ProfileCloudScreen implements Screen {
         bOtherScreen.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new ProfileLocalScreen(game));
+                game.setScreen(new ProfileLocalScreen(game, fileReader, languageManager));
             }
         });
         newGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(loginRegisterDialogBackground)))) {
@@ -281,10 +275,10 @@ public class ProfileCloudScreen implements Screen {
                 newGameDialog.cancel();
             }
         };
-        tDialogEasyDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "tEasyDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-        tDialogNormalDifficulty  = new TextField(languageManager.getValue(languageManager.getLanguage(), "tNormalDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-        tDialogHardDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "tHardDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
-        tDialogSeed = new TextField(languageManager.getValue(languageManager.getLanguage(), "seed"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tDialogEasyDifficulty = new TextField(languageManager.getValue(language, "tEasyDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tDialogNormalDifficulty  = new TextField(languageManager.getValue(language, "tNormalDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tDialogHardDifficulty = new TextField(languageManager.getValue(language, "tHardDifficulty"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tDialogSeed = new TextField(languageManager.getValue(language, "seed"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogSeed.setDisabled(true);
         tDialogSeed.setAlignment(Align.center);
         tDialogEasyDifficulty.setAlignment(Align.center);
@@ -292,7 +286,7 @@ public class ProfileCloudScreen implements Screen {
         tDialogHardDifficulty.setAlignment(Align.center);
         tDialogSeedValue = new TextField("", textFieldStyleManager.returnTextFieldStyle(seedFieldStyle));
         tDialogSeedValue.setAlignment(Align.center);
-        tDialogDifficulty = new TextField(languageManager.getValue(languageManager.getLanguage(), "difficulty_field"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
+        tDialogDifficulty = new TextField(languageManager.getValue(language, "difficulty_field"), textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tDialogDifficulty.setDisabled(true);
 
         deleteGameDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(deleteDialogBackground)))) {
@@ -306,8 +300,8 @@ public class ProfileCloudScreen implements Screen {
         table_deleteDialog.setX(200);
         table_deleteDialog.setY(300);
 
-        bDeleteDialogDelete = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bDelete"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
-        bDeleteDialogCancel = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bDialogCancel"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        bDeleteDialogDelete = new TextButton(languageManager.getValue(language, "bDelete"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        bDeleteDialogCancel = new TextButton(languageManager.getValue(language, "bDialogCancel"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
 
 
 
@@ -320,7 +314,7 @@ public class ProfileCloudScreen implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 connectionManager.requestSend(new JSONObject().put("login", game.getLogin()).put("profileNumber", saveToDelete), "api/deleteSave");
                 removeDeletedFromResponse();
-                game.setScreen(new ProfileCloudScreen(game,loadResponse));
+                game.setScreen(new ProfileCloudScreen(game,loadResponse, fileReader, languageManager));
             }
         });
 
@@ -398,9 +392,8 @@ public class ProfileCloudScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 if (chosenDifficulty !=null) {
-                    System.out.println("Stworzono gre na profilu " + chosenProfile + "o poziomie trudnosci " + chosenDifficulty);
                     GameState.setGameState(GameState.PLAYING);
-                    game.setScreen(new GameScreen(game,profileManager.createEmptySave(chosenDifficulty, chosenProfile, tDialogSeedValue.getText()), false));
+                    game.setScreen(new GameScreen(game,profileManager.createEmptySave(chosenDifficulty, chosenProfile, tDialogSeedValue.getText()), false, fileReader, languageManager));
                 }
             }
         });
@@ -417,14 +410,14 @@ public class ProfileCloudScreen implements Screen {
         bBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new MenuScreen(game, fileReader, languageManager));
             }
         });
 
         tMigrateSaveText = new TextField(null, textFieldStyleManager.returnTextFieldStyle(textFieldStyle));
         tMigrateSaveText.setAlignment(Align.center);
-        bMigrateSaveDialogOk = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bDownload"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
-        bMigrateSaveDialogBack = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        bMigrateSaveDialogOk = new TextButton(languageManager.getValue(language, "bDownload"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
+        bMigrateSaveDialogBack = new TextButton(languageManager.getValue(language, "bBack"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bSave));
         table_migrateSave.setWidth(512);
         table_migrateSave.setHeight(160);
         table_migrateSave.setX(0);
@@ -448,8 +441,7 @@ public class ProfileCloudScreen implements Screen {
             table_migrateSave.removeActor(bMigrateSaveDialogBack);
             table_migrateSave.row().padBottom(8);
             table_migrateSave.add(bMigrateSaveDialogBack).colspan(2);
-            System.out.println("zajete");
-            tMigrateSaveText.setText(languageManager.getValue(languageManager.getLanguage(),"noAvailableSlots"));
+            tMigrateSaveText.setText(languageManager.getValue(language,"noAvailableSlots"));
             table_migrateSave.removeActor(bMigrateSaveDialogOk);
             bMigrateSaveDialogBack.addListener(new ClickListener() {
                 @Override
@@ -463,13 +455,13 @@ public class ProfileCloudScreen implements Screen {
 
         for(int i=1 ; i<=3; i++) {
             if(!fileReader.fileExists("save/save0"+i+"l.json")) {
-                tMigrateSaveText.setText(languageManager.getValue(languageManager.getLanguage(), "tDoYouWantDownload") + i+"?");
+                tMigrateSaveText.setText(languageManager.getValue(language, "tDoYouWantDownload") + i+"?");
                 int finalI = i;
                 bMigrateSaveDialogOk.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         uploadAndDelete(saveNumber, finalI, saveToMigrate);
-                        game.setScreen(new ProfileLocalScreen(game));
+                        game.setScreen(new ProfileLocalScreen(game, fileReader, languageManager));
                     }
                 });
                 bMigrateSaveDialogBack.addListener(new ClickListener() {

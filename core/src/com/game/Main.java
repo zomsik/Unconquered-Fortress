@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.Manager.ConnectionManager;
 import com.game.Manager.FileReader;
+import com.game.Manager.LanguageManager;
 import com.game.Screens.MenuScreen;
 import com.game.Server.SavesRepository;
 import com.game.Server.UsersRepository;
@@ -16,10 +17,16 @@ public class Main extends Game {
 	private Music music, cleanSound, sellSound, buySound;
 	private boolean isLogged;
 	private String login;
+	private String token;
 	private ConnectionManager connectionManager;
+	private LanguageManager languageManager;
 
 	private UsersRepository usersRepository;
 	private SavesRepository savesRepository;
+
+
+
+
 
 	public Main(UsersRepository usersRepository, SavesRepository savesRepository) {
 		this.usersRepository = usersRepository;
@@ -42,6 +49,7 @@ public class Main extends Game {
 		this.savesRepository = savesRepository;
 	}
 
+
 	public void setIsLogged(boolean isLogged)
 	{
 		this.isLogged = isLogged;
@@ -60,15 +68,23 @@ public class Main extends Game {
 	{
 		return login;
 	}
+
+
 	@Override
 	public void create () {
 
-		connectionManager = new ConnectionManager(this);
-		new Thread(() -> connectionManager.requestSend(new JSONObject(), "api/ping")).start();
 
 		batch = new SpriteBatch();
 		FileReader fileReader = new FileReader();
 		fileReader.downloadSettings();
+
+		if(fileReader.getLanguageValue() != null) {
+			languageManager = new LanguageManager(fileReader.getLanguageValue());
+		} else {
+			languageManager = new LanguageManager("English");
+		}
+
+
 		isLogged = false;
 		if(fileReader.getResolutionValue() != null){
 			switch (fileReader.getResolutionValue()) {
@@ -78,11 +94,21 @@ public class Main extends Game {
 				case "1600 X 900 Windowed" -> Gdx.graphics.setWindowedMode(1600, 900);
 			}
 		}
+
+		fileReader.downloadUserInfo();
+		if (fileReader.getTokenValue()!=null){
+			this.token = fileReader.getTokenValue();
+		}
+
+		connectionManager = new ConnectionManager(this);
+		new Thread(() -> connectionManager.requestSend(new JSONObject(), "api/ping")).start();
+
+
 		music = Gdx.audio.newMusic(Gdx.files.internal("assets/sound/backgroundMusic.ogg"));
 		cleanSound = Gdx.audio.newMusic(Gdx.files.internal("assets/sound/cleanSound.ogg"));
 		sellSound = Gdx.audio.newMusic(Gdx.files.internal("assets/sound/sellSound.ogg"));
 		buySound = Gdx.audio.newMusic(Gdx.files.internal("assets/sound/buySound.ogg"));
-		setScreen(new MenuScreen(this));
+		setScreen(new MenuScreen(this,fileReader,languageManager));
 
 	}
 	@Override
@@ -107,4 +133,13 @@ public class Main extends Game {
 	public Music getBuySound() {
 		return buySound;
 	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
 }

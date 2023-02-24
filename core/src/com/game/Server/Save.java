@@ -30,23 +30,6 @@ public class Save {
 
     public Save()
     {}
-/*
-    public Saves(String login) {
-        this.login = login;
-        this.profileNumber = 0;
-        this.seed = 0;
-        this.difficulty = "";
-        this.finishedMaps = 0;
-        this.health = 0;
-        this.maxHealth = 0;
-        this.wave = 0;
-        this.gold = 0;
-        this.diamonds = 0;
-        this.terrainModifications = null;
-        this.buildings = null;
-        this.roadObstacles = null;
-        this.unlockedUpgrades = null;
-    }*/
 
     public Save(JSONObject data) {
         this.login = data.getString("login");

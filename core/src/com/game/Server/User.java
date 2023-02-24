@@ -46,10 +46,6 @@ public class User {
         return password;
     }
 
-    //    const token = jwt.sign({ _id: this._id, login: this.login }, process.env.JWTPRIVATEKEY, { expiresIn: "7d",})
-    //    return token
-
-
     private String encode(JSONObject j) {
         return Base64.getEncoder().encodeToString(j.toString().getBytes(StandardCharsets.UTF_8));
     }

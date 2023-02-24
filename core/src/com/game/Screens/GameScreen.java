@@ -75,8 +75,9 @@ public class GameScreen implements Screen {
     private JSONObject turretLevels;
     private Music cleanSound, sellSound, buySound;
     private ProfileManager profileManager;
+    private String language;
 
-    public GameScreen(Main game, JSONObject save, boolean isLocal) {
+    public GameScreen(Main game, JSONObject save, boolean isLocal, FileReader fileReader, LanguageManager languageManager) {
         this.game = game;
         this.isLocal = isLocal;
         scale = (float) (Gdx.graphics.getWidth() / 1280.0);
@@ -84,14 +85,9 @@ public class GameScreen implements Screen {
         lastClickedMapTile = new LastClickedTile();
         lastClickedOperationTile = new LastClickedTile();
         resolutions = new Resolutions();
-        fileReader = new FileReader();
-        fileReader.downloadSettings();
-        if (fileReader.getLanguageValue() != null) {
-            languageManager = new LanguageManager(fileReader.getLanguageValue());
-        } else {
-            languageManager = new LanguageManager("English");
-        }
-
+        this.fileReader = fileReader;
+        this.languageManager = languageManager;
+        this.language = languageManager.getLanguage();
         initSettingsUI();
 
         actualGame = save;
@@ -103,7 +99,6 @@ public class GameScreen implements Screen {
         operationsArr = GameFunctions.getOperationsArr(this);
         base = new Base(actualGame, operationsArr);
         tipsManager = new TipsManager(languageManager, font, base, scale);
-        //reading stats etc
         if (actualGame.getString("difficulty").equals("normal")) {
             mapArr = worldManager.createWorld(this, actualGame.getInt("seed"), 46);
         } else if (actualGame.getString("difficulty").equals("hard")) {
@@ -130,7 +125,7 @@ public class GameScreen implements Screen {
         table_info = statsTableManager.getStatsTable();
 
         textFieldStyleManager.setTextFieldStyle(statsTextFieldStyle, images, font, "empty_background", Color.WHITE);
-        GameOverTitle = new TextField(languageManager.getValue(languageManager.getLanguage(), "Lose"), textFieldStyleManager.returnTextFieldStyle(statsTextFieldStyle));
+        GameOverTitle = new TextField(languageManager.getValue(language, "Lose"), textFieldStyleManager.returnTextFieldStyle(statsTextFieldStyle));
         GameOverTitle.setAlignment(Align.center);
 
         if (Gdx.graphics.getHeight() == 900) {
@@ -149,20 +144,20 @@ public class GameScreen implements Screen {
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bNotAvailable, images_default, font, "defaultButtonNotAvailable", "defaultButtonNotAvailable");
 
         bTips = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bTips));
-        bSaveDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-        bExitDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-        bSaveAndExitDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSaveAndExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-        bNextWave = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bNextWave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-        bResume = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bResume"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-        bUpgrade = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bUpgrade"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bSaveDialog = new TextButton(languageManager.getValue(language, "bSave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bExitDialog = new TextButton(languageManager.getValue(language, "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bSaveAndExitDialog = new TextButton(languageManager.getValue(language, "bSaveAndExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bNextWave = new TextButton(languageManager.getValue(language, "bNextWave"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bResume = new TextButton(languageManager.getValue(language, "bResume"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bUpgrade = new TextButton(languageManager.getValue(language, "bUpgrade"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
         buttonStyleManager.setTextButtonStyle(textButtonStyle_bPauseMenu, images_pause, font, "ButtonPauseUp", "ButtonPauseDown");
         bPauseMenu = new TextButton("", buttonStyleManager.returnTextButtonStyle(textButtonStyle_bPauseMenu));
-        bBackEventDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-        bBackInfoDialog = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-        bGameOverNewMap = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bNewMap"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-        bGameOverReplay = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bReplay"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-        bGameOverSaveExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bSaveAndExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
-        bGameOverExit = new TextButton(languageManager.getValue(languageManager.getLanguage(), "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bBackEventDialog = new TextButton(languageManager.getValue(language, "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bBackInfoDialog = new TextButton(languageManager.getValue(language, "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bGameOverNewMap = new TextButton(languageManager.getValue(language, "bNewMap"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bGameOverReplay = new TextButton(languageManager.getValue(language, "bReplay"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bGameOverSaveExit = new TextButton(languageManager.getValue(language, "bSaveAndExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
+        bGameOverExit = new TextButton(languageManager.getValue(language, "bExit"), buttonStyleManager.returnTextButtonStyle(textButtonStyle_bBack));
 
         table_operations = GameFunctions.getOperationsTable(operationsArr, scale, bUpgrade);
         table_operations.setBackground(new TextureRegionDrawable(new TextureRegion(shopBackground)));
@@ -414,26 +409,16 @@ public class GameScreen implements Screen {
 
         if (Objects.equals(lastClickedMapTile.getName(), "path") && buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] == 0 && (Objects.equals(chosenOperation, "roadNeedles") || Objects.equals(chosenOperation, "stickyRoad")))
             shouldRenderPreview = true;
-
-        if (Objects.equals(chosenOperation, "sell")) {
-            if (buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] == 1) {
-                System.out.println(towerManager.getSellWorth(lastClickedMapTile.getX(), lastClickedMapTile.getY()));
-            }
-            if (buildArr[lastClickedMapTile.getX()][lastClickedMapTile.getY()] == 2) {
-                System.out.println(roadObstaclesManager.getSellWorth(lastClickedMapTile.getX(), lastClickedMapTile.getY()));
-            }
-        }
     }
 
     public void showInfoDialog() {
         Texture infoDialogBackground = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
         infoDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(infoDialogBackground)))) {
             public void result(Object obj) {
-                System.out.println("result " + obj);
             }
         };
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
-        infoDialog.text(languageManager.getValue(languageManager.getLanguage(), "noGold"), labelStyle);
+        infoDialog.text(languageManager.getValue(language, "noGold"), labelStyle);
         infoDialog.button(bBackInfoDialog).padBottom(16);
         infoDialog.show(pauseStage);
         base.setState(Base.State.Paused);
@@ -443,7 +428,6 @@ public class GameScreen implements Screen {
         Texture eventDialogBackground = new Texture(new FileHandle("assets/dialog/settings_dialog.png"));
         eventDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(eventDialogBackground)))) {
             public void result(Object obj) {
-                System.out.println("result " + obj);
             }
         };
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
@@ -459,7 +443,7 @@ public class GameScreen implements Screen {
         }
 
         if (eventChance == 0) {
-            Label label = new Label(languageManager.getValue(languageManager.getLanguage(), "eventDamage"), labelStyle);
+            Label label = new Label(languageManager.getValue(language, "eventDamage"), labelStyle);
             label.setAlignment(Align.center);
             eventDialog.text(label);
             base.damageBase(5);
@@ -467,7 +451,7 @@ public class GameScreen implements Screen {
             eventDialog.show(pauseStage);
             base.setState(Base.State.Paused);
         } else if (eventChance == 1) {
-            Label label = new Label(languageManager.getValue(languageManager.getLanguage(), "eventGold"), labelStyle);
+            Label label = new Label(languageManager.getValue(language, "eventGold"), labelStyle);
             label.setAlignment(Align.center);
             eventDialog.text(label);
             base.increaseMoney(50);
@@ -475,7 +459,7 @@ public class GameScreen implements Screen {
             eventDialog.show(pauseStage);
             base.setState(Base.State.Paused);
         } else if (eventChance == 2) {
-            Label label = new Label(languageManager.getValue(languageManager.getLanguage(), "eventDiamond"), labelStyle);
+            Label label = new Label(languageManager.getValue(language, "eventDiamond"), labelStyle);
             label.setAlignment(Align.center);
             eventDialog.text(label);
             base.increaseDiamonds(1);
@@ -516,6 +500,7 @@ public class GameScreen implements Screen {
 
                 base.setState(Base.State.Paused);
                 statsTableManager.setMultipliersPage(0);
+                statsTableManager.setButtonVisibility();
                 base.setInfoToDisplay(4);
 
                 upgradeDialog = new Dialog("", new Window.WindowStyle(font, Color.WHITE, new TextureRegionDrawable(new TextureRegion(new Texture(new FileHandle("assets/dialog/upgrade_dialog_720.png"))))));
@@ -532,18 +517,6 @@ public class GameScreen implements Screen {
                 upgradeDialog.setX(0);
             }
 
-
-            //////////////////////////// imo nie potrzebne ///////////////////////////
-
-           /* public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //base.setInfoToDisplay(4);
-            }
-
-            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //base.setInfoToDisplay(0);
-            }*/
-
-
         });
 
         bNextWave.addListener(new ClickListener() {
@@ -557,10 +530,7 @@ public class GameScreen implements Screen {
         bSaveDialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (enemyManager.getEnemiesLeft() == 0)
-                    saveGame();
-                else
-                    System.out.println("nie mozna zapisac");
+                tryToSave();
             }
 
 
@@ -569,34 +539,31 @@ public class GameScreen implements Screen {
         bSaveAndExitDialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (enemyManager.getEnemiesLeft() == 0) {
-                    saveGame();
-                    game.setScreen(new MenuScreen(game));
-                } else
-                    System.out.println("nie mozna zapisac");
-            }
-
-
+                if (tryToSave())
+                    game.setScreen(new MenuScreen(game,fileReader, languageManager));
+                }
         });
+
+
 
         bExitDialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new MenuScreen(game,fileReader, languageManager));
             }
         });
 
         bGameOverNewMap.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game, profileManager.getNewSave(actualGame, base), isLocal));
+                game.setScreen(new GameScreen(game, profileManager.getNewSave(actualGame, base), isLocal, fileReader, languageManager));
             }
         });
 
         bGameOverReplay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game, profileManager.getReplaySave(actualGame, base), isLocal));
+                game.setScreen(new GameScreen(game, profileManager.getReplaySave(actualGame, base), isLocal, fileReader, languageManager));
             }
         });
 
@@ -604,14 +571,14 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 saveGame();
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new MenuScreen(game,fileReader, languageManager));
             }
         });
 
         bGameOverExit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new MenuScreen(game, fileReader, languageManager));
             }
         });
 
@@ -634,7 +601,6 @@ public class GameScreen implements Screen {
         });
 
         table_dialogPause.setBounds(0, 0, 256, 460);
-        System.out.println("table_Dialog" + table_dialogPause.getWidth() + ":" + table_dialogPause.getHeight());
         table_dialogPause.add(bResume).width(table_dialogPause.getWidth() / 20 * 16).padRight(table_dialogPause.getWidth() / 10);
         table_dialogPause.row();
         table_dialogPause.add(bSaveDialog).width(table_dialogPause.getWidth() / 20 * 16).padRight(table_dialogPause.getWidth() / 10);
@@ -683,10 +649,7 @@ public class GameScreen implements Screen {
                     return true;
                 }
                 if (keycode == Input.Keys.F5) {
-                    if (enemyManager.getEnemiesLeft() == 0)
-                        saveGame();
-                    else
-                        System.out.println("nie mozna zapisac");
+                    tryToSave();
                     return true;
                 }
                 return super.keyDown(event, keycode);
@@ -745,6 +708,14 @@ public class GameScreen implements Screen {
         roadObstaclesManager.enableListeners();
     }
 
+    private boolean tryToSave() {
+        if (enemyManager.getEnemiesLeft() == 0) {
+            saveGame();
+            return true;
+        }
+        return false;
+    }
+
     public void saveGame() {
         actualGame.put("buildings", towerManager.getTowers());
         actualGame.put("gold", base.getMoney());
@@ -757,7 +728,6 @@ public class GameScreen implements Screen {
             fileReader.setSave(actualGame);
         } else {
             JSONObject saveResponse = connectionManager.requestSend(actualGame, "api/uploadSave");
-            System.out.println(saveResponse);
         }
     }
 
@@ -781,6 +751,8 @@ public class GameScreen implements Screen {
         stage.act(delta);
         stage.draw();
 
+        buildArr = roadObstaclesManager.getArr();
+
         if ((statsTableManager.getInfoToDisplay() != base.getInfoToDisplay()) || (base.getInfoToDisplay() == 1 && chosenOperation != base.getInfoToDisplayName()) || base.isShouldUpdateInfo()) {
             if (base.isShouldUpdateInfo())
                 base.setShouldUpdateInfo(false);
@@ -803,8 +775,8 @@ public class GameScreen implements Screen {
 
         switch (base.getState()) {
             case Running -> {
-                roadObstaclesManager.update(delta);
-                buildArr = roadObstaclesManager.getArr();
+                roadObstaclesManager.update();
+
                 statsTableManager.update();
                 towerManager.update(delta);
                 enemyManager.update(delta);
