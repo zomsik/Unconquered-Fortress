@@ -12,13 +12,13 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.game.Entity.Base;
 import com.game.Entity.Enemy.Enemy;
+import com.game.Entity.Enemy.Summoner;
 import com.game.Screens.GameScreen;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 public class RoadObstacle extends Actor {
 
@@ -47,9 +47,9 @@ public class RoadObstacle extends Actor {
         this.buyPrice = obstacle.getInt("cost");
 
         this.usesLeft = obstacle.getInt("uses");
-        if (Objects.equals(name, "roadSticky"))
+        if (this instanceof RoadSticky)
             this.slow = obstacle.getFloat("slow");
-        else if (Objects.equals(name, "roadNeedles"))
+        else if (this instanceof RoadNeedles)
             this.dmg = obstacle.getInt("dmg");
 
         this.tileX = tileX;
@@ -158,10 +158,10 @@ public class RoadObstacle extends Actor {
                 if (!attackedEnemies.contains(e.hashCode())) {
                     attackedEnemies.add(e.hashCode());
 
-                    if (Objects.equals(name, "roadNeedles")) {
+                    if (this instanceof RoadNeedles) {
                         attackedEnemies.add(e.hashCode());
                         e.dealDmg(dmg);
-                    } else if (Objects.equals(name, "roadSticky")) {
+                    } else if (this instanceof RoadSticky) {
                         e.changeSpeed(slow);
                         attackedEnemies.add(e.hashCode());
                         slowedEnemies.add(e);
@@ -176,17 +176,17 @@ public class RoadObstacle extends Actor {
                 }
             }
 
-            if (Objects.equals(e.getName(), "summoner")) {
+            if (e instanceof Summoner) {
                 for (Enemy eS : e.getSummonedList()) {
                     if (textureSize / 2 * scale >= Vector2.dst(position.x + textureSize * scale / 2, position.y + textureSize * scale / 2, eS.getPosition().x + eS.getEnemySize() * scale / 2, eS.getPosition().y + eS.getEnemySize() * scale / 2)) {
 
                         if (!attackedEnemies.contains(eS.hashCode())) {
                             attackedEnemies.add(eS.hashCode());
 
-                            if (Objects.equals(name, "roadNeedles")) {
+                            if (this instanceof RoadNeedles) {
                                 attackedEnemies.add(eS.hashCode());
                                 eS.dealDmg(dmg);
-                            } else if (Objects.equals(name, "roadSticky")) {
+                            } else if (this instanceof RoadSticky) {
                                 eS.changeSpeed(slow);
                                 attackedEnemies.add(eS.hashCode());
                                 slowedEnemies.add(eS);

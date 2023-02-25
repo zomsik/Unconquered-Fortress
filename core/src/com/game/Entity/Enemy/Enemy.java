@@ -257,7 +257,7 @@ public class Enemy extends Actor {
     public void update(float deltaTime) {
         stateTime += deltaTime;
 
-        if (Objects.equals(name, "blob")) {
+        if (this instanceof Blob) {
             regenTimeLeft -= deltaTime;
             if (regenTimeLeft < 0) {
                 regenTimeLeft = regenTime;
@@ -270,7 +270,7 @@ public class Enemy extends Actor {
             }
         }
 
-        if (Objects.equals(name, "summon")) {
+        if (this instanceof Summon) {
             if (!canBeAttacked) {
                 this.summoningTime -= deltaTime;
                 if (summoningTime <= 0) {
@@ -281,7 +281,7 @@ public class Enemy extends Actor {
             }
         }
 
-        if (Objects.equals(name, "summoner")) {
+        if (this instanceof Summoner) {
             if (timeToSummonNextEnemy <= 0) {
                 summonEnemy();
                 isSummoning = true;
@@ -390,7 +390,7 @@ public class Enemy extends Actor {
     }
 
     public void summonEnemy() {
-        Enemy summon = new Enemy(summonJSONObject.getInt("health"), summonJSONObject.getInt("damage"), summonJSONObject.getInt("money"), summonJSONObject.getInt("diamonds"), summonJSONObject.getInt("speed"), "assets/game/enemies/summon.png", summonJSONObject.getString("name"), 64, summonJSONObject.getBoolean("isFlying"));
+        Enemy summon = new Summon(summonJSONObject.getInt("health"), summonJSONObject.getInt("damage"), summonJSONObject.getInt("money"), summonJSONObject.getInt("diamonds"), summonJSONObject.getInt("speed"), "assets/game/enemies/summon.png", summonJSONObject.getString("name"), 64, summonJSONObject.getBoolean("isFlying"));
         summon.initSummonedEnemy(this.summoningTime * 0.8f, this.base, this.path, this.scale);
         summonedEnemies.add(summon);
 

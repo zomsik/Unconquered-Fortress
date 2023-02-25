@@ -14,14 +14,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Null;
 import com.game.Entity.Base;
 import com.game.Entity.Bullet;
+import com.game.Entity.Enemy.Assassin;
 import com.game.Entity.Enemy.Enemy;
+import com.game.Entity.Enemy.Summoner;
 import com.game.Screens.GameScreen;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Objects;
 import java.util.Random;
 
 public class Tower extends Actor {
@@ -249,7 +250,7 @@ public class Tower extends Actor {
             b.update(deltaTime);
             if (b.isOnEnemy()) {
 
-                if (Objects.equals(b.getEnemyToFollow().getName(), "assassin")) {
+                if (b.getEnemyToFollow() instanceof Assassin) {
                     Random attackRandom = new Random();
                     int attackChance = attackRandom.nextInt(0, 101);
                     int attackPriority = attackChance;
@@ -277,7 +278,7 @@ public class Tower extends Actor {
                         }
 
 
-                        if (Objects.equals(e.getName(), "summoner")) {
+                        if (e instanceof Summoner) {
                             for (Enemy eS : e.getSummonedList()) {
                                 if (eS.getPosition().y <= b.getEnemyToFollow().getPosition().y + bulletSplashRange && eS.getPosition().y >= b.getEnemyToFollow().getPosition().y - bulletSplashRange && eS.getPosition().x <= b.getEnemyToFollow().getPosition().x + bulletSplashRange && eS.getPosition().x >= b.getEnemyToFollow().getPosition().x - bulletSplashRange) {
                                     if (b.getEnemyToFollow().getCanBeAttacked())
@@ -348,7 +349,7 @@ public class Tower extends Actor {
                     break;
                 }
 
-                if (Objects.equals(e.getName(), "summoner")) {
+                if (e instanceof Summoner) {
                     for (Enemy eSummon : e.getSummonedList()) {
                         if (eSummon.getCanBeAttacked()) {
                             if (range * base.getMultipliers().getFloat("rangeMultiplier" + name) >= Vector2.dst(position.x + towerTextureSize * scale / 2, position.y + towerTextureSize * scale / 2, eSummon.getPosition().x + eSummon.getEnemySize() * scale / 2, eSummon.getPosition().y + eSummon.getEnemySize() * scale / 2)) {
